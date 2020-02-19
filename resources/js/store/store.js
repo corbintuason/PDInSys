@@ -6,14 +6,22 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state:{
+        user: JSON.parse(localStorage.getItem('user')) || null,
         token: localStorage.getItem('access_token') || null,
     },
     getters:{
         loggedIn(state){
             return state.token != null;
+        },
+        user(state){
+            return state.user;
         }
+        
     },
     mutations:{
+        storeUser(state, user){
+            state.user = user;
+        },
         retrieveToken(state, token){
             state.token = token;
         },
@@ -22,6 +30,20 @@ export const store = new Vuex.Store({
         }
     },
     actions:{
+        storeUser(context){
+            return new Promise((resolve, reject) => {
+                axios.defaults.headers.common['Authorization'] = "Bearer " + context.state.token;
+                axios.get("/api/user").then(response => {
+                    const user = response.data;
+                    localStorage.setItem('user', JSON.stringify(user));
+                    context.commit('storeUser', user);
+                    resolve(user);
+                }).catch(e => {
+                    console.log(e);
+                    reject(e);
+                })
+            });
+        },
         retrieveToken(context, credentials){
             return new Promise((resolve, reject) => {
                 axios.post("/api/login", {
@@ -44,11 +66,13 @@ export const store = new Vuex.Store({
                 return new Promise((resolve, reject) => {
                     axios.post('/api/logout').then(response => {
                         localStorage.removeItem('access_token');
+                        localStorage.removeItem('user');
                         context.commit('destroyToken');
                         resolve(response);
                     }).catch(e => {
                         console.log(e);
                         localStorage.removeItem('access_token');
+                        localStorage.removeItem('user');
                         context.commit('destroyToken');
                         reject(e);
                     })

@@ -2,12 +2,15 @@
   <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
     <router-link :to="{ name: 'Dashboard' }" class="brand-link">
-      <img
-        :src="'../storage/img/PROJECTDUO_ExtendedLogo.png'"
-        alt="PROJECT DUO Logo"
-        class="brand-image"
-      />
-      <span class="brand-text font-weight-light">PDIS</span>
+      <div class="row">
+        <div class="col-md-12">
+          <img
+            :src="'../storage/img/PROJECTDUO_ExtendedLogo.png'"
+            alt="PROJECT DUO Logo"
+            class="brand-image"
+          />
+        </div>
+      </div>
     </router-link>
     <div class="sidebar">
       <nav class="mt-2 user-panel">
@@ -21,7 +24,7 @@
           <li class="nav-item has-treeview">
             <span class="nav-link">
               <img />
-              <p>User</p>
+              <p>{{user.meta.full_name}}</p>
               <i class="right fas fa-angle-left"></i>
             </span>
             <ul class="nav nav-treeview">
@@ -130,15 +133,21 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      user: JSON.parse(localStorage.getItem("user"))
+    };
   },
   methods: {
     logOut() {
-      this.$store.dispatch('destroyToken').then(response => {
-        this.$router.push({name: "Welcome"});
+      this.$Progress.start();
+      this.$store.dispatch("destroyToken").then(response => {
+        this.$Progress.finish();
+        this.$router.push({ name: "Welcome" });
       });
     }
   },
-  mounted() {}
+  mounted() {
+    console.log(this.user);
+  }
 };
 </script>

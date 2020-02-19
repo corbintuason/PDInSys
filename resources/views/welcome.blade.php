@@ -18,6 +18,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <body>
 <div class="wrapper" id = "app">
+<vue-progress-bar></vue-progress-bar>
 <router-view></router-view>
 </div>
 

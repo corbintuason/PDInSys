@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Resources\User as UserResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +14,17 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post("/login", "API\AuthController@login");
+Route::middleware('auth:api')->post("/logout", "API\AuthController@logout");
+
+
+Route::apiResources([
+    'user' => 'API\UserController'
+]);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    return new UserResource($request->user());
 });
 
-Route::post("/register", "API\AuthController@register");
-Route::post("/login", "API\AuthController@login");
-Route::post("/logout", "API\AuthController@logout");
 // Route::get('/user', function (Request $request) {
 //     return auth()->guard('api')->user();
 //   });

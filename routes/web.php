@@ -10,14 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
+// MAIL ROUTES
+Route::get('/mail/newUserCreated', 'Mail\UserController@newUserCreated')->name("New User Created");
 
-// Route::prefix('auth')->group(function(){
-//     Route::get("init", "AppController@init");
-//     Route::post("login", "AppController@login");
-//     Route::post("register", "AppController@register");
-//     Route::post("logout", "AppController@logout");
-// });
+
+
+// Route to redirect all pages to a single view page.
 Route::get('/{any}', function() { 
     return view('welcome'); 
 })->where('any', '(.*)');

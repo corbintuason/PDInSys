@@ -18,11 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name');
-            $table->string('official_photo');
+            $table->string('official_photo')->nullable();
             $table->string('group');
-            // $table->string('department');
-            // $table->string('position');
-            $table->integer('job_level');
+            $table->integer('job_level')->nullable();
             $table->string('pdem_email')->unique();
             $table->string('pdem_gmail');
             $table->json('contact_numbers');

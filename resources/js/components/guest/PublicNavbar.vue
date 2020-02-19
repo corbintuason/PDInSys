@@ -13,23 +13,26 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item>
             <b-form inline>
-              <b-input id="inline-form-input-name" class="mb-2 mr-sm-2 mb-sm-0" placeholder="Email" v-model="pdem_email"></b-input>
+              <b-input
+                id="inline-form-input-name"
+                class="mb-2 mr-sm-2 mb-sm-0"
+                placeholder="Email"
+                v-model="pdem_email"
+              ></b-input>
               <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
-                <b-input id="inline-form-input-username" placeholder="Password" type="password" v-model="password"></b-input>
+                <b-input
+                  id="inline-form-input-username"
+                  placeholder="Password"
+                  type="password"
+                  v-model="password"
+                ></b-input>
               </b-input-group>
 
-              <b-button variant="outline-light" @click="login">
-                <i class="fas fa-hand-holding-heart"></i> Login
-              </b-button>
-<!-- 
-              <b-button variant="outline-light" @click="logout">
-                <i class="fas fa-hand-holding-heart"></i> Logout
-              </b-button> -->
+              <b-button variant="outline-light" @click="login">Login</b-button>
             </b-form>
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
-      {{pdem_email}}
     </b-navbar>
   </div>
 </template>
@@ -46,18 +49,30 @@ export default {
   },
   methods: {
     login() {
-      this.$store.dispatch('retrieveToken', {
-        pdem_email: this.pdem_email,
-        password: this.password
-      }).then(response => {
-        this.$router.push({ name: "Dashboard"});
-      })
+      this.$Progress.start();
+      this.$store
+        .dispatch("retrieveToken", {
+          pdem_email: this.pdem_email,
+          password: this.password
+        })
+        .then(response => {
+          this.$store
+            .dispatch("storeUser")
+            .then(response => {
+              this.$Progress.finish();
+              this.$router.push({ name: "Dashboard" });
+            })
+            .catch(e => {
+              this.$Progress.fail();
+              console.log(e);
+            });
+        })
+        .catch(e => {
+          this.$Progress.fail();
+          console.log(e);
+        });
     },
-
-    logout() {
-    }
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>

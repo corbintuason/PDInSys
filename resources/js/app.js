@@ -6,8 +6,23 @@ import VueRouter from 'vue-router'; Vue.use(VueRouter)
 import BootstrapVue from 'bootstrap-vue'; Vue.use(BootstrapVue)
 import PublicNavbar from './components/Guest/PublicNavbar.vue'; Vue.component('public-navbar', PublicNavbar);
 import swal from 'sweetalert2'; window.swal = swal;
+const toast = swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+});
+window.toast = toast;
 import routes from "./routes";
 import {store} from "./store/store";
+
+import VueProgressBar from 'vue-progressbar'
+
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '2px'
+});
 
 Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue'));
 const router = new VueRouter({

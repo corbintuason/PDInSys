@@ -21,27 +21,6 @@ class AuthController extends Controller
         ]);
 
     }
-    public function register(Request $request){
-        $validatedData = $request->validate([
-            'last_name' => 'required',
-            'first_name' => 'required',
-            'middle_name' => 'required',
-            'official_photo' => 'required',
-            'group' => 'required',
-            'job_level' => 'required',
-            'pdem_email' => 'required',
-            'pdem_gmail' => 'required',
-            'contact_numbers' => 'required',
-            'employment_date' => 'required',
-        ]);
-        
-        // default pass muna
-        $validatedData["password"] = bcrypt("password");
-        // dd($validatedData);
-
-        $user = User::create($validatedData);
-        return response($user);
-    }
 
     public function login(Request $request){
         $loginData = $request->validate([
@@ -60,7 +39,7 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-        auth()->user()->tokens->each(function ($token, $key){
+        $request->user()->tokens->each(function ($token, $key){
             $token->delete();
         });
 

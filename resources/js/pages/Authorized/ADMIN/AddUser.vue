@@ -19,10 +19,10 @@
                   <div class="col-md-4 mt-3" style="text-align:center">
                     <!-- If there is no image uploaded -->
                     <div
-                      v-if="new_user.image==null"
+                      v-if="new_user.official_photo==null"
                       style="width:300px; height:300px; border: 1px solid; display:inline-block;"
                     ></div>
-                    <img v-else style="width:300px; height:300px;" :src="new_user.image" />
+                    <img v-else style="width:300px; height:300px;" :src="new_user.official_photo" />
                     <b-form-file style="width:300px; text-align:left" @change="onFileChange"></b-form-file>
                   </div>
                   <div class="col-md-8">
@@ -126,7 +126,7 @@
                           <b-button
                             variant="outline-primary"
                             block
-                            @click="addNumber"
+                            @click="addContact"
                           >Add Contact Number</b-button>
                         </div>
                       </div>
@@ -167,6 +167,7 @@
                 </div>
               </div>
             </b-card-text>
+            {{new_user}}
           </b-card>
         </div>
         <!--  -->
@@ -186,7 +187,7 @@ export default {
         first_name: "",
         middle_name: "",
         employment_date: "1997-07-11",
-        image: null,
+        official_photo: null,
         pdem_email: "",
         pdem_gmail: "",
         contact_numbers: [""],
@@ -199,36 +200,88 @@ export default {
     "admin-nav": adminNav
   },
   methods: {
+    /* 
+    Remove Contact:
+      - PARAMETERS:
+        - index: Takes on the index of the contact to be removed in the array
+      - DESCRIPTION:
+        - This function is responsible for removing the correct element in the contact_numbers array.
+    */
+
     removeContact(index) {
       this.new_user.contact_numbers.splice(index, 1);
     },
-    addNumber() {
+
+    /* 
+    Add Contact:
+      - PARAMETERS:
+        - NONE
+      - DESCRIPTION:
+        - This function is responsible for addin an element in the contact_numbers array.
+    */
+
+    addContact() {
       this.new_user.contact_numbers.push("");
     },
+
+    /* 
+    Required:
+      - PARAMETERS:
+        - item: Object to be used for verification purposes
+      - DESCRIPTION:
+        - This function is responsible for validating if the string is empty or not.
+    */
     required(item) {
       return item.length > 0;
     },
     onFileChange(e) {
       const file = e.target.files[0];
-      this.new_user.image = URL.createObjectURL(file);
+      this.new_user.official_photo = URL.createObjectURL(file);
     },
+
     createUser() {
-      swal.fire({
-        title: "Create User",
-        text: "Are you sure with the details provided?",
-        icon: "question",
-        confirmButtonText: "Proceed",
-        showCancelButton: true,
-        cancelButtonText: "Go Back"
-      }).then(response => {
-        if(response.value){
-          this.app.req.post('auth/register', this.new_user).then(response => {
-            this.app.user = response.data;
-            this.$router.push("/");
-          });
-        }
-      })
-    }
+        swal
+        .fire({
+          title: "Create User",
+          icon: "question",
+          confirmButtonText: "Create User",
+          text: "Please check the details provided.",
+          showLoaderOnConfirm: true,
+          preConfirm: () => {
+            this.$Progress.start();
+            return new Promise((resolve, reject) => {
+              axios
+                .post("/api/user", this.new_user, config)
+                .then(response => {
+                  const user = response.data;
+                  resolve(user);
+                })
+                .catch(e => {
+                  this.$Progress.fail();
+                  console.log(e);
+                  swal.showValidationMessage(`Unable to create user`);
+                  swal.hideLoading();
+                  reject(e);
+                });
+            });
+          }
+        })
+        .then(result => {
+          if (result.value) {
+            this.$Progress.finish();
+            console.log(result);
+            swal.fire({
+              title: "User Succesfully Created",
+              icon: "success",
+              timer: "2500",
+              text: "The default password has been sent to the user's PDEM Email",
+              onClose: () => {
+                // this.$router.push({ name : "Dashboard"});
+              }
+            });
+          }
+        });
+    },
   },
   computed: {}
 };

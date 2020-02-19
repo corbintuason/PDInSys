@@ -4,7 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
+use App\User;
+use Mail;
+use App\Mail\NewUserCreated;
+use Image;
 class UserController extends Controller
 {
     /**
@@ -14,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -35,7 +39,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response($request);
+        $validatedData = $request->validate([
+            'last_name' => 'required',
+            'first_name' => 'required',
+            'middle_name' => 'required',
+            'group' => 'required',
+            'pdem_email' => 'required',
+            'pdem_gmail' => 'required',
+            'contact_numbers' => 'required',
+            'employment_date' => 'required',
+        ]);
+        
+        // Generate a random string for default password
+        $password = Str::random(5);
+        $validatedData["pdem_email"] = $validatedData["pdem_email"]."@projectduoevents.com";
+        $validatedData["password"] = bcrypt($password);
+        
+        $user = User::create($validatedData);
+        // if($request->official_photo!=null){
+        //     $official_photo = $request->file('official_photo');
+        //     $fileName = time().'.'.$official_photo->getClientOriginalExtension();
+        //     Image::make($official_photo)->resize(300, 300)->save( public_path('/storage/officialPhotos/'.$fileName));
+        //     $user = Auth::user();
+        //     $user->official_photo = $fileName;
+        //     $user->save();
+        // }
+        
+        Mail::to($user->pdem_email)->send(new NewUserCreated($user, $password));
+        return response($user);
     }
 
     /**
