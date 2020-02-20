@@ -251,7 +251,7 @@ export default {
             this.$Progress.start();
             return new Promise((resolve, reject) => {
               axios
-                .post("/api/user", this.new_user, config)
+                .post("/api/user", this.new_user)
                 .then(response => {
                   const user = response.data;
                   resolve(user);

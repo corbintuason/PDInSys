@@ -12,139 +12,52 @@
         </div>
       </div>
     </router-link>
+
     <div class="sidebar">
+      <!-- User Panel -->
+      <user-panel :user="user"> </user-panel>
+
+      <!-- Sidebar Menu -->
       <nav class="mt-2 user-panel">
-        <!-- USER SEGMENT -->
         <ul
           class="nav nav-pills nav-sidebar flex-column"
           data-widget="treeview"
           role="menu"
           data-accordion="false"
         >
-          <li class="nav-item has-treeview">
-            <span class="nav-link">
-              <img />
-              <p>{{user.meta.full_name}}</p>
-              <i class="right fas fa-angle-left"></i>
-            </span>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/profile" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>My Profile</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link" @click="logOut">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Logout</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
+          <!-- PGOS RELATED -->
+          <pgos-panel></pgos-panel>
+         
 
-      <nav class="mt-2 user-panel">
-        <!-- USER SEGMENT -->
+          <!-- PGAS -->
+          <pgas-panel></pgas-panel>
 
-        <ul
-          class="nav nav-pills nav-sidebar flex-column"
-          data-widget="treeview"
-          role="menu"
-          data-accordion="false"
-        >
-          <li class="nav-item has-treeview">
-            <span class="nav-link">
-              <img />
-              <p>PGOS</p>
-              <i class="right fas fa-angle-left"></i>
-            </span>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/profile" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Accounts and Clients</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-
-      <nav class="mt-2 user-panel">
-        <!-- USER SEGMENT -->
-
-        <ul
-          class="nav nav-pills nav-sidebar flex-column"
-          data-widget="treeview"
-          role="menu"
-          data-accordion="false"
-        >
-          <li class="nav-item has-treeview">
-            <span class="nav-link">
-              <img />
-              <p>PGAS</p>
-              <i class="right fas fa-angle-left"></i>
-            </span>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link to="/profile" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Accounts and Clients</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-
-      <nav class="mt-2 user-panel">
-        <!-- USER SEGMENT -->
-
-        <ul
-          class="nav nav-pills nav-sidebar flex-column"
-          data-widget="treeview"
-          role="menu"
-          data-accordion="false"
-        >
-          <li class="nav-item has-treeview">
-            <span class="nav-link">
-              <img />
-              <p>ADMIN</p>
-              <i class="right fas fa-angle-left"></i>
-            </span>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <router-link :to="{name: 'Add User'}" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Add New User</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
+          <!-- ModuleLess -->
+          <module-less></module-less>
         </ul>
       </nav>
     </div>
-    <!-- /.sidebar -->
   </aside>
 </template>
 
 <script>
+import userPanel from "./SideBar/UserPanel"
+import pgosPanel from "./SideBar/PGOSPanel"
+import pgasPanel from "./SideBar/PGASPanel"
+import moduleLess from "./SideBar/ModuleLess"
 export default {
   data() {
     return {
       user: JSON.parse(localStorage.getItem("user"))
     };
   },
+  components:{
+    "user-panel": userPanel,
+    "pgos-panel": pgosPanel,
+    "pgas-panel": pgasPanel,
+    "module-less": moduleLess
+  },
   methods: {
-    logOut() {
-      this.$Progress.start();
-      this.$store.dispatch("destroyToken").then(response => {
-        this.$Progress.finish();
-        this.$router.push({ name: "Welcome" });
-      });
-    }
   },
   mounted() {
     console.log(this.user);

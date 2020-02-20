@@ -32,7 +32,6 @@
           </div>
         </div>
       </div>
-      {{user}}
     </div>
   </div>
 </template>
