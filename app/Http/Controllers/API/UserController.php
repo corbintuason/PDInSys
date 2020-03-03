@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\User;
+use App\Http\Resources\User as UserResource;
 use Mail;
 use App\Mail\NewUserCreated;
 use Image;
@@ -18,6 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        return UserResource::collection(User::all());
 
     }
 

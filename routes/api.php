@@ -19,9 +19,9 @@ Route::middleware('auth:api')->post("/logout", "API\AuthController@logout");
 
 
 Route::apiResources([
-    'user' => 'API\UserController'
+    'user' => 'API\UserController',
 ]);
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/init', function (Request $request) {
     return new UserResource($request->user());
 });
 

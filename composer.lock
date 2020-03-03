@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c958d27daa9fd3f1ff71cb42ea245cc5",
+    "content-hash": "6c706fb1022f77094903fe1dbdc37751",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -719,6 +719,49 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "jamesdordoy/laravelvuedatatable",
+            "version": "1.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jamesdordoy/Laravel-Vue-Datatable_Laravel-Package.git",
+                "reference": "f246143b161f13007c46b78866afca16eeec51f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jamesdordoy/Laravel-Vue-Datatable_Laravel-Package/zipball/f246143b161f13007c46b78866afca16eeec51f8",
+                "reference": "f246143b161f13007c46b78866afca16eeec51f8",
+                "shasum": ""
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.7",
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JamesDordoy\\LaravelVueDatatable\\Providers\\LaravelVueDatatableServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JamesDordoy\\LaravelVueDatatable\\": "src/"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "James Dordoy",
+                    "email": "jamesdordoy@gmail.com"
+                }
+            ],
+            "time": "2020-02-18T12:33:11+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",

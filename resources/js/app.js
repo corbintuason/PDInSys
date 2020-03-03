@@ -29,6 +29,14 @@ const router = new VueRouter({
     mode: 'history',
     routes 
 });
+
+import DataTable from 'laravel-vue-datatable';
+
+Vue.use(DataTable);
+
+Vue.component('pagination', require('laravel-vue-pagination'));
+
+
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
       if (!store.getters.loggedIn) {

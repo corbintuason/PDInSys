@@ -1,26 +1,37 @@
 import Welcome from "./pages/Welcome";
+import Authorized from "./pages/Authorized.vue"
 import Dashboard from "./pages/Authorized/Dashboard.vue"
 import AddUser from "./pages/Authorized/Admin/AddUser.vue"
+
+
 import CreateAccount from "./pages/Authorized/PGOS/Accounts/Create.vue"
+import IndexAccount from "./pages/Authorized/PGOS/Accounts/Index.vue"
+import ShowAccount from "./pages/Authorized/PGOS/Accounts/Show.vue"
 export default [
+
     {
-        path: '/',
+        path: "/welcome",
         component: Welcome,
-        name: 'Welcome',
+        name: "Welcome",
         meta: {
             requiresVisitor: true
         }
     },
     {
-        path: '/dashboard',
-        component: Dashboard,
-        name: 'Dashboard',
+        path: '/',
+        component: Authorized,
+        name: 'Home',
         meta: {
             requiresAuth: true
-        }
-    },
-
-    // ADMIN PATHS
+        },
+        redirect: { name: 'Dashboard'},
+        children:[
+            {
+                path: "/",
+                component: Dashboard,
+                name: 'Dashboard'
+            },
+             // ADMIN PATHS
     {
         path: '/admin',
         redirect: { name: 'user_create' }
@@ -34,12 +45,22 @@ export default [
     // ACCOUNTS PATHS
     {
         path: "/accounts",
-        redirect: { name: 'account_index'}
+        component: IndexAccount,
+        name: "account_index",
     },
     {
         path: '/accounts/create',
         component: CreateAccount,
         name: "account_create"
+    },
+    {
+        path: '/accounts/:id',
+        component: ShowAccount,
+        name: "account_show"
     }
+        ]
+    },
+
+  
 
 ]
