@@ -5,12 +5,16 @@
         <h1 class="component-title">Accounts and Clients</h1>
       </template>
       <basic-table v-if="items!=null" :items="items" :fields="fields"></basic-table>
+      <!-- <b-button variant="outline-primary" @click="openCreateAccount"> Create Account </b-button> -->
     </b-card>
+    <!-- <create-account></create-account> -->
   </div>
 </template>
 
 <script>
 import basicTable from "../../../../components/public/BasicTable";
+// import createAccount from "../../../../components/public/CreateAccount";
+
 export default {
   data() {
     return {
@@ -19,7 +23,8 @@ export default {
     };
   },
   components: {
-    "basic-table": basicTable
+    "basic-table": basicTable,
+    // "create-account": createAccount
   },
   methods: {
     loadItems() {
@@ -73,6 +78,9 @@ export default {
           class: "text-center"
         }
       ];
+    },
+    openCreateAccount(){
+      this.$bvModal.show('create-account');
     }
   },
   mounted() {

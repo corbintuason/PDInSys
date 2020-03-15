@@ -34,6 +34,7 @@
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.1.5",
         "vue-spinner": "^1.0.3",
+        "vue-step-progress": "^0.3.2",
         "vuetify": "^2.2.12",
         "vuex": "^3.1.2"
     }

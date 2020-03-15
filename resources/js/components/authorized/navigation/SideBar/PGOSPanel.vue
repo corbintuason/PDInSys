@@ -21,7 +21,7 @@
                     <i class="right fas fa-angle-left"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview" style="display: none;">
+                <ul class="nav nav-treeview sidebar-links" style="display: none;">
                   <li class="nav-item">
                     <router-link :to="{ name: 'account_index'}" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
@@ -46,17 +46,17 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview" style="display: none;">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <li class="nav-item">
+                    <router-link :to="{ name: 'project_index'}" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
                       <p>Project List and Status</p>
-                    </a>
+                    </router-link>
                   </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <li class="nav-item">
+                    <router-link :to="{ name: 'project_create'}" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
                       <p>Create Project</p>
-                    </a>
+                    </router-link>
                   </li>
                   <li class="nav-item">
                     <a href="#" class="nav-link">

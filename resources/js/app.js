@@ -36,6 +36,8 @@ Vue.use(DataTable);
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 
+import StepProgress from 'vue-step-progress';
+Vue.component("step-progress", StepProgress);
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {

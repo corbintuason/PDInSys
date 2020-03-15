@@ -16,6 +16,7 @@ use App\Http\Resources\User as UserResource;
 
 Route::post("/login", "API\AuthController@login");
 Route::middleware('auth:api')->post("/logout", "API\AuthController@logout");
+Route::post("/register", "API\UserController@store");
 
 
 Route::apiResources([

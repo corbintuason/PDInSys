@@ -144,6 +144,13 @@
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="far fa-dot-circle nav-icon"></i>
+                      <p>PDIS</p>
+                    </a>
+                  </li>
+                  <!-- Add or Modify User collapse -->
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
                       <p>Sprout HR</p>
                     </a>
                   </li>

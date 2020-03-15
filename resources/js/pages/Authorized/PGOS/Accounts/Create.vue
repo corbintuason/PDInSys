@@ -1,32 +1,40 @@
 <template>
   <div>
+    <b-card class = "mt-3">
+       <template v-slot:header>
+        <h1 class="component-title">Progress Bar</h1>
+      </template>
+      <b-card-text>
+  <step-progress :steps="my_steps" current-step="0" icon-class="fa fa-check"></step-progress>
+      </b-card-text>
+    </b-card>
     <b-card class="mt-3">
       <template v-slot:header>
         <h1 class="component-title">Create Account & Client</h1>
       </template>
       <b-card-text>
-        <!-- Account Details Section -->
-        <account-details :form="form"></account-details>
-        <hr />
-        <accreditation-status :form="form"></accreditation-status>
-        <hr />
-        <brand-department :form="form"></brand-department>
-        <!-- <client-details :form="form"></client-details> -->
-        <b-button variant="outline-success" class="float-right">Create Client </b-button>
+        <b-tabs content-class="mt-3" fill>
+          <b-tab title="Account Information" active>
+            <account-information :form="form"></account-information>
+          </b-tab>
+          <b-tab title="Clients Information">
+            <clients-information :form="form"></clients-information>
+          </b-tab>
+        </b-tabs>
+        <b-button variant="outline-success" class="float-right">Create Client</b-button>
       </b-card-text>
     </b-card>
   </div>
 </template>
 
 <script>
-import accountDetails from "../../../../components/authorized/admin/accounts/create/AccountDetails";
-import accreditationStatus from "../../../../components/authorized/admin/accounts/create/AccreditationStatus";
-import BrandDepartment from "../../../../components/authorized/admin/accounts/create/BrandDepartment";
-import clientDetails from "../../../../components/authorized/admin/accounts/create/ClientDetails";
+import accountInformation from "./Create/AccountInformation";
+import clientsInformation from "./Create/ClientsInformation";
 
 export default {
   data() {
     return {
+      my_steps: ["Create", "Approve"],
       form: {
         registered_name: "",
         registered_address: "",
@@ -35,19 +43,16 @@ export default {
         payment_milestone: "",
         company_tel_number: "",
         company_email_address: "",
-        clients:[],
+        clients: [],
         accreditation_status: [""],
-        brands: [
-        ]
+        brands: []
       }
     };
   },
-  
+
   components: {
-    "account-details": accountDetails,
-    "accreditation-status": accreditationStatus,
-    "client-details": clientDetails,
-    "brand-department": BrandDepartment
-  },
+    "account-information": accountInformation,
+    "clients-information": clientsInformation
+  }
 };
 </script>

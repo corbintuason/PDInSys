@@ -7,6 +7,11 @@ import AddUser from "./pages/Authorized/Admin/AddUser.vue"
 import CreateAccount from "./pages/Authorized/PGOS/Accounts/Create.vue"
 import IndexAccount from "./pages/Authorized/PGOS/Accounts/Index.vue"
 import ShowAccount from "./pages/Authorized/PGOS/Accounts/Show.vue"
+
+import IndexProject from "./pages/Authorized/PGOS/Projects/Index.vue"
+import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue"
+
+
 export default [
 
     {
@@ -57,9 +62,22 @@ export default [
         path: '/accounts/:id',
         component: ShowAccount,
         name: "account_show"
-    }
+    },
+    // PROJECT PATHS
+    {
+        path: "/projects",
+        component: IndexProject,
+        name: "project_index",
+    },
+    {
+        path: "/projects/create",
+        component: CreateProject,
+        name: "project_create",
+    },
         ]
     },
+    
+    
 
   
 

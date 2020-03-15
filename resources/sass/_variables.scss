@@ -40,3 +40,15 @@ $cyan: #6cb2eb;
 .component-sub-content{
     margin-left: 20px;
 }
+
+.sidebar-links{
+    :hover{
+        >i{
+            color: blue
+        }
+        >p{
+            color:blue
+        }
+    }
+  
+}
