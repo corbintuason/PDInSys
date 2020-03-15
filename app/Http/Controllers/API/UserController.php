@@ -9,7 +9,9 @@ use App\User;
 use App\Http\Resources\User as UserResource;
 use Mail;
 use App\Mail\NewUserCreated;
+use Illuminate\Support\Facades\Mail as FacadesMail;
 use Image;
+
 class UserController extends Controller
 {
     /**
@@ -20,7 +22,6 @@ class UserController extends Controller
     public function index()
     {
         return UserResource::collection(User::all());
-
     }
 
     /**
@@ -51,12 +52,12 @@ class UserController extends Controller
             'contact_numbers' => 'required',
             'employment_date' => 'required',
         ]);
-        
+
         // Generate a random string for default password
         $password = Str::random(5);
-        $validatedData["pdem_email"] = $validatedData["pdem_email"]."@projectduoevents.com";
+        $validatedData["pdem_email"] = $validatedData["pdem_email"] . "@projectduoevents.com";
         $validatedData["password"] = bcrypt($password);
-        
+
         $user = User::create($validatedData);
         // if($request->official_photo!=null){
         //     $official_photo = $request->file('official_photo');
@@ -66,8 +67,8 @@ class UserController extends Controller
         //     $user->official_photo = $fileName;
         //     $user->save();
         // }
-        
-        Mail::to($user->pdem_email)->send(new NewUserCreated($user, $password));
+
+        FacadesMail::to($user->pdem_email)->send(new NewUserCreated($user, $password));
         return response($user);
     }
 

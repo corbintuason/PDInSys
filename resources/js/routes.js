@@ -1,19 +1,16 @@
 import Welcome from "./pages/Welcome";
-import Authorized from "./pages/Authorized.vue"
-import Dashboard from "./pages/Authorized/Dashboard.vue"
-import AddUser from "./pages/Authorized/Admin/AddUser.vue"
+import Authorized from "./pages/Authorized.vue";
+import Dashboard from "./pages/Authorized/Dashboard.vue";
+import AddUser from "./pages/Authorized/ADMIN/AddUser.vue";
 
+import CreateAccount from "./pages/Authorized/PGOS/Accounts/Create.vue";
+import IndexAccount from "./pages/Authorized/PGOS/Accounts/Index.vue";
+import ShowAccount from "./pages/Authorized/PGOS/Accounts/Show.vue";
 
-import CreateAccount from "./pages/Authorized/PGOS/Accounts/Create.vue"
-import IndexAccount from "./pages/Authorized/PGOS/Accounts/Index.vue"
-import ShowAccount from "./pages/Authorized/PGOS/Accounts/Show.vue"
-
-import IndexProject from "./pages/Authorized/PGOS/Projects/Index.vue"
-import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue"
-
+import IndexProject from "./pages/Authorized/PGOS/Projects/Index.vue";
+import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue";
 
 export default [
-
     {
         path: "/welcome",
         component: Welcome,
@@ -23,62 +20,57 @@ export default [
         }
     },
     {
-        path: '/',
+        path: "/",
         component: Authorized,
-        name: 'Home',
+        name: "Home",
         meta: {
             requiresAuth: true
         },
-        redirect: { name: 'Dashboard'},
-        children:[
+        redirect: { name: "Dashboard" },
+        children: [
             {
                 path: "/",
                 component: Dashboard,
-                name: 'Dashboard'
+                name: "Dashboard"
             },
-             // ADMIN PATHS
-    {
-        path: '/admin',
-        redirect: { name: 'user_create' }
-    },
-    {
-        path: '/admin/addUser',
-        component: AddUser,
-        name: "user_create"
-    },
+            // ADMIN PATHS
+            {
+                path: "/admin",
+                redirect: { name: "user_create" }
+            },
+            {
+                path: "/admin/addUser",
+                component: AddUser,
+                name: "user_create"
+            },
 
-    // ACCOUNTS PATHS
-    {
-        path: "/accounts",
-        component: IndexAccount,
-        name: "account_index",
-    },
-    {
-        path: '/accounts/create',
-        component: CreateAccount,
-        name: "account_create"
-    },
-    {
-        path: '/accounts/:id',
-        component: ShowAccount,
-        name: "account_show"
-    },
-    // PROJECT PATHS
-    {
-        path: "/projects",
-        component: IndexProject,
-        name: "project_index",
-    },
-    {
-        path: "/projects/create",
-        component: CreateProject,
-        name: "project_create",
-    },
+            // ACCOUNTS PATHS
+            {
+                path: "/accounts",
+                component: IndexAccount,
+                name: "account_index"
+            },
+            {
+                path: "/accounts/create",
+                component: CreateAccount,
+                name: "account_create"
+            },
+            {
+                path: "/accounts/:id",
+                component: ShowAccount,
+                name: "account_show"
+            },
+            // PROJECT PATHS
+            {
+                path: "/projects",
+                component: IndexProject,
+                name: "project_index"
+            },
+            {
+                path: "/projects/create",
+                component: CreateProject,
+                name: "project_create"
+            }
         ]
-    },
-    
-    
-
-  
-
-]
+    }
+];

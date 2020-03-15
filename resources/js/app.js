@@ -1,65 +1,79 @@
-require('./bootstrap');
+require("./bootstrap");
 
-window.Vue = require('vue');
+window.Vue = require("vue");
 
-import VueRouter from 'vue-router'; Vue.use(VueRouter)
-import BootstrapVue from 'bootstrap-vue'; Vue.use(BootstrapVue)
-import PublicNavbar from './components/Guest/PublicNavbar.vue'; Vue.component('public-navbar', PublicNavbar);
-import swal from 'sweetalert2'; window.swal = swal;
+// Vue Router
+import VueRouter from "vue-router";
+Vue.use(VueRouter);
+
+// Bootstrap Vue
+import BootstrapVue from "bootstrap-vue";
+Vue.use(BootstrapVue);
+
+// Vue Particles
+import VueParticles from "vue-particles";
+Vue.use(VueParticles);
+
+import PublicNavbar from "./components/guest/PublicNavbar.vue";
+Vue.component("public-navbar", PublicNavbar);
+
+import swal from "sweetalert2";
+window.swal = swal;
+
 const toast = swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000
 });
 window.toast = toast;
 import routes from "./routes";
-import {store} from "./store/store";
+import { store } from "./store/store";
 
-import VueProgressBar from 'vue-progressbar'
+import VueProgressBar from "vue-progressbar";
 
 Vue.use(VueProgressBar, {
-  color: 'rgb(143, 255, 199)',
-  failedColor: 'red',
-  height: '2px'
+    color: "rgb(143, 255, 199)",
+    failedColor: "red",
+    height: "2px"
 });
 
-Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue'));
+Vue.component("pulse-loader", require("vue-spinner/src/PulseLoader.vue"));
 const router = new VueRouter({
-    mode: 'history',
-    routes 
+    mode: "history",
+    routes
 });
 
-import DataTable from 'laravel-vue-datatable';
+import DataTable from "laravel-vue-datatable";
 
 Vue.use(DataTable);
 
-Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component("pagination", require("laravel-vue-pagination"));
 
-import StepProgress from 'vue-step-progress';
+import StepProgress from "vue-step-progress";
 Vue.component("step-progress", StepProgress);
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (!store.getters.loggedIn) {
-        next({
-          name: 'Welcome',
-        })
-      } else {
-        next()
-      }
-    }else if (to.matched.some(record => record.meta.requiresVisitor)) {
-        if (store.getters.loggedIn) {
-          next({
-            name: 'Dashboard',
-          })
+        if (!store.getters.loggedIn) {
+            next({
+                name: "Welcome"
+            });
         } else {
-          next()
+            next();
         }
-      } else {
-      next() 
+    } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+        if (store.getters.loggedIn) {
+            next({
+                name: "Dashboard"
+            });
+        } else {
+            next();
+        }
+    } else {
+        next();
     }
-  })
+});
 import App from "./App.vue";
 
 // new Vue({
@@ -68,7 +82,7 @@ import App from "./App.vue";
 // }).$mount('#app');
 
 const app = new Vue({
-    el: '#app',
+    el: "#app",
     store: store,
-    router,
+    router
 });
