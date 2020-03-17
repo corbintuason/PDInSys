@@ -50,7 +50,7 @@ class UserController extends Controller
             'pdem_email' => 'required',
             'pdem_gmail' => 'required',
             'contact_numbers' => 'required',
-            'employment_date' => 'required',
+            // 'employment_date' => 'required',
         ]);
 
         // Generate a random string for default password

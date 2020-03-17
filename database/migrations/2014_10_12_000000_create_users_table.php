@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('pdem_email')->unique();
             $table->string('pdem_gmail');
             $table->json('contact_numbers');
-            $table->date('employment_date');
+            $table->date('employment_date')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

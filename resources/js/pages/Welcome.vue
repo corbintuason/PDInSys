@@ -40,17 +40,19 @@
                                 label-for="input-1"
                             >
                                 <b-form-input
-                                    type="email"
                                     required
                                     placeholder="Enter email"
+                                    type="email"
+                                    v-model="pdem_email"
                                 ></b-form-input>
                             </b-form-group>
 
                             <b-form-group label="Password:" label-for="input-2">
                                 <b-form-input
-                                    type="password"
                                     required
                                     placeholder="Enter Password"
+                                    type="password"
+                                    v-model="password"
                                 ></b-form-input>
                             </b-form-group>
                         </b-form>
@@ -67,7 +69,10 @@
                         </div>
 
                         <div class="button-login">
-                            <b-button block variant="primary font-weight-bold"
+                            <b-button
+                                block
+                                variant="primary font-weight-bold"
+                                @click="login"
                                 >Login</b-button
                             >
                         </div>
@@ -84,11 +89,39 @@
 
 <script>
 export default {
+    name: "navbar",
     data() {
-        return {};
+        return {
+            pdem_email: null,
+            password: null
+        };
     },
-    computed: {},
-    methods: {},
+    methods: {
+        login() {
+            this.$Progress.start();
+            this.$store
+                .dispatch("retrieveToken", {
+                    pdem_email: this.pdem_email,
+                    password: this.password
+                })
+                .then(response => {
+                    this.$store
+                        .dispatch("storeUser")
+                        .then(response => {
+                            this.$Progress.finish();
+                            this.$router.push({ name: "Dashboard" });
+                        })
+                        .catch(e => {
+                            this.$Progress.fail();
+                            console.log(e);
+                        });
+                })
+                .catch(e => {
+                    this.$Progress.fail();
+                    console.log(e);
+                });
+        }
+    },
     mounted() {}
 };
 </script>
