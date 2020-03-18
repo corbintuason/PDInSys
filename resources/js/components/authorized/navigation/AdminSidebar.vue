@@ -12,10 +12,10 @@
 
         <div class="sidebar">
             <!-- User Panel -->
-            <user-panel :user="user"> </user-panel>
+            <!-- <user-panel :user="user"> </user-panel> -->
 
             <!-- Sidebar Menu -->
-            <nav class="mt-2 user-panel">
+            <nav class="mt-4 user-panel">
                 <ul
                     class="nav nav-pills nav-sidebar flex-column"
                     data-widget="treeview"
@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import userPanel from "./SideBar/UserPanel";
 import pgosPanel from "./SideBar/PGOSPanel";
 import pgasPanel from "./SideBar/PGASPanel";
 import moduleLess from "./SideBar/ModuleLess";
@@ -48,7 +47,6 @@ export default {
         };
     },
     components: {
-        "user-panel": userPanel,
         "pgos-panel": pgosPanel,
         "pgas-panel": pgasPanel,
         "module-less": moduleLess

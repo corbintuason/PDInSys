@@ -9,7 +9,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav  ml-auto">
             <li class="nav-item dropdown">
                 <a
                     class="nav-link"
@@ -33,6 +33,33 @@
                     >
                 </div>
             </li>
+            <li class="ml-3">
+                <b-img
+                    src="/img/avatar/user.png"
+                    rounded="circle"
+                    width="35px"
+                    height="35px"
+                    alt="Photo"
+                ></b-img>
+            </li>
+            <li class="nav-item dropdown mr-4">
+                <b-nav-item-dropdown
+                    class="font-weight-bold "
+                    :text="user.meta.full_name"
+                    right
+                >
+                    <b-dropdown-item
+                        ><router-link to="/profile">
+                            <p>My Profile</p>
+                        </router-link></b-dropdown-item
+                    >
+                    <b-dropdown-item
+                        ><a href="#" @click="logOut">
+                            <p>Logout</p>
+                        </a></b-dropdown-item
+                    >
+                </b-nav-item-dropdown>
+            </li>
         </ul>
     </nav>
 </template>
@@ -40,10 +67,22 @@
 <script>
 export default {
     data() {
-        return {};
+        return {
+            user: JSON.parse(localStorage.getItem("user"))
+        };
     },
+
     computed: {},
-    created() {}
+    created() {},
+    methods: {
+        logOut() {
+            this.$Progress.start();
+            this.$store.dispatch("destroyToken").then(response => {
+                this.$Progress.finish();
+                this.$router.push({ name: "Welcome" });
+            });
+        }
+    }
 };
 </script>
 
