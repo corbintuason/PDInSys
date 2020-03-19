@@ -28,11 +28,10 @@
 </template>
 
 <script>
-import adminNav from "../../components/authorized/navigation/AdminNav";
-import welcomeUser from "../../components/authorized/dashboard/WelcomeUser";
-import notificationCenter from "../../components/authorized/dashboard/NotificationCenter";
-import happeningNow from "../../components/authorized/dashboard/HappeningNow";
-import mySchedule from "../../components/authorized/dashboard/MySchedule";
+import welcomeUser from "./Dashboard/WelcomeUser";
+import notificationCenter from "./Dashboard/NotificationCenter";
+import happeningNow from "./Dashboard/HappeningNow";
+import mySchedule from "./Dashboard/MySchedule";
 
 export default {
   data() {

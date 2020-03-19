@@ -3,34 +3,40 @@ import Vuex from 'vuex';
 
 import axios from "axios";
 Vue.use(Vuex);
-
+import globals from "./globals"
 export const store = new Vuex.Store({
-    state:{
+    modules: {
+        globals: globals
+    },
+    state: {
+        // FOR MODULE LOG IN
         user: JSON.parse(localStorage.getItem('user')) || null,
         token: localStorage.getItem('access_token') || null,
-    },
-    getters:{
-        loggedIn(state){
-            return state.token != null;
-        },
-        user(state){
-            return state.user;
-        }
+
         
     },
-    mutations:{
-        storeUser(state, user){
+    getters: {
+        loggedIn(state) {
+            return state.token != null;
+        },
+        user(state) {
+            return state.user;
+        }
+
+    },
+    mutations: {
+        storeUser(state, user) {
             state.user = user;
         },
-        retrieveToken(state, token){
+        retrieveToken(state, token) {
             state.token = token;
         },
-        destroyToken(state){
+        destroyToken(state) {
             state.token = null;
         }
     },
-    actions:{
-        storeUser(context){
+    actions: {
+        storeUser(context) {
             return new Promise((resolve, reject) => {
                 axios.defaults.headers.common['Authorization'] = "Bearer " + context.state.token;
                 axios.get("/api/init").then(response => {
@@ -44,7 +50,7 @@ export const store = new Vuex.Store({
                 })
             });
         },
-        retrieveToken(context, credentials){
+        retrieveToken(context, credentials) {
             return new Promise((resolve, reject) => {
                 axios.post("/api/login", {
                     pdem_email: credentials.pdem_email,
@@ -60,9 +66,9 @@ export const store = new Vuex.Store({
                 })
             });
         },
-        destroyToken(context){
+        destroyToken(context) {
             axios.defaults.headers.common['Authorization'] = "Bearer " + context.state.token;
-            if(context.getters.loggedIn){
+            if (context.getters.loggedIn) {
                 return new Promise((resolve, reject) => {
                     axios.post('/api/logout').then(response => {
                         localStorage.removeItem('access_token');

@@ -15,7 +15,7 @@ const toast = swal.mixin({
 window.toast = toast;
 import routes from "./routes";
 import {store} from "./store/store";
-
+import {globals} from "./store/globals";
 import VueProgressBar from 'vue-progressbar'
 
 Vue.use(VueProgressBar, {
