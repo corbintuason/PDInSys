@@ -47,5 +47,12 @@ export default {
 
 .calendar-card {
     border-radius: 10px;
+    box-shadow: 0 2px 43px -4px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.2s ease-out;
+
+    &:hover {
+        transform: translateY(4px);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.11) !important;
+    }
 }
 </style>

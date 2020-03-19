@@ -1,11 +1,11 @@
 <template>
     <b-card
-        class="text-center notification-card"
+        class="text-center advisories-card"
         header-bg-variant="primary"
         header-text-variant="white"
     >
         <template v-slot:header>
-            <h1 class="component-title">Notification Center</h1>
+            <h1 class="component-title advisories-title">Advisories</h1>
         </template>
         <b-card-text>
             <div class="row">
@@ -85,7 +85,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.notification-card {
+.advisories-card {
     border-radius: 10px;
     box-shadow: 0 2px 43px -4px rgba(0, 0, 0, 0.08) !important;
     transition: all 0.2s ease-out;

@@ -1,5 +1,5 @@
 <template>
-    <b-card class="text-center welcome-card">
+    <b-card class="text-center welcome-card" border-variant="primary">
         <b-card-text>
             <b-img
                 class="mt-4"
