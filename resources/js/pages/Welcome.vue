@@ -21,6 +21,33 @@
                             height="230"
                         />
                         <!-- </b-card> -->
+                        <div class="text-center social-link">
+                            <a href="https://www.facebook.com/projectduoevents/"
+                                ><img
+                                    src="/img/facebook/facebook.png"
+                                    alt="Facebook"
+                                    width="30px"
+                                    height="30px"
+                                />
+                            </a>
+                            <a
+                                href="https://www.instagram.com/thisisprojectduo/"
+                                ><img
+                                    src="/img/insta/insta.png"
+                                    alt="Instagram"
+                                    width="30px"
+                                    height="30px"
+                                />
+                            </a>
+                            <a href="https://pdemhris.hrhub.ph/Login.aspx"
+                                ><img
+                                    src="/img/sprout/sprout.png"
+                                    alt="Sprout"
+                                    width="30px"
+                                    height="30px"
+                                />
+                            </a>
+                        </div>
                     </div>
 
                     <div class="col-md-6 right-side-login">
@@ -80,6 +107,9 @@
                     <!-- card card-holder div -->
                 </div>
                 <!-- tile div -->
+            </div>
+            <div class="text-center">
+                <a href="">Test</a>
             </div>
         </div>
         <!-- vue particles -->
@@ -159,10 +189,12 @@ export default {
         margin: auto;
     }
     .left-side-login {
+        padding-top: 100px;
         background: #eff2f7;
         padding-bottom: 118px;
         padding-left: 20px;
         border-radius: 10px 0 0 10px;
+        position: relative;
     }
     .right-side-login {
         padding-top: 30px;
@@ -173,11 +205,16 @@ export default {
     .sub-header-login {
         margin-bottom: 40px;
     }
-    .image-login {
-        margin-top: 100px;
-    }
+    // .image-login {
+    //     // margin-top: 100px;
+    // }
     .button-login {
-        margin-top: 55px;
+        margin-top: 45px;
+    }
+    .social-link {
+        position: absolute;
+        bottom: 45px;
+        left: 180px;
     }
 }
 #particles-js {

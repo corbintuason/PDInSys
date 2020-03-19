@@ -17,11 +17,12 @@
                     href="#"
                     aria-expanded="false"
                 >
-                    <i class="far fa-bell" style="font-size:23px"></i>
+                    <i class="far fa-bell" style="font-size:24px"></i>
                     <span
-                        class="badge badge-warning navbar-badge"
-                        style="font-size:9px;"
-                    ></span>
+                        class="badge navbar-badge notification-badge"
+                        style="font-size:10px;"
+                        ><strong>0</strong></span
+                    >
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     <span class="dropdown-item dropdown-header"
@@ -86,4 +87,9 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.notification-badge {
+    background: rgba(247, 148, 44, 0.8);
+    margin-left: 10px;
+}
+</style>
