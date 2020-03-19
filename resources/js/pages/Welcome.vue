@@ -108,9 +108,6 @@
                 </div>
                 <!-- tile div -->
             </div>
-            <div class="text-center">
-                <a href="">Test</a>
-            </div>
         </div>
         <!-- vue particles -->
         <vue-particles id="particles-js"> </vue-particles>
