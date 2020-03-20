@@ -5,7 +5,6 @@
                 <FullCalendar
                     defaultView="dayGridMonth"
                     :plugins="calendarPlugins"
-                    :custom-buttons="customButtons"
                     :header="header"
                     :height="500"
                     :footer="footer"

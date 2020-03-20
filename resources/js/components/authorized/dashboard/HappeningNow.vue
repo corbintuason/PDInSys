@@ -13,9 +13,8 @@
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Project Name</th>
-                                <th>Item</th>
-                                <th>Status</th>
+                                <th>Project Title</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                     </table>

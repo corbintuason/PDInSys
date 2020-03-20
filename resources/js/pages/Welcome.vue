@@ -107,6 +107,14 @@
                     <!-- card card-holder div -->
                 </div>
                 <!-- tile div -->
+                <div class="copyright">
+                    <a class="text-white-50"
+                        ><strong
+                            >Copyright © 2020 Project Duo, All Rights
+                            Reserved.</strong
+                        ></a
+                    >
+                </div>
             </div>
         </div>
         <!-- vue particles -->
@@ -212,6 +220,10 @@ export default {
         position: absolute;
         bottom: 45px;
         left: 180px;
+    }
+    .copyright {
+        position: absolute;
+        bottom: 235px;
     }
 }
 #particles-js {
