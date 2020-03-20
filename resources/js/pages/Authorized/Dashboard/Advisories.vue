@@ -1,7 +1,7 @@
 <template>
   <b-card class="text-center">
     <template v-slot:header>
-      <h1 class="component-title">Happening Now</h1>
+      <h1 class="component-title">Advisories</h1>
     </template>
     <b-card-text>
       <div class= "row">
@@ -9,9 +9,11 @@
           <table class="table table-sm">
             <thead>
               <tr>
-                <th> Project Title</th>
-                <th> Description </th>
-
+                <th> Department </th>
+                <th> Advisory Code </th>
+                <th> Subject </th>
+                <th> Date </th>
+                <th>Status </th>
               </tr>
             </thead>
           </table>

@@ -32,11 +32,6 @@
             </table>
           </div>
         </div>
-        <b-alert
-          v-if="new_user.job_details.office== null"
-          show
-          variant="warning"
-        >Please select an Office to start assigning specific access control</b-alert>
         <b-table striped hover :fields="fields" :items="items" table-variant="warning"></b-table>
       </div>
     </div>

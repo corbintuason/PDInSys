@@ -12,9 +12,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
           <!-- Happening Now -->
-          <!-- <happening-now></happening-now> -->
+          <happening-now></happening-now>
+        </div>
+        <div class="col-md-6">
+          <!-- Advisories -->
+          <advisories></advisories>
         </div>
       </div>
 
@@ -32,7 +36,7 @@ import welcomeUser from "./Dashboard/WelcomeUser";
 import notificationCenter from "./Dashboard/NotificationCenter";
 import happeningNow from "./Dashboard/HappeningNow";
 import mySchedule from "./Dashboard/MySchedule";
-
+import advisories from "./Dashboard/Advisories"
 export default {
   data() {
     return {
@@ -40,11 +44,11 @@ export default {
     };
   },
   components: {
-    "admin-nav": adminNav,
     "welcome-user": welcomeUser,
     "notification-center": notificationCenter,
     "happening-now": happeningNow,
-    "my-schedule": mySchedule
+    "my-schedule": mySchedule,
+    "advisories": advisories
   },
   computed: {},
   methods: {},

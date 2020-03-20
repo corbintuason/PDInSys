@@ -84,6 +84,77 @@ export default new Vuex.Store({
                     name: "Accounting and Finance Group",
                     departments: ["Accounts Receivable Department", "Accounts Payable Department"],
                 }
+            ],
+            modules:[
+                {
+                    section: "Admin",
+                    features:[
+                        {
+                            name: "Companies"
+                        },
+                        {
+                            name: "ADM Advisories"
+                        },
+                        {
+                            name: "Assets"
+                        },
+                        {
+                            name: "Vehicles"
+                        },
+                        {
+                            name: "Warehouses"
+                        }
+                    ]
+                },
+                {
+                    section: "Accounting",
+                    features:[
+                        {
+                            name: "Accounts"
+                        },
+                        {
+                            name: "Vendors"
+                        },
+                        {
+                            name: "AFG Advisories"
+                        },
+                        {
+                            name: "Billing and Collection Monitor"
+                        },
+                        {
+                            name: "Budget Allocation"
+                        },
+                        {
+                            name: "Projected Financial Statements"
+                        },
+                        {
+                            name: "Sales, Purchase, and Allowance"
+                        },
+                        {
+                            name: "Sales Report"
+                        },
+                        {
+                            name: "Payments"
+                        }
+                    ]
+                },
+                {
+                    section: "Human Resource",
+                    features:[
+                        {
+                            name: "HR Advisories"
+                        },
+                        {
+                            name: "Mandate"
+                        },
+                        {
+                            name: "PDIS"
+                        },
+                        {
+                            name: "Sprout HR"
+                        }
+                    ]
+                }
             ]
         }
         ],
