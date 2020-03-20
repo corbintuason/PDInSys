@@ -43,7 +43,7 @@
         <b-input id="employment_date" type="date" v-model="new_user.employment_date"></b-input>
 
         <label for="birth_date">Birth Date</label>
-        <b-input id="birth_date" type="date"></b-input>
+        <b-input id="birth_date" type="date" v-model="new_user.birth_date"></b-input>
       </div>
     </div>
     </div>

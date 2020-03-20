@@ -24,6 +24,9 @@
             <b-form-select-option :value="null" disabled>-- Please select a Department--</b-form-select-option>
             <b-form-select-option v-for="(department, department_index) in selected_group.departments" :key="department_index" :value="department">{{department}}</b-form-select-option>
           </b-form-select>
+
+          <label>Job Level</label>
+          <b-form-select v-model="new_user.job_details.job_level" :options="job_levels"></b-form-select>
         </div>
       </div>
       <!-- Choose between available groups -->
@@ -62,6 +65,7 @@ export default {
   data() {
     return {
       offices: this.$store.state.globals.offices,
+      job_levels: this.$store.state.globals.job_levels,
       selected_office: null,
       selected_group: null,
       selected_department: null,

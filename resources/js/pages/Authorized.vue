@@ -1,6 +1,6 @@
 <template>
 <div>
-      <admin-nav></admin-nav>
+      <admin-nav :user="user"></admin-nav>
       <div class="content-wrapper">
         <div class="content">
           <div class="container-fluid">
@@ -16,7 +16,7 @@ import adminNav from "../components/authorized/navigation/AdminNav"
 export default{
     data(){
         return{
-
+          user: this.$store.state.user
         }
     },
     components:{

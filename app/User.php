@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'last_name', 'first_name', 'middle_name', 'official_photo', 'group', 'job_level', 'pdem_email', 'pdem_gmail', 'contact_numbers', 'employment_date', 'password',
+        'last_name', 'first_name', 'middle_name', 'official_photo', 'birth_date', 'pdem_email', 'pdem_gmail', 'contact_numbers', 'employment_date', 'job_details', 'module_access', 'password',
     ];
 
     /**
@@ -36,6 +36,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'contact_numbers' => 'array'
+        'contact_numbers' => 'array',
+        'job_details' => 'object',
+        'module_access' => 'array'
     ];
 }

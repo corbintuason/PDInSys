@@ -19,13 +19,14 @@
         <div class="col-md-6">
           <!-- Advisories -->
           <advisories></advisories>
+
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-12">
           <!-- My Schedule -->
-          <my-schedule></my-schedule>
+          {{user.data.module_access}}
         </div>
       </div>
   </div>
@@ -51,7 +52,16 @@ export default {
     "advisories": advisories
   },
   computed: {},
-  methods: {},
-  mounted() {}
+  methods: {
+    tester(){
+      // this.user.data.module_access.forEach(pdis_module => {
+      //   console.log(pdis_module);
+      // });
+      console.log(typeof this.user.data.job_details)
+    }
+  },
+  mounted() {
+    this.tester();
+  }
 };
 </script>

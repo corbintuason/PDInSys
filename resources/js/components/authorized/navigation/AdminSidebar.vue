@@ -26,11 +26,11 @@
           data-accordion="false"
         >
           <!-- PGOS RELATED -->
-          <pgos-panel></pgos-panel>
+          <pgos-panel v-if="renderPGOS"></pgos-panel>
          
 
           <!-- PGAS -->
-          <pgas-panel></pgas-panel>
+          <pgas-panel v-if="renderPGAS"></pgas-panel>
 
           <!-- ModuleLess -->
           <module-less></module-less>
@@ -47,9 +47,13 @@ import pgasPanel from "./SideBar/PGASPanel"
 import moduleLess from "./SideBar/ModuleLess"
 export default {
   data() {
-    return {
-      user: JSON.parse(localStorage.getItem("user"))
-    };
+    return{
+      renderPGOS: false,
+      renderPGAS: false
+    }
+  },
+  props:{
+    user: Object
   },
   components:{
     "user-panel": userPanel,
@@ -58,9 +62,21 @@ export default {
     "module-less": moduleLess
   },
   methods: {
+    renderPanels(){
+      var offices = this.$store.state.globals.offices;
+      this.user.data.module_access.forEach(pdis_module => {
+        if(pdis_module.name == "PGOS"){
+          this.renderPGOS = true;
+        }
+        if(pdis_module.name == "PGAS"){
+          this.renderPGAS = true;
+        }
+      })
+      console.log(this.user.data.module_access);
+    }
   },
   mounted() {
-    console.log(this.user);
+    this.renderPanels();
   }
 };
 </script>

@@ -5,7 +5,7 @@ import axios from "axios";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    state:{
+    state: {
         offices: [{
             name: "PGOS",
             groups: [
@@ -22,10 +22,10 @@ export default new Vuex.Store({
                     ]
                 }
             ],
-            modules:[
+            modules: [
                 {
                     section: "Accounts and Clients",
-                    features:[
+                    features: [
                         {
                             name: "View Accounts",
                         },
@@ -37,7 +37,7 @@ export default new Vuex.Store({
                 },
                 {
                     section: "Project Development",
-                    features:[
+                    features: [
                         {
                             name: "Project List and Status"
                         },
@@ -56,7 +56,7 @@ export default new Vuex.Store({
                 },
                 {
                     section: "Project Execution",
-                    features:[
+                    features: [
                         {
                             name: "Vendors Pool",
                         },
@@ -71,7 +71,7 @@ export default new Vuex.Store({
                         }
                     ]
                 }
-                
+
             ]
         },
         {
@@ -85,10 +85,10 @@ export default new Vuex.Store({
                     departments: ["Accounts Receivable Department", "Accounts Payable Department"],
                 }
             ],
-            modules:[
+            modules: [
                 {
                     section: "Admin",
-                    features:[
+                    features: [
                         {
                             name: "Companies"
                         },
@@ -108,7 +108,7 @@ export default new Vuex.Store({
                 },
                 {
                     section: "Accounting",
-                    features:[
+                    features: [
                         {
                             name: "Accounts"
                         },
@@ -140,7 +140,7 @@ export default new Vuex.Store({
                 },
                 {
                     section: "Human Resource",
-                    features:[
+                    features: [
                         {
                             name: "HR Advisories"
                         },
@@ -158,5 +158,6 @@ export default new Vuex.Store({
             ]
         }
         ],
+        job_levels: ["1A", "1B", "1C", "1D", "2A", "2B", '2C', '2D', '3A', '3B', '3C', '3D', '4A', '4B', '4C', '4D', '5A', '5B', '5C', '5D', '6', '7A', '7B', '7C', '8A', '8B', '8C', '8D']
     },
 });

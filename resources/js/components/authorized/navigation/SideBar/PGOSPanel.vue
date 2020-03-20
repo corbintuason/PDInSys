@@ -13,7 +13,7 @@
               data-accordion="false"
             >
               <!-- Accounts and Clients -->
-              <li class="nav-item has-treeview">
+              <li v-if="renderFeature('Accounts and Clients')" class="nav-item has-treeview">
                 <a href="#" class="nav-link">
                   <i class="fas fa-cog" style="margin-right:10px"></i>
                   <p>

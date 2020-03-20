@@ -10,7 +10,7 @@
             <user-details :new_user="new_user"></user-details>
           </b-tab>
           <b-tab title="Module Access">
-            <module-access :new_user="new_user"></module-access>
+            <module-access :new_user="new_user" :module_access="new_user.module_access"></module-access>
           </b-tab>
         </b-tabs>
         {{new_user}}
@@ -32,7 +32,8 @@ export default {
         last_name: "",
         first_name: "",
         middle_name: "",
-        employment_date: "1997-07-11",
+        employment_date: null,
+        birth_date: null,
         official_photo: null,
         pdem_email: "",
         pdem_gmail: "",
@@ -40,10 +41,11 @@ export default {
         job_details:{
           office: null,
           group: null,
-          department: null
+          department: null,
+          job_level: null
         },
-        module_access:{
-        }
+        module_access:[
+        ]
       }
     };
   },
