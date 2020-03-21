@@ -106,7 +106,7 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="far fa-dot-circle nav-icon"></i>
-                            <p>Manpower Pool</p>
+                            <p>Mandate</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -118,7 +118,7 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="far fa-dot-circle nav-icon"></i>
-                            <p>Project Templates</p>
+                            <p>Project Execution Plan</p>
                         </a>
                     </li>
                 </ul>

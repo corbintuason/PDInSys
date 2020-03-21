@@ -50,7 +50,7 @@
                     right
                 >
                     <b-dropdown-item
-                        ><router-link to="/profile">
+                        ><router-link to="/user-profile">
                             <p>My Profile</p>
                         </router-link></b-dropdown-item
                     >

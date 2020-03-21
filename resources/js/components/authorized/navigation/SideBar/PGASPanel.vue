@@ -65,7 +65,7 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="far fa-dot-circle nav-icon"></i>
-                            <p>Accounts</p>
+                            <p>Accounts and Clients</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -73,6 +73,29 @@
                             <i class="far fa-dot-circle nav-icon"></i>
                             <p>Vendors</p>
                         </a>
+                        <ul
+                            class="nav nav-treeview sidebar-links"
+                            style="display: none;"
+                        >
+                            <li class="nav-item">
+                                <router-link
+                                    :to="{ name: 'vendor_index' }"
+                                    class="nav-link"
+                                >
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>View Vendors</p>
+                                </router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link
+                                    :to="{ name: 'vendor_create' }"
+                                    class="nav-link"
+                                >
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>Vendor Accreditation</p>
+                                </router-link>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">

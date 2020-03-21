@@ -3,12 +3,20 @@ import Authorized from "./pages/Authorized.vue";
 import Dashboard from "./pages/Authorized/Dashboard.vue";
 import AddUser from "./pages/Authorized/ADMIN/AddUser.vue";
 
+// Account and Client Accreditation
 import CreateAccount from "./pages/Authorized/PGOS/Accounts/Create.vue";
 import IndexAccount from "./pages/Authorized/PGOS/Accounts/Index.vue";
 import ShowAccount from "./pages/Authorized/PGOS/Accounts/Show.vue";
 
+// Project Creation Module
 import IndexProject from "./pages/Authorized/PGOS/Projects/Index.vue";
 import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue";
+
+// Vendor Accreditation Module
+import IndexVendor from "./pages/Authorized/PGAS/Vendors/Index.vue";
+
+// User Profile Settings
+import EditUserProfile from "./pages/Authorized/PD/UserProfile/Edit.vue";
 
 export default [
     {
@@ -70,6 +78,18 @@ export default [
                 path: "/projects/create",
                 component: CreateProject,
                 name: "project_create"
+            },
+            // VENDOR PATHS
+            {
+                path: "/vendors",
+                component: IndexVendor,
+                name: "vendor_index"
+            },
+            // USER PROFILE PATH
+            {
+                path: "/user-profile",
+                component: EditUserProfile,
+                name: "user_profile_edit"
             }
         ]
     }
