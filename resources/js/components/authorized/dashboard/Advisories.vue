@@ -1,9 +1,5 @@
 <template>
-    <b-card
-        class="text-center advisories-card"
-        header-bg-variant="primary"
-        header-text-variant="white"
-    >
+    <b-card class="text-center advisories-card">
         <template v-slot:header>
             <h1 class="component-title advisories-title">Advisories</h1>
         </template>
@@ -13,9 +9,10 @@
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Project Name</th>
-                                <th>Item</th>
-                                <th>Status</th>
+                                <th>Department</th>
+                                <th>Advisory Code</th>
+                                <th>Subject</th>
+                                <th>Date Published</th>
                             </tr>
                         </thead>
                     </table>

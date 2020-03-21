@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card class="calendar-card" border-variant="primary">
+        <b-card class="calendar-card">
             <div class="column content--column">
                 <FullCalendar
                     defaultView="dayGridMonth"

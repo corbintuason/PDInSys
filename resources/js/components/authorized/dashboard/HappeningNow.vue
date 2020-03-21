@@ -1,9 +1,5 @@
 <template>
-    <b-card
-        class="text-center notification-card"
-        header-bg-variant="primary"
-        header-text-variant="white"
-    >
+    <b-card class="text-center notification-card">
         <template v-slot:header>
             <h1 class="component-title">Happening Now</h1>
         </template>
