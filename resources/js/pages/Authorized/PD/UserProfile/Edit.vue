@@ -94,6 +94,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+* {
+    font-family: "Lato";
+}
 .user-profile-card {
     margin-top: 37px;
 

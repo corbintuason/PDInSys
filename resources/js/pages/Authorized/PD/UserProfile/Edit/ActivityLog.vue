@@ -1,5 +1,5 @@
 <template>
-    <h1>Activity Log</h1>
+    <h3>Activity Log</h3>
 </template>
 
 <script>
