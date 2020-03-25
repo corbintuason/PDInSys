@@ -28,6 +28,7 @@ export default new Vuex.Store({
                     features: [
                         {
                             name: "View Accounts",
+                            roles: ["View Only", "View and Edit"],
                         },
                         {
                             name: "Account and Client Accreditation",

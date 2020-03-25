@@ -35,21 +35,25 @@
                 </div>
                 <strong style="display:inline-block">{{pdis_module.section}}</strong>
 
-                <tr v-for="(feature, feature_index) in pdis_module.features" :key="feature_index">
-                  <td>
-                    <b-form-checkbox @change="selectFeature($event, office, feature)"></b-form-checkbox>
-                  </td>
-                  <td>{{feature.name}}</td>
-                  <td>
-                    <b-form-select
-                      v-if="feature.roles!=null"
-                      :options="feature.roles"
-                      size="sm"
-                      :disabled="featureDisabled(office, feature)"
-                      @change="selectRole($event, office, feature)"
-                    ></b-form-select>
-                  </td>
-                </tr>
+                <template v-if="renderModules(office, pdis_module)">
+                  <tr v-for="(feature, feature_index) in pdis_module.features" :key="feature_index">
+                    <td>
+                      <b-form-checkbox
+                        @change="selectFeature($event, office, pdis_module, feature)"
+                      ></b-form-checkbox>
+                    </td>
+                    <td>{{feature.name}}</td>
+                    <td>
+                      <b-form-select
+                        v-if="feature.roles!=null"
+                        :options="feature.roles"
+                        size="sm"
+                        @change="selectRole($event, office, pdis_module, feature)"
+                        :disabled="featureDisabled(office, pdis_module, feature)"
+                      ></b-form-select>
+                    </td>
+                  </tr>
+                </template>
               </tbody>
             </table>
           </div>
@@ -87,7 +91,7 @@ export default {
       if (event) {
         this.new_user.module_access.push({
           name: office.name,
-          features: []
+          modules: []
         });
       } else {
         var splice_module = this.new_user.module_access.findIndex(
@@ -98,64 +102,90 @@ export default {
     },
     // SELECT SECTION
     selectSection(event, office, pdis_module) {
+      var involved_office = this.new_user.module_access.find(
+        involved_module => involved_module.name == office.name
+      );
       if (event) {
-        var involved_office = this.new_user.module_access.find(
-          involved_module => involved_module.name == office.name
-        );
-        involved_office.push({
+        involved_office.modules.push({
           section: pdis_module.section,
           features: []
         });
       } else {
-        alert("yeet");
+        var test_section = involved_office.modules.findIndex(
+          test_office => test_office.section == pdis_module.section
+        );
+        involved_office.modules.splice(test_section, 1);
       }
     },
     // SELECT FEATURE
-    selectFeature(event, office, feature) {
+    selectFeature(event, office, duo_module, feature) {
+      var involved_office = this.new_user.module_access.find(
+        pdis_module => pdis_module.name == office.name
+      );
       if (event) {
-        var feature_office = this.new_user.module_access.find(
-          pdis_module => pdis_module.name == office.name
+        var involved_feature = involved_office.modules.find(
+          test_feature => test_feature.section == duo_module.section
         );
-        console.log(feature_office);
-        feature_office.features.push({
+        involved_feature.features.push({
           name: feature.name,
           role: null
         });
+
       } else {
-        var involved_office = this.new_user.module_access.find(
-          pdis_module => pdis_module.name == office.name
-        );
-        var splice_feature = involved_office.features.findIndex(
+        var involved_module = involved_office.modules.find(test_feature => test_feature.section == duo_module.section);
+        var splice_feature = involved_module.features.findIndex(
           pdis_feature => pdis_feature.name == feature.name
         );
-        involved_office.features.splice(splice_feature, 1);
+        involved_module.features.splice(splice_feature, 1);
       }
     },
     // SELECT ROLE
-    selectRole(event, office, feature) {
+    selectRole(event, office, duo_module, feature) {
+      // GET OFFICE
       var involved_office = this.new_user.module_access.find(
         pdis_module => pdis_module.name == office.name
       );
-      var involved_feature = involved_office.features.find(
-        pdis_feature => pdis_feature.name == feature.name
+      // GET MODULE
+      var involved_module = involved_office.modules.find(
+          test_module => test_module.section == duo_module.section
+      );
+      // GET FEATURE
+      var involved_feature = involved_module.features.find(
+          test_feature => test_feature.name == feature.name
       );
       involved_feature.role = event;
+
     },
 
     // RENDERING FEATURES
-    featureDisabled(office, feature) {
+    renderModules(office, pdis_module) {
       var involved_office = this.new_user.module_access.find(
         pdis_module => pdis_module.name == office.name
       );
-      var result = true;
-      console.log("involved office");
-      console.log(involved_office);
-      involved_office.features.forEach(pdis_feature => {
-        if (pdis_feature.name == feature.name) {
-          result = false;
+      var result = false;
+      involved_office.modules.forEach(involved_module => {
+        if (involved_module.section == pdis_module.section) {
+          result = true;
         }
       });
       return result;
+    },
+    featureDisabled(office, duo_module, feature) {
+      var involved_office = this.new_user.module_access.find(
+        pdis_module => pdis_module.name == office.name
+      );
+      
+      // GET MODULE
+      var involved_module = involved_office.modules.find(
+          test_module => test_module.section == duo_module.section
+      );
+      // GET FEATURE
+      var result = true;
+      involved_module.features.forEach(pdis_feature => {
+        if(pdis_feature.name == feature.name){
+          result = false;
+        }
+      }); return result;
     },
     renderModule(office) {
       var result = false;

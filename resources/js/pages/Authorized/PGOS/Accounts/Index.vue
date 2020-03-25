@@ -32,8 +32,6 @@ export default {
         {
           item_name: "a",
           status: "Re-Published",
-          created_at: "123",
-          processed_by: "u",
           item_params: {
             link: "account_show",
             id: 5
@@ -42,8 +40,6 @@ export default {
         {
           item_name: "seven",
           status: "Re-Published",
-          created_at: "123",
-          processed_by: "u",
           item_params: {
             link: "account_show",
             id: 7
@@ -55,7 +51,7 @@ export default {
       this.fields = [
         {
           key: "item_details.name",
-          label: "Name",
+          label: "Account Name",
           sortable: true,
           sortDirection: "desc"
         },
@@ -65,18 +61,6 @@ export default {
           sortable: true,
           class: "text-center"
         },
-        {
-          key: "created_at",
-          label: "Processed At",
-          sortable: true,
-          class: "text-center"
-        },
-        {
-          key: "processed_by",
-          label: "Processed By",
-          sortable: true,
-          class: "text-center"
-        }
       ];
     },
     openCreateAccount(){

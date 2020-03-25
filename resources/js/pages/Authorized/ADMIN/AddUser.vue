@@ -38,14 +38,13 @@ export default {
         pdem_email: "",
         pdem_gmail: "",
         contact_numbers: [""],
-        job_details:{
+        job_details: {
           office: null,
           group: null,
           department: null,
           job_level: null
         },
-        module_access:[
-        ]
+        module_access: []
       }
     };
   },
@@ -54,8 +53,8 @@ export default {
     "module-access": moduleAccess,
     "user-details": userDetails
   },
-  methods:{
-       createUser() {
+  methods: {
+    createUser() {
       swal
         .fire({
           title: "Create User",

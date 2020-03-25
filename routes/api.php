@@ -21,7 +21,9 @@ Route::post("/register", "API\UserController@store");
 
 Route::apiResources([
     'user' => 'API\UserController',
+    'account' => 'API\AccountController'
 ]);
+
 Route::middleware('auth:api')->get('/init', function (Request $request) {
     return new UserResource($request->user());
 });

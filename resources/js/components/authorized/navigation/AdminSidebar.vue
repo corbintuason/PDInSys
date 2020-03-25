@@ -26,11 +26,11 @@
           data-accordion="false"
         >
           <!-- PGOS RELATED -->
-          <pgos-panel v-if="renderPGOS"></pgos-panel>
+          <pgos-panel v-if="renderPGOS" :module_access="user.data.module_access" :pgos="pgos"></pgos-panel>
          
 
           <!-- PGAS -->
-          <pgas-panel v-if="renderPGAS"></pgas-panel>
+          <pgas-panel v-if="renderPGAS" :module_access="user.data.module_access" :pgas="pgas"></pgas-panel>
 
           <!-- ModuleLess -->
           <module-less></module-less>
@@ -49,7 +49,9 @@ export default {
   data() {
     return{
       renderPGOS: false,
-      renderPGAS: false
+      renderPGAS: false,
+      pgos: null,
+      pgas: null,
     }
   },
   props:{
@@ -64,19 +66,32 @@ export default {
   methods: {
     renderPanels(){
       var offices = this.$store.state.globals.offices;
-      this.user.data.module_access.forEach(pdis_module => {
-        if(pdis_module.name == "PGOS"){
+      console.log("rendering")
+      console.log(this.user.data.module_access);
+      this.user.data.module_access.forEach(office => {
+        if(office.name == "PGOS"){
           this.renderPGOS = true;
         }
-        if(pdis_module.name == "PGAS"){
+        if(office.name == "PGAS"){
           this.renderPGAS = true;
         }
       })
       console.log(this.user.data.module_access);
+    },
+    filterOffices(){
+       const pgos = this.user.data.module_access.find(pdis_module => pdis_module.name == "PGOS");
+       const pgas = this.user.data.module_access.find(pdis_module => pdis_module.name == "PGAS");
+       console.log("hay");
+       console.log(pgos.modules);
+       this.pgos = pgos;
+       this.pgas = pgas;
+       
+       this.renderPanels();
+
     }
   },
   mounted() {
-    this.renderPanels();
+    this.filterOffices();
   }
 };
 </script>
