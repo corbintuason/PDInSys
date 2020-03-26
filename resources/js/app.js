@@ -14,6 +14,10 @@ Vue.use(BootstrapVue);
 import VueParticles from "vue-particles";
 Vue.use(VueParticles);
 
+// Vue Timeline
+import VerticalTimeline from "vue-vertical-timeline";
+Vue.use(VerticalTimeline);
+
 import PublicNavbar from "./components/guest/PublicNavbar.vue";
 Vue.component("public-navbar", PublicNavbar);
 

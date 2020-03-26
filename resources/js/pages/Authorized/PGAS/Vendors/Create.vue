@@ -1,0 +1,63 @@
+<template>
+    <div>
+        <b-card class="mt-5">
+            <template v-slot:header>
+                <h1 class="component-title">Progress Bar</h1>
+            </template>
+            <b-card-text>
+                <step-progress
+                    :steps="my_steps"
+                    current-step="0"
+                    icon-class="fa fa-check"
+                ></step-progress>
+            </b-card-text>
+        </b-card>
+        <b-card class="mt-3">
+            <template v-slot:header>
+                <h1 class="component-title">Vendor Accreditation</h1>
+            </template>
+            <b-card-text>
+                <b-tabs content-class="mt-3" fill>
+                    <b-tab title="Vendor Details" active>
+                        <!-- Vendor Details -->
+                        <vendor-details></vendor-details>
+                    </b-tab>
+                    <b-tab title="Tax Details">
+                        <!-- Tax Details -->
+                        <tax-details></tax-details>
+                    </b-tab>
+                    <b-tab title="Bank Details">
+                        <!-- Bank Details -->
+                        <bank-details></bank-details>
+                    </b-tab>
+                    <b-tab title="Accreditation Attachments">
+                        <!-- Accreditation Attachments -->
+                        <accreditation-details></accreditation-details>
+                    </b-tab>
+                </b-tabs>
+            </b-card-text>
+        </b-card>
+    </div>
+</template>
+
+<script>
+import vendorDetails from "./Create/VendorDetails";
+import bankDetails from "./Create/BankDetails";
+import taxDetails from "./Create/TaxDetails";
+import accreditationDetails from "./Create/AccreditationDetails";
+export default {
+    data() {
+        return {
+            my_steps: ["Create", "Approve"]
+        };
+    },
+    components: {
+        "vendor-details": vendorDetails,
+        "bank-details": bankDetails,
+        "tax-details": taxDetails,
+        "accreditation-details": accreditationDetails
+    }
+};
+</script>
+
+<style></style>

@@ -14,6 +14,7 @@ import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue";
 
 // Vendor Accreditation Module
 import IndexVendor from "./pages/Authorized/PGAS/Vendors/Index.vue";
+import CreateVendor from "./pages/Authorized/PGAS/Vendors/Create.vue";
 
 // User Profile Settings
 import EditUserProfile from "./pages/Authorized/PD/UserProfile/Edit.vue";
@@ -84,6 +85,11 @@ export default [
                 path: "/vendors",
                 component: IndexVendor,
                 name: "vendor_index"
+            },
+            {
+                path: "/vendors/create",
+                component: CreateVendor,
+                name: "vendor_create"
             },
             // USER PROFILE PATH
             {

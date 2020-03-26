@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-card class="user-profile-card">
+        <b-card class="mt-5">
             <template v-slot:header>
                 <h1 class="component-title">User Profile Settings</h1>
             </template>
