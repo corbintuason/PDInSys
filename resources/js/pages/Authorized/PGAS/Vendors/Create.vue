@@ -20,7 +20,7 @@
                 <b-tabs content-class="mt-3" fill>
                     <b-tab title="Vendor Details" active>
                         <!-- Vendor Details -->
-                        <vendor-details></vendor-details>
+                        <vendor-details :form="form"></vendor-details>
                     </b-tab>
                     <b-tab title="Tax Details">
                         <!-- Tax Details -->
