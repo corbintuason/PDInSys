@@ -3,6 +3,7 @@ import Authorized from "./pages/Authorized.vue";
 import Dashboard from "./pages/Authorized/Dashboard.vue";
 import AddUser from "./pages/Authorized/ADMIN/AddUser.vue";
 
+// PGOS
 // Account and Client Accreditation
 import CreateAccount from "./pages/Authorized/PGOS/Accounts/Create.vue";
 import IndexAccount from "./pages/Authorized/PGOS/Accounts/Index.vue";
@@ -12,6 +13,10 @@ import ShowAccount from "./pages/Authorized/PGOS/Accounts/Show.vue";
 import IndexProject from "./pages/Authorized/PGOS/Projects/Index.vue";
 import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue";
 
+// Mandate Creation Module
+import IndexMandate from "./pages/Authorized/PGOS/Mandate/Index.vue";
+
+// PGAS
 // Vendor Accreditation Module
 import IndexVendor from "./pages/Authorized/PGAS/Vendors/Index.vue";
 import CreateVendor from "./pages/Authorized/PGAS/Vendors/Create.vue";
@@ -79,6 +84,12 @@ export default [
                 path: "/projects/create",
                 component: CreateProject,
                 name: "project_create"
+            },
+            // MANDATE PATHS
+            {
+                path: "/mandate",
+                component: IndexMandate,
+                name: "mandate_index"
             },
             // VENDOR PATHS
             {

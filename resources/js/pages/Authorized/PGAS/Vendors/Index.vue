@@ -4,20 +4,19 @@
             <template v-slot:header>
                 <h1 class="component-title">Vendors</h1>
             </template>
-            <basic-table
+            <vendor-table
                 class="text-center"
                 v-if="items != null"
                 :items="items"
                 :fields="fields"
-            ></basic-table>
-            <!-- <b-button variant="outline-primary" @click="openCreateAccount"> Create Account </b-button> -->
+            ></vendor-table>
         </b-card>
-        <!-- <create-account></create-account> -->
     </div>
 </template>
 
 <script>
-import basicTable from "../../../../components/public/BasicTable";
+// import basicTable from "../../../../components/public/BasicTable";
+import vendorTable from "./Index/VendorTable";
 
 export default {
     data() {
@@ -27,8 +26,7 @@ export default {
         };
     },
     components: {
-        "basic-table": basicTable
-        // "create-account": createAccount
+        "vendor-table": vendorTable
     },
     methods: {
         loadItems() {
@@ -37,7 +35,7 @@ export default {
                     item_name: "ABC 123",
                     registered_address: "3390 West Vigan St Sampaloc Manila",
                     status: "For Approval",
-                    action: "Edit, Delete",
+                    action: "",
                     item_params: {
                         link: "account_show",
                         id: 5
@@ -47,10 +45,40 @@ export default {
                     item_name: "DEF 456",
                     registered_address: "123 White St. East Capitol, Pasig",
                     status: "Approved",
-                    action: "Edit, Delete",
+                    action: "",
                     item_params: {
                         link: "account_show",
                         id: 7
+                    }
+                },
+                {
+                    item_name: "HIJ 789",
+                    registered_address: "457 Black St. Mandaluyong",
+                    status: "For Approval",
+                    action: "",
+                    item_params: {
+                        link: "account_show",
+                        id: 6
+                    }
+                },
+                {
+                    item_name: "KLM 123",
+                    registered_address: "1776 Red St. San Juan City",
+                    status: "For Revision",
+                    action: "",
+                    item_params: {
+                        link: "account_show",
+                        id: 2
+                    }
+                },
+                {
+                    item_name: "NOP 456",
+                    registered_address: "412 Blue St. Cavite City",
+                    status: "Approved",
+                    action: "",
+                    item_params: {
+                        link: "account_show",
+                        id: 3
                     }
                 }
             ];

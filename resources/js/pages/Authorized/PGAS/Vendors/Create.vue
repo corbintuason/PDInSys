@@ -17,7 +17,7 @@
                 <h1 class="component-title">Vendor Accreditation</h1>
             </template>
             <b-card-text>
-                <b-tabs content-class="mt-3" fill>
+                <b-tabs v-model="tabIndex" content-class="mt-3" fill>
                     <b-tab title="Vendor Details" active>
                         <!-- Vendor Details -->
                         <vendor-details :form="form"></vendor-details>
@@ -37,6 +37,13 @@
                 </b-tabs>
             </b-card-text>
         </b-card>
+        <div class="row">
+            <div class="col-md-12">
+                <b-button variant="primary" block @click="tabIndex++"
+                    >Next</b-button
+                >
+            </div>
+        </div>
     </div>
 </template>
 
@@ -48,7 +55,8 @@ import accreditationDetails from "./Create/AccreditationDetails";
 export default {
     data() {
         return {
-            my_steps: ["Create", "Approve"]
+            my_steps: ["Create", "Approve"],
+            tabIndex: 1
         };
     },
     components: {

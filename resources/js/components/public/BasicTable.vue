@@ -2,26 +2,16 @@
     <b-container fluid>
         <!-- User Interface controls -->
         <b-row>
-            <b-col md="6" lg="6" class="my-1"
-                ><b-form-group label-for="perPageSelect" class="mb-0 col-md-2">
-                    <b-form-select
-                        v-model="perPage"
-                        id="perPageSelect"
-                        size="sm"
-                        :options="pageOptions"
-                    ></b-form-select> </b-form-group
-            ></b-col>
-
-            <b-col sm="5" md="6" class="my-1 text-right">
-                <b-form-group class="mb-0 col-md-12">
-                    <b-button variant="primary"
-                        ><i class="fas fa-sync"></i
-                    ></b-button>
-                </b-form-group>
-            </b-col>
-
+            <b-col lg="6" class="my-1"></b-col>
             <b-col lg="6" class="my-1">
-                <b-form-group label-size="sm" class="mb-0 col-md-5">
+                <b-form-group
+                    label="Filter"
+                    label-cols-sm="3"
+                    label-align-sm="right"
+                    label-size="sm"
+                    label-for="filterInput"
+                    class="mb-0"
+                >
                     <b-input-group size="sm">
                         <b-form-input
                             v-model="filter"
@@ -37,27 +27,45 @@
                     </b-input-group>
                 </b-form-group>
             </b-col>
-            <b-col lg="6" class="my-1 text-right">
-                <b-form-group class="col-md-12">
-                    <router-link
-                        class="text-white"
-                        :to="{ name: 'vendor_create' }"
-                    >
-                        <b-button variant="success"
-                            ><i class="fas fa-plus">
-                                Create Vendor
-                            </i></b-button
-                        >
-                    </router-link>
+
+            <b-col lg="6" class="my-1"></b-col>
+
+            <b-col sm="5" md="6" class="my-1">
+                <b-form-group
+                    label="Per page"
+                    label-cols-sm="6"
+                    label-cols-md="4"
+                    label-cols-lg="3"
+                    label-align-sm="right"
+                    label-size="sm"
+                    label-for="perPageSelect"
+                    class="mb-0"
+                >
+                    <b-form-select
+                        v-model="perPage"
+                        id="perPageSelect"
+                        size="sm"
+                        :options="pageOptions"
+                    ></b-form-select>
                 </b-form-group>
+            </b-col>
+
+            <b-col sm="7" md="6" class="my-1">
+                <b-pagination
+                    v-model="currentPage"
+                    :total-rows="totalRows"
+                    :per-page="perPage"
+                    align="fill"
+                    size="sm"
+                    class="my-0"
+                ></b-pagination>
             </b-col>
         </b-row>
 
         <!-- Main table element -->
         <b-table
             show-empty
-            striped
-            hover
+            small
             stacked="md"
             :items="items"
             :fields="fields"
@@ -82,19 +90,6 @@
                 </router-link>
             </template>
         </b-table>
-        <div class="row">
-            <div class="col-md-9 col-sm-9"></div>
-            <b-col class="my-1" sm="3" md="3">
-                <b-pagination
-                    v-model="currentPage"
-                    :total-rows="totalRows"
-                    :per-page="perPage"
-                    align="fill"
-                    size="sm"
-                    class="my-0"
-                ></b-pagination>
-            </b-col>
-        </div>
     </b-container>
 </template>
 
@@ -145,9 +140,3 @@ export default {
     }
 };
 </script>
-
-<style lang="scss">
-* {
-    font-family: "Lato";
-}
-</style>

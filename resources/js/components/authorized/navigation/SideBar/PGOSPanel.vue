@@ -108,6 +108,20 @@
                             <i class="far fa-dot-circle nav-icon"></i>
                             <p>Mandate</p>
                         </a>
+                        <ul
+                            class="nav nav-treeview sidebar-links"
+                            style="display: none;"
+                        >
+                            <li class="nav-item">
+                                <router-link
+                                    :to="{ name: 'mandate_index' }"
+                                    class="nav-link"
+                                >
+                                    <i class="far fa-dot-circle nav-icon"></i>
+                                    <p>View Mandate</p>
+                                </router-link>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">

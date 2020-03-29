@@ -35,11 +35,6 @@
                 </div>
             </div>
         </div>
-        <div>
-            <b-button class="font-weight-bold" block variant="primary"
-                >Next</b-button
-            >
-        </div>
     </div>
 </template>
 
