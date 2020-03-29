@@ -4,22 +4,22 @@
       <template v-slot:header>
         <h1 class="component-title">Accounts and Clients</h1>
       </template>
-      <basic-table v-if="items!=null" :items="items" :fields="fields"></basic-table>
-      <!-- <b-button variant="outline-primary" @click="openCreateAccount"> Create Account </b-button> -->
+      <b-card-body>
+        <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
+        {{accounts}}
+      </b-card-body>
     </b-card>
-    <!-- <create-account></create-account> -->
   </div>
 </template>
 
 <script>
 import basicTable from "../../../../components/public/BasicTable";
-// import createAccount from "../../../../components/public/CreateAccount";
-
 export default {
   data() {
     return {
-      items: null,
-      fields: null
+      items: [],
+      fields: null,
+      accounts: null,
     };
   },
   components: {
@@ -28,24 +28,38 @@ export default {
   },
   methods: {
     loadItems() {
-      this.items = [
-        {
-          item_name: "a",
-          status: "Re-Published",
-          item_params: {
-            link: "account_show",
-            id: 5
-          }
-        },
-        {
-          item_name: "seven",
-          status: "Re-Published",
-          item_params: {
-            link: "account_show",
-            id: 7
-          }
-        }
-      ];
+      axios.get("/api/account").then(response => {
+        const accounts = response.data.data;
+        this.accounts = response.data.data;
+        accounts.forEach(account => {
+          this.items.push({
+            item_name: account.registered_name,
+            status: account.status,
+            item_params: {
+              link: "account_show",
+              id: account.id
+            }
+          });
+        })
+      });
+      // this.items = [
+      //   {
+      //     item_name: "a",
+      //     status: "Re-Published",
+      //     item_params: {
+      //       link: "account_show",
+      //       id: 5
+      //     }
+      //   },
+      //   {
+      //     item_name: "seven",
+      //     status: "Re-Published",
+      //     item_params: {
+      //       link: "account_show",
+      //       id: 7
+      //     }
+      //   }
+      // ];
     },
     loadFields() {
       this.fields = [

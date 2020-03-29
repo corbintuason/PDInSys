@@ -30,7 +30,7 @@
         "@fullcalendar/vue": "^4.4.0",
         "admin-lte": "^3.0.2",
         "bootstrap-vue": "^2.5.0",
-        "laravel-vue-datatable": "^0.5.7",
+        "gulp": "^4.0.2",
         "laravel-vue-pagination": "^2.3.1",
         "sweetalert2": "^9.7.2",
         "vue-cli": "^2.9.6",

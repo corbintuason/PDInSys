@@ -16,4 +16,12 @@ class Account extends JsonResource
     {
         return parent::toArray($request);
     }
+
+    public function with($request){
+        return [
+            'relationships' => [
+                'user' => $this->user
+            ],
+        ];
+    }
 }

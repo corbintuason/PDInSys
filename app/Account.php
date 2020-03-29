@@ -15,6 +15,7 @@ class Account extends Model
         'registered_name',
         'registered_address',
         'registered_tin',
+        'status',
         'terms_of_payment',
         'payment_milestone',
         'company_tel_number',
@@ -22,7 +23,9 @@ class Account extends Model
         'accrediation_status',
         "brands",
         "departments",
-        'clients'
+        'clients',
+        'creator_id',
+        'change_logs'
     ];
 
     /**
@@ -48,6 +51,11 @@ class Account extends Model
         'brands'=> 'array',
         'departments'=> 'array',
         'clients'=> 'array',
+        'change_logs' => 'array'
     ];
+    
 
+    public function user(){
+        return $this->belongsTo("App\User", "creator_id");
+    }
 }

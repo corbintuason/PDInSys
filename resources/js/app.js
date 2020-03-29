@@ -30,10 +30,6 @@ const router = new VueRouter({
     routes 
 });
 
-import DataTable from 'laravel-vue-datatable';
-
-Vue.use(DataTable);
-
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 import StepProgress from 'vue-step-progress';

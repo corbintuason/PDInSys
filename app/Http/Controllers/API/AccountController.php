@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Account as AccountResource;
+use App\Http\Resources\User as UserResource;
 use App\Account;
+use App\User;
 
 class AccountController extends Controller
 {
@@ -43,10 +45,17 @@ class AccountController extends Controller
         'registered_name' => 'required',
         'registered_address' => 'required',
         ]);
+        
+        // STATUS IS SET TO FOR APPROVAL
+        $user = new UserResource(User::findOrFail($request->creator_id));
+        $date_today = date('Y/m/d');
+        $status = "For Approval";
+        $change_log = [$date_today.": User " . $user->last_name . " has created this account"];
         $account = Account::create([
         'registered_name' => $request['registered_name'],
         'registered_address' => $request['registered_address'],
         'registered_tin'=> $request['registered_tin'],
+        'status' => $status,
         'terms_of_payment'=> $request['terms_of_payment'],
         'payment_milestone'=> $request['payment_milestone'],
         'company_tel_number'=> $request['company_tel_number'],
@@ -55,8 +64,11 @@ class AccountController extends Controller
         "brands"=> $request["brands"],
         "departments"=> $request["departments"],
         'clients'=> $request['clients'],
+        'creator_id' => $request['creator_id'],
+        'change_logs' => $change_log
         ]);
-        return response($account);
+
+        return new AccountResource($account);
     }
 
     /**
@@ -67,7 +79,8 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        //
+        return new AccountResource(Account::findorFail($id));
+
     }
 
     /**
@@ -76,9 +89,10 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+      
+        //  return response()->json($blood_request);
     }
 
     /**
@@ -90,6 +104,23 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $account = Account::findOrFail($id);
+        $this->validate($request,[
+            'status' => 'required|string|max:191',
+         ]);
+        //  $change_logs = $account->change_logs;
+        //  dd($request);
+        //  $user = new UserResource(User::findOrFail($request->updator_id));
+        //  $date_today = date('Y/m/d');
+        //  $status = "For Approval";
+        //  $change_log = $date_today.": User " . $user->last_name . " has updated the status of this account to " . $request->status;
+
+        //  array_push($change_logs, $change_log);
+         $account->update([
+             'status' => $request['status'],
+         ]);
+        
+         return new AccountResource($account);
         //
     }
 

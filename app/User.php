@@ -40,4 +40,8 @@ class User extends Authenticatable
         'job_details' => 'object',
         'module_access' => 'array'
     ];
+
+    public function accounts(){
+        return $this->hasMany("App/Account");
+    }
 }

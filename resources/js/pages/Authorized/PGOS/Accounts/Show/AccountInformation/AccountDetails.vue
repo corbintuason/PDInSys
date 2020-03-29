@@ -1,0 +1,80 @@
+<template>
+  <div>
+    <div id="account_details">
+      <h1 class="component-sub-header">Account Details</h1>
+      <div class="component-sub-content">
+        <div class="row">
+          <div class="col-md-6">
+            <!-- Single Layer -->
+            <b-form-group v-for="(builder, builder_index) in account_builder" :key="builder_index" :label="builder.label" label-class="font-weight-bold">
+              <!-- Non Address -->
+              <template v-if="builder.model != 'registered_address'">
+              <b-form-input :disabled="mode=='Show'" v-if="builder.form == 'input'" :type="builder.type" v-model="account[builder.model]" :placeholder="builder.placeholder"></b-form-input>
+              </template>
+              <!-- Address -->
+              <template v-else>
+                <b-form-input :disabled="mode=='Show'" v-for="(section, section_index) in builder.sections" :key="section_index" :type="section.type" v-model="account['registered_address'][section.model]" :placeholder="section.placeholder"></b-form-input>
+              </template>
+            </b-form-group>
+            <!-- Double Layer -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default{
+  data(){
+    return{
+      account_builder:[
+        {
+          model: "registered_name",
+          label: "Registered Name",
+          form: "input",
+          type: "text",
+        },
+        {
+          label: "Registered Address",
+          model: "registered_address",
+          sections:[
+            {
+              type: "text",
+              model: "no_st_bldg",
+              placeholder: "No. / Street / Bldg"
+            },
+            {
+              type: "text",
+              model: "barangay",
+              placeholder: "Barangay"
+            },
+            {
+              type: "text",
+              model: "city",
+              placeholder: "City"
+            },
+            {
+              type: "text",
+              model: "zip_code",
+              placeholder: "Zip Code"
+            }
+          ]
+        },
+
+        {
+          model: "registered_tin",
+          label: "Registered TIN",
+          form: "input",
+          type: "text",
+          placeholder: "XXX-XXX-XXX-XXXXX"
+        }
+      ]
+    }
+  },
+  props:{
+    account: Object,
+    mode: String,
+  }
+}
+</script>

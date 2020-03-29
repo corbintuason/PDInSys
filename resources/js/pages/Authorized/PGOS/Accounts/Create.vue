@@ -59,6 +59,8 @@ export default {
         brands: [""],
         departments: [""],
         clients: [],
+
+        creator_id: this.$store.state.user.data.id
       }
     };
   },
@@ -78,7 +80,7 @@ export default {
         .fire({
           title: "Create Account",
           icon: "question",
-          confirmButtonText: "Create User",
+          confirmButtonText: "Create Account",
           text: "Please check the details provided.",
           showLoaderOnConfirm: true,
           preConfirm: () => {
@@ -109,7 +111,7 @@ export default {
               icon: "success",
               timer: "2500",
               onClose: () => {
-                // this.$router.push({ name : "Dashboard"});
+                this.$router.push({ name : "account_index"});
               }
             });
           }

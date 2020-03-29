@@ -25,6 +25,7 @@
 import adminNav from "../../../components/authorized/navigation/AdminNav";
 import userDetails from "./Add User/UserDetails";
 import moduleAccess from "./Add User/ModuleAccess";
+import form from "../../../mixins/form"
 export default {
   data() {
     return {
@@ -48,6 +49,7 @@ export default {
       }
     };
   },
+  mixins:[form],
   components: {
     "admin-nav": adminNav,
     "module-access": moduleAccess,
@@ -55,6 +57,7 @@ export default {
   },
   methods: {
     createUser() {
+      this.createItem();
       swal
         .fire({
           title: "Create User",

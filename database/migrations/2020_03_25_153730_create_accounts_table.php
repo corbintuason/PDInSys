@@ -17,6 +17,7 @@ class CreateAccountsTable extends Migration
             $table->bigIncrements('id');
             $table->string('registered_name');
             $table->json('registered_address');
+            $table->string('status');
             $table->string('registered_tin')->nullable();
             $table->json('terms_of_payment')->nullable();
             $table->json('payment_milestone')->nullable();
@@ -26,6 +27,9 @@ class CreateAccountsTable extends Migration
             $table->json("brands");
             $table->json("departments");
             $table->json('clients');
+            $table->json("change_logs");
+
+            $table->integer('creator_id');
             $table->timestamps();
         });
     }
