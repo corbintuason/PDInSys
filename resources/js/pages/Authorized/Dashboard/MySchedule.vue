@@ -4,23 +4,25 @@
       <h1 class="component-title">My Schedule</h1>
     </template>
     <b-card-body>
-      <basic-table :items="items" :fields="fields"></basic-table>
+      <calendar :plugins="calendarPlugins"></calendar>
     </b-card-body>
   </b-card>
 </template>
 
 <script>
-import basicTable from "../../public/BasicTable"
+import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
 export default {
   data() {
     return {
       items: null,
-      fields: null
+      fields: null,
+            calendarPlugins: [ dayGridPlugin ]
     };
   },
 
   components:{
-      "basic-table": basicTable
+    "calendar": FullCalendar
   },
   methods: {
       loadItemsFields(){

@@ -1,21 +1,15 @@
 <template>
-    <div>
-        <b-card class="mt-5 table">
-            <template v-slot:header>
-                <h1 class="component-title">Vendors</h1>
-            </template>
-            <vendor-table
-                class="text-center"
-                v-if="items != null"
-                :items="items"
-                :fields="fields"
-            ></vendor-table>
-        </b-card>
-    </div>
+  <div>
+    <b-card class="mt-5 table">
+      <template v-slot:header>
+        <h1 class="component-title">Vendors</h1>
+      </template>
+      <vendor-table class="text-center" v-if="items != null" :items="items" :fields="fields"></vendor-table>
+    </b-card>
+  </div>
 </template>
 
 <script>
-// import basicTable from "../../../../components/public/BasicTable";
 import vendorTable from "./Index/VendorTable";
 
 export default {

@@ -1,36 +1,33 @@
 <template>
-    <b-card
-        class="text-center notification-card"
-        header-bg-variant="primary"
-        header-text-variant="white"
-    >
-        <template v-slot:header>
-            <h1 class="component-title">Notification Center</h1>
-        </template>
-        <b-card-text>
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Project Name</th>
-                                <th>Item</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <b-alert show variant="dark"
-                        >This feature is unavailable
-                    </b-alert>
-                    <!-- <basic-table :fields="fields" :items="items"></basic-table> -->
-                </div>
-            </div>
-        </b-card-text>
-    </b-card>
+  <b-card
+    class="text-center notification-card"
+    header-bg-variant="primary"
+    header-text-variant="white"
+  >
+    <template v-slot:header>
+      <h1 class="component-title">Notification Center</h1>
+    </template>
+    <b-card-text>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Project Name</th>
+                <th>Item</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+          </table>
+          <b-alert show variant="dark">This feature is unavailable</b-alert>
+          <!-- <basic-table :fields="fields" :items="items"></basic-table> -->
+        </div>
+      </div>
+    </b-card-text>
+  </b-card>
 </template>
 
 <script>
-import basicTable from "../../public/BasicTable";
 export default {
     data() {
         return {
@@ -70,9 +67,6 @@ export default {
         };
     },
 
-    components: {
-        "basic-table": basicTable
-    },
     methods: {
         loadItemsFields() {
             (this.items = []), (this.fields = []);

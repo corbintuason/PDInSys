@@ -1,33 +1,30 @@
 <template>
-    <b-card class="text-center advisories-card">
-        <template v-slot:header>
-            <h1 class="component-title advisories-title">Advisories</h1>
-        </template>
-        <b-card-text>
-            <div class="row">
-                <div class="col-md-12">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Department</th>
-                                <th>Advisory Code</th>
-                                <th>Subject</th>
-                                <th>Date Published</th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <b-alert show variant="dark"
-                        >This feature is unavailable
-                    </b-alert>
-                    <!-- <basic-table :fields="fields" :items="items"></basic-table> -->
-                </div>
-            </div>
-        </b-card-text>
-    </b-card>
+  <b-card class="text-center advisories-card">
+    <template v-slot:header>
+      <h1 class="component-title advisories-title">Advisories</h1>
+    </template>
+    <b-card-text>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Department</th>
+                <th>Advisory Code</th>
+                <th>Subject</th>
+                <th>Date Published</th>
+              </tr>
+            </thead>
+          </table>
+          <b-alert show variant="dark">This feature is unavailable</b-alert>
+          <!-- <basic-table :fields="fields" :items="items"></basic-table> -->
+        </div>
+      </div>
+    </b-card-text>
+  </b-card>
 </template>
 
 <script>
-import basicTable from "../../public/BasicTable";
 export default {
     data() {
         return {
@@ -67,9 +64,6 @@ export default {
         };
     },
 
-    components: {
-        "basic-table": basicTable
-    },
     methods: {
         loadItemsFields() {
             (this.items = []), (this.fields = []);

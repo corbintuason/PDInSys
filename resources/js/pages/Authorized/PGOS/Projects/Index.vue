@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import basicTable from "../../../../components/public/BasicTable";
-// import createAccount from "../../../../components/public/CreateAccount";
 
 export default {
   data() {
@@ -21,10 +19,6 @@ export default {
       items: null,
       fields: null
     };
-  },
-  components: {
-    "basic-table": basicTable,
-    // "create-account": createAccount
   },
   methods: {
     loadItems() {

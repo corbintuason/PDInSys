@@ -5,35 +5,22 @@
       <div class="col-md-4">
         <welcome-user></welcome-user>
       </div>
-      <!-- Advisories -->
-
       <div class="col-md-8">
         <notification-center></notification-center>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <!-- Happening Now -->
-        <!-- <happening-now></happening-now> -->
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-4">
-        <!-- My Calendar -->
         <my-calendar></my-calendar>
       </div>
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-6">
-            <div>
-              <happening-now></happening-now>
-            </div>
+            <happening-now></happening-now>
           </div>
           <div class="col-md-6">
-            <div>
-              <company-advisories></company-advisories>
-            </div>
+            <advisories></advisories>
           </div>
         </div>
       </div>
@@ -42,30 +29,35 @@
 </template>
 
 <script>
-import adminNav from "../../components/authorized/navigation/AdminNav";
-import welcomeUser from "../../components/authorized/dashboard/WelcomeUser";
-import notificationCenter from "../../components/authorized/dashboard/NotificationCenter";
-import happeningNow from "../../components/authorized/dashboard/HappeningNow";
-import companyAdvisories from "../../components/authorized/dashboard/Advisories";
-import myCalendar from "../../components/authorized/dashboard/MyCalendar";
-
+import welcomeUser from "./Dashboard/WelcomeUser";
+import notificationCenter from "./Dashboard/NotificationCenter";
+import happeningNow from "./Dashboard/HappeningNow";
+import myCalendar from "./Dashboard/MyCalendar";
+import advisories from "./Dashboard/Advisories"
 export default {
-    data() {
-        return {
-            user: this.$store.state.user
-        };
-    },
-    components: {
-        "admin-nav": adminNav,
-        "welcome-user": welcomeUser,
-        "notification-center": notificationCenter,
-        "happening-now": happeningNow,
-        "my-calendar": myCalendar,
-        "company-advisories": companyAdvisories
-        // "my-schedule": mySchedule
-    },
-    computed: {},
-    methods: {},
-    mounted() {}
+  data() {
+    return {
+      user: this.$store.state.user
+    };
+  },
+  components: {
+    "welcome-user": welcomeUser,
+    "notification-center": notificationCenter,
+    "happening-now": happeningNow,
+    "my-calendar": myCalendar,
+    "advisories": advisories
+  },
+  computed: {},
+  methods: {
+    tester(){
+      // this.user.data.module_access.forEach(pdis_module => {
+      //   console.log(pdis_module);
+      // });
+      console.log(typeof this.user.data.job_details)
+    }
+  },
+  mounted() {
+    this.tester();
+  }
 };
 </script>

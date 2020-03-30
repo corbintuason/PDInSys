@@ -46,16 +46,18 @@ class UserController extends Controller
             'last_name' => 'required',
             'first_name' => 'required',
             'middle_name' => 'required',
-            'group' => 'required',
+            'employment_date' => 'required',
+            'birth_date' => 'required',
             'pdem_email' => 'required',
             'pdem_gmail' => 'required',
-            'contact_numbers' => 'required',
-            // 'employment_date' => 'required',
+            'job_details' => 'required',
+            'module_access' => 'required'
+
         ]);
 
         // Generate a random string for default password
         $password = Str::random(5);
-        $validatedData["pdem_email"] = $validatedData["pdem_email"] . "@projectduoevents.com";
+        $validatedData["pdem_email"] = $validatedData["pdem_email"];
         $validatedData["password"] = bcrypt($password);
 
         $user = User::create($validatedData);

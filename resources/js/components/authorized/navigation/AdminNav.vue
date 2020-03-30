@@ -1,7 +1,7 @@
 <template>
     <div>
         <admin-navbar></admin-navbar>
-        <admin-sidebar></admin-sidebar>
+        <admin-sidebar :user="user"></admin-sidebar>
     </div>
 </template>
 
@@ -11,8 +11,10 @@ import AdminNavBar from './AdminNavbar'
 export default{
       data() {
         return {
-            user: {}
         };
+    },
+    props:{
+        user: Object
     },
     components: {
         "admin-navbar": AdminNavBar,

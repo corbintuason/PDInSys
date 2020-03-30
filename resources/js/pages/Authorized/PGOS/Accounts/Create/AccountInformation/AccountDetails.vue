@@ -5,34 +5,18 @@
       <div class="component-sub-content">
         <div class="row">
           <div class="col-md-6">
-            <label>Registered Name</label>
-            <b-input-group>
-              <b-input type="text" v-model="form.registered_name"></b-input>
-            </b-input-group>
-            <label>Registered Address</label>
-            <b-input-group>
-              <b-input type="text" v-model="form.registered_address"></b-input>
-            </b-input-group>
-            <label>Registered TIN</label>
-            <b-input-group>
-              <b-input type="text" v-model="form.registered_tin"></b-input>
-            </b-input-group>
-            <label>Terms of Payment</label>
-            <b-input-group>
-              <b-input type="text" v-model="form.terms_of_payment"></b-input>
-            </b-input-group>
-            <label>Payment Milestone</label>
-            <b-input-group>
-              <b-input type="text" v-model="form.payment_milestone"></b-input>
-            </b-input-group>
-            <label>Company Tel. Number</label>
-            <b-input-group>
-              <b-input type="text" v-model="form.company_tel_number"></b-input>
-            </b-input-group>
-            <label>Company Email Address</label>
-            <b-input-group>
-              <b-input type="email" v-model="form.company_email_address"></b-input>
-            </b-input-group>
+            <!-- Single Layer -->
+            <b-form-group v-for="(builder, builder_index) in account_builder" :key="builder_index" :label="builder.label" label-class="font-weight-bold">
+              <!-- Non Address -->
+              <template v-if="builder.model != 'registered_address'">
+              <b-form-input v-if="builder.form == 'input'" :type="builder.type" v-model="form[builder.model]" :placeholder="builder.placeholder"></b-form-input>
+              </template>
+              <!-- Address -->
+              <template v-else>
+                <b-form-input v-for="(section, section_index) in builder.sections" :key="section_index" :type="section.type" v-model="form['registered_address'][section.model]" :placeholder="section.placeholder"></b-form-input>
+              </template>
+            </b-form-group>
+            <!-- Double Layer -->
           </div>
         </div>
       </div>
@@ -44,7 +28,48 @@
 export default{
   data(){
     return{
+      account_builder:[
+        {
+          model: "registered_name",
+          label: "Registered Name",
+          form: "input",
+          type: "text",
+        },
+        {
+          label: "Registered Address",
+          model: "registered_address",
+          sections:[
+            {
+              type: "text",
+              model: "no_st_bldg",
+              placeholder: "No. / Street / Bldg"
+            },
+            {
+              type: "text",
+              model: "barangay",
+              placeholder: "Barangay"
+            },
+            {
+              type: "text",
+              model: "city",
+              placeholder: "City"
+            },
+            {
+              type: "text",
+              model: "zip_code",
+              placeholder: "Zip Code"
+            }
+          ]
+        },
 
+        {
+          model: "registered_tin",
+          label: "Registered TIN",
+          form: "input",
+          type: "text",
+          placeholder: "XXX-XXX-XXX-XXXXX"
+        }
+      ]
     }
   },
   props:{

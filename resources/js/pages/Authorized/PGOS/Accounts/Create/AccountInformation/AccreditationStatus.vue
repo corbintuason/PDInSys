@@ -24,7 +24,7 @@
               variant="outline-primary"
               block
               @click="addRow(form.accreditation_status)"
-            >Add Contact Number</b-button>
+            >Add Accreditation Status</b-button>
           </div>
         </div>
       </div>
