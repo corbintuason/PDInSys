@@ -106,7 +106,7 @@
             </template>
         </b-table>
         <div class="row">
-            <div class="col-md-2 col-sm-2 text-left">
+            <!-- <div class="col-md-2 col-sm-2 text-left">
                 <b-button variant="dark" size="sm" v-b-modal.modal-1>
                     View Logs
                 </b-button>
@@ -189,8 +189,8 @@
                         </div>
                     </div>
                 </b-modal>
-            </div>
-            <div class="col-md-7"></div>
+            </div> -->
+            <div class="col-md-9"></div>
             <b-col class="my-1" sm="3" md="3">
                 <b-pagination
                     v-model="currentPage"

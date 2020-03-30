@@ -14,6 +14,7 @@
                             <b-input
                                 type="number"
                                 placeholder="000-000-000-00000"
+                                required
                             ></b-input>
                         </b-input-group>
                     </div>
@@ -40,6 +41,7 @@
                             <b-form-select
                                 v-model="selected"
                                 :options="typeOfVat"
+                                required
                             ></b-form-select>
                         </b-input-group>
                     </div>

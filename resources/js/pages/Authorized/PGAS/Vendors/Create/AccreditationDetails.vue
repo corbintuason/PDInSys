@@ -12,7 +12,7 @@
                             <label for="bir-cert">BIR 2303:</label>
                         </div>
                         <div class="col-md-8">
-                            <b-form-file id="bir-cert"></b-form-file>
+                            <b-form-file id="bir-cert" required></b-form-file>
                         </div>
                     </div>
                 </div>
@@ -29,10 +29,10 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-2 mt-1">
-                            <label for="invoice">Invoice:</label>
+                            <label for="invoice">Sales Invoice:</label>
                         </div>
                         <div class="col-md-8">
-                            <b-form-file id="bir-cert"></b-form-file>
+                            <b-form-file id="invoice" required></b-form-file>
                         </div>
                     </div>
                 </div>
@@ -43,6 +43,21 @@
                         </div>
                         <div class="col-md-8">
                             <b-form-file id="sec-cert"></b-form-file>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="row">
+                        <div class="col-md-2 mt-1">
+                            <label for="official-receipt"
+                                >Official Receipt:</label
+                            >
+                        </div>
+                        <div class="col-md-8">
+                            <b-form-file
+                                id="official-receipt"
+                                required
+                            ></b-form-file>
                         </div>
                     </div>
                 </div>

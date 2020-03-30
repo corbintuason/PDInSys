@@ -31,8 +31,7 @@ export default {
         loadItems() {
             this.items = [
                 {
-                    item_name: "ABC 123",
-                    registered_address: "3390 West Vigan St Sampaloc Manila",
+                    item_name: "John Doe",
                     status: "For Approval",
                     action: "",
                     item_params: {
@@ -46,13 +45,7 @@ export default {
             this.fields = [
                 {
                     key: "item_details.name",
-                    label: "Trade Name",
-                    sortable: true,
-                    sortDirection: "desc"
-                },
-                {
-                    key: "registered_address",
-                    label: "Registered Address",
+                    label: "Full Name",
                     sortable: true,
                     sortDirection: "desc"
                 },

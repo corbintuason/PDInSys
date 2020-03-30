@@ -38,10 +38,15 @@
             </b-card-text>
         </b-card>
         <div class="row">
-            <div class="col-md-12">
-                <b-button variant="primary" block @click="tabIndex++"
-                    >Next</b-button
-                >
+            <div class="col-md-12 text-center">
+                <b-button-group class="mt-1">
+                    <b-button variant="primary" @click="tabIndex--"
+                        >Previous</b-button
+                    >
+                    <b-button variant="primary" @click="tabIndex++"
+                        >Next</b-button
+                    >
+                </b-button-group>
             </div>
         </div>
     </div>

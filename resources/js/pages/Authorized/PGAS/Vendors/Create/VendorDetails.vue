@@ -11,7 +11,7 @@
                     <div class="form-group">
                         <label>Registered Vendor Name</label>
                         <b-input-group>
-                            <b-input type="text"></b-input>
+                            <b-input type="text" required></b-input>
                         </b-input-group>
                     </div>
                 </div>
@@ -23,6 +23,7 @@
                             <b-form-select
                                 v-model="selected"
                                 :options="lineOfBusiness"
+                                required
                             ></b-form-select>
                         </b-input-group>
                     </div>
@@ -35,7 +36,7 @@
                     <div class="form-group">
                         <label>Trade Name</label>
                         <b-input-group>
-                            <b-input type="text"></b-input>
+                            <b-input type="text" required></b-input>
                         </b-input-group>
                     </div>
                 </div>
@@ -47,10 +48,12 @@
                             <b-input
                                 type="text"
                                 placeholder="Last Name"
+                                required
                             ></b-input>
                             <b-input
                                 type="text"
                                 placeholder="First Name"
+                                required
                             ></b-input>
                             <b-input
                                 type="text"
@@ -87,6 +90,7 @@
                             <b-input
                                 type="number"
                                 placeholder="09xx-xxxx-xxx"
+                                required
                             ></b-input>
                         </b-input-group>
                     </div>
@@ -102,6 +106,7 @@
                             <b-form-select
                                 v-model="selected"
                                 :options="typeOfBusiness"
+                                required
                             ></b-form-select>
                         </b-input-group>
                     </div>
@@ -114,6 +119,7 @@
                             <b-input
                                 type="text"
                                 placeholder="email@email.com"
+                                required
                             ></b-input>
                         </b-input-group>
                     </div>
