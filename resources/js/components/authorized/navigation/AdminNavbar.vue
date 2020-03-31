@@ -81,7 +81,7 @@ export default {
 
 <style lang="scss" scoped>
 .notification-badge {
-    background: rgba(247, 148, 44, 0.8);
-    margin-left: 10px;
+  background: rgba(247, 148, 44, 0.8);
+  margin-left: 10px;
 }
 </style>
