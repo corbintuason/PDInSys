@@ -35,7 +35,9 @@
         </strong>
       </div>
       <div class="mt-1 ml-1">
-        <h5 class="text-uppercase font-weight-bold text-primary">{{ user.data.job_details.group }}</h5>
+        <h5
+          class="text-uppercase font-weight-bold text-primary"
+        >{{ user.data.job_details.position }}</h5>
       </div>
     </b-card-text>
   </b-card>

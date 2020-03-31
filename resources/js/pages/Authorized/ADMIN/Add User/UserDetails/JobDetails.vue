@@ -47,7 +47,7 @@
           v-for="(position, position_index) in selected_department.positions"
           :key="position_index"
           :value="position"
-        >{{position }}</b-form-select-option>
+        >{{ position.name }}</b-form-select-option>
       </b-form-select>
 
       <label>Job Level</label>
@@ -105,9 +105,14 @@ export default {
 	  selected_department(){
 		  this.new_user.job_details.office = this.selected_office.name;
 		  this.new_user.job_details.group = this.selected_group.name;
-		  this.new_user.job_details.department = this.selected_department;
-		  this.new_user.job_details.position = this.selected_position;
-	  }
+		  this.new_user.job_details.department = this.selected_department.name;
+    },
+    selected_position(){
+      this.new_user.job_details.office = this.selected_office.name;
+		  this.new_user.job_details.group = this.selected_group.name;
+		  this.new_user.job_details.department = this.selected_department.name;
+		  this.new_user.job_details.position = this.selected_position.name;
+    }
   },
   mixins: [validators],
   props: {

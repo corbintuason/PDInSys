@@ -16,17 +16,26 @@ export default new Vuex.Store({
                             {
                                 name: "Accounts and Business Development",
                                 positions: [
-                                    "Head - Accounts & Business Development",
-                                    "Senior Accounts Manager",
-                                    "Accounts Manager",
+                                    {
+                                        name:
+                                            "Head - Accounts & Business Development",
+                                    },
+                                    { name: "Senior Accounts Manager" },
+                                    { name: "Accounts Manager" },
                                 ],
                             },
                             {
                                 name: "Project Execution",
                                 positions: [
-                                    "Head - Project Execution Department",
-                                    "Assoc. Head - Project Execution Department",
-                                    "Project Manager",
+                                    {
+                                        name:
+                                            "Head - Project Execution Department",
+                                    },
+                                    {
+                                        name:
+                                            "Assoc. Head - Project Execution Department",
+                                    },
+                                    { name: "Project Manager" },
                                 ],
                             },
                         ],
@@ -37,15 +46,15 @@ export default new Vuex.Store({
                             {
                                 name: "Copy and Digital Department",
                                 positions: [
-                                    "Senior Creative Writer",
-                                    "Junior Creative Writer",
+                                    { name: "Senior Creative Writer" },
+                                    { name: "Junior Creative Writer" },
                                 ],
                             },
                             {
                                 name: "Design and Multimedia",
                                 positions: [
-                                    "Senior Graphic Artist",
-                                    "Junior Graphic Artist",
+                                    { name: "Senior Graphic Artist" },
+                                    { name: "Junior Graphic Artist" },
                                 ],
                             },
                         ],
@@ -117,21 +126,27 @@ export default new Vuex.Store({
                             {
                                 name: "Assets and Property Management",
                                 positions: [
-                                    "Head - Assets & Property Management ",
-                                    "Administrative Officer",
-                                    "Administrative Assistant",
-                                    "Messenger / Admin Staff",
-                                    "Warehouse Officer",
-                                    "Fabrication Assistant",
-                                    "Executive Driver",
-                                    "Company Driver",
+                                    {
+                                        name:
+                                            "Head - Assets & Property Management ",
+                                    },
+                                    { name: "Administrative Officer" },
+                                    { name: "Administrative Assistant" },
+                                    { name: "Messenger / Admin Staff" },
+                                    { name: "Warehouse Officer" },
+                                    { name: "Fabrication Assistant" },
+                                    { name: "Executive Driver" },
+                                    { name: "Company Driver" },
                                 ],
                             },
                             {
                                 name: "Human Resource",
                                 positions: [
-                                    "Head - Human Resource Department",
-                                    "Human Resource Officer",
+                                    {
+                                        name:
+                                            "Head - Human Resource Department",
+                                    },
+                                    { name: "Human Resource Officer" },
                                 ],
                             },
                         ],
@@ -142,15 +157,15 @@ export default new Vuex.Store({
                             {
                                 name: "Accounts Receivable Department",
                                 positions: [
-                                    "Accounts Receivable Officer",
-                                    "Accounts Payable Assistant",
+                                    { name: "Accounts Receivable Officer" },
+                                    { name: "Accounts Payable Assistant" },
                                 ],
                             },
                             {
                                 name: "Accounts Payable Department",
                                 positions: [
-                                    "Accounts Payable Officer",
-                                    "Accounts Payable Assistant",
+                                    { name: "Accounts Payable Officer" },
+                                    { name: "Accounts Payable Assistant" },
                                 ],
                             },
                         ],

@@ -58,7 +58,7 @@ export default {
         },
         module_access: []
       },
-      tabIndex: 1
+      tabIndex: 0
     };
   },
   mixins:[form],
