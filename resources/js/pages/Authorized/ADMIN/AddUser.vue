@@ -5,7 +5,7 @@
         <h1 class="component-title">Add User</h1>
       </template>
       <b-card-text>
-        <b-tabs content-class="mt-3" fill>
+        <b-tabs v-model="tabIndex" content-class="mt-3" fill>
           <b-tab title="User Details" acive>
             <user-details :new_user="new_user"></user-details>
           </b-tab>
@@ -13,8 +13,18 @@
             <module-access :new_user="new_user" :module_access="new_user.module_access"></module-access>
           </b-tab>
         </b-tabs>
-        {{new_user}}
-        <b-button variant="success" block @click="createUser" class="mt-3">Create User</b-button>
+        <div class="row mt-4">
+          <div class="col-md-12 text-center">
+            <b-button-group class="mt-1">
+              <b-button variant="primary" @click="tabIndex--">Previous</b-button>
+              <b-button variant="primary" @click="tabIndex++">Next</b-button>
+            </b-button-group>
+          </div>
+        </div>
+        {{ new_user }}
+        <div>
+          <b-button variant="success" block @click="createUser" class="mt-3">Create User</b-button>
+        </div>
       </b-card-text>
     </b-card>
   </div>
@@ -43,10 +53,12 @@ export default {
           office: null,
           group: null,
           department: null,
+          position: null,
           job_level: null
         },
         module_access: []
-      }
+      },
+      tabIndex: 1
     };
   },
   mixins:[form],

@@ -2,11 +2,17 @@
   <div>
     <!-- PERSONAL INFORMATION -->
     <personal-information :new_user="new_user"></personal-information>
-    <!-- CONTACT DETAILS -->
-    <contact-details :new_user="new_user" class="mt-3"></contact-details>
-    <!-- JOB DETAILS -->
-    <job-details :new_user="new_user" class ="mt-3"></job-details>
 
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <!-- JOB DETAILS -->
+        <job-details :new_user="new_user"></job-details>
+      </div>
+      <div class="col-md-6">
+        <!-- CONTACT DETAILS -->
+        <contact-details :new_user="new_user"></contact-details>
+      </div>
+    </div>
   </div>
 </template>
 <script>

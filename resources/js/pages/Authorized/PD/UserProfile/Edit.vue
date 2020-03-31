@@ -1,187 +1,132 @@
 <template>
-    <div>
-        <b-breadcrumb class="mt-3">
-            <b-breadcrumb-item href="/">
-                Dashboard
-            </b-breadcrumb-item>
-            <b-breadcrumb-item active>My Profile</b-breadcrumb-item>
-        </b-breadcrumb>
-        <div class="row">
-            <div class="col-md-3 employee-info-card">
-                <b-card>
-                    <template v-slot:header>
-                        <h1 class="component-title text-center">
-                            Employee Info
-                        </h1>
-                    </template>
-                    <template v-slot:footer> </template>
-                    <div class="text-center">
-                        <div class="mb-4">
-                            <img
-                                src="/img/logo/pd-logo.png"
-                                width="80"
-                                height="110"
-                            />
-                        </div>
-                        <div class="row">
-                            <!-- Initials -->
-                            <div class="col-md-6 text-right">
-                                <label>Initials:</label>
-                            </div>
-                            <div class="col-md-6 text-left">
-                                <label>VTM</label>
-                            </div>
-                            <!-- Group -->
-                            <div class="col-md-6 text-right">
-                                <label>Group:</label>
-                            </div>
-                            <div class="col-md-6 text-left">
-                                <label>Executive</label>
-                            </div>
-                            <!-- Department -->
-                            <div class="col-md-6 text-right">
-                                <label>Department:</label>
-                            </div>
-                            <div class="col-md-6 text-left">
-                                <label>PD</label>
-                            </div>
-                            <!-- Position -->
-                            <div class="col-md-6 text-right">
-                                <label>Position:</label>
-                            </div>
-                            <div class="col-md-6 text-left">
-                                <label>CEO/President</label>
-                            </div>
-                            <!-- Job Level -->
-                            <div class="col-md-6 text-right">
-                                <label>Job Level:</label>
-                            </div>
-                            <div class="col-md-6 text-left">
-                                <label>10</label>
-                            </div>
-                            <!-- Role in System -->
-                            <div class="col-md-6 text-right">
-                                <label>Role in System:</label>
-                            </div>
-                            <div class="col-md-6 text-left">
-                                <label>Approver</label>
-                            </div>
-                        </div>
-                    </div>
-                </b-card>
-            </div>
+  <div>
+    <b-breadcrumb class="mt-3">
+      <b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+      <b-breadcrumb-item active>My Profile</b-breadcrumb-item>
+    </b-breadcrumb>
+    <div class="row">
+      <div class="col-md-4 employee-info-card">
+        <b-card>
+          <template v-slot:header>
+            <h1 class="component-title text-center">Employee Info</h1>
+          </template>
+          <template v-slot:footer></template>
+          <employee-info></employee-info>
+        </b-card>
+      </div>
 
-            <div class="col-md-9">
-                <b-card class="card">
-                    <template v-slot:header>
-                        <h1 class="component-title">User Profile Settings</h1>
-                    </template>
-                    <div class="row">
-                        <div class="col-3 left-side-settings">
-                            <div
-                                class="nav flex-column nav-pills"
-                                id="v-pills-tab"
-                                role="tablist"
-                                aria-orientation="vertical"
-                            >
-                                <a
-                                    class="nav-link active"
-                                    id="v-pills-account-settings-tab"
-                                    data-toggle="pill"
-                                    href="#v-pills-account-settings"
-                                    role="tab"
-                                    aria-controls="v-pills-account-settings"
-                                    aria-selected="true"
-                                    >Account Settings</a
-                                >
-                                <a
-                                    class="nav-link"
-                                    id="v-pills-change-password-tab"
-                                    data-toggle="pill"
-                                    href="#v-pills-change-password"
-                                    role="tab"
-                                    aria-controls="v-pills-change-password"
-                                    aria-selected="false"
-                                    >Change Password</a
-                                >
-                                <a
-                                    class="nav-link"
-                                    id="v-pills-activity-log-tab"
-                                    data-toggle="pill"
-                                    href="#v-pills-activity-log"
-                                    role="tab"
-                                    aria-controls="v-pills-activity-log"
-                                    aria-selected="false"
-                                    >Activity Log</a
-                                >
-                            </div>
-                        </div>
-                        <div class="col-9">
-                            <div class="tab-content" id="v-pills-tabContent">
-                                <div
-                                    class="tab-pane fade show active"
-                                    id="v-pills-account-settings"
-                                    role="tabpanel"
-                                    aria-labelledby="v-pills-account-settings-tab"
-                                >
-                                    <account-settings></account-settings>
-                                </div>
-                                <div
-                                    class="tab-pane fade"
-                                    id="v-pills-change-password"
-                                    role="tabpanel"
-                                    aria-labelledby="v-pills-change-password-tab"
-                                >
-                                    <change-password></change-password>
-                                </div>
-                                <div
-                                    class="tab-pane fade"
-                                    id="v-pills-activity-log"
-                                    role="tabpanel"
-                                    aria-labelledby="v-pills-activity-log-tab"
-                                >
-                                    <activity-log></activity-log>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </b-card>
+      <div class="col-md-8">
+        <b-card class="card">
+          <template v-slot:header>
+            <h1 class="component-title">User Profile Settings</h1>
+          </template>
+          <div class="row">
+            <div class="col-3 left-side-settings">
+              <div
+                class="nav flex-column nav-pills"
+                id="v-pills-tab"
+                role="tablist"
+                aria-orientation="vertical"
+              >
+                <a
+                  class="nav-link active"
+                  id="v-pills-account-settings-tab"
+                  data-toggle="pill"
+                  href="#v-pills-account-settings"
+                  role="tab"
+                  aria-controls="v-pills-account-settings"
+                  aria-selected="true"
+                >Account Settings</a>
+                <a
+                  class="nav-link"
+                  id="v-pills-change-password-tab"
+                  data-toggle="pill"
+                  href="#v-pills-change-password"
+                  role="tab"
+                  aria-controls="v-pills-change-password"
+                  aria-selected="false"
+                >Change Password</a>
+                <a
+                  class="nav-link"
+                  id="v-pills-activity-log-tab"
+                  data-toggle="pill"
+                  href="#v-pills-activity-log"
+                  role="tab"
+                  aria-controls="v-pills-activity-log"
+                  aria-selected="false"
+                >Activity Log</a>
+              </div>
             </div>
-        </div>
+            <div class="col-9">
+              <div class="tab-content" id="v-pills-tabContent">
+                <div
+                  class="tab-pane fade show active"
+                  id="v-pills-account-settings"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-account-settings-tab"
+                >
+                  <account-settings></account-settings>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="v-pills-change-password"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-change-password-tab"
+                >
+                  <change-password></change-password>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="v-pills-activity-log"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-activity-log-tab"
+                >
+                  <activity-log></activity-log>
+                </div>
+              </div>
+            </div>
+          </div>
+        </b-card>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import accountSettings from "./Edit/AccountSettings";
 import changePassword from "./Edit/ChangePassword";
 import activityLog from "./Edit/ActivityLog";
+import employeeInfo from "./Edit/EmployeeInfo";
 export default {
     data() {
-        return {};
+        return {
+            	user: JSON.parse(localStorage.getItem("user")),
+        };
     },
     components: {
         "account-settings": accountSettings,
         "change-password": changePassword,
-        "activity-log": activityLog
+        "activity-log": activityLog,
+        "employee-info": employeeInfo,
     }
 };
 </script>
 
 <style lang="scss" scoped>
 * {
-    font-family: "Lato";
+  font-family: "Lato";
 }
 
 .employee-info-card {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .user-profile-card {
-    margin-top: 37px;
+  margin-top: 37px;
 
-    .left-side-settings {
-        border-right: 2px solid #757d85;
-    }
+  .left-side-settings {
+    border-right: 2px solid #757d85;
+  }
 }
 </style>

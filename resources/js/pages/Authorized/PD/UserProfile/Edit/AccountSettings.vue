@@ -1,79 +1,61 @@
 <template>
-    <div>
-        <h3>Edit User Information</h3>
-        <div class="component-sub-content">
-            <!-- Full Name -->
-            <div class="form-group">
-                <label>Full name</label>
-                <div class="input-group">
-                    <input
-                        type="text"
-                        v-model="user.data.first_name"
-                        class="form-control"
-                    />
-                    <input
-                        type="text"
-                        v-model="user.data.middle_name"
-                        class="form-control"
-                    />
-                    <input
-                        type="text"
-                        v-model="user.data.last_name"
-                        class="form-control"
-                    />
-                </div>
-            </div>
-            <!-- Contact Number -->
-            <div class="form-group">
-                <label>Contact Number</label>
-                <b-input-group>
-                    <b-input
-                        type="text"
-                        v-model="user.data.contact_numbers"
-                    ></b-input>
-                </b-input-group>
-            </div>
-            <!--PD Email-->
-            <div class="form-group">
-                <label>PD Email</label>
-                <b-input-group>
-                    <b-input
-                        type="email"
-                        v-model="user.data.pdem_email"
-                    ></b-input>
-                </b-input-group>
-            </div>
-            <!-- PD Gmail -->
-            <div class="form-group">
-                <label>PD Gmail</label>
-                <b-input-group>
-                    <b-input
-                        type="email"
-                        v-model="user.data.pdem_gmail"
-                    ></b-input>
-                </b-input-group>
-            </div>
-            <div>
-                <b-button class="font-weight-bold" block variant="primary"
-                    >Update</b-button
-                >
-            </div>
-        </div>
+  <div>
+    <h3>Edit User Information</h3>
+    <div class="component-sub-content mt-4">
+      <div class="form-group mt-4">
+        <label>User Avatar</label>
+        <b-input-group>
+          <b-form-file v-model="user.data.official_photo"></b-form-file>
+        </b-input-group>
+      </div>
+
+      <!-- Contact Number -->
+      <div class="form-group mt-4">
+        <label>Birthday</label>
+        <b-input-group>
+          <b-form-datepicker v-model="user.data.birth_date"></b-form-datepicker>
+        </b-input-group>
+      </div>
+
+      <!-- Contact Number -->
+      <div class="form-group mt-4">
+        <label>Contact Number</label>
+        <b-input-group>
+          <b-input type="text" v-model="user.data.contact_numbers"></b-input>
+        </b-input-group>
+      </div>
+      <div>
+        <b-button class="font-weight-bold" block variant="primary">Update</b-button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
     data() {
         return {
-            user: JSON.parse(localStorage.getItem("user"))
+			user: JSON.parse(localStorage.getItem("user")),
+			official_photo: null
         };
+	},
+    methods: {
+    onFileChange(e) {
+      const file = e.target.files[0];
+      this.user.data.official_photo = URL.createObjectURL(file);
     }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 * {
-    font-family: "Lato";
+  font-family: "Lato";
+}
+.official-photo {
+  height: 90px;
+  width: 90px;
+  border: 2px solid #333;
+  border-radius: 50px;
 }
 </style>
