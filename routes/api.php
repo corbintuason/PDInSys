@@ -24,6 +24,11 @@ Route::apiResources([
     'account' => 'API\AccountController'
 ]);
 
+Route::apiResources([
+    'user' => 'API\UserController',
+    'vendor' => 'API\VendorController'
+]);
+
 Route::middleware('auth:api')->get('/init', function (Request $request) {
     return new UserResource($request->user());
 });

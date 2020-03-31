@@ -33,8 +33,7 @@ class Account extends Model
      *
      * @var array
      */
-    protected $hidden = [
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast to native types.
@@ -45,17 +44,18 @@ class Account extends Model
         'registered_address' => 'object',
         'terms_of_payment' => 'array',
         'payment_milestone' => 'array',
-        'company_tel_number'=> 'array',
-        'company_email_address'=> 'array',
-        'accrediation_status'=> 'array',
-        'brands'=> 'array',
-        'departments'=> 'array',
-        'clients'=> 'array',
+        'company_tel_number' => 'array',
+        'company_email_address' => 'array',
+        'accrediation_status' => 'array',
+        'brands' => 'array',
+        'departments' => 'array',
+        'clients' => 'array',
         'change_logs' => 'array'
     ];
-    
 
-    public function user(){
+
+    public function user()
+    {
         return $this->belongsTo("App\User", "creator_id");
     }
 }
