@@ -53,6 +53,7 @@ export default {
           office: null,
           group: null,
           department: null,
+          position: null,
           job_level: null
         },
         module_access: []

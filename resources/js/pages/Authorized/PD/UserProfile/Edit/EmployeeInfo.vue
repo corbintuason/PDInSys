@@ -24,7 +24,7 @@
           <label>Department:</label>
         </div>
         <div class="col-md-8 text-left">
-          <label>{{ user.data.job_details.department }}</label>
+          <label>{{ user.data.job_details.department.name }}</label>
         </div>
         <!-- Group -->
         <div class="col-md-4 text-right">
@@ -38,7 +38,7 @@
           <label>Position:</label>
         </div>
         <div class="col-md-8 text-left">
-          <label>CEO/President</label>
+          <label>{{ user.data.job_details.department.position }}</label>
         </div>
         <!-- Job Level -->
         <div class="col-md-4 text-right">
