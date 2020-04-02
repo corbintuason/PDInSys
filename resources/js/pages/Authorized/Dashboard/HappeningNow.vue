@@ -14,7 +14,7 @@
               </tr>
             </thead>
           </table>
-          <b-alert show variant="danger">This feature is unavailable</b-alert>
+          <b-alert show variant="dark">This feature is unavailable</b-alert>
         </div>
       </div>
     </b-card-text>

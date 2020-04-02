@@ -1,17 +1,17 @@
 <template>
-    <div>
-        <b-card class="calendar-card">
-            <div class="column content--column">
-                <FullCalendar
-                    defaultView="dayGridMonth"
-                    :plugins="calendarPlugins"
-                    :header="header"
-                    :height="500"
-                    :footer="footer"
-                />
-            </div>
-        </b-card>
-    </div>
+  <div>
+    <b-card class="calendar-card">
+      <div class="column content--column">
+        <FullCalendar
+          defaultView="dayGridMonth"
+          :plugins="calendarPlugins"
+          :header="header"
+          :height="500"
+          :footer="footer"
+        />
+      </div>
+    </b-card>
+  </div>
 </template>
 
 <script>
@@ -45,13 +45,22 @@ export default {
 @import "~@fullcalendar/daygrid/main.css";
 
 .calendar-card {
-    border-radius: 10px;
-    box-shadow: 0 2px 43px -4px rgba(0, 0, 0, 0.08) !important;
-    transition: all 0.2s ease-out;
+  border-radius: 10px;
+  box-shadow: 0 2px 43px -4px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.2s ease-out;
 
-    &:hover {
-        transform: translateY(4px);
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.11) !important;
-    }
+  &:hover {
+    transform: translateY(4px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.11) !important;
+  }
+
+  .fc-button {
+    background: #3f4b94;
+    border: none;
+  }
+
+  .fc-button-active {
+    background: #f7942c;
+  }
 }
 </style>

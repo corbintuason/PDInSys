@@ -14,7 +14,7 @@
       <div class="form-group mt-4">
         <label>Contact Number</label>
         <b-input-group>
-          <b-input type="text" v-model="user.data.contact_numbers"></b-input>
+          <b-input type="text" v-model="user.data.contact_numbers[0]"></b-input>
         </b-input-group>
       </div>
       <div>
