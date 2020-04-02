@@ -24,7 +24,7 @@
           <label>Department:</label>
         </div>
         <div class="col-md-8 text-left">
-          <label>{{ user.data.job_details.department.name }}</label>
+          <label>{{ user.data.job_details.department }}</label>
         </div>
         <!-- Group -->
         <div class="col-md-4 text-right">
@@ -38,7 +38,7 @@
           <label>Position:</label>
         </div>
         <div class="col-md-8 text-left">
-          <label>{{ user.data.job_details.department.position }}</label>
+          <label>{{ user.data.job_details.position }}</label>
         </div>
         <!-- Job Level -->
         <div class="col-md-4 text-right">
@@ -60,6 +60,20 @@
         </div>
         <div class="col-md-8 text-left">
           <label>{{ user.data.pdem_gmail }}</label>
+        </div>
+        <!-- Birthday -->
+        <div class="col-md-4 text-right">
+          <label>Birthday:</label>
+        </div>
+        <div class="col-md-8 text-left">
+          <label>{{ user.data.birth_date }}</label>
+        </div>
+        <!-- Employment Date -->
+        <div class="col-md-4 text-right">
+          <label>Employment Date:</label>
+        </div>
+        <div class="col-md-8 text-left">
+          <label>{{ user.data.employment_date }}</label>
         </div>
       </div>
     </div>

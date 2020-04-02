@@ -51,8 +51,8 @@ class UserController extends Controller
             'pdem_email' => 'required',
             'pdem_gmail' => 'required',
             'job_details' => 'required',
-            'module_access' => 'required'
-
+            'module_access' => 'required',
+            'contact_numbers' => 'required'
         ]);
 
         // Generate a random string for default password
@@ -106,6 +106,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+
     }
 
     /**
