@@ -145,9 +145,9 @@ export default {
       var involved_section = this.pgos.modules.find(
         pdis_section => pdis_section.section == section
       );
-      console.log("section" + section);
-      console.log("feature" + feature);
-      console.log(this.pgos.modules);
+      //("section" + section);
+      //("feature" + feature);
+      //(this.pgos.modules);
       involved_section.features.forEach(pdis_feature => {
         if (pdis_feature.name == feature) {
           result = true;

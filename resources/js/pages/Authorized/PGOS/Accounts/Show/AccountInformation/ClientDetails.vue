@@ -91,8 +91,8 @@ export default {
   watch:{
     clients(){
       this.add_client_index++;
-      console.log("asdfasfd");
-      console.log(this.add_client_index);
+      //("asdfasfd");
+      //(this.add_client_index);
     }
   },
   methods: {
@@ -103,7 +103,7 @@ export default {
           clients.push(client);
         })
       }); 
-      console.log(clients);
+      //(clients);
       this.clients=clients;
     },
     addClientModal() {

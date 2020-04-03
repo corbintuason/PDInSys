@@ -37,7 +37,9 @@ import advisories from "./Dashboard/Advisories"
 export default {
   data() {
     return {
-      user: this.$store.state.user
+      user: this.$store.state.user,
+      users: [],
+      roomId: 1
     };
   },
   components: {
@@ -48,16 +50,13 @@ export default {
     "advisories": advisories
   },
   computed: {},
-  methods: {
-    tester(){
-      // this.user.data.module_access.forEach(pdis_module => {
-      //   console.log(pdis_module);
-      // });
-      console.log(typeof this.user.data.job_details)
+  
+  created() {
+    console.log('trying ~~~');
+    console.log(window.location.hostname);
+    // axios.get("/api/init").then(response => {
+    //   console.log(response);
+    // });
     }
-  },
-  mounted() {
-    this.tester();
-  }
 };
 </script>

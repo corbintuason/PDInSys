@@ -50,7 +50,7 @@ export default {
                 })
                 .catch(e => {
                   this.$Progress.fail();
-                  console.log(e);
+                  //(e);
                   swal.showValidationMessage(`Unable to create`);
                   swal.hideLoading();
                   reject(e);

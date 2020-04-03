@@ -83,12 +83,12 @@ export default {
                         })
                         .catch(e => {
                             this.$Progress.fail();
-                            console.log(e);
+                            //(e);
                         });
                 })
                 .catch(e => {
                     this.$Progress.fail();
-                    console.log(e);
+                    //(e);
                 });
         }
     },

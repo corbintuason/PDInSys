@@ -41,11 +41,13 @@ export const store = new Vuex.Store({
                 axios.defaults.headers.common['Authorization'] = "Bearer " + context.state.token;
                 axios.get("/api/init").then(response => {
                     const user = response.data;
+                    console.log("testing");
+                    console.log(response);
                     localStorage.setItem('user', JSON.stringify(user));
                     context.commit('storeUser', user);
                     resolve(user);
                 }).catch(e => {
-                    console.log(e);
+                    //(e);
                     reject(e);
                 })
             });
@@ -61,7 +63,7 @@ export const store = new Vuex.Store({
                     context.commit('retrieveToken', token);
                     resolve(response);
                 }).catch(e => {
-                    console.log(e);
+                    //(e);
                     reject(e);
                 })
             });
@@ -76,7 +78,7 @@ export const store = new Vuex.Store({
                         context.commit('destroyToken');
                         resolve(response);
                     }).catch(e => {
-                        console.log(e);
+                        //(e);
                         localStorage.removeItem('access_token');
                         localStorage.removeItem('user');
                         context.commit('destroyToken');

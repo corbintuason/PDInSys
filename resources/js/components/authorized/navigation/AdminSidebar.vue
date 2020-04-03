@@ -56,8 +56,8 @@ export default {
   methods: {
     renderPanels(){
       var offices = this.$store.state.globals.offices;
-      console.log("rendering")
-      console.log(this.user.data.module_access);
+      //("rendering")
+      //(this.user.data.module_access);
       this.user.data.module_access.forEach(office => {
         if(office.name == "PGOS"){
           this.renderPGOS = true;
@@ -66,13 +66,13 @@ export default {
           this.renderPGAS = true;
         }
       })
-      console.log(this.user.data.module_access);
+      //(this.user.data.module_access);
     },
     filterOffices(){
        const pgos = this.user.data.module_access.find(pdis_module => pdis_module.name == "PGOS");
        const pgas = this.user.data.module_access.find(pdis_module => pdis_module.name == "PGAS");
-       console.log("hay");
-       console.log(pgos.modules);
+       //("hay");
+       //(pgos.modules);
        this.pgos = pgos;
        this.pgas = pgas;
        
@@ -89,7 +89,6 @@ export default {
 <style lang="scss" scoped>
 * {
     box-sizing: border-box;
-    font-family: "Lato";
 }
 .brand-image-holder {
     display: flex;

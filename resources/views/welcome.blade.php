@@ -24,12 +24,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper" id = "app">
 <vue-progress-bar></vue-progress-bar>
 <router-view></router-view>
+<notifications group="PDIS" position="bottom left" type="warn" />
 </div>
 
 <script>
 var BASE_URL = "{{URL::to('/')}}";
 </script>
 <script src = {{asset('js/app.js')}}> </script>
+<script src="https://cdn.jsdelivr.net/npm/vee-validate@<3.0.0/dist/vee-validate.js"></script>
+<script src="https://unpkg.com/vee-validate@<3.0.0"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
 </body>

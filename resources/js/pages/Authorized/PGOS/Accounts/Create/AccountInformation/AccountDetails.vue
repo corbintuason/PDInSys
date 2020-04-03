@@ -3,7 +3,21 @@
     <div id="account_details">
       <h1 class="component-sub-header">Account Details</h1>
       <div class="component-sub-content">
-        <div class="row">
+        
+        <form @submit.prevent="submit">
+  <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
+    <label class="form__label">Name</label>
+    <input class="form__input" v-model.trim="$v.name.$model"/>
+  </div>
+  <div class="error" v-if="!$v.name.required">Name is required</div>
+  <div class="error" v-if="!$v.name.minLength">Name must have at least {{$v.name.$params.minLength.min}} letters.</div>
+  <button class="button" type="submit" :disabled="submitStatus === 'PENDING'">Submit!</button>
+  <p class="typo__p" v-if="submitStatus === 'OK'">Thanks for your submission!</p>
+  <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
+  <p class="typo__p" v-if="submitStatus === 'PENDING'">Sending...</p>
+</form>
+
+         <div class="row">
           <div class="col-md-6">
             <!-- Single Layer -->
             <b-form-group v-for="(builder, builder_index) in account_builder" :key="builder_index" :label="builder.label" label-class="font-weight-bold">
@@ -25,9 +39,13 @@
 </template>
 
 <script>
+import { required, minLength } from 'vuelidate/lib/validators'
 export default{
   data(){
     return{
+         name: '',
+      age: 0,
+      submitStatus: null,
       account_builder:[
         {
           model: "registered_name",
@@ -72,8 +90,62 @@ export default{
       ]
     }
   },
+    validations: {
+    name: {
+     required,
+      minLength: minLength(4)
+    }
+  },
+ methods:{
+    	status(validation) {
+    	return {
+      	error: validation.$error,
+        dirty: validation.$dirty
+      }
+    },
+        submit() {
+      console.log('submit!')
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        this.submitStatus = 'ERROR'
+      } else {
+        // do your submit logic here
+        this.submitStatus = 'PENDING'
+        setTimeout(() => {
+          this.submitStatus = 'OK'
+        }, 500)
+      }
+    }
+ },
   props:{
     form: Object
   }
 }
 </script>
+
+<style>
+
+input {
+  border: 1px solid silver;
+  border-radius: 4px;
+  background: white;
+  padding: 5px 10px;
+}
+
+.dirty {
+  border-color: #5A5;
+  background: #EFE;
+}
+
+.dirty:focus {
+  outline-color: #8E8;
+}
+
+.error {
+  border-color: red;
+  background: #FDD;
+}
+
+.error:focus {
+  outline-color: #F99;
+}</style>

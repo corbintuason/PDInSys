@@ -40,7 +40,7 @@ export default {
   },
    methods: {
     getUserRole() {
-      console.log("start");
+      //("start");
       this.user_role = this.user.data.module_access[0]["modules"][0][
         "features"
       ][1]["role"];
