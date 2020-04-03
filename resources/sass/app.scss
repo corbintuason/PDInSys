@@ -1,23 +1,23 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
-@import '~bootstrap-vue/src/index.scss';
-@import '~admin-lte/dist/css/adminlte.css';
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-vue/src/index.scss";
+@import "~admin-lte/dist/css/adminlte.css";
 
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
 @import "~@fortawesome/fontawesome-free/scss/regular.scss";
 
-@import '~vue-step-progress/dist/main.css';
+@import "~vue-step-progress/dist/main.css";
 
-@import '~@fullcalendar/core/main.css';
-@import '~@fullcalendar/daygrid/main.css';
+@import "~@fullcalendar/core/main.css";
+@import "~@fullcalendar/daygrid/main.css";
 
-
-
+@import "~vuetify/dist/vuetify.min.css";
+@import "~@mdi/font/css/materialdesignicons.min.css";

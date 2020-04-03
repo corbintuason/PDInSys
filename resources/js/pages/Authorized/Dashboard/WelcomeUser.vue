@@ -8,20 +8,20 @@
       <img src="/img/welcome/welcome-right.png" alt="welcome-right" />
     </div>
 
-    <b-card-text>
+    <b-card-text class="mt-4">
       <b-img
         :src="user.data.official_photo"
         rounded="circle"
-        width="60px"
-        height="60px"
+        width="80px"
+        height="80px"
         alt="Photo"
         v-if="user.data.official_photo != null"
       ></b-img>
       <b-img
         src="/img/avatar/user.png"
         rounded="circle"
-        width="60px"
-        height="60px"
+        width="80px"
+        height="80px"
         alt="Photo"
         v-else
       ></b-img>
@@ -34,7 +34,7 @@
           {{ user.meta.full_name }}
         </strong>
       </div>
-      <div class="mt-1 ml-1">
+      <div class="mt-1 ml-1 mb-3">
         <h5
           class="text-uppercase font-weight-bold text-primary"
         >{{ user.data.job_details.position }}</h5>

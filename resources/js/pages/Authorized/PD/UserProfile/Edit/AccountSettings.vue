@@ -2,14 +2,7 @@
   <div>
     <h3>Edit User Information</h3>
     <div class="component-sub-content mt-4">
-      <div class="form-group mt-4">
-        <label>User Avatar</label>
-        <b-input-group>
-          <b-form-file v-model="user.data.official_photo"></b-form-file>
-        </b-input-group>
-      </div>
-
-      <!-- Contact Number -->
+      <!-- Birthday -->
       <div class="form-group mt-4">
         <label>Birthday</label>
         <b-input-group>
@@ -21,7 +14,7 @@
       <div class="form-group mt-4">
         <label>Contact Number</label>
         <b-input-group>
-          <b-input type="text" v-model="user.data.contact_numbers"></b-input>
+          <b-input type="text" v-model="user.data.contact_numbers[0]"></b-input>
         </b-input-group>
       </div>
       <div>
