@@ -33,11 +33,7 @@
         "@fullcalendar/vue": "^4.4.0",
         "admin-lte": "^3.0.2",
         "bootstrap-vue": "^2.9.0",
-<<<<<<< HEAD
         "decompress": "^4.2.0",
-=======
-        "buefy": "^0.8.15",
->>>>>>> 426c8b268e1aada7852d236b30c6f9ab4a4e51a5
         "fullcalendar": "^3.10.1",
         "gulp": "^4.0.2",
         "laravel-echo": "^1.6.1",

@@ -137,7 +137,6 @@ export default {
 	pgos: Object
   },
   methods: {
-<<<<<<< HEAD
     renderSection(section) {
       var result = false;
       this.pgos.modules.forEach(pdis_section => {
@@ -162,32 +161,6 @@ export default {
       });
       return result;
     }
-=======
-	renderSection(section) {
-	  var result = false;
-	  this.pgos.modules.forEach(pdis_section => {
-		if (pdis_section.section == section) {
-		  result = true;
-		}
-	  });
-	  return result;
-	},
-	renderFeature(section, feature) {
-	  var result = false;
-	  var involved_section = this.pgos.modules.find(
-		pdis_section => pdis_section.section == section
-	  );
-	  console.log("section" + section);
-	  console.log("feature" + feature);
-	  console.log(this.pgos.modules);
-	  involved_section.features.forEach(pdis_feature => {
-		if (pdis_feature.name == feature) {
-		  result = true;
-		}
-	  });
-	  return result;
-	}
->>>>>>> 426c8b268e1aada7852d236b30c6f9ab4a4e51a5
   },
   mounted() {}
 };
