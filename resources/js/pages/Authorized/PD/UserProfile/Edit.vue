@@ -113,9 +113,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-* {
-  font-family: "Lato";
-}
 
 .employee-info-card {
   height: 100%;

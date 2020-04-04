@@ -21,6 +21,12 @@ Vue.use(VerticalTimeline);
 import PublicNavbar from "./components/guest/PublicNavbar.vue";
 Vue.component("public-navbar", PublicNavbar);
 
+import Notifications from 'vue-notification';
+Vue.use(Notifications);
+
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate);
+
 import swal from "sweetalert2";
 window.swal = swal;
 

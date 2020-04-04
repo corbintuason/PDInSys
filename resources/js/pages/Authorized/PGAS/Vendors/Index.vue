@@ -117,9 +117,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-* {
-    font-family: "Lato";
-}
+
 .table {
     border-top: 8px solid #f7942c;
 }

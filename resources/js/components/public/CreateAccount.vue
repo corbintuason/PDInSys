@@ -60,7 +60,7 @@ export default {
   watch:{
       brands(){
           this.tabs_index++;
-          console.log("may nagbago");
+          //("may nagbago");
       }
   },
   components: {

@@ -11,6 +11,16 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+// Broadcast::channel('App.User.{id}', function ($user, $id) {
+//     return (int) $user->id === (int) $id;
+// });
+
+Broadcast::channel('users.{user_id}', function ($user, $id) {
+    return true;
 });
+
+Broadcast::channel('home', function (){
+    return true;
+});
+
+

@@ -148,12 +148,12 @@ export default {
                         })
                         .catch(e => {
                             this.$Progress.fail();
-                            console.log(e);
+                            //(e);
                         });
                 })
                 .catch(e => {
                     this.$Progress.fail();
-                    console.log(e);
+                    //(e);
                 });
         }
     },
@@ -164,7 +164,7 @@ export default {
 <style lang="scss" scoped>
 * {
     box-sizing: border-box;
-    font-family: "Lato";
+    // font-family: "Lato";
 }
 .card {
     border-radius: 10px;

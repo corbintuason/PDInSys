@@ -1,5 +1,5 @@
 <?php
-
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +13,10 @@
 // MAIL ROUTES
 Route::get('/mail/newUserCreated', 'Mail\UserController@newUserCreated')->name("New User Created");
 
-
+Route::get('/mark-all-read/{user}', function(User $user){
+        $user->unreadNotifications->markAsRead();
+        return response(['message' => 'Marked as unread']);
+});
 
 // Route to redirect all pages to a single view page.
 Route::get('/{any}', function() { 

@@ -6,12 +6,15 @@
       </template>
       <b-card-body>
         <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
+        hehehehe
+        {{accounts}}
       </b-card-body>
     </b-card>
   </div>
 </template>
 
 <script>
+import basicTable from "../../../../components/public/BasicTable"
 export default {
   data() {
     return {
@@ -20,8 +23,12 @@ export default {
       accounts: null,
     };
   },
+  components:{
+    "basic-table": basicTable
+  },
   methods: {
     loadItems() {
+      console.log("asdklfjaslkdjflkasjfl");
       axios.get("/api/account").then(response => {
         const accounts = response.data.data;
         this.accounts = response.data.data;
@@ -71,10 +78,10 @@ export default {
         },
       ];
     },
+},
     mounted() {
         this.loadItems();
         this.loadFields();
     }
-}
 }
 </script>

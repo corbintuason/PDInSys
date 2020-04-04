@@ -42,9 +42,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-* {
-  font-family: "Lato";
-}
+
 .official-photo {
   height: 90px;
   width: 90px;

@@ -88,7 +88,7 @@ export default {
                 })
                 .catch(e => {
                   this.$Progress.fail();
-                  console.log(e);
+                  //(e);
                   swal.showValidationMessage(`Unable to create user`);
                   swal.hideLoading();
                   reject(e);
@@ -99,7 +99,7 @@ export default {
         .then(result => {
           if (result.value) {
             this.$Progress.finish();
-            console.log(result);
+            //(result);
             swal.fire({
               title: "User Succesfully Created",
               icon: "success",

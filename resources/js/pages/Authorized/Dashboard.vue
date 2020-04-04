@@ -38,9 +38,11 @@ import allEmployee from "./Dashboard/AllEmployee";
 import advisories from "./Dashboard/Advisories";
 export default {
   data() {
-	return {
-	  user: this.$store.state.user
-	};
+    return {
+      user: this.$store.state.user,
+      users: [],
+      roomId: 1
+    };
   },
   components: {
 	"welcome-user": welcomeUser,
@@ -51,17 +53,14 @@ export default {
 	"all-employee": allEmployee,
   },
   computed: {},
-  methods: {
-	tester(){
-	  // this.user.data.module_access.forEach(pdis_module => {
-	  //   console.log(pdis_module);
-	  // });
-	  console.log(typeof this.user.data.job_details)
-	}
-  },
-  mounted() {
-	this.tester();
-  }
+  
+  created() {
+    console.log('trying ~~~');
+    console.log(window.location.hostname);
+    // axios.get("/api/init").then(response => {
+    //   console.log(response);
+    // });
+    }
 };
 </script>
 

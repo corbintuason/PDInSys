@@ -7,7 +7,6 @@
       <b-card-text>
   <step-progress :steps="my_steps" :current-step="0" icon-class="fa fa-check"></step-progress>
   <br>
-  {{form}}
       </b-card-text>
     </b-card>
     <b-card class="mt-3">
@@ -71,11 +70,11 @@ export default {
   },
   methods:{
     getUserRole(){
-      console.log('start')
+      //('start')
       this.user_role = this.user.data.module_access[0]["modules"][0]["features"][1]["role"];
     },
        createAccount() {
-         console.log("rak");
+         //("rak");
       swal
         .fire({
           title: "Create Account",
@@ -94,7 +93,7 @@ export default {
                 })
                 .catch(e => {
                   this.$Progress.fail();
-                  console.log(e);
+                  //(e);
                   swal.showValidationMessage(`Unable to create account`);
                   swal.hideLoading();
                   reject(e);
@@ -105,7 +104,7 @@ export default {
         .then(result => {
           if (result.value) {
             this.$Progress.finish();
-            console.log(result);
+            //(result);
             swal.fire({
               title: "Account Succesfully Created",
               icon: "success",

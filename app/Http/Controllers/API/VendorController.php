@@ -37,6 +37,7 @@ class VendorController extends Controller
             'vendor_name' => $request['vendor_name'],
             'trade_name' => $request['trade_name'],
             'registered_address' => $request['registered_address'],
+            'status' => $status,
             'creator_id' => $request['creator_id'],
             'change_logs' => $change_log
         ]);

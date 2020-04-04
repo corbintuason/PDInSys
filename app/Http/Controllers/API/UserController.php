@@ -11,6 +11,7 @@ use Mail;
 use App\Mail\NewUserCreated;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Image;
+use App\Notifications\UserRegistered;
 
 class UserController extends Controller
 {
@@ -71,6 +72,8 @@ class UserController extends Controller
         // }
 
         FacadesMail::to($user->pdem_email)->send(new NewUserCreated($user, $password));
+        $notify_user = User::first();
+        $notify_user->notify(new UserRegistered($user));
         return response($user);
     }
 

@@ -240,9 +240,6 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-    font-family: "Lato";
-}
 .log-card {
     border-left: 7px solid #3f4b94;
     border-radius: 5px;

@@ -20,6 +20,9 @@ export default{
         "admin-navbar": AdminNavBar,
         "admin-sidebar": AdminSideBar
     },
+    created(){
+
+    }
 }
 
 </script>
