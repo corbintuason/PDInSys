@@ -22,6 +22,7 @@ class Vendor extends Model
         'contact_person',
         'contact_number',
         'email_address',
+        'bank_name',
         'status',
         'creator_id',
         'change_logs'
@@ -44,6 +45,7 @@ class Vendor extends Model
 
         'registered_address' => 'object',
         'contact_person' => 'array',
+        'bank_name' => 'array',
         'clients' => 'array',
         'change_logs' => 'array'
     ];

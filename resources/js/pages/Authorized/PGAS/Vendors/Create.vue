@@ -28,7 +28,7 @@
           </b-tab>
           <b-tab title="Bank Details">
             <!-- Bank Details -->
-            <bank-details></bank-details>
+            <bank-details :form="form"></bank-details>
           </b-tab>
           <b-tab title="Accreditation Attachments">
             <!-- Accreditation Attachments -->
@@ -78,6 +78,11 @@ export default {
 				},
 				contact_number: "",
 				email_address: "",
+				bank_name: {
+					bank_name: "",
+					account_name: "",
+					account_number: ""
+				},
 				creator_id: this.$store.state.user.data.id
 			},
 		};

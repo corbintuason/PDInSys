@@ -42,6 +42,7 @@ class VendorController extends Controller
             'contact_person' => $request['contact_person'],
             'contact_number' => $request['contact_number'],
             'email_address' => $request['email_address'],
+            'bank_name' => $request['bank_name'],
             'status' => $status,
             'creator_id' => $request['creator_id'],
             'change_logs' => $change_log
