@@ -10,9 +10,6 @@ Vue.use(VueRouter);
 import BootstrapVue from "bootstrap-vue";
 Vue.use(BootstrapVue);
 
-import Vuetify from "vuetify";
-Vue.use(Vuetify);
-
 // Vue Particles
 import VueParticles from "vue-particles";
 Vue.use(VueParticles);
