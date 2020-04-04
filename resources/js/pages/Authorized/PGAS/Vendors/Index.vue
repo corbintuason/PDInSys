@@ -1,124 +1,93 @@
 <template>
   <div>
-    <b-card class="mt-5 table">
+    <b-card class="mt-5">
       <template v-slot:header>
         <h1 class="component-title">Vendors</h1>
       </template>
-      <vendor-table class="text-center" v-if="items != null" :items="items" :fields="fields"></vendor-table>
+      <b-card-body>
+        <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
+        {{vendors}}
+      </b-card-body>
     </b-card>
   </div>
 </template>
 
 <script>
-import vendorTable from "./Index/VendorTable";
-
+import basicTable from "../../../../components/public/BasicTable"
 export default {
-    data() {
-        return {
-            items: null,
-            fields: null
-        };
+  data() {
+    return {
+      items: [],
+      fields: null,
+      vendors: null,
+    };
+  },
+  components:{
+    "basic-table": basicTable
+  },
+  methods: {
+    loadItems() {
+      console.log("asdklfjaslkdjflkasjfl");
+      axios.get("/api/vendor").then(response => {
+        const vendors = response.data.data;
+        this.vendors = response.data.data;
+        vendors.forEach(vendor => {
+          this.items.push({
+            item_name: vendor.vendor_name,
+            contact_number: vendor.contact_number,
+            status: vendor.status,
+            item_params: {
+              link: "vendor_show",
+              id: vendor.id
+            }
+          });
+        })
+      });
+      // this.items = [
+      //   {
+      //     item_name: "a",
+      //     status: "Re-Published",
+      //     item_params: {
+      //       link: "account_show",
+      //       id: 5
+      //     }
+      //   },
+      //   {
+      //     item_name: "seven",
+      //     status: "Re-Published",
+      //     item_params: {
+      //       link: "account_show",
+      //       id: 7
+      //     }
+      //   }
+      // ];
     },
-    components: {
-        "vendor-table": vendorTable
-    },
-    methods: {
-        loadItems() {
-            this.items = [
-                {
-                    item_name: "ABC 123",
-                    registered_address: "3390 West Vigan St Sampaloc Manila",
-                    status: "For Approval",
-                    action: "",
-                    item_params: {
-                        link: "account_show",
-                        id: 5
-                    }
-                },
-                {
-                    item_name: "DEF 456",
-                    registered_address: "123 White St. East Capitol, Pasig",
-                    status: "Approved",
-                    action: "",
-                    item_params: {
-                        link: "account_show",
-                        id: 7
-                    }
-                },
-                {
-                    item_name: "HIJ 789",
-                    registered_address: "457 Black St. Mandaluyong",
-                    status: "For Approval",
-                    action: "",
-                    item_params: {
-                        link: "account_show",
-                        id: 6
-                    }
-                },
-                {
-                    item_name: "KLM 123",
-                    registered_address: "1776 Red St. San Juan City",
-                    status: "For Revision",
-                    action: "",
-                    item_params: {
-                        link: "account_show",
-                        id: 2
-                    }
-                },
-                {
-                    item_name: "NOP 456",
-                    registered_address: "412 Blue St. Cavite City",
-                    status: "Approved",
-                    action: "",
-                    item_params: {
-                        link: "account_show",
-                        id: 3
-                    }
-                }
-            ];
+    loadFields() {
+      this.fields = [
+        {
+          key: "item_details.name",
+          label: "Vendor Name",
+          sortable: true,
+          sortDirection: "desc"
         },
-        loadFields() {
-            this.fields = [
-                {
-                    key: "item_details.name",
-                    label: "Trade Name",
-                    sortable: true,
-                    sortDirection: "desc"
-                },
-                {
-                    key: "registered_address",
-                    label: "Registered Address",
-                    sortable: true,
-                    sortDirection: "desc"
-                },
-                {
-                    key: "status",
-                    label: "Status",
-                    sortable: true,
-                    class: "text-center"
-                },
-                {
-                    key: "action",
-                    label: "Actions",
-                    sortable: true,
-                    class: "text-center"
-                }
-            ];
+        {
+          key: "contact_number",
+          label: "Contact Number",
+          sortable: true,
+          sortDirection: "desc"
         },
-        openCreateAccount() {
-            this.$bvModal.show("create-account");
-        }
+        {
+          key: "status",
+          label: "Status",
+          sortable: true,
+          class: "text-center"
+        },
+      ];
     },
+},
     mounted() {
         this.loadItems();
         this.loadFields();
     }
-};
-</script>
-
-<style lang="scss" scoped>
-
-.table {
-    border-top: 8px solid #f7942c;
 }
-</style>
+</script>
