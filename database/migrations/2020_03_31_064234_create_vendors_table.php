@@ -18,13 +18,15 @@ class CreateVendorsTable extends Migration
             $table->string('vendor_name');
             $table->string('trade_name');
             $table->json('registered_address');
-            $table->json('type_business');
-            $table->json('line_business');
+            $table->string('type_business');
+            $table->string('line_business');
             $table->json('contact_person');
-            $table->json('contact_number');
-            $table->json('email_address');
+            $table->string('contact_number');
+            $table->string('email_address');
             $table->string('status');
+            $table->json("change_logs");
 
+            $table->integer('creator_id');
             $table->timestamps();
         });
     }

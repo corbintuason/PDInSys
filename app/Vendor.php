@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Vendor extends Model
 {
@@ -16,6 +17,12 @@ class Vendor extends Model
         'vendor_name',
         'trade_name',
         'registered_address',
+        'type_business',
+        'line_business',
+        'contact_person',
+        'contact_number',
+        'email_address',
+        'status',
         'creator_id',
         'change_logs'
     ];
@@ -36,7 +43,9 @@ class Vendor extends Model
     protected $casts = [
 
         'registered_address' => 'object',
+        'contact_person' => 'array',
         'clients' => 'array',
+        'change_logs' => 'array'
     ];
 
     public function user()
