@@ -20,7 +20,11 @@
           <div class="form-group">
             <label>Line of Business</label>
             <b-input-group>
-              <b-form-select v-model="form.line_business" :options="lineOfBusiness" required></b-form-select>
+              <b-form-select v-model="form.line_business" required>
+                <option disabled>Please select an option</option>
+                <option>Services</option>
+                <option>Goods</option>
+              </b-form-select>
             </b-input-group>
           </div>
         </div>
@@ -110,7 +114,11 @@
           <div class="form-group">
             <label>Type of Business</label>
             <b-input-group>
-              <b-form-select v-model="form.type_business" :options="typeOfBusiness" required></b-form-select>
+              <b-form-select v-model="form.type_business" required>
+                <option disabled>Please select an option</option>
+                <option>Sole Proprietorship</option>
+                <option>Corporation</option>
+              </b-form-select>
             </b-input-group>
           </div>
         </div>
