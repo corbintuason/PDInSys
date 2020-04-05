@@ -118,11 +118,11 @@ export default {
 	},
 	methods: {
 		addRow(model) {
-            model.push([{
-				ewt_detail: null,
-				ewt_description: null,
-				ewt_percent: null
-			}]);
+            model.push({
+				ewt_detail: "",
+				ewt_description: "",
+				ewt_percent: ""
+			});
         },
 
         removeRow(model, index) {

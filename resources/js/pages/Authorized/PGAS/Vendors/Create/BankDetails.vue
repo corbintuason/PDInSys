@@ -128,7 +128,11 @@ export default {
 	},
 	methods: {
 		addRow(model) {
-            model.push("");
+            model.push({
+				bank_name: "",
+				account_name: "",
+				account_number: ""
+			});
         },
 
         removeRow(model, index) {
