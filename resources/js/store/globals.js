@@ -280,5 +280,28 @@ export default new Vuex.Store({
                 db_steps: ["For Approval", "Approved"],
             },
         },
+        ewt_details: [
+            {
+                name: "EWT Sample 1",
+                descriptions: [
+                    {
+                        name: "EWT Description 1",
+                        percent: [
+                            {
+                                name: "1%",
+                            },
+                        ],
+                    },
+                    {
+                        name: "EWT Description 2",
+                        percent: [
+                            {
+                                name: "1%",
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
     },
 });

@@ -24,7 +24,7 @@
           </b-tab>
           <b-tab title="Tax Details">
             <!-- Tax Details -->
-            <tax-details></tax-details>
+            <tax-details :form="form"></tax-details>
           </b-tab>
           <b-tab title="Bank Details">
             <!-- Bank Details -->
@@ -78,6 +78,13 @@ export default {
 				},
 				contact_number: "",
 				email_address: "",
+				tin_number: "",
+				type_vat: "",
+				ewt_details: [{
+					ewt_detail: "",
+					ewt_description: "",
+					ewt_percent: ""
+				}],
 				bank_name: {
 					bank_name: "",
 					account_name: "",

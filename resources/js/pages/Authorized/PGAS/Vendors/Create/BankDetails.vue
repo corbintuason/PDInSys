@@ -10,9 +10,21 @@
         <div class="col-md-4">
           <div class="form-group">
             <label>Bank Name</label>
-            <b-input-group>
-              <b-input v-model="form.bank_name.bank_name" type="text"></b-input>
-            </b-input-group>
+            <b-form-select v-model="form.bank_name.bank_name" required>
+              <option disabled>Please select an option</option>
+              <option>BDO</option>
+              <option>BPI</option>
+              <option>China Bank</option>
+              <option>City Bank</option>
+              <option>EastWest</option>
+              <option>HSBC</option>
+              <option>Landbank</option>
+              <option>Metro Bank</option>
+              <option>PNB</option>
+              <option>RCBC</option>
+              <option>Security Bank</option>
+              <option>Union Bank</option>
+            </b-form-select>
           </div>
         </div>
         <div class="col-md-4">
@@ -48,11 +60,11 @@ export default {
         return {
             nowStep: 3,
             stepList: ["", "", "", ""],
-            bank_name: {
+            bank_name: [{
                 bank_name: "",
                 account_name: "",
                 account_number: ""
-            }
+            }]
         };
     },
 

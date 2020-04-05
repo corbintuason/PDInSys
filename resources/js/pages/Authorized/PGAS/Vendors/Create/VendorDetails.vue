@@ -168,16 +168,6 @@ export default {
             email_address: "",
             line_business: "",
             type_business: "",
-            lineOfBusiness: [
-                { value: null, name: "Please select an option" },
-                { value: "a", name: "Services" },
-                { value: "b", name: "Goods" }
-            ],
-            typeOfBusiness: [
-                { value: null, name: "Please select an option" },
-                { value: "a", name: "Sole Proprietorship" },
-                { value: "b", name: "Corporation" }
-            ]
         };
     },
     components: {
