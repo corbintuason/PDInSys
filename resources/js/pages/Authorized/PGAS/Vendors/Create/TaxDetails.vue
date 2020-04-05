@@ -61,7 +61,7 @@
           <b-form-select v-model="form.ewt_details[value_index].ewt_description">
             <b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
             <b-form-select-option
-              v-for="(ewt_description, description_index) in form.ewt_details[value_index].ewt_detail.descriptions"
+              v-for="(ewt_description, description_index) in ewts.descriptions"
               :key="description_index"
               :value="ewt_description"
             >{{ewt_description.name}}</b-form-select-option>
@@ -93,9 +93,8 @@
 
 <script>
 import vueStep from "vue-step";
-import form from "../../../../../mixins/form";
+
 export default {
-	mixins: [form],
 	props: {
 		form: Object
 	},
@@ -120,9 +119,9 @@ export default {
 	methods: {
 		addRow(model) {
             model.push([{
-				ewt_detail: "",
-				ewt_description: "",
-				ewt_percent: ""
+				ewt_detail: null,
+				ewt_description: null,
+				ewt_percent: null
 			}]);
         },
 
@@ -130,17 +129,17 @@ export default {
             model.splice(index, 1);
         },
 	},
-	// watch: {
-	// 	selected_ewt() {
-	// 		this.selected_description = null,
-	// 		this.selected_percent = null
-	// 	},
-	// 	selected_description() {
-	// 		this.ewt_details.ewt_detail = this.form.ewt_details[value_index].ewt_detail.name;
-	// 		this.ewt_details.ewt_descripion = this.form.ewt_details[value_index].ewt_description.name;
-	// 		this.ewt_details.ewt_percent = this.form.ewt_details[value_index].ewt_percent.name;
-	// 	}
-	// },
+	watch: {
+		selected_ewt() {
+			this.selected_description = null,
+			this.selected_percent = null
+		},
+		selected_description() {
+			this.ewt_details.ewt_detail = this.form.ewt_details[value_index].ewt_detail.name;
+			this.ewt_details.ewt_descripion = this.form.ewt_details[value_index].ewt_description.name;
+			this.ewt_details.ewt_percent = this.form.ewt_details[value_index].ewt_percent.name;
+		}
+	},
 	components: {
 		vueStep
 	},

@@ -286,17 +286,23 @@ export default new Vuex.Store({
                 descriptions: [
                     {
                         name: "EWT Description 1",
-                        percent: [
+                        percents: [
                             {
                                 name: "1%",
+                            },
+                            {
+                                name: "2%",
                             },
                         ],
                     },
                     {
                         name: "EWT Description 2",
-                        percent: [
+                        percenst: [
                             {
-                                name: "1%",
+                                name: "3%",
+                            },
+                            {
+                                name: "4%",
                             },
                         ],
                     },

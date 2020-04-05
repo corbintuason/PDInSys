@@ -81,15 +81,15 @@ export default {
 				tin_number: "",
 				type_vat: "",
 				ewt_details: [{
-					ewt_detail: "",
-					ewt_description: "",
-					ewt_percent: ""
+					ewt_detail: null,
+					ewt_description: null,
+					ewt_percent: null
 				}],
-				bank_name: {
+				bank_details: [{
 					bank_name: "",
 					account_name: "",
 					account_number: ""
-				},
+				}],
 				creator_id: this.$store.state.user.data.id
 			},
 		};
