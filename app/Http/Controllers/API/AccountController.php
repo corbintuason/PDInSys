@@ -8,6 +8,9 @@ use App\Http\Resources\Account as AccountResource;
 use App\Http\Resources\User as UserResource;
 use App\Account;
 use App\User;
+use DB;
+use Notification;
+use App\Notifications\AccountCreated;
 
 class AccountController extends Controller
 {
@@ -64,7 +67,36 @@ class AccountController extends Controller
             'creator_id' => $request['creator_id'],
             'change_logs' => $change_log
         ]);
+        
+        // Notify all Accounts that can Approve this Account
 
+        $users = User::all();
+        $approvers = collect([]);
+
+        foreach($users as $user){
+            foreach($user->module_access as $access){
+                if($access["name"] == 'PGOS'){
+                    foreach($access["modules"] as $module){
+                        if($module["section"] == 'Accounts and Clients'){
+                            foreach($module["features"] as $feature){
+                                if($feature["name"] == 'Account and Client Accreditation'){
+                                    if($feature["role"] == 'Approver'){
+                                        $approvers->push($user);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        Notification::send($approvers, new AccountCreated($account));
+
+
+
+        
+        dd($approvers);
         return new AccountResource($account);
     }
 

@@ -9,27 +9,34 @@
         >
             <i class="far fa-bell" style="font-size: 24px;"></i>
             <span
+                v-if="unread_notifications.length > 0"
                 class="badge navbar-badge notification-badge"
-                style="font-size: 10px;"
+                :class="{ active: isActive }"
+                style="font-size: 12px;"
             >
                 <strong>{{ unread_notifications.length }}</strong>
             </span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-item dropdown-header">Notifications</span>
-            <div
-                v-for="(notification, notification_index) in all_notifications"
-                :key="notification_index"
-            >
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i>
-                    {{ notification.data.notification_bell.header }}
-                    <span class="float-right text-muted text-sm">{{
-                        notification.created_at
-                    }}</span>
-                </a>
-            </div>
+            <ul>
+                <div
+                    v-for="(notification,
+                    notification_index) in all_notifications"
+                    :key="notification_index"
+                >
+                    <template v-if="notification_index <= 5">
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i>
+                            {{ notification.data.notification_bell.header }}
+                            <span class="float-right text-muted text-sm">{{
+                                notification.created_at
+                            }}</span>
+                        </a>
+                    </template>
+                </div>
+            </ul>
 
             <a href="#" class="dropdown-item dropdown-footer"
                 >See All Notifications</a
@@ -69,8 +76,10 @@ export default {
             });
         },
 
-        activateNotificationSound(){
-            var audio = new Audio("../../../../../../public/sound/notification.mp3");
+        activateNotificationSound() {
+            var audio = new Audio(
+                "../../../../../../public/sound/notification.mp3"
+            );
             audio.muted = true;
             audio.play();
         },

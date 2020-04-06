@@ -3,6 +3,8 @@ import Authorized from "./pages/Authorized.vue";
 import Dashboard from "./pages/Authorized/Dashboard.vue";
 import AddUser from "./pages/Authorized/ADMIN/AddUser.vue";
 
+// Single Pages
+import Notifications from "./pages/Authorized/Notifications.vue"
 // PGOS
 // Account and Client Accreditation
 import CreateAccount from "./pages/Authorized/PGOS/Accounts/Create.vue";
@@ -46,6 +48,13 @@ export default [
                 path: "/",
                 component: Dashboard,
                 name: "Dashboard"
+            },
+
+            // MY NOTIFICATIONS
+            {
+                path: "/notifications",
+                component: Notifications,
+                name: "Notifications"
             },
             // ADMIN PATHS
             {

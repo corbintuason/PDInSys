@@ -46,6 +46,12 @@ class User extends Authenticatable
         'module_access' => 'array'
     ];
 
+    public function scopeIsAccountApprover($query)
+    {
+        dd($query->module_access);
+    $query->whereJsonContains('module_access->office', 'PGOS');
+    }
+
     public function accounts(){
         return $this->hasMany("App/Account");
     }

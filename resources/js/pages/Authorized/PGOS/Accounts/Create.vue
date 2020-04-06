@@ -110,7 +110,7 @@ export default {
               icon: "success",
               timer: "2500",
               onClose: () => {
-                this.$router.push({ name : "account_index"});
+                // this.$router.push({ name : "account_index"});
               }
             });
           }
