@@ -43,24 +43,6 @@ export default {
           });
         })
       });
-      // this.items = [
-      //   {
-      //     item_name: "a",
-      //     status: "Re-Published",
-      //     item_params: {
-      //       link: "account_show",
-      //       id: 5
-      //     }
-      //   },
-      //   {
-      //     item_name: "seven",
-      //     status: "Re-Published",
-      //     item_params: {
-      //       link: "account_show",
-      //       id: 7
-      //     }
-      //   }
-      // ];
     },
     loadFields() {
       this.fields = [

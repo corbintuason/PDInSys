@@ -642,7 +642,7 @@ export default new Vuex.Store({
                 descriptions: [
                     {
                         name:
-                            "	Professional fees paid to medical practitioners (includes doctors of medicine, doctors of veterinary science & dentist)  by hospitals & clinics or paid directly by HMO and/or other semilar establishments - if gross income exceeds P720,000",
+                            "Professional fees paid to medical practitioners (includes doctors of medicine, doctors of veterinary science & dentist)  by hospitals & clinics or paid directly by HMO and/or other semilar establishments - if gross income exceeds P720,000",
                         percents: [
                             {
                                 name: "15%",
@@ -656,7 +656,7 @@ export default new Vuex.Store({
                 descriptions: [
                     {
                         name:
-                            "	Professional fees paid to medical practitioners (includes doctors of medicine, doctors of veterinary science & dentist)  by hospitals & clinics or paid directly by HMO and/or other semilar establishments - if gross income for the current year did not exceed P720,000",
+                            "Professional fees paid to medical practitioners (includes doctors of medicine, doctors of veterinary science & dentist)  by hospitals & clinics or paid directly by HMO and/or other semilar establishments - if gross income for the current year did not exceed P720,000",
                         percents: [
                             {
                                 name: "10%",

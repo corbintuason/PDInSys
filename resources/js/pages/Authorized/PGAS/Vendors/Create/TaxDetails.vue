@@ -53,7 +53,7 @@
             <b-form-select-option
               v-for="(ewt_detail, ewt_index) in ewts"
               :key="ewt_index"
-              :value="ewt_detail"
+              :value="ewt_detail.name"
             >{{ewt_detail.name}}</b-form-select-option>
           </b-form-select>
         </div>
@@ -61,9 +61,9 @@
           <b-form-select v-model="form.ewt_details[value_index].ewt_description">
             <b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
             <b-form-select-option
-              v-for="(ewt_description, description_index) in form.ewt_details[value_index].ewt_detail.descriptions"
+              v-for="(ewt_description, description_index) in ewts[value_index].descriptions"
               :key="description_index"
-              :value="ewt_description"
+              :value="ewt_description.name"
             >{{ewt_description.name}}</b-form-select-option>
           </b-form-select>
         </div>
@@ -71,9 +71,9 @@
           <b-form-select v-model="form.ewt_details[value_index].ewt_percent">
             <b-form-select-option :value="null" disabled>-- Please select a EWT % --</b-form-select-option>
             <b-form-select-option
-              v-for="(ewt_percent, percent_index) in form.ewt_details[value_index].ewt_description.percents"
+              v-for="(ewt_percent, percent_index) in ewts[value_index].descriptions[value_index].percents"
               :key="percent_index"
-              :value="ewt_percent"
+              :value="ewt_percent.name"
             >{{ewt_percent.name}}</b-form-select-option>
           </b-form-select>
         </div>
