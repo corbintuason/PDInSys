@@ -8,6 +8,7 @@ use App\Http\Resources\Vendor as VendorResource;
 use App\Http\Resources\User as UserResource;
 use App\Vendor;
 use App\User;
+use \stdclass;
 
 class VendorController extends Controller
 {
@@ -49,20 +50,18 @@ class VendorController extends Controller
         $validatedData["status"] = $status;
         $validatedData["creator_id"] = $request['creator_id'];
         $validatedData["change_logs"] = $change_log;
-
+        
+        $new_details = array();
         foreach ($validatedData["ewt_details"] as $detail) {
-            $detail_object = (object) array();
+            $detail_object = new stdClass();
 
-            $detail_object = $detail["ewt_detail"];
-            $detail_object = $detail["ewt_description"];
-            $detail_object = $detail["ewt_percent"];
+            $detail_object->ewt_detail = $detail["ewt_detail"];
+            $detail_object->ewt_description = $detail["ewt_description"];
+            $detail_object->ewt_percent = $detail["ewt_percent"];
 
-            return $detail_object;
+            var_dump($detail_object);
+            array_push($new_details, $detail_object);
         }
-
-        $new_ewt_details = $detail_object;
-
-
         $vendor = Vendor::create([
             'vendor_name' => $request['vendor_name'],
             'trade_name' => $request['trade_name'],
@@ -75,7 +74,7 @@ class VendorController extends Controller
             'bank_details' => $request['bank_details'],
             'tin_number' => $request['tin_number'],
             'type_vat' => $request['type_vat'],
-            'ewt_details' => $new_ewt_details,
+            'ewt_details' => $new_details,
             'status' => $status,
             'creator_id' => $request['creator_id'],
             'change_logs' => $change_log
