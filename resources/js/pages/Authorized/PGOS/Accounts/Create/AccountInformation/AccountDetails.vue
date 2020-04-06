@@ -3,31 +3,49 @@
     <div id="account_details">
       <h1 class="component-sub-header">Account Details</h1>
       <div class="component-sub-content">
-        
         <form @submit.prevent="submit">
-  <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
-    <label class="form__label">Name</label>
-    <input class="form__input" v-model.trim="$v.name.$model"/>
-  </div>
-  <div class="error" v-if="!$v.name.required">Name is required</div>
-  <div class="error" v-if="!$v.name.minLength">Name must have at least {{$v.name.$params.minLength.min}} letters.</div>
-  <button class="button" type="submit" :disabled="submitStatus === 'PENDING'">Submit!</button>
-  <p class="typo__p" v-if="submitStatus === 'OK'">Thanks for your submission!</p>
-  <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
-  <p class="typo__p" v-if="submitStatus === 'PENDING'">Sending...</p>
-</form>
+          <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
+            <label class="form__label">Name</label>
+            <input class="form__input" v-model.trim="$v.name.$model" />
+          </div>
+          <div class="error" v-if="!$v.name.required">Name is required</div>
+          <div
+            class="error"
+            v-if="!$v.name.minLength"
+          >Name must have at least {{$v.name.$params.minLength.min}} letters.</div>
+          <button class="button" type="submit" :disabled="submitStatus === 'PENDING'">Submit!</button>
+          <p class="typo__p" v-if="submitStatus === 'OK'">Thanks for your submission!</p>
+          <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
+          <p class="typo__p" v-if="submitStatus === 'PENDING'">Sending...</p>
+        </form>
 
-         <div class="row">
+        <div class="row">
           <div class="col-md-6">
             <!-- Single Layer -->
-            <b-form-group v-for="(builder, builder_index) in account_builder" :key="builder_index" :label="builder.label" label-class="font-weight-bold">
+            <b-form-group
+              v-for="(builder, builder_index) in account_builder"
+              :key="builder_index"
+              :label="builder.label"
+              label-class="font-weight-bold"
+            >
               <!-- Non Address -->
               <template v-if="builder.model != 'registered_address'">
-              <b-form-input v-if="builder.form == 'input'" :type="builder.type" v-model="form[builder.model]" :placeholder="builder.placeholder"></b-form-input>
+                <b-form-input
+                  v-if="builder.form == 'input'"
+                  :type="builder.type"
+                  v-model="form[builder.model]"
+                  :placeholder="builder.placeholder"
+                ></b-form-input>
               </template>
               <!-- Address -->
               <template v-else>
-                <b-form-input v-for="(section, section_index) in builder.sections" :key="section_index" :type="section.type" v-model="form['registered_address'][section.model]" :placeholder="section.placeholder"></b-form-input>
+                <b-form-input
+                  v-for="(section, section_index) in builder.sections"
+                  :key="section_index"
+                  :type="section.type"
+                  v-model="form['registered_address'][section.model]"
+                  :placeholder="section.placeholder"
+                ></b-form-input>
               </template>
             </b-form-group>
             <!-- Double Layer -->
@@ -124,7 +142,6 @@ export default{
 </script>
 
 <style>
-
 input {
   border: 1px solid silver;
   border-radius: 4px;
@@ -133,19 +150,20 @@ input {
 }
 
 .dirty {
-  border-color: #5A5;
-  background: #EFE;
+  border-color: #5a5;
+  background: #efe;
 }
 
 .dirty:focus {
-  outline-color: #8E8;
+  outline-color: #8e8;
 }
 
 .error {
   border-color: red;
-  background: #FDD;
+  background: #fdd;
 }
 
 .error:focus {
-  outline-color: #F99;
-}</style>
+  outline-color: #f99;
+}
+</style>

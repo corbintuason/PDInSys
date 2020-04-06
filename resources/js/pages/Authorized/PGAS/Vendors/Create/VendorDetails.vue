@@ -1,152 +1,173 @@
 <template>
-    <div>
-        <div class="text-center">
-            <vue-step :now-step="nowStep" :step-list="stepList"></vue-step>
-        </div>
-        <hr />
-        <div class="component-sub-content mt-4 mb-3">
-            <div class="row">
-                <!-- Vendor Name -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Registered Vendor Name</label>
-                        <b-input-group>
-                            <b-input type="text" required></b-input>
-                        </b-input-group>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <!-- Line of Business -->
-                    <div class="form-group">
-                        <label>Line of Business</label>
-                        <b-input-group>
-                            <b-form-select
-                                v-model="selected"
-                                :options="lineOfBusiness"
-                                required
-                            ></b-form-select>
-                        </b-input-group>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <!-- Trade Name -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Trade Name</label>
-                        <b-input-group>
-                            <b-input type="text" required></b-input>
-                        </b-input-group>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <!-- Contact Person -->
-                    <div class="form-group">
-                        <label>Contact Person</label>
-                        <b-input-group>
-                            <b-input
-                                type="text"
-                                placeholder="Last Name"
-                                required
-                            ></b-input>
-                            <b-input
-                                type="text"
-                                placeholder="First Name"
-                                required
-                            ></b-input>
-                            <b-input
-                                type="text"
-                                placeholder="Middle Name"
-                            ></b-input>
-                        </b-input-group>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <!-- Registered Address -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Registered Address</label>
-                        <b-input-group>
-                            <b-input
-                                type="text"
-                                placeholder="No. Street. Bldg."
-                            ></b-input>
-                            <b-input type="text" placeholder="Brgy."></b-input>
-                            <b-input
-                                type="text"
-                                placeholder="City/Municipality"
-                            ></b-input>
-                        </b-input-group>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <!-- Contact Number -->
-                    <div class="form-group">
-                        <label>Contact Number</label>
-                        <b-input-group>
-                            <b-input
-                                type="number"
-                                placeholder="09xx-xxxx-xxx"
-                                required
-                            ></b-input>
-                        </b-input-group>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <!-- Type of Business -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Type of Business</label>
-                        <b-input-group>
-                            <b-form-select
-                                v-model="selected"
-                                :options="typeOfBusiness"
-                                required
-                            ></b-form-select>
-                        </b-input-group>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <!-- Email Address -->
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <b-input-group>
-                            <b-input
-                                type="text"
-                                placeholder="email@email.com"
-                                required
-                            ></b-input>
-                        </b-input-group>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div>
+    <div class="text-center">
+      <vue-step :now-step="nowStep" :step-list="stepList"></vue-step>
     </div>
+    <hr />
+    <div class="component-sub-content mt-4 mb-3">
+      <div class="row">
+        <!-- Vendor Name -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Registered Vendor Name</label>
+            <b-input-group>
+              <b-input v-model="form.vendor_name" type="text" required></b-input>
+            </b-input-group>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <!-- Line of Business -->
+          <div class="form-group">
+            <label>Line of Business</label>
+            <b-input-group>
+              <b-form-select v-model="form.line_business" required>
+                <option disabled>Please select an option</option>
+                <option>Services</option>
+                <option>Goods</option>
+              </b-form-select>
+            </b-input-group>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Trade Name -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Trade Name</label>
+            <b-input-group>
+              <b-input v-model="form.trade_name" type="text" required></b-input>
+            </b-input-group>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <!-- Contact Person -->
+          <div class="form-group">
+            <label>Contact Person</label>
+            <b-input-group>
+              <b-input
+                v-model="form.contact_person.last_name"
+                type="text"
+                placeholder="Last Name"
+                required
+              ></b-input>
+              <b-input
+                v-model="form.contact_person.first_name"
+                type="text"
+                placeholder="First Name"
+                required
+              ></b-input>
+              <b-input
+                v-model="form.contact_person.middle_name"
+                type="text"
+                placeholder="Middle Name"
+              ></b-input>
+            </b-input-group>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Registered Address -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Registered Address</label>
+            <b-input-group>
+              <b-input
+                v-model="form.registered_address.no_st_bldg"
+                type="text"
+                placeholder="No. Street. Bldg."
+              ></b-input>
+              <b-input v-model="form.registered_address.brgy" type="text" placeholder="Brgy."></b-input>
+              <b-input
+                v-model="form.registered_address.city"
+                type="text"
+                placeholder="City/Municipality"
+              ></b-input>
+              <b-input
+                v-model="form.registered_address.zip_code"
+                type="text"
+                placeholder="Zip code"
+              ></b-input>
+            </b-input-group>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <!-- Contact Number -->
+          <div class="form-group">
+            <label>Contact Number</label>
+            <b-input-group>
+              <b-input
+                v-model="form.contact_number"
+                type="number"
+                placeholder="09xx-xxxx-xxx"
+                required
+              ></b-input>
+            </b-input-group>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <!-- Type of Business -->
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Type of Business</label>
+            <b-input-group>
+              <b-form-select v-model="form.type_business" required>
+                <option disabled>Please select an option</option>
+                <option>Sole Proprietorship</option>
+                <option>Corporation</option>
+              </b-form-select>
+            </b-input-group>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <!-- Email Address -->
+          <div class="form-group">
+            <label>Email Address</label>
+            <b-input-group>
+              <b-input
+                v-model="form.email_address"
+                type="text"
+                placeholder="email@email.com"
+                required
+              ></b-input>
+            </b-input-group>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import vueStep from "vue-step";
 export default {
+    props: {
+        form: Object
+    },
     data() {
         return {
             nowStep: 1,
             stepList: ["", "", "", ""],
-            selected: null,
-            lineOfBusiness: [
-                { value: null, text: "Please select an option" },
-                { value: "a", text: "Services" },
-                { value: "b", text: "Goods" }
-            ],
-            typeOfBusiness: [
-                { value: null, text: "Please select an option" },
-                { value: "a", text: "Sole Proprietorship" },
-                { value: "b", text: "Corporation" }
-            ]
+            vendor_name: "",
+            trade_name: "",
+            registered_address: {
+                no_st_bldg: "",
+                barangay: "",
+                city: "",
+                zip_code: "",
+            },
+            contact_person: {
+                last_name: "",
+                first_name: "",
+                middle_name: ""
+            },
+            contact_number: "",
+            email_address: "",
+            line_business: "",
+            type_business: "",
         };
     },
     components: {
@@ -156,5 +177,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

@@ -7,13 +7,15 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\UserRegistered;
+use App\Vendor;
 
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-    public function receivesBroadcastNotificationsOn() {
-        return 'users.'.$this->id;
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'users.' . $this->id;
     }
 
     /**
@@ -46,13 +48,13 @@ class User extends Authenticatable
         'module_access' => 'array'
     ];
 
-    public function scopeIsAccountApprover($query)
+    public function accounts()
     {
-        dd($query->module_access);
-    $query->whereJsonContains('module_access->office', 'PGOS');
+        return $this->hasMany("App/Account");
     }
 
-    public function accounts(){
-        return $this->hasMany("App/Account");
+    public function vendors()
+    {
+        return $this->hasMany("App/Vendor");
     }
 }

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-breadcrumb class="mt-3">
+    <b-breadcrumb class="mt-4">
       <b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
       <b-breadcrumb-item active>My Profile</b-breadcrumb-item>
     </b-breadcrumb>
     <div class="row">
-      <div class="col-md-4 employee-info-card">
-        <b-card>
+      <div class="col-md-5 employee-info-card">
+        <b-card header-bg-variant="primary" footer-bg-variant="primary">
           <template v-slot:header>
             <h1 class="component-title text-center">Employee Info</h1>
           </template>
@@ -15,7 +15,7 @@
         </b-card>
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-7">
         <b-card class="card">
           <template v-slot:header>
             <h1 class="component-title">User Profile Settings</h1>

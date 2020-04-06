@@ -6,7 +6,6 @@
       </template>
       <b-card-body>
         <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
-        hehehehe
         {{accounts}}
       </b-card-body>
     </b-card>
