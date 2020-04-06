@@ -96,7 +96,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+       
     }
 
     /**
@@ -108,7 +108,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->update([
+            'password' => bcrypt($request['password']),
+        ]);
+        return new UserResource($user);
 
     }
 

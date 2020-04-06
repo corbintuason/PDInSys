@@ -3,21 +3,6 @@
     <div id="account_details">
       <h1 class="component-sub-header">Account Details</h1>
       <div class="component-sub-content">
-        <form @submit.prevent="submit">
-          <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
-            <label class="form__label">Name</label>
-            <input class="form__input" v-model.trim="$v.name.$model" />
-          </div>
-          <div class="error" v-if="!$v.name.required">Name is required</div>
-          <div
-            class="error"
-            v-if="!$v.name.minLength"
-          >Name must have at least {{$v.name.$params.minLength.min}} letters.</div>
-          <button class="button" type="submit" :disabled="submitStatus === 'PENDING'">Submit!</button>
-          <p class="typo__p" v-if="submitStatus === 'OK'">Thanks for your submission!</p>
-          <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
-          <p class="typo__p" v-if="submitStatus === 'PENDING'">Sending...</p>
-        </form>
 
         <div class="row">
           <div class="col-md-6">

@@ -64,6 +64,10 @@ class AccountCreated extends Notification
         return [
             'created_account' => $this->account,
             'approver' => $notifiable,
+            'link' => [
+                "name" => 'account_show',
+                "id" => $this->account->id
+            ],
             'notification_table' => [
                 'project_name' => $this->project_name,
                 'item' => $this->account->registered_name,
@@ -80,7 +84,6 @@ class AccountCreated extends Notification
     {
         return new BroadcastMessage([
             'notification' => $notifiable->notifications()->latest()->first()
-
         ]);
     }
 }

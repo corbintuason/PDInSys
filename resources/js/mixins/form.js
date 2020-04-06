@@ -20,8 +20,6 @@ export default {
 
         // For Updating an item
 
-        updateItem(item, status) {},
-
         updateItem(swal_object, axios_form) {
             swal.fire({
                 title: swal_object.title,
@@ -30,7 +28,6 @@ export default {
                 text: swal_object.text,
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    this.$Progress.start();
                     return new Promise((resolve, reject) => {
                         axios
                             .put(axios_form.api_link, {
@@ -42,9 +39,8 @@ export default {
                                 resolve(item);
                             })
                             .catch((e) => {
-                                this.$Progress.fail();
                                 //(e);
-                                swal.showValidationMessage(`Unable to create`);
+                                swal.showValidationMessage(`Unable to update`);
                                 swal.hideLoading();
                                 reject(e);
                             });
