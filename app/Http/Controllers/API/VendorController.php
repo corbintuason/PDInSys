@@ -24,15 +24,45 @@ class VendorController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'vendor_name' => 'required',
-        ]);
 
         // STATUS IS SET TO FOR APPROVAL
         $user = new UserResource(User::findOrFail($request->creator_id));
         $date_today = date('Y/m/d');
         $status = "For Approval";
         $change_log = [$date_today . ": User " . $user->last_name . " has created this vendor"];
+
+        $validatedData = $request->validate([
+            'vendor_name' => 'required',
+            'trade_name' => 'required',
+            'registered_address' => 'required',
+            'type_business' => 'required',
+            'line_business' => 'required',
+            'contact_person' => 'required',
+            'contact_number' => 'required',
+            'email_address' => 'required',
+            'bank_details' => 'required',
+            'tin_number' => 'required',
+            'type_vat' => 'required',
+            'ewt_details' => 'required',
+        ]);
+
+        $validatedData["status"] = $status;
+        $validatedData["creator_id"] = $request['creator_id'];
+        $validatedData["change_logs"] = $change_log;
+
+        foreach ($validatedData["ewt_details"] as $detail) {
+            $detail_object = (object) array();
+
+            $detail_object = $detail["ewt_detail"];
+            $detail_object = $detail["ewt_description"];
+            $detail_object = $detail["ewt_percent"];
+
+            return $detail_object;
+        }
+
+        $new_ewt_details = $detail_object;
+
+
         $vendor = Vendor::create([
             'vendor_name' => $request['vendor_name'],
             'trade_name' => $request['trade_name'],
@@ -45,7 +75,7 @@ class VendorController extends Controller
             'bank_details' => $request['bank_details'],
             'tin_number' => $request['tin_number'],
             'type_vat' => $request['type_vat'],
-            'ewt_details' => $request['ewt_details'],
+            'ewt_details' => $new_ewt_details,
             'status' => $status,
             'creator_id' => $request['creator_id'],
             'change_logs' => $change_log
