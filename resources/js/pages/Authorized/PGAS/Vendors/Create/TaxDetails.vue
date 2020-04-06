@@ -47,11 +47,9 @@
       </div>
 
       <div class="row mt-2" v-for="(value, value_index) in form.ewt_details" :key="value_index">
-        
         <!-- EWT Details -->
         <div class="col-md-2">
-          <b-form-select @input="renderEWTDescription($event, value)"
-          >
+          <b-form-select @input="renderEWTDescription($event, value)">
             <b-form-select-option :value="null" disabled>-- Please select a EWT --</b-form-select-option>
             <b-form-select-option
               v-for="(ewt_detail, ewt_index) in ewts"
@@ -60,17 +58,25 @@
             >{{ewt_detail.name}}</b-form-select-option>
           </b-form-select>
         </div>
-        <div class = "col-md-7">
+        <div class="col-md-7">
           <b-form-select @input="renderEWTPercentages($event, value)">
             <b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
-            <b-form-select-option :value="ewt_description" v-for="(ewt_description, description_index) in value.dropdowns.ewt_descriptions" :key="description_index">{{ewt_description.name}}</b-form-select-option>
+            <b-form-select-option
+              :value="ewt_description"
+              v-for="(ewt_description, description_index) in value.dropdowns.ewt_descriptions"
+              :key="description_index"
+            >{{ewt_description.name}}</b-form-select-option>
           </b-form-select>
         </div>
 
-        <div class = "col-md-2">
+        <div class="col-md-2">
           <b-form-select v-model="value.ewt_percent">
             <b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
-            <b-form-select-option :value="ewt_percentage.name" v-for="(ewt_percentage, percentage_index) in value.dropdowns.ewt_percent" :key="percentage_index">{{ewt_percentage.name}}</b-form-select-option>
+            <b-form-select-option
+              :value="ewt_percentage.name"
+              v-for="(ewt_percentage, percentage_index) in value.dropdowns.ewt_percent"
+              :key="percentage_index"
+            >{{ewt_percentage.name}}</b-form-select-option>
           </b-form-select>
         </div>
         <div class="col-md-1">
@@ -150,12 +156,7 @@ export default {
            renderEWTPercentages(event, value){
           // Where Event is the object 
           var ewt_detail = this.ewts.find(ewt => ewt.name == event.name);
-          console.log(ewt_detail);
-          console.log("event");
-          console.log(event);
 
-          console.log("render mo na plz");
-          // Set Form EWT Description value
           value.ewt_percent = null;
           value.ewt_description = event.name;
 
