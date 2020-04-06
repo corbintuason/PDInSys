@@ -47,34 +47,30 @@
       </div>
 
       <div class="row mt-2" v-for="(value, value_index) in form.ewt_details" :key="value_index">
+        
+        <!-- EWT Details -->
         <div class="col-md-2">
-          <b-form-select v-model="form.ewt_details[value_index].ewt_detail">
+          <b-form-select @input="renderEWTDescription($event, value)"
+          >
             <b-form-select-option :value="null" disabled>-- Please select a EWT --</b-form-select-option>
             <b-form-select-option
               v-for="(ewt_detail, ewt_index) in ewts"
               :key="ewt_index"
-              :value="ewt_detail.name"
+              :value="ewt_detail"
             >{{ewt_detail.name}}</b-form-select-option>
           </b-form-select>
         </div>
-        <div class="col-md-7">
-          <b-form-select v-model="form.ewt_details[value_index].ewt_description">
+        <div class = "col-md-7">
+          <b-form-select @input="renderEWTPercentages($event, value)">
             <b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
-            <b-form-select-option
-              v-for="(ewt_description, description_index) in ewts[value_index].descriptions"
-              :key="description_index"
-              :value="ewt_description.name"
-            >{{ewt_description.name}}</b-form-select-option>
+            <b-form-select-option :value="ewt_description" v-for="(ewt_description, description_index) in value.dropdowns.ewt_descriptions" :key="description_index">{{ewt_description.name}}</b-form-select-option>
           </b-form-select>
         </div>
-        <div class="col-md-2">
-          <b-form-select v-model="form.ewt_details[value_index].ewt_percent">
-            <b-form-select-option :value="null" disabled>-- Please select a EWT % --</b-form-select-option>
-            <b-form-select-option
-              v-for="(ewt_percent, percent_index) in ewts[value_index].descriptions[value_index].percents"
-              :key="percent_index"
-              :value="ewt_percent.name"
-            >{{ewt_percent.name}}</b-form-select-option>
+
+        <div class = "col-md-2">
+          <b-form-select v-model="value.ewt_percent">
+            <b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
+            <b-form-select-option :value="ewt_percentage.name" v-for="(ewt_percentage, percentage_index) in value.dropdowns.ewt_percent" :key="percentage_index">{{ewt_percentage.name}}</b-form-select-option>
           </b-form-select>
         </div>
         <div class="col-md-1">
@@ -122,19 +118,51 @@ export default {
 				ewt_percent: ""
 			}],
 		};
-	},
+  },
+  computed:{
+
+  },
 	methods: {
 		addRow(model) {
             model.push({
-				ewt_detail: "",
-				ewt_description: "",
-				ewt_percent: ""
+				ewt_detail: null,
+					ewt_description: null,
+					ewt_percent: null,
+					dropdowns:{
+						ewt_descriptions:[],
+						ewt_percent:[],
+					}
 			});
         },
 
         removeRow(model, index) {
             model.splice(index, 1);
         },
+
+        renderEWTDescription(event, value){
+          // Where Event is the object 
+          var ewt_detail = this.ewts.find(ewt => ewt.name == event.name);
+          // Set Form EWT Detail value
+          value.ewt_percent = null;
+          value.ewt_detail = ewt_detail.name;
+          value.dropdowns.ewt_descriptions = ewt_detail.descriptions;
+        },
+           renderEWTPercentages(event, value){
+          // Where Event is the object 
+          var ewt_detail = this.ewts.find(ewt => ewt.name == event.name);
+          console.log(ewt_detail);
+          console.log("event");
+          console.log(event);
+
+          console.log("render mo na plz");
+          // Set Form EWT Description value
+          value.ewt_percent = null;
+          value.ewt_description = event.name;
+
+          // Set Percentages for Dropdown
+          console.log(event);
+          value.dropdowns.ewt_percent = event.percents;
+        }
 	},
 	watch: {
 		selected_ewt() {
