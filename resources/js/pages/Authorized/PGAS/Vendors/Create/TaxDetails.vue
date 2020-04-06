@@ -112,7 +112,7 @@ export default {
 			selected: null,
 			tin_number: "",
 			type_vat: "",
-			ewts: this.$store.state.globals.ewt_details,
+			ewts: this.$store.state.tax.ewt_details,
 			selected_ewt: null,
 			selected_description: null,
 			selected_percent: null,
