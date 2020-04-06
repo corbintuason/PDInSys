@@ -297,7 +297,7 @@ export default new Vuex.Store({
                     },
                     {
                         name: "EWT Description 2",
-                        percenst: [
+                        percents: [
                             {
                                 name: "3%",
                             },

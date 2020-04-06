@@ -23,7 +23,10 @@ class CreateVendorsTable extends Migration
             $table->json('contact_person');
             $table->string('contact_number');
             $table->string('email_address');
-            $table->json('bank_name');
+            $table->json('bank_details');
+            $table->string('tin_number');
+            $table->string('type_vat');
+            $table->json('ewt_details');
             $table->string('status');
             $table->json("change_logs");
 
