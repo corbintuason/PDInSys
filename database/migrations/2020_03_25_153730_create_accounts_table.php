@@ -27,7 +27,6 @@ class CreateAccountsTable extends Migration
             $table->json("brands");
             $table->json("departments");
             $table->json('clients');
-            $table->json("change_logs");
 
             $table->integer('creator_id');
             $table->timestamps();

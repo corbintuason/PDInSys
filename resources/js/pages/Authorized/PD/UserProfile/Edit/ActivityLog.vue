@@ -44,50 +44,7 @@
                 <a>2 mins ago</a>
             </div>
         </b-card>
-
-        <b-card class="activity-log-card-alt">
-            <div>
-                <div class="row">
-                    <div class="col-md-6 text-left">
-                        <h5>Project Creation</h5>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <a>March 28,2020</a>
-                    </div>
-                </div>
-
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqu.
-                </p>
-            </div>
-            <div class="text-right">
-                <a>6 hours ago</a>
-            </div>
-        </b-card>
-
-        <b-card class="activity-log-card">
-            <div>
-                <div class="row">
-                    <div class="col-md-6 text-left">
-                        <h5>Budget Request</h5>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <a>March 27,2020</a>
-                    </div>
-                </div>
-
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqu.
-                </p>
-            </div>
-            <div class="text-right">
-                <a>1 day ago</a>
-            </div>
-        </b-card>
+        {{activities}}
         <div class="row">
             <div class="col-md-7"></div>
             <div class="col-md-5">
@@ -116,8 +73,19 @@ export default {
             sortDesc: false,
             sortDirection: "asc",
             filter: null,
-            filterOn: []
+            filterOn: [],
+            activities: null,
         };
+    },
+    methods:{
+            loadActivities() {
+            axios.get("/api/activities").then(response => {
+                this.activities = response;
+            })
+        },
+    },
+    mounted(){
+        this.loadActivities();
     }
 };
 </script>

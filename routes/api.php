@@ -15,20 +15,28 @@ use App\Http\Resources\User as UserResource;
 */
 
 Route::post("/login", "API\AuthController@login")->name('login');
-Route::middleware('auth:api')->post("/logout", "API\AuthController@logout");
 Route::post("/register", "API\UserController@store");
 
 
-Route::apiResources([
-    'user' => 'API\UserController',
-    'account' => 'API\AccountController',
-    'vendor' => 'API\VendorController',
-]);
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post("/logout", "API\AuthController@logout");
+    Route::get('/init', "API\AuthController@user");
+
+    Route::apiResources([
+        'user' => 'API\UserController',
+        'account' => 'API\AccountController',
+        'vendor' => 'API\VendorController',
+    ]);
+
+    Route::get('/activities', "API\ActivityController@index");
+
+});
+
+
 
 // Route::middleware('auth:api')->get('/init', function (Request $request) {
 //     return new UserResource($request->user());
 // });
-Route::middleware('auth:api')->get('/init', "API\AuthController@user");
 
 // Route::get('/user', function (Request $request) {
 //     return auth()->guard('api')->user();

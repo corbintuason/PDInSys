@@ -47,10 +47,9 @@ class AccountController extends Controller
         ]);
 
         // STATUS IS SET TO FOR APPROVAL
-        $user = new UserResource(User::findOrFail($request->creator_id));
-        $date_today = date('Y/m/d');
+        $user_id = auth()->user()->id;
+        $user = new UserResource(User::findOrFail($user_id));
         $status = "For Approval";
-        $change_log = [$date_today . ": User " . $user->last_name . " has created this account"];
         $account = Account::create([
             'registered_name' => $request['registered_name'],
             'registered_address' => $request['registered_address'],
@@ -64,8 +63,7 @@ class AccountController extends Controller
             "brands" => $request["brands"],
             "departments" => $request["departments"],
             'clients' => $request['clients'],
-            'creator_id' => $request['creator_id'],
-            'change_logs' => $change_log
+            'creator_id' => $user_id,
         ]);
         
         // Notify all Accounts that can Approve this Account
@@ -81,7 +79,7 @@ class AccountController extends Controller
                             foreach($module["features"] as $feature){
                                 if($feature["name"] == 'Account and Client Accreditation'){
                                     if($feature["role"] == 'Approver'){
-                                        $approvers->push($user);
+                                         $approvers->push($user);
                                     }
                                 }
                             }
@@ -90,6 +88,8 @@ class AccountController extends Controller
                 }
             }
         }
+        
+        activity('Account Created')->log("User " . $user->last_name .", " . $user->first_name  . " has created Account " . $account->registered_name);
 
         Notification::send($approvers, new AccountCreated($account));
 
