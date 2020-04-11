@@ -18,7 +18,7 @@
       {{ form }}
       <b-card-text>
         <b-tabs v-model="tabIndex" content-class="mt-3" fill>
-          <b-tab title="General Info" active>
+          <b-tab title="General Info">
             <general-info :form="form"></general-info>
           </b-tab>
           <b-tab title="Government Details">
@@ -27,7 +27,7 @@
           <b-tab title="Education Attainment and Work Experience">
             <education-work></education-work>
           </b-tab>
-          <b-tab title="Other Information">
+          <b-tab title="Other Information" active>
             <other-information></other-information>
           </b-tab>
         </b-tabs>

@@ -23,6 +23,7 @@ Route::apiResources([
     'user' => 'API\UserController',
     'account' => 'API\AccountController',
     'vendor' => 'API\VendorController',
+    'mandate' => 'API\MandateController',
 ]);
 
 // Route::middleware('auth:api')->get('/init', function (Request $request) {
