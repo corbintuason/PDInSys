@@ -23,28 +23,22 @@
                 </b-input-group>
             </div>
         </div>
-        <b-card class="activity-log-card">
+        <b-card v-for="(activity, activity_index) in activities" :key="activity_index"  class="activity-log-card">
             <div>
                 <div class="row">
                     <div class="col-md-6 text-left">
-                        <h5>Cost Estimate</h5>
+                        <h5>{{activity.log_name}}</h5>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a>March 28,2020</a>
+                        <a>{{activity.created_at}}</a>
                     </div>
                 </div>
 
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqu.
+                   {{activity.description}}
                 </p>
             </div>
-            <div class="text-right">
-                <a>2 mins ago</a>
-            </div>
         </b-card>
-        {{activities}}
         <div class="row">
             <div class="col-md-7"></div>
             <div class="col-md-5">
@@ -80,7 +74,7 @@ export default {
     methods:{
             loadActivities() {
             axios.get("/api/activities").then(response => {
-                this.activities = response;
+                this.activities = response.data;
             })
         },
     },

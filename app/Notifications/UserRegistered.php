@@ -63,6 +63,10 @@ class UserRegistered extends Notification
         return [
             'created_user' => $this->user,
             'admin' => $notifiable,
+            'link' => [
+                "name" => 'user_show',
+                "id" => $this->user->id
+            ],
             'notification_table' => [
                 'project_name' => $this->project_name,
                 'item' => $this->user->last_name . ", " . $this->user->first_name,

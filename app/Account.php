@@ -11,6 +11,7 @@ class Account extends Model
 
     use LogsActivity, CausesActivity;
 
+    
     /**
      * The attributes that are mass assignable.
      *

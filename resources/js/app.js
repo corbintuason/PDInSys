@@ -32,10 +32,10 @@ window.swal = swal;
 
 const toast = swal.mixin({
     toast: true,
-    position: "top-end",
-    showConfirmButton: false,
-    timer: 3000,
+    position: 'bottom-end',
+    timer: null
 });
+
 window.toast = toast;
 import routes from "./routes";
 import { store } from "./store/store";

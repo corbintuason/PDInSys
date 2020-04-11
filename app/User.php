@@ -9,7 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use App\Notifications\UserRegistered;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
-
+use App\Builders\UserBuilder;
+use App\Collections\UserCollection;
 use App\Vendor;
 
 class User extends Authenticatable
@@ -20,6 +21,16 @@ class User extends Authenticatable
     {
         return 'users.' . $this->id;
     }
+
+    public function newEloquentBuilder($builder) 
+    { 
+       return new UserBuilder($builder); 
+    }
+
+    public function newCollection(array $models = []) 
+   { 
+      return new UserCollection($models); 
+   } 
 
     /**
      * The attributes that are mass assignable.

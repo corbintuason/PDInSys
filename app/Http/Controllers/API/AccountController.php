@@ -11,6 +11,7 @@ use App\User;
 use DB;
 use Notification;
 use App\Notifications\AccountCreated;
+use App\Notifications\AccountStatusChange;
 
 class AccountController extends Controller
 {
@@ -45,26 +46,28 @@ class AccountController extends Controller
             'registered_name' => 'required',
             'registered_address' => 'required',
         ]);
-
-        // STATUS IS SET TO FOR APPROVAL
         $user_id = auth()->user()->id;
-        $user = new UserResource(User::findOrFail($user_id));
+        $auth_user = new UserResource(User::findOrFail($user_id));
         $status = "For Approval";
-        $account = Account::create([
-            'registered_name' => $request['registered_name'],
-            'registered_address' => $request['registered_address'],
-            'registered_tin' => $request['registered_tin'],
-            'status' => $status,
-            'terms_of_payment' => $request['terms_of_payment'],
-            'payment_milestone' => $request['payment_milestone'],
-            'company_tel_number' => $request['company_tel_number'],
-            'company_email_address' => $request['company_email_address'],
-            'accreditation_status' => $request['accreditation_status'],
-            "brands" => $request["brands"],
-            "departments" => $request["departments"],
-            'clients' => $request['clients'],
-            'creator_id' => $user_id,
-        ]);
+
+        $account = activity()->withoutLogs(function() use($request, $status, $user_id){
+                return Account::create([
+                'registered_name' => $request['registered_name'],
+                'registered_address' => $request['registered_address'],
+                'registered_tin' => $request['registered_tin'],
+                'status' => $status,
+                'terms_of_payment' => $request['terms_of_payment'],
+                'payment_milestone' => $request['payment_milestone'],
+                'company_tel_number' => $request['company_tel_number'],
+                'company_email_address' => $request['company_email_address'],
+                'accreditation_status' => $request['accreditation_status'],
+                "brands" => $request["brands"],
+                "departments" => $request["departments"],
+                'clients' => $request['clients'],
+                'creator_id' => $user_id,
+            ]);
+        });
+    
         
         // Notify all Accounts that can Approve this Account
 
@@ -88,15 +91,16 @@ class AccountController extends Controller
                 }
             }
         }
-        
-        activity('Account Created')->log("User " . $user->last_name .", " . $user->first_name  . " has created Account " . $account->registered_name);
 
         Notification::send($approvers, new AccountCreated($account));
 
-
-
+        // Create Activity Log
         
-        dd($approvers);
+        activity('Account Created')
+        ->on($account)
+        ->withProperties(["link_name" => "account_show", "link_id" => $account->id])
+        ->log("User " . $auth_user->last_name .", " . $auth_user->first_name  . " has created Account " . $account->registered_name);
+
         return new AccountResource($account);
     }
 
@@ -132,21 +136,34 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $account = Account::findOrFail($id);
         $this->validate($request, [
             'status' => 'required|string|max:191',
         ]);
-        //  $change_logs = $account->change_logs;
-        //  dd($request);
-        //  $user = new UserResource(User::findOrFail($request->updator_id));
-        //  $date_today = date('Y/m/d');
-        //  $status = "For Approval";
-        //  $change_log = $date_today.": User " . $user->last_name . " has updated the status of this account to " . $request->status;
+        $account = Account::findOrFail($id);
+        $user_id = auth()->user()->id;
+        $user = new UserResource(User::findOrFail($user_id));
 
-        //  array_push($change_logs, $change_log);
-        $account->update([
-            'status' => $request['status'],
-        ]);
+        $old_status = $account->status;
+        activity()->withoutLogs(function() use($account, $request){
+            $account->update([
+                'status' => $request['status'],
+            ]);
+        });
+        
+        
+        // Notify the creator that the account has been approved
+        $update_user = User::findOrFail($account->creator_id);
+        $update_users = collect([]);
+        $update_users->push($update_user);
+        Notification::send($update_users, new AccountStatusChange($account));
+
+         // Create Activity Log
+        
+         activity('Account Status Change')
+         ->on($account)
+         ->withProperties(["link_name" => "account_show", "link_id" => $account->id])
+         ->log("User " . $user->last_name .", " . $user->first_name  . " has changed Account " . $account->registered_name . "'s status from ". $old_status . " to ". $account->status);
+ 
 
         return new AccountResource($account);
         //

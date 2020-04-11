@@ -34,16 +34,9 @@
               v-else-if="content.form=='input'"
               :type="content.type"
               v-model="selected_client[content.model]"
-              :state="validated(content)"
             ></b-form-input>
 
-            <!-- Validators -->
-            <div v-if="content.validators != null">
-              <div v-for="(validator, validator_index) in content.validators" :key="validator_index">
-                <b-form-invalid-feedback v-if="validator.name == 'required'" :state="required(content.model)" > This is a required field</b-form-invalid-feedback>
-                <b-form-invalid-feedback v-if="validator.name =='email'" :state="email(content.model)">Must be an email</b-form-invalid-feedback>
-              </div>
-            </div>
+         
           </b-form-group>
         </div>
     </div>
