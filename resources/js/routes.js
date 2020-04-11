@@ -4,8 +4,9 @@ import Dashboard from "./pages/Authorized/Dashboard.vue";
 import AddUser from "./pages/Authorized/ADMIN/AddUser.vue";
 
 // Single Pages
-import Notifications from "./pages/Authorized/Notifications.vue"
+import Notifications from "./pages/Authorized/Notifications.vue";
 // PGOS
+
 // Account and Client Accreditation
 import CreateAccount from "./pages/Authorized/PGOS/Accounts/Create.vue";
 import IndexAccount from "./pages/Authorized/PGOS/Accounts/Index.vue";
@@ -15,10 +16,12 @@ import ShowAccount from "./pages/Authorized/PGOS/Accounts/Show.vue";
 import IndexProject from "./pages/Authorized/PGOS/Projects/Index.vue";
 import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue";
 
-// Mandate Creation Module
-import IndexMandate from "./pages/Authorized/PGOS/Mandate/Index.vue";
-
 // PGAS
+
+// Mandate Creation Module
+import IndexMandate from "./pages/Authorized/PGAS/Mandate/Index.vue";
+import CreateMandate from "./pages/Authorized/PGAS/Mandate/Create.vue";
+
 // Vendor Accreditation Module
 import IndexVendor from "./pages/Authorized/PGAS/Vendors/Index.vue";
 import CreateVendor from "./pages/Authorized/PGAS/Vendors/Create.vue";
@@ -32,91 +35,96 @@ export default [
         component: Welcome,
         name: "Welcome",
         meta: {
-            requiresVisitor: true
-        }
+            requiresVisitor: true,
+        },
     },
     {
         path: "/",
         component: Authorized,
         name: "Home",
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
         },
         redirect: { name: "Dashboard" },
         children: [
             {
                 path: "/",
                 component: Dashboard,
-                name: "Dashboard"
+                name: "Dashboard",
             },
 
             // MY NOTIFICATIONS
             {
                 path: "/notifications",
                 component: Notifications,
-                name: "Notifications"
+                name: "Notifications",
             },
             // ADMIN PATHS
             {
                 path: "/admin",
-                redirect: { name: "user_create" }
+                redirect: { name: "user_create" },
             },
             {
                 path: "/admin/addUser",
                 component: AddUser,
-                name: "user_create"
+                name: "user_create",
             },
 
             // ACCOUNTS PATHS
             {
                 path: "/accounts",
                 component: IndexAccount,
-                name: "account_index"
+                name: "account_index",
             },
             {
                 path: "/accounts/create",
                 component: CreateAccount,
-                name: "account_create"
+                name: "account_create",
             },
             {
                 path: "/accounts/:id",
                 component: ShowAccount,
-                name: "account_show"
+                name: "account_show",
             },
             // PROJECT PATHS
             {
                 path: "/projects",
                 component: IndexProject,
-                name: "project_index"
+                name: "project_index",
             },
             {
                 path: "/projects/create",
                 component: CreateProject,
-                name: "project_create"
+                name: "project_create",
             },
             // MANDATE PATHS
             {
-                path: "/mandate",
+                path: "/mandates",
                 component: IndexMandate,
-                name: "mandate_index"
+                name: "mandate_index",
+            },
+            {
+                path: "/mandates/create",
+                component: CreateMandate,
+                name: "mandate_create",
             },
             // VENDOR PATHS
             {
                 path: "/vendors",
                 component: IndexVendor,
-                name: "vendor_index"
+                name: "vendor_index",
             },
             {
                 path: "/vendors/create",
                 component: CreateVendor,
-                name: "vendor_create"
+                name: "vendor_create",
             },
             // USER PROFILE PATH
             {
                 path: "/user-profile",
                 component: EditUserProfile,
-                name: "user_profile_edit"
-            }
-        ]
-    }
+                name: "user_profile_edit",
+            },
+        ],
+    },
 ];

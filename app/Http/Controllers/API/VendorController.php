@@ -50,7 +50,7 @@ class VendorController extends Controller
         $validatedData["status"] = $status;
         $validatedData["creator_id"] = $request['creator_id'];
         $validatedData["change_logs"] = $change_log;
-        
+
         $new_details = array();
         foreach ($validatedData["ewt_details"] as $detail) {
             $detail_object = new stdClass();
@@ -62,6 +62,7 @@ class VendorController extends Controller
             var_dump($detail_object);
             array_push($new_details, $detail_object);
         }
+
         $vendor = Vendor::create([
             'vendor_name' => $request['vendor_name'],
             'trade_name' => $request['trade_name'],
