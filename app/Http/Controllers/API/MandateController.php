@@ -26,8 +26,19 @@ class MandateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+
         // STATUS IS SET TO FOR APPROVAL
         $user = new UserResource(User::findOrFail($request->creator_id));
         $date_today = date('Y/m/d');
@@ -67,17 +78,6 @@ class MandateController extends Controller
         ]);
 
         return new MandateResource($mandate);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**

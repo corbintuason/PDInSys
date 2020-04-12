@@ -1,12 +1,15 @@
 <template>
   <div>
-    <b-card class="mt-5">
+    <b-breadcrumb class="mt-4">
+      <b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+      <b-breadcrumb-item active>List of Manpower</b-breadcrumb-item>
+    </b-breadcrumb>
+    <b-card class="mt-4">
       <template v-slot:header>
-        <h1 class="component-title">Mandate</h1>
+        <h1 class="component-title">Manpower</h1>
       </template>
       <b-card-body>
         <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
-        {{mandates}}
       </b-card-body>
     </b-card>
   </div>
@@ -32,9 +35,10 @@ export default {
         this.mandates = response.data.data;
         mandates.forEach(mandate => {
           this.items.push({
-            item_name: mandate.mandate_name,
-            contact_number: mandate.contact_number,
+            item_name: mandate.full_name.first_name + ' ' +mandate.full_name.last_name,
+            contact_number: mandate.mobile_number,
             status: mandate.status,
+            action: mandate.actions,
             item_params: {
               link: "mandate_show",
               id: mandate.id
@@ -47,19 +51,27 @@ export default {
       this.fields = [
         {
           key: "item_details.name",
-          label: "mandate Name",
+          label: "Full Name",
           sortable: true,
-          sortDirection: "desc"
+          sortDirection: "desc",
+          class: "text-center"
         },
         {
           key: "contact_number",
           label: "Contact Number",
           sortable: true,
-          sortDirection: "desc"
+          sortDirection: "desc",
+          class: "text-center"
         },
         {
           key: "status",
           label: "Status",
+          sortable: true,
+          class: "text-center"
+        },
+        {
+          key: "actions",
+          label: "Actions",
           sortable: true,
           class: "text-center"
         },

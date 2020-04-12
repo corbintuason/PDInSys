@@ -2,7 +2,7 @@
   <div>
     <div class="pgas-header text-center">
       <a class="text-white">
-        <strong>PGOS</strong>
+        <strong>PGAS</strong>
       </a>
     </div>
     <div>
@@ -150,7 +150,7 @@
             <li v-if="renderFeature('Human Resource', 'Mandate')" class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-dot-circle nav-icon"></i>
-                <p>Mandate</p>
+                <p>Manpower Pool</p>
               </a>
             </li>
             <li v-if="renderFeature('Human Resource', 'PDIS')" class="nav-item">

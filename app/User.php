@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->hasMany("App/Vendor");
     }
+
+    public function mandates()
+    {
+        return $this->hasMany("App/Mandate");
+    }
 }

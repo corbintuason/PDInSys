@@ -14,29 +14,44 @@
         <!-- Father's -->
         <div class="col-md-6 mb-3">
           <label for="father">Father's Name:</label>
-          <b-input id="father" type="text"></b-input>
+          <b-input v-model="form.father_details.father_name" id="father" type="text"></b-input>
         </div>
         <div class="col-md-6 mb-3">
           <label for="father">Occupation:</label>
-          <b-input id="father" type="text" placeholder="Father's Occupation"></b-input>
+          <b-input
+            v-model="form.father_details.father_occupation"
+            id="father"
+            type="text"
+            placeholder="Father's Occupation"
+          ></b-input>
         </div>
         <!-- Mother's -->
         <div class="col-md-6 mb-3">
           <label for="mother">Mother's Name:</label>
-          <b-input id="mother" type="text"></b-input>
+          <b-input v-model="form.mother_details.mother_name" id="mother" type="text"></b-input>
         </div>
         <div class="col-md-6 mb-3">
           <label for="mother">Occupation:</label>
-          <b-input id="mother" type="text" placeholder="Mother's Occupation"></b-input>
+          <b-input
+            v-model="form.mother_details.mother_occupation"
+            id="mother"
+            type="text"
+            placeholder="Mother's Occupation"
+          ></b-input>
         </div>
         <!-- Spouse's -->
         <div class="col-md-6 mb-3">
           <label for="spouse">Spouse's Name:</label>
-          <b-input id="spouse" type="text"></b-input>
+          <b-input v-model="form.spouse_details.spouse_name" id="spouse" type="text"></b-input>
         </div>
         <div class="col-md-6 mb-3">
           <label for="spouse">Occupation:</label>
-          <b-input id="spouse" type="text" placeholder="Spouse's Occupation"></b-input>
+          <b-input
+            v-model="form.spouse_details.spouse_name"
+            id="spouse"
+            type="text"
+            placeholder="Spouse's Occupation"
+          ></b-input>
         </div>
       </div>
       <div class="text-center mt-4">
@@ -45,7 +60,7 @@
         </h5>
       </div>
       <!-- contact person -->
-      <div class="row">
+      <div class="row" v-for="(value, value_index) in form.emergency_details" :key="value_index">
         <div class="col-md-6">
           <label for="contact-person">Contact Person:</label>
         </div>
@@ -54,20 +69,34 @@
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-6 mb-3">
-          <b-input id="contact-person" type="text"></b-input>
+          <b-input
+            v-model="form.emergency_details[value_index].contact_person"
+            id="contact-person"
+            type="text"
+          ></b-input>
         </div>
         <div class="col-md-5 mb-3">
-          <b-input id="contact-number" type="number" placeholder="09xx-xxx-xxx"></b-input>
+          <b-input
+            v-model="form.emergency_details[value_index].contact_number"
+            id="contact-number"
+            type="number"
+            placeholder="09xx-xxx-xxx"
+          ></b-input>
         </div>
         <div class="col-md-1 mb-3">
-          <b-button id="delete-button" :disabled="value_index==0" variant="outline-danger">
+          <b-button
+            :disabled="value_index==0"
+            @click="removeRow(form.emergency_details, value_index)"
+            id="delete-button"
+            variant="outline-danger"
+          >
             <i class="fas fa-trash"></i>
           </b-button>
         </div>
       </div>
 
       <div class="mt-2">
-        <b-button variant="success" block>
+        <b-button @click="addRow(form.emergency_details)" variant="success" block>
           <i class="fas fa-plus"></i>
           <strong>Add Contact Person</strong>
         </b-button>
@@ -85,8 +114,36 @@ export default {
 	data() {
 		return {
 	  		nowStep: 4,
-			  stepList: ["", "", "", ""],
+			stepList: ["", "", "", ""],
+			father_details: {
+				father_name: "",
+				father_occupation: ""
+			},
+			mother_details: {
+				mother_name: "",
+				mother_occupation: ""
+			},
+			spouse_details: {
+				spouse_name: "",
+				spouse_occupation: ""
+			},
+			emergency_details: [{
+				contact_person: "",
+				contact_number: "",
+			}],
 		}
+	},
+	methods: {
+		addRow(model) {
+            model.push({
+				contact_person: "",
+				contact_number: "",
+			});
+        },
+
+        removeRow(model, index) {
+            model.splice(index, 1);
+        },
 	},
 	components: {
 		vueStep

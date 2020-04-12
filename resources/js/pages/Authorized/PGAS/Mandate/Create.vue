@@ -18,17 +18,17 @@
       {{ form }}
       <b-card-text>
         <b-tabs v-model="tabIndex" content-class="mt-3" fill>
-          <b-tab title="General Info">
+          <b-tab title="General Info" active>
             <general-info :form="form"></general-info>
           </b-tab>
           <b-tab title="Government Details">
-            <government-details></government-details>
+            <government-details :form="form"></government-details>
           </b-tab>
           <b-tab title="Education Attainment and Work Experience">
-            <education-work></education-work>
+            <education-work :form="form"></education-work>
           </b-tab>
-          <b-tab title="Other Information" active>
-            <other-information></other-information>
+          <b-tab title="Other Information">
+            <other-information :form="form"></other-information>
           </b-tab>
         </b-tabs>
       </b-card-text>
@@ -52,11 +52,67 @@ import educationWork from "./Create/EducationWork";
 export default {
 	data() {
 		return {
-			user: this.$store.state.user,
-			user_role: null,
-			my_steps: ["Create", "Approve"],
-			tabIndex: 0,
-			form: {
+				user: this.$store.state.user,
+				user_role: null,
+				my_steps: ["Create", "Approve"],
+				tabIndex: 0,
+				form: {
+					date: "",
+				position: "",
+				full_name: {
+					last_name: "",
+					first_name: "",
+					middle_name: ""
+				},
+				region: "",
+				permanent_address: "",
+				present_address: "",
+				gender: "",
+				civil_status: "",
+				birthdate: "",
+				age: "",
+				mobile_number: "",
+				telephone_number: "",
+				religion: "",
+				sss_number: "",
+				tin_number: "",
+				pagibig_number: "",
+				philhealth_number: "",
+				passport_number: "",
+				tertiary_details: {
+					tertiary_name: "",
+					tertiary_date: ""
+				},
+				secondary_details: {
+					secondary_name: "",
+					secondary_date: ""
+				},
+				primary_details: {
+					primary_name: "",
+					primary_date: ""
+				},
+				work_details: [{
+					work_position: "",
+					job_description: "",
+					start_date: "",
+					end_date: ""
+				}],
+				father_details: {
+					father_name: "",
+					father_occupation: ""
+				},
+				mother_details: {
+					mother_name: "",
+					mother_occupation: ""
+				},
+				spouse_details: {
+					spouse_name: "",
+					spouse_occupation: ""
+				},
+				emergency_details: [{
+					contact_person: "",
+					contact_number: "",
+				}],
 				creator_id: this.$store.state.user.data.id
 			},
 		};
