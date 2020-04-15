@@ -1,12 +1,11 @@
 <template>
   <div>
-    <b-card class="mt-5">
+    <b-card class="mt-3">
       <template v-slot:header>
         <h1 class="component-title">Accounts and Clients</h1>
       </template>
       <b-card-body>
         <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
-        {{accounts}}
       </b-card-body>
     </b-card>
   </div>
@@ -42,24 +41,6 @@ export default {
           });
         })
       });
-      // this.items = [
-      //   {
-      //     item_name: "a",
-      //     status: "Re-Published",
-      //     item_params: {
-      //       link: "account_show",
-      //       id: 5
-      //     }
-      //   },
-      //   {
-      //     item_name: "seven",
-      //     status: "Re-Published",
-      //     item_params: {
-      //       link: "account_show",
-      //       id: 7
-      //     }
-      //   }
-      // ];
     },
     loadFields() {
       this.fields = [

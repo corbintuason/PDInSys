@@ -11,11 +11,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
 use App\Builders\UserBuilder;
 use App\Collections\UserCollection;
+use Spatie\Permission\Traits\HasRoles;
 use App\Vendor;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, LogsActivity, CausesActivity;
+    use HasApiTokens, Notifiable, LogsActivity, CausesActivity, HasRoles;
 
     public function receivesBroadcastNotificationsOn()
     {

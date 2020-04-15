@@ -49,15 +49,20 @@ Vue.use(VueProgressBar, {
 });
 
 Vue.component("pulse-loader", require("vue-spinner/src/PulseLoader.vue"));
-const router = new VueRouter({
-    mode: "history",
-    routes,
-});
 
 Vue.component("pagination", require("laravel-vue-pagination"));
 
 import StepProgress from "vue-step-progress";
 Vue.component("step-progress", StepProgress);
+
+import itemProgress from "./components/authorized/public/ItemProgress.vue"
+Vue.component("item-progress", itemProgress);
+
+
+const router = new VueRouter({
+    mode: "history",
+    routes,
+});
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {

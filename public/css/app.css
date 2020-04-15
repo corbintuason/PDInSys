@@ -32216,6 +32216,10 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
   color: red;
 }
 
+.green {
+  color: green;
+}
+
 .orange {
   color: orange;
 }
@@ -32242,6 +32246,11 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 
 .sidebar-links :hover > p {
   color: blue;
+}
+
+.modal .modal-xxl {
+  max-width: 1750px;
+  width: 1750px;
 }
 
 /*!

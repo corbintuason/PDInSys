@@ -50,7 +50,11 @@ class UsersTableSeeder extends Seeder
                         "features" => array([
                             "name" => "Project List and Status",
                             "role" => null,
-                        ]),
+                        ],
+                    [
+                        "name" => "Create Project",
+                        "role" => "Approver"
+                    ]),
                     ],
                     [
                         "section" => "Project Execution",
