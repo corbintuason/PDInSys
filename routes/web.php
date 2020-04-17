@@ -14,9 +14,8 @@ use App\User;
 // MAIL ROUTES
 Route::get('/mail/newUserCreated', 'Mail\UserController@newUserCreated')->name("New User Created");
 
-Route::get('/mark-all-read/{user}', function (User $user) {
-    $user->unreadNotifications->markAsRead();
-    return response(['message' => 'Marked as unread']);
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::get('/mark-all-read', 'NotificationController@markAsRead');
 });
 
 // Route to redirect all pages to a single view page.

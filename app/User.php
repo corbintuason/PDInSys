@@ -11,12 +11,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
 use App\Builders\UserBuilder;
 use App\Collections\UserCollection;
-use Spatie\Permission\Traits\HasRoles;
 use App\Vendor;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, LogsActivity, CausesActivity, HasRoles;
+    use HasApiTokens, Notifiable, LogsActivity, CausesActivity, HasRolesAndAbilities;
 
     public function receivesBroadcastNotificationsOn()
     {
@@ -39,7 +39,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'last_name', 'first_name', 'middle_name', 'official_photo', 'birth_date', 'pdem_email', 'pdem_gmail', 'contact_numbers', 'employment_date', 'job_details', 'module_access', 'password',
+        'last_name', 'first_name', 'middle_name', 'official_photo', 'birth_date', 'pdem_email', 'pdem_gmail', 'contact_numbers', 'employment_date', 'job_details', 'password',
     ];
 
     /**
@@ -60,7 +60,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'contact_numbers' => 'array',
         'job_details' => 'object',
-        'module_access' => 'array'
     ];
 
     public function accounts()

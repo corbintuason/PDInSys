@@ -66,11 +66,18 @@ export default new Vuex.Store({
                         features: [
                             {
                                 name: "View Accounts",
-                                roles: ["View Only", "View and Edit"],
+                                permission: "view-view-accounts",
                             },
                             {
                                 name: "Account and Client Accreditation",
-                                roles: ["Creator", "Approver"],
+                                permission: "view-account-and-client-accreditation",
+                                roles:[{
+                                    name: "Creator",
+                                    role: "account-creator"
+                                },{
+                                    name: "Approver",
+                                    role: "account-approver"
+                                }],
                             },
                         ],
                     },
@@ -79,170 +86,181 @@ export default new Vuex.Store({
                         features: [
                             {
                                 name: "Project List and Status",
+                                permission: "view-project-list-and-status"
                             },
                             {
                                 name: "Create Project",
-                                roles: ["Creator", "Reviewer", "Approver"],
+                                permission: "view-create-project",
+                                roles: [{
+                                    name: "Creator",
+                                    role: "project-creator"
+                                },{
+                                    name: "Reviewer",
+                                    role: "project-reviewer",
+                                },{
+                                    name: "Approver",
+                                    role: "project-approver"
+                                }],
                             },
-                            {
-                                name: "CE and Budget Management",
-                                roles: [
-                                    "Creator",
-                                    "Reviewer",
-                                    "Approver",
-                                    "Clearance",
-                                ],
-                            },
-                            {
-                                name: "Project Clearance and Report",
-                            },
+                            // {
+                            //     name: "CE and Budget Management",
+                            //     roles: [
+                            //         "Creator",
+                            //         "Reviewer",
+                            //         "Approver",
+                            //         "Clearance",
+                            //     ],
+                            // },
+                            // {
+                            //     name: "Project Clearance and Report",
+                            // },
                         ],
                     },
-                    {
-                        section: "Project Execution",
-                        features: [
-                            {
-                                name: "Vendors Pool",
-                            },
-                            {
-                                name: "Manpower Pool",
-                            },
-                            {
-                                name: "Warehouse Management",
-                            },
-                            {
-                                name: "Project Templates",
-                            },
-                        ],
-                    },
+                    // {
+                    //     section: "Project Execution",
+                    //     features: [
+                    //         {
+                    //             name: "Vendors Pool",
+                    //         },
+                    //         {
+                    //             name: "Manpower Pool",
+                    //         },
+                    //         {
+                    //             name: "Warehouse Management",
+                    //         },
+                    //         {
+                    //             name: "Project Templates",
+                    //         },
+                    //     ],
+                    // },
                 ],
             },
-            {
-                name: "PGAS",
-                groups: [
-                    {
-                        name: "Administrative Support Group",
-                        departments: [
-                            {
-                                name: "Assets and Property Management",
-                                positions: [
-                                    {
-                                        name:
-                                            "Head - Assets & Property Management ",
-                                    },
-                                    { name: "Administrative Officer" },
-                                    { name: "Administrative Assistant" },
-                                    { name: "Messenger / Admin Staff" },
-                                    { name: "Warehouse Officer" },
-                                    { name: "Fabrication Assistant" },
-                                    { name: "Executive Driver" },
-                                    { name: "Company Driver" },
-                                ],
-                            },
-                            {
-                                name: "Human Resource",
-                                positions: [
-                                    {
-                                        name:
-                                            "Head - Human Resource Department",
-                                    },
-                                    { name: "Human Resource Officer" },
-                                ],
-                            },
-                        ],
-                    },
-                    {
-                        name: "Accounting and Finance Group",
-                        departments: [
-                            {
-                                name: "Accounts Receivable Department",
-                                positions: [
-                                    { name: "Accounts Receivable Officer" },
-                                    { name: "Accounts Payable Assistant" },
-                                ],
-                            },
-                            {
-                                name: "Accounts Payable Department",
-                                positions: [
-                                    { name: "Accounts Payable Officer" },
-                                    { name: "Accounts Payable Assistant" },
-                                ],
-                            },
-                        ],
-                    },
-                ],
-                modules: [
-                    {
-                        section: "Admin",
-                        features: [
-                            {
-                                name: "Companies",
-                            },
-                            {
-                                name: "ADM Advisories",
-                            },
-                            {
-                                name: "Assets",
-                            },
-                            {
-                                name: "Vehicles",
-                            },
-                            {
-                                name: "Warehouses",
-                            },
-                        ],
-                    },
-                    {
-                        section: "Accounting",
-                        features: [
-                            {
-                                name: "Accounts",
-                            },
-                            {
-                                name: "Vendors",
-                            },
-                            {
-                                name: "AFG Advisories",
-                            },
-                            {
-                                name: "Billing and Collection Monitor",
-                            },
-                            {
-                                name: "Budget Allocation",
-                            },
-                            {
-                                name: "Projected Financial Statements",
-                            },
-                            {
-                                name: "Sales, Purchase, and Allowance",
-                            },
-                            {
-                                name: "Sales Report",
-                            },
-                            {
-                                name: "Payments",
-                            },
-                        ],
-                    },
-                    {
-                        section: "Human Resource",
-                        features: [
-                            {
-                                name: "HR Advisories",
-                            },
-                            {
-                                name: "Mandate",
-                            },
-                            {
-                                name: "PDIS",
-                            },
-                            {
-                                name: "Sprout HR",
-                            },
-                        ],
-                    },
-                ],
-            },
+            // {
+            //     name: "PGAS",
+            //     groups: [
+            //         {
+            //             name: "Administrative Support Group",
+            //             departments: [
+            //                 {
+            //                     name: "Assets and Property Management",
+            //                     positions: [
+            //                         {
+            //                             name:
+            //                                 "Head - Assets & Property Management ",
+            //                         },
+            //                         { name: "Administrative Officer" },
+            //                         { name: "Administrative Assistant" },
+            //                         { name: "Messenger / Admin Staff" },
+            //                         { name: "Warehouse Officer" },
+            //                         { name: "Fabrication Assistant" },
+            //                         { name: "Executive Driver" },
+            //                         { name: "Company Driver" },
+            //                     ],
+            //                 },
+            //                 {
+            //                     name: "Human Resource",
+            //                     positions: [
+            //                         {
+            //                             name:
+            //                                 "Head - Human Resource Department",
+            //                         },
+            //                         { name: "Human Resource Officer" },
+            //                     ],
+            //                 },
+            //             ],
+            //         },
+            //         {
+            //             name: "Accounting and Finance Group",
+            //             departments: [
+            //                 {
+            //                     name: "Accounts Receivable Department",
+            //                     positions: [
+            //                         { name: "Accounts Receivable Officer" },
+            //                         { name: "Accounts Payable Assistant" },
+            //                     ],
+            //                 },
+            //                 {
+            //                     name: "Accounts Payable Department",
+            //                     positions: [
+            //                         { name: "Accounts Payable Officer" },
+            //                         { name: "Accounts Payable Assistant" },
+            //                     ],
+            //                 },
+            //             ],
+            //         },
+            //     ],
+            //     modules: [
+            //         {
+            //             section: "Admin",
+            //             features: [
+            //                 {
+            //                     name: "Companies",
+            //                 },
+            //                 {
+            //                     name: "ADM Advisories",
+            //                 },
+            //                 {
+            //                     name: "Assets",
+            //                 },
+            //                 {
+            //                     name: "Vehicles",
+            //                 },
+            //                 {
+            //                     name: "Warehouses",
+            //                 },
+            //             ],
+            //         },
+            //         {
+            //             section: "Accounting",
+            //             features: [
+            //                 {
+            //                     name: "Accounts",
+            //                 },
+            //                 {
+            //                     name: "Vendors",
+            //                 },
+            //                 {
+            //                     name: "AFG Advisories",
+            //                 },
+            //                 {
+            //                     name: "Billing and Collection Monitor",
+            //                 },
+            //                 {
+            //                     name: "Budget Allocation",
+            //                 },
+            //                 {
+            //                     name: "Projected Financial Statements",
+            //                 },
+            //                 {
+            //                     name: "Sales, Purchase, and Allowance",
+            //                 },
+            //                 {
+            //                     name: "Sales Report",
+            //                 },
+            //                 {
+            //                     name: "Payments",
+            //                 },
+            //             ],
+            //         },
+            //         {
+            //             section: "Human Resource",
+            //             features: [
+            //                 {
+            //                     name: "HR Advisories",
+            //                 },
+            //                 {
+            //                     name: "Mandate",
+            //                 },
+            //                 {
+            //                     name: "PDIS",
+            //                 },
+            //                 {
+            //                     name: "Sprout HR",
+            //                 },
+            //             ],
+            //         },
+            //     ],
+            // },
         ],
         job_levels: [
             "1A",
@@ -278,6 +296,21 @@ export default new Vuex.Store({
             account: {
                 front_steps: ["Create", "Approve"],
                 db_steps: ["For Approval", "Approved"],
+            },
+            project:{
+                front_steps: [{
+                    name: "Create",
+                    responsible: "Creator"
+                },{
+                    name: "Review",
+                    responsible: "Reviewer"
+                },
+                {
+                    name: "Approve",
+                    responsible: "Approver"
+                }
+                ],
+                db_steps: ["For Review", "For Approval", "Approved"],
             },
         },
     },

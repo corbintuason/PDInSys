@@ -11,7 +11,6 @@
             <span
                 v-if="unread_notifications.length > 0"
                 class="badge navbar-badge notification-badge"
-                :class="{ active: isActive }"
                 style="font-size: 12px;"
             >
                 <strong>{{ unread_notifications.length }}</strong>
@@ -56,14 +55,11 @@
 export default {
     data() {
         return {
-            id: 1,
             user: this.$store.state.user,
+            all_notifications: [],
         };
     },
     computed: {
-        all_notifications() {
-            return this.user.notifications;
-        },
         unread_notifications() {
             return this.all_notifications.filter((notification) => {
                 return notification.read_at == null;
@@ -72,9 +68,11 @@ export default {
     },
     methods: {
         markAsRead() {
-            axios.get("/mark-all-read/" + this.user.data.id);
+            console.log("ilang beses to lalabas");
+            axios.get("/mark-all-read/").then(response => {
+                this.all_notifications = response.data.notifications
+            });
         },
-
         activateNotification(notification) {
             this.$notify({
                 group: "PDIS",
@@ -109,6 +107,7 @@ export default {
         },
     },
     created() {
+        this.all_notifications = this.user.notifications;
         this.echoNotifications();
     },
 };

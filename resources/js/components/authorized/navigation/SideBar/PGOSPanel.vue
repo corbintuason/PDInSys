@@ -1,176 +1,180 @@
 <template>
-  <div>
-    <div class="sidebar-header">
-      <div class="pgos-header text-center">
-        <a class="text-white">
-          <strong>PGOS</strong>
-        </a>
-      </div>
-      <div>
-        <ul
-          class="nav nav-pills nav-sidebar flex-column"
-          data-widget="treeview"
-          role="menu"
-          data-accordion="false"
-        >
-          <!-- Accounts and Clients -->
-          <li class="nav-item has-treeview">
-            <a v-if="renderSection('Accounts and Clients')" href="#" class="nav-link">
-              <i class="fas fa-cog" style="margin-right:10px"></i>
-              <p>
-                Accounts and Clients
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview sidebar-links" style="display: none;">
-              <li v-if="renderFeature('Accounts and Clients', 'View Accounts')" class="nav-item">
-                <router-link :to="{ name: 'account_index'}" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>View Accounts</p>
-                </router-link>
-              </li>
-              <li
-                v-if="renderFeature('Accounts and Clients', 'Account and Client Accreditation')"
-                class="nav-item"
-              >
-                <router-link :to="{ name: 'account_create'}" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Account & Client Acc.</p>
-                </router-link>
-              </li>
-            </ul>
-          </li>
-          <!-- Project Development -->
-          <li class="nav-item has-treeview">
-            <a v-if="renderSection('Project Development')" href="#" class="nav-link">
-              <i class="fas fa-cog" style="margin-right:10px"></i>
-              <p>
-                Project Development
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview" style="display: none;">
-              <li
-                v-if="renderFeature('Project Development', 'Project List and Status')"
-                class="nav-item"
-              >
-                <router-link :to="{ name: 'project_index'}" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Project List and Status</p>
-                </router-link>
-              </li>
-              <li v-if="renderFeature('Project Development', 'Create Project')" class="nav-item">
-                <router-link :to="{ name: 'project_create'}" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Create Project</p>
-                </router-link>
-              </li>
-              <li
-                v-if="renderFeature('Project Development', 'CE and Budget Management')"
-                class="nav-item"
-              >
-                <a href="#" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>CE and Budget Management</p>
+    <div>
+        <div class="sidebar-header">
+            <div class="pgos-header text-center">
+                <a class="text-white">
+                    <strong>PGOS</strong>
                 </a>
-              </li>
-              <li v-if="renderFeature('Project Development', 'Project Clearance')" class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Project Clearance and Reports</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <!-- Creative Services -->
-          <li class="nav-item has-treeview">
-            <a v-if="renderSection('Project Execution')" href="#" class="nav-link">
-              <i class="fas fa-cog" style="margin-right:10px"></i>
-              <p>
-                Project Execution
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview" style="display: none;">
-              <li v-if="renderFeature('Project Execution', 'Vendors Pool')" class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Vendors Pool</p>
-                </a>
-              </li>
-              <li v-if="renderFeature('Project Execution', 'Manpower Pool')" class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Manpower Pool</p>
-                </a>
-              </li>
-              <li
-                v-if="renderFeature('Project Execution', 'Warehouse Management')"
-                class="nav-item"
-              >
-                <a href="#" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Warehouse Management</p>
-                </a>
-              </li>
-              <li v-if="renderFeature('Project Execution', 'Project Templates')" class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Project Templates</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+            </div>
+            <div>
+                <ul
+                    v-if="pgos.length > 0"
+                    class="nav nav-pills nav-sidebar flex-column"
+                    data-widget="treeview"
+                    role="menu"
+                    data-accordion="false"
+                >
+                    <!-- Accounts and Clients -->
+                    <li
+                        class="nav-item has-treeview"
+                        v-for="(section, section_index) in pgos"
+                        :key="section_index"
+                    >
+                        <template v-if="section.render">
+                            <a href="#" class="nav-link">
+                                <i
+                                    class="fas fa-cog"
+                                    style="margin-right: 10px;"
+                                ></i>
+                                <p>
+                                    {{ section.section }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+
+                            <ul
+                                class="nav nav-treeview sidebar-links"
+                                style="display: none;"
+                            >
+                                <li
+                                    v-for="(feature,
+                                    feature_index) in section.features"
+                                    :key="feature_index"
+                                    class="nav-item"
+                                >
+                                    <router-link
+                                        v-if="feature.render"
+                                        :to="{ name: feature.link }"
+                                        class="nav-link"
+                                    >
+                                        <i
+                                            class="far fa-dot-circle nav-icon"
+                                        ></i>
+                                        <p>{{ feature.name }}</p>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </template>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
 export default {
-  data() {
-	return {};
-  },
-  props: {
-	module_access: Array,
-	pgos: Object
-  },
-  methods: {
-    renderSection(section) {
-      var result = false;
-      this.pgos.modules.forEach(pdis_section => {
-        if (pdis_section.section == section) {
-          result = true;
-        }
-      });
-      return result;
+    data() {
+        return {
+            user: this.$store.state.user,
+            pgos: [],
+        };
     },
-    renderFeature(section, feature) {
-      var result = false;
-      var involved_section = this.pgos.modules.find(
-        pdis_section => pdis_section.section == section
-      );
-      //("section" + section);
-      //("feature" + feature);
-      //(this.pgos.modules);
-      involved_section.features.forEach(pdis_feature => {
-        if (pdis_feature.name == feature) {
-          result = true;
-        }
-      });
-      return result;
-    }
-  },
-  mounted() {}
+    methods: {
+        loadPGOS() {
+            this.pgos.push(
+                {
+                    section: "Accounts and Clients",
+                    render: this.renderSection([
+                        "view-view-accounts",
+                        "view-account-and-client-accreditation",
+                    ]),
+                    features: [
+                        {
+                            name: "View Accounts",
+                            link: "account_index",
+                            render: this.renderFeature('view-view-accounts')
+                        },
+                        {
+                            name: "Account & Client Accred.",
+                            link: "account_create",
+                            render: this.renderFeature('view-account-and-client-accreditation')
+                        },
+                    ],
+                },
+                {
+                    section: "Project Development",
+                    render: this.renderSection([
+                        "view-all-projects",
+                        "create-projects",
+                    ]),
+                    features: [
+                        {
+                            name: "Project List & Status",
+                            link: "project_index",
+                            render: this.renderFeature("view-all-projects"),
+                        },
+                        {
+                            name: "Create Project",
+                            link: "project_create",
+                            render: this.renderFeature("create-projects"),
+                        },
+                        {
+                            name: "CE & Bdgt. Mgmt.",
+                            link: "",
+                            render: this.renderFeature("ce-bdgt-mgmt"),
+                        },
+                        {
+                            name: "Project Reports",
+                            link: "",
+                            render: this.renderFeature("project-reports"),
+                        },
+                    ],
+                },
+                {
+                    section: "Project Execution",
+                    features: [
+                        {
+                            name: "Vendors Pool",
+                            link: "",
+                            render: this.renderFeature("view-all-vendors"),
+                        },
+                        {
+                            name: "Manpower Pool",
+                            link: "",
+                            render: this.renderFeature("view-all-manpower"),
+                        },
+                        {
+                            name: "Warehouse Management",
+                            link: "",
+                            render: this.renderFeature("view-all-warehouse"),
+                        },
+                        {
+                            name: "Project Templates",
+                            link: "",
+                            render: this.renderFeature("view-all-templates"),
+                        },
+                    ],
+                }
+            );
+        },
+        renderSection(features) {
+            return this.user.abilities.some((feature) =>
+               features.includes(feature.name)
+            );
+        },
+        renderFeature(feature) {
+            var render = false;
+            console.log(feature);
+            this.user.abilities.forEach((ability) => {
+                if (ability.name == feature) {
+                    render = true;
+                }
+            });
+            return render;
+        },
+    },
+    mounted() {
+        this.loadPGOS();
+    },
 };
 </script>
 
 <style lang="scss" scoped>
 .pgos-header {
-  background: #3f4b94;
-  margin: 15px 5px 15px 5px;
-  padding: 7px;
-  border-radius: 5px;
+    background: #3f4b94;
+    margin: 15px 5px 15px 5px;
+    padding: 7px;
+    border-radius: 5px;
 }
 </style>

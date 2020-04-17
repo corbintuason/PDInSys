@@ -2,7 +2,7 @@
   <div>
     <!-- Progress Bar -->
     
-    <item-progress class="mt-3" :my_steps="my_steps" :current_step="0"></item-progress>
+    <item-progress class="mt-3" :front_steps="front_steps" :current_step="0"></item-progress>
     
     <!-- Main Project Form -->
 
@@ -16,7 +16,7 @@ import createProject from "./Create/CreateProject"
 export default {
   data() {
     return {
-      my_steps: ["Create", "Review", "Approve"],
+      front_steps: this.$store.state.globals.statuses.project.front_steps,
       account_options: [{ value: 1, text: "GLOBE" }]
     };
   },

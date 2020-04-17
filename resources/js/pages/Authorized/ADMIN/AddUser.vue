@@ -51,7 +51,10 @@ export default {
           position: null,
           job_level: null
         },
-        module_access: []
+        module_access: {
+          permissions:[],
+          roles: [],
+        }
       },
       tabIndex: 1
     };

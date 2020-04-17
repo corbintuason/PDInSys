@@ -25,7 +25,6 @@ class CreateUsersTable extends Migration
             $table->string('pdem_gmail');
             $table->json('contact_numbers')->nullable();
             $table->json('job_details');
-            $table->json('module_access');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

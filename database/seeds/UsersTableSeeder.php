@@ -28,46 +28,6 @@ class UsersTableSeeder extends Seeder
                 "group" => "Creatives Group",
                 "department" => "Design and Multimedia",
                 "job_level" => "5C"]),
-            
-            "module_access" => json_encode(array(
-                [
-                    "name" => "PGOS",
-                    "modules" => array(
-                    [
-                       "section" => "Accounts and Clients",
-                       "features" => array([
-                            "name" => "View Accounts",
-                            "role" => "View Only"
-                       ],
-                       [
-                        "name" => "Account and Client Accreditation",
-                        "role" => "Creator"
-                       ],
-                       )
-                    ],
-                    [
-                        "section" => "Project Development",
-                        "features" => array([
-                            "name" => "Project List and Status",
-                            "role" => null,
-                        ],
-                    [
-                        "name" => "Create Project",
-                        "role" => "Approver"
-                    ]),
-                    ],
-                    [
-                        "section" => "Project Execution",
-                        "features" => array([
-                            "name" => "Vendors Pool",
-                            "role" => null
-                        ])
-                    ]
-
-                    )
-                ]
-                    
-               )),
             'password' => Hash::make("password"),
         ]);
     }

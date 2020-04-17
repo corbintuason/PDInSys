@@ -67,8 +67,12 @@ export default {
             axios.get("/api/account/" + account_id).then((response) => {
                 this.account = response.data.data;
                 this.change_logs = response.data.actions;
+                console.log('watdafak');
+                console.log(this.account);
                 this.getCurrentStep();
                 this.fireToast();
+            }).catch(e => {
+                console.log("dito palang mali na");
             });
         },
 
@@ -130,7 +134,7 @@ export default {
         },
     },
     mounted() {
-        this.getUserRole();
+        // this.getUserRole();
         this.getAccount();
     },
 };

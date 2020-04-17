@@ -62,26 +62,7 @@ class AccountController extends Controller
         
         // Notify all Accounts that can Approve this Account
 
-        $users = User::all();
-        $approvers = collect([]);
-
-        foreach($users as $user){
-            foreach($user->module_access as $access){
-                if($access["name"] == 'PGOS'){
-                    foreach($access["modules"] as $module){
-                        if($module["section"] == 'Accounts and Clients'){
-                            foreach($module["features"] as $feature){
-                                if($feature["name"] == 'Account and Client Accreditation'){
-                                    if($feature["role"] == 'Approver'){
-                                         $approvers->push($user);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        $approvers = User::whereIs('account-approver')->get();
 
         Notification::send($approvers, new AccountCreated($account));
 

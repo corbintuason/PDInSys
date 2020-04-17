@@ -22,7 +22,9 @@ class User extends JsonResource
             'meta' => [
                 'full_name' => $this->last_name. ", ". $this->first_name . " " . $this->middle_name
             ],
-            'notifications' => $this->notifications
+            'notifications' => $this->notifications,
+            'roles' => $this->getRoles(),
+            'abilities' => $this->getAbilities()
       
         ];
     }

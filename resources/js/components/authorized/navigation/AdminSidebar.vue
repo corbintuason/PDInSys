@@ -8,8 +8,6 @@
 
     <div class="sidebar">
       <!-- User Panel -->
-      <!-- <user-panel :user="user"> </user-panel> -->
-
       <!-- Sidebar Menu -->
       <nav class="mt-2 user-panel">
         <ul
@@ -19,10 +17,10 @@
           data-accordion="false"
         >
           <!-- PGOS RELATED -->
-          <pgos-panel v-if="renderPGOS" :module_access="user.data.module_access" :pgos="pgos"></pgos-panel>
+          <pgos-panel v-if="renderPGOS()"></pgos-panel>
 
           <!-- PGAS -->
-          <pgas-panel v-if="renderPGAS" :module_access="user.data.module_access" :pgas="pgas"></pgas-panel>
+          <pgas-panel v-if="renderPGAS()"></pgas-panel>
 
           <!-- ModuleLess -->
           <module-less></module-less>
@@ -39,14 +37,12 @@ import moduleLess from "./SideBar/ModuleLess";
 export default {
   data() {
     return{
-      renderPGOS: false,
-      renderPGAS: false,
+      user: this.$store.state.user,
+      PGOSAbilities: ['view-all-projects', 'create-projects'],
+      PGASAbilities: [],
       pgos: null,
       pgas: null,
     }
-  },
-  props:{
-    user: Object
   },
   components:{
     "pgos-panel": pgosPanel,
@@ -54,34 +50,24 @@ export default {
     "module-less": moduleLess
   },
   methods: {
-    renderPanels(){
-      var offices = this.$store.state.globals.offices;
-      //("rendering")
-      //(this.user.data.module_access);
-      this.user.data.module_access.forEach(office => {
-        if(office.name == "PGOS"){
-          this.renderPGOS = true;
+    renderPGOS(){
+      var render = false;
+      this.user.abilities.forEach(ability => {
+        if(this.PGOSAbilities.indexOf(ability.name) > -1){
+          render = true;
         }
-        if(office.name == "PGAS"){
-          this.renderPGAS = true;
-        }
-      })
-      //(this.user.data.module_access);
+      }); return render;
     },
-    filterOffices(){
-       const pgos = this.user.data.module_access.find(pdis_module => pdis_module.name == "PGOS");
-       const pgas = this.user.data.module_access.find(pdis_module => pdis_module.name == "PGAS");
-       //("hay");
-       //(pgos.modules);
-       this.pgos = pgos;
-       this.pgas = pgas;
-       
-       this.renderPanels();
-
+      renderPGAS(){
+        var render = false;
+      this.user.abilities.forEach(ability => {
+        if(this.PGASAbilities.indexOf(ability.name) > -1){
+          render = true;
+        }
+      }); return render;
     }
   },
   mounted() {
-    this.filterOffices();
   }
 };
 </script>
