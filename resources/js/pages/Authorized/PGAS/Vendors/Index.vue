@@ -1,15 +1,18 @@
 <template>
-  <div>
-    <b-card class="mt-5">
-      <template v-slot:header>
-        <h1 class="component-title">Vendors</h1>
-      </template>
-      <b-card-body>
-        <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
-        {{vendors}}
-      </b-card-body>
-    </b-card>
-  </div>
+	<div>
+		<b-breadcrumb class="mt-4">
+			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+			<b-breadcrumb-item active>Create Vendor</b-breadcrumb-item>
+		</b-breadcrumb>
+		<b-card class="mt-5">
+			<template v-slot:header>
+				<h1 class="component-title">Vendors</h1>
+			</template>
+			<b-card-body>
+				<basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
+			</b-card-body>
+		</b-card>
+	</div>
 </template>
 
 <script>

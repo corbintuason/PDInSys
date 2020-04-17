@@ -86,9 +86,9 @@ class MandateController extends Controller
      * @param  \App\Mandate  $mandate
      * @return \Illuminate\Http\Response
      */
-    public function show(Mandate $mandate)
+    public function show($id)
     {
-        //
+        return new MandateResource(Mandate::findorFail($id));
     }
 
     /**

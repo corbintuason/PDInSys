@@ -1,6 +1,11 @@
 <template>
   <div>
-    <b-card class="mt-5">
+    <b-breadcrumb class="mt-4">
+      <b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+      <b-breadcrumb-item href="/mandates">List of Manpower</b-breadcrumb-item>
+      <b-breadcrumb-item active>Create Manpower</b-breadcrumb-item>
+    </b-breadcrumb>
+    <b-card class="mt-4">
       <template v-slot:header>
         <h1 class="component-title">Progress Bar</h1>
       </template>
@@ -15,7 +20,7 @@
       <template v-slot:footer>
         <b-button variant="success" class="float-right" @click="createMandate">Create Mandate</b-button>
       </template>
-      {{ form }}
+
       <b-card-text>
         <b-tabs v-model="tabIndex" content-class="mt-3" fill>
           <b-tab title="General Info" active>

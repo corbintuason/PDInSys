@@ -279,6 +279,14 @@ export default new Vuex.Store({
                 front_steps: ["Create", "Approve"],
                 db_steps: ["For Approval", "Approved"],
             },
+            vendor: {
+                front_steps: ["Create", "Approve"],
+                db_steps: ["For Approval", "Approved"],
+            },
+            mandate: {
+                front_steps: ["Create", "Approve"],
+                db_steps: ["For Approval", "Approved"],
+            },
         },
     },
 });
