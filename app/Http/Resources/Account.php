@@ -6,6 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class Account extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -22,6 +23,7 @@ class Account extends JsonResource
             'relationships' => [
                 'user' => $this->user
             ],
+            'actions'=> $this->activities
         ];
     }
 }

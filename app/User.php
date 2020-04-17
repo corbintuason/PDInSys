@@ -7,16 +7,31 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\UserRegistered;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
+use App\Builders\UserBuilder;
+use App\Collections\UserCollection;
+use Spatie\Permission\Traits\HasRoles;
 use App\Vendor;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, LogsActivity, CausesActivity, HasRoles;
 
     public function receivesBroadcastNotificationsOn()
     {
         return 'users.' . $this->id;
     }
+
+    public function newEloquentBuilder($builder) 
+    { 
+       return new UserBuilder($builder); 
+    }
+
+    public function newCollection(array $models = []) 
+   { 
+      return new UserCollection($models); 
+   } 
 
     /**
      * The attributes that are mass assignable.

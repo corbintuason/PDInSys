@@ -12,6 +12,7 @@ use App\Mail\NewUserCreated;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Image;
 use App\Notifications\UserRegistered;
+use Notification;
 
 class UserController extends Controller
 {
@@ -61,7 +62,13 @@ class UserController extends Controller
         $validatedData["pdem_email"] = $validatedData["pdem_email"];
         $validatedData["password"] = bcrypt($password);
 
-        $user = User::create($validatedData);
+        $user_id = auth()->user()->id;
+        $user = User::findOrFail($user_id);
+
+        $created_user =  activity()->withoutLogs(function() use($validatedData){
+           return User::create($validatedData);
+        });
+
         // if($request->official_photo!=null){
         //     $official_photo = $request->file('official_photo');
         //     $fileName = time().'.'.$official_photo->getClientOriginalExtension();
@@ -70,11 +77,23 @@ class UserController extends Controller
         //     $user->official_photo = $fileName;
         //     $user->save();
         // }
-
-        FacadesMail::to($user->pdem_email)->send(new NewUserCreated($user, $password));
+        
+        // Notify Users
+        FacadesMail::to($created_user->pdem_email)->send(new NewUserCreated($created_user, $password));
+        
         $notify_user = User::first();
-        $notify_user->notify(new UserRegistered($user));
-        return response($user);
+        $notify_users = collect([]);
+        $notify_users->push($notify_user);
+        // $notify_user->notify(new UserRegistered($created_user));
+        
+        Notification::send($notify_users, new UserRegistered($created_user));
+
+        activity('User Created')
+        ->on($created_user)
+        ->withProperties(["link_name" => "user_show", "link_id" => $created_user->id])
+        ->log("User " . $user->last_name .", " . $user->first_name  . " has created User " . $created_user->last_name .", " . $created_user->first_name .".");
+
+        return response($created_user);
     }
 
     /**

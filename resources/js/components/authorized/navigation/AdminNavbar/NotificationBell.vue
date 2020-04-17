@@ -19,13 +19,16 @@
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-item dropdown-header">Notifications</span>
-                <router-link :to="{
-                        name: this.name,
-                        params: { id: this.id }
-                    }">  <div
-                    v-for="(notification,
-                    notification_index) in all_notifications"
-                    :key="notification_index"
+
+            <div
+                v-for="(notification, notification_index) in all_notifications"
+                :key="notification_index"
+            >
+                <router-link
+                    :to="{
+                        name: notification.data.link.name,
+                        params: { id: notification.data.link.id },
+                    }"
                 >
                     <template v-if="notification_index <= 5">
                         <div class="dropdown-divider"></div>
@@ -37,12 +40,13 @@
                             }}</span>
                         </a>
                     </template>
-                </div></router-link>
-              
- 
+                </router-link>
+            </div>
 
-            <a href="#" class="dropdown-item dropdown-footer"
-                >See All Notifications</a
+            <router-link
+                :to="{ name: 'Notifications' }"
+                class="dropdown-item dropdown-footer"
+                >See All Notifications</router-link
             >
         </div>
     </li>
@@ -53,7 +57,6 @@ export default {
     data() {
         return {
             id: 1,
-            name: "vendor_show",
             user: this.$store.state.user,
         };
     },

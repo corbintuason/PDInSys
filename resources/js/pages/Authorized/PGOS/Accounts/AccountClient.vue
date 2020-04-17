@@ -27,20 +27,11 @@
               class="float-right"
               @click="approveClient"
             >Approve Account and Clients</b-button>
-          </template>
-          <template v-if="mode=='Show'">
-            <b-button
-              variant="outline-primary"
+             <b-button
+              variant="outline-danger"
               class="float-right"
-              @click="switchMode('Edit')"
-            >Edit Mode</b-button>
-          </template>
-          <template v-if="mode=='Edit'">
-            <b-button
-              variant="outline-primary"
-              class="float-right"
-              @click="switchMode('Show')"
-            >Show Mode</b-button>
+              @click="rejectAccount"
+            >Reject Account</b-button>
           </template>
         </template>
     </b-card>
@@ -71,10 +62,10 @@ export default {
     approveClient() {
       // activate sweet alert
       const swal_object = {
-        title: "Approve Client",
+        title: "Approve Account",
         icon: "question",
         confirmButtonText: "Are you sure?",
-        text: "Testing"
+        text: "Account's status will be updated to Approved"
       };
 
       const axios_form = {
@@ -84,27 +75,21 @@ export default {
 
       this.updateItem(swal_object, axios_form);
     },
-    switchMode(mode) {
-      swal
-        .fire({
-          title: mode + " Mode",
-          text: "Proceeding will grant you access to " + mode + " mode",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Proceed!"
-        })
-        .then(result => {
-          if (result.value) {
-            this.$emit("update-mode", mode);
-            swal.fire(
-              mode + " Mode!",
-              "You are now in" + mode + " Mode.",
-              "success"
-            );
-          }
-        });
+    rejectAccount(){
+       // activate sweet alert
+      const swal_object = {
+        title: "Reject Account",
+        icon: "warning",
+        confirmButtonText: "Reject",
+        text: "Account's status will be updated to Rejected"
+      };
+
+      const axios_form = {
+        api_link: "/api/account/" + this.account.id,
+        status: "Rejected",
+      };
+
+      this.updateItem(swal_object, axios_form);
     }
   },
   mounted() {

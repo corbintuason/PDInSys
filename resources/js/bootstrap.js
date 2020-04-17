@@ -14,6 +14,8 @@ try {
     require('admin-lte');
 } catch (e) {}
 
+const token = window.localStorage.getItem('access_token');
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -23,6 +25,7 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common['Authorization'] = "Bearer " + token;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -30,11 +33,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 // const token = JSON.parse(window.localStorage.getItem('access_token'));
-const token = window.localStorage.getItem('access_token');
+
 import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
-
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,

@@ -3,9 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class Account extends Model
 {
+
+    use LogsActivity, CausesActivity;
+
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -27,6 +33,10 @@ class Account extends Model
         'creator_id',
         'change_logs'
     ];
+
+    protected static $logFillable = true; 
+    protected static $logName = 'Account';
+
 
     /**
      * The attributes that should be hidden for arrays.

@@ -21,6 +21,9 @@ $cyan: #6cb2eb;
 .red{
     color: red
 }
+.green{
+    color: green
+}
 .orange{
     color: orange
 }
@@ -50,4 +53,9 @@ $cyan: #6cb2eb;
             color:blue
         }
     }
+}
+
+.modal .modal-xxl {
+    max-width: 1750px;
+    width: 1750px;
 }

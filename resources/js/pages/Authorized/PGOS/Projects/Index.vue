@@ -4,43 +4,54 @@
       <template v-slot:header>
         <h1 class="component-title">Project List and Status</h1>
       </template>
-      <basic-table v-if="items!=null" :items="items" :fields="fields"></basic-table>
-      <!-- <b-button variant="outline-primary" @click="openCreateAccount"> Create Account </b-button> -->
+      <b-card-body>
+        <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
+      </b-card-body>
     </b-card>
-    <!-- <create-account></create-account> -->
   </div>
 </template>
 
 <script>
-
+import basicTable from "../../../../components/public/BasicTable"
 export default {
   data() {
     return {
-      items: null,
-      fields: null
+      items: [],
+      fields: null,
+      accounts: null,
     };
+  },
+  components:{
+    "basic-table": basicTable,
   },
   methods: {
     loadItems() {
-      this.items = [
-        {
-          project_code: "19-0030",
-          project_name: "GLOBE",
-          status: "Awarded",
-        },
-      ];
+
+      axios.get("/api/project").then(response => {
+        const projects = response.data.data;
+        this.projects = response.data.data;
+        projects.forEach(account => {
+          this.items.push({
+            item_name: account.registered_name,
+            status: account.status,
+            item_params: {
+              link: "project_show",
+              id: account.id
+            }
+          });
+        })
+      });
     },
     loadFields() {
       this.fields = [
         {
-          key: "project_code",
+          key: "code",
           label: "Project Code",
           sortable: true,
-          sortDirection: "desc",
-          class: "text-center"
+          sortDirection: "desc"
         },
         {
-          key: "project_name",
+          key: "name",
           label: "Project Name",
           sortable: true,
           class: "text-center"
@@ -51,15 +62,13 @@ export default {
           sortable: true,
           class: "text-center"
         }
+
       ];
     },
-    openCreateAccount(){
-      this.$bvModal.show('create-account');
+},
+    mounted() {
+        this.loadItems();
+        this.loadFields();
     }
-  },
-  mounted() {
-    this.loadItems();
-    this.loadFields();
-  }
-};
+}
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Welcome -->
-    <div class="row mt-5">
+    <div class="row mt-3">
       <div class="col-md-4">
         <welcome-user></welcome-user>
       </div>
@@ -11,13 +11,14 @@
     </div>
 
     <div class="row">
+
       <div class="col-md-4">
         <my-calendar></my-calendar>
       </div>
       <div class="col-md-8 mb-0">
         <div class="row">
           <div class="col-md-6">
-            <all-employee></all-employee>
+            <!-- <all-employee></all-employee> -->
           </div>
           <div class="col-md-6">
             <advisories></advisories>

@@ -35,7 +35,7 @@
               >
                 <router-link :to="{ name: 'account_create'}" class="nav-link">
                   <i class="far fa-dot-circle nav-icon"></i>
-                  <p>Account and Client Accreditation</p>
+                  <p>Account & Client Acc.</p>
                 </router-link>
               </li>
             </ul>
