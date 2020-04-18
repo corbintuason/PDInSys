@@ -1,18 +1,18 @@
 <template>
-  <div>
-    <b-breadcrumb class="mt-4">
-      <b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
-      <b-breadcrumb-item active>List of Manpower</b-breadcrumb-item>
-    </b-breadcrumb>
-    <b-card class="mt-4">
-      <template v-slot:header>
-        <h1 class="component-title">Manpower</h1>
-      </template>
-      <b-card-body>
-        <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
-      </b-card-body>
-    </b-card>
-  </div>
+	<div>
+		<b-breadcrumb class="mt-4">
+			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+			<b-breadcrumb-item active>Mandates</b-breadcrumb-item>
+		</b-breadcrumb>
+		<b-card class="mt-4">
+			<template v-slot:header>
+				<h1 class="component-title">Mandates</h1>
+			</template>
+			<b-card-body>
+				<basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
+			</b-card-body>
+		</b-card>
+	</div>
 </template>
 
 <script>

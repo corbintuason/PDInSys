@@ -2,9 +2,9 @@
 	<div>
 		<b-breadcrumb class="mt-4">
 			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
-			<b-breadcrumb-item active>Create Vendor</b-breadcrumb-item>
+			<b-breadcrumb-item active>Vendors</b-breadcrumb-item>
 		</b-breadcrumb>
-		<b-card class="mt-5">
+		<b-card class="mt-4">
 			<template v-slot:header>
 				<h1 class="component-title">Vendors</h1>
 			</template>
