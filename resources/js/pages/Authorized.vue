@@ -36,10 +36,8 @@ export default {
     components: {
         "admin-nav": adminNav,
     },
-    mounted(){
+    created(){
       this.getUser();
     },
-    created(){
-    }
 };
 </script>

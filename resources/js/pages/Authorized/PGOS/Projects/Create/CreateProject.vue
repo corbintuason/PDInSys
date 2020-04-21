@@ -1,7 +1,7 @@
 <template>
     <b-card class="mt-3">
         <template v-slot:header>
-            <h1 class="component-title">{{ name }}</h1>
+            <h1 class="component-title" ref="lmfao">{{ name }}</h1>
         </template>
         <b-card-body>
             <div class="row">
@@ -53,7 +53,7 @@
                         label-class="font-weight-bold"
                         class="mt-3"
                     >
-                        <b-form-select v-model="project.staus">
+                        <b-form-select v-model="project.project_status">
                             <b-select-option :value="null"
                                 >-- Please select a status --</b-select-option
                             >
@@ -139,6 +139,7 @@ export default {
     data() {
         return {
             name: "Create Project",
+            user: this.$store.state.user,
             accounts: null,
             statuses: [
                 "Pitch / Bid Preparation",
@@ -162,15 +163,18 @@ export default {
             },
             project: {
                 name: null,
+                project_status: null,
                 account: null,
                 start_date: null,
                 end_date: null,
                 locations: [""],
-                status: null,
                 score: 1,
                 for_project_bidding: false,
             },
         };
+    },
+    props:{
+        front_steps: Array
     },
     components: {
         "account-selector": accountSelector,
@@ -186,13 +190,28 @@ export default {
     },
     methods: {
         createProject() {
+            var contents = '';
+            console.log(this.project);
+
+            // // Load Contents first 
+            this.front_steps.forEach(step => {
+                if(step.name == 'Create'){
+                contents += '<div class="list-group-item d-flex align-items-center"><span class="b-avatar mr-3 badge-secondary rounded-circle" style="width: 2.5em; height: 2.5em;"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" alt="avatar" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-person-fill b-icon bi"><g><path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></g></svg></span> <span class="mr-auto"><strong>' + step.responsible + ": "+ this.user.meta.full_name + '</strong></span></div>';
+                }else{
+                contents += '<div class="list-group-item d-flex align-items-center"><span class="b-avatar mr-3 badge-secondary rounded-circle" style="width: 2.5em; height: 2.5em;"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" alt="avatar" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-person-fill b-icon bi"><g><path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></g></svg></span> <span class="mr-auto"><strong>' + step.responsible + ": " + '</strong></span></div>';
+                }
+            });
+            var swal_html ='<span>Contribution List will be Updated</span><div class="list-group">' + contents + "</div> <span>Please check the details provided</span>";
             swal.fire({
                 title: "Create Project",
                 icon: "question",
+                html: swal_html,
                 text: "Please check the details provided.",
-                confirmButtonText: "Create",
+                confirmButtonText: "Create Project",
                 showLoaderOnConfirm: true,
-                preConfirm: () => {
+                showCancelButton: true,
+                cancelButtonColor: '#d33',
+                 preConfirm: () => {
                     return new Promise((resolve, reject) => {
                         axios
                             .post("/api/project", this.project)
@@ -211,7 +230,6 @@ export default {
                 },
             }).then((result) => {
                 if (result.value) {
-                    //(result);
                     swal.fire({
                         title: "Project Succesfully Created",
                         icon: "success",

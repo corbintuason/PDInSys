@@ -38,7 +38,8 @@ export default {
   data() {
     return{
       user: this.$store.state.user,
-      PGOSAbilities: ['view-all-projects', 'create-projects'],
+      PGOSAbilities: [ "view-view-accounts",
+                        "view-account-and-client-accreditation",'view-all-projects', 'create-projects'],
       PGASAbilities: [],
       pgos: null,
       pgas: null,

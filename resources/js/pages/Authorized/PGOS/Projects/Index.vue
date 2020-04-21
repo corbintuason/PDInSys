@@ -18,7 +18,7 @@ export default {
     return {
       items: [],
       fields: null,
-      accounts: null,
+      projects: null,
     };
   },
   components:{
@@ -30,13 +30,14 @@ export default {
       axios.get("/api/project").then(response => {
         const projects = response.data.data;
         this.projects = response.data.data;
-        projects.forEach(account => {
+        projects.forEach(project => {
           this.items.push({
-            item_name: account.registered_name,
-            status: account.status,
+            code: project.code,
+            status: project.status,
+            name: project.name,
             item_params: {
               link: "project_show",
-              id: account.id
+              id: project.id
             }
           });
         })
@@ -47,6 +48,7 @@ export default {
         {
           key: "code",
           label: "Project Code",
+          class: "text-center",
           sortable: true,
           sortDirection: "desc"
         },

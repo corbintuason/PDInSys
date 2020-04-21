@@ -15,12 +15,14 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('code')->nullable();
             $table->string('name');
             $table->json('account');
             $table->date('start_date');
             $table->date('end_date');
             $table->json('locations');
             $table->string('status');
+            $table->string('project_status');
             $table->integer('score');
             $table->boolean('for_project_bidding');
             $table->json('departments_needed');

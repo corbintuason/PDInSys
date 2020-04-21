@@ -4,7 +4,6 @@
       <template v-slot:header>
         <h1 class="component-title">
           Create Account & Client
-          <strong class="orange float-right">{{user_role}}</strong>
         </h1>
       </template>
       <b-card-body v-if="account!=null">

@@ -14,6 +14,7 @@ import ShowAccount from "./pages/Authorized/PGOS/Accounts/Show.vue";
 // Project Creation Module
 import IndexProject from "./pages/Authorized/PGOS/Projects/Index.vue";
 import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue";
+import ShowProject from "./pages/Authorized/PGOS/Projects/Show.vue";
 
 // Mandate Creation Module
 import IndexMandate from "./pages/Authorized/PGOS/Mandate/Index.vue";
@@ -93,6 +94,11 @@ export default [
                 path: "/projects/create",
                 component: CreateProject,
                 name: "project_create"
+            },
+            {
+                path: "/projects/:id",
+                component: ShowProject,
+                name: "project_show",
             },
             // MANDATE PATHS
             {

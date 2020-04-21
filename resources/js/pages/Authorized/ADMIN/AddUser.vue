@@ -13,6 +13,8 @@
           <b-tab title="Module Access">
             <module-access :new_user="new_user" :module_access="new_user.module_access"></module-access>
           </b-tab>
+          <b-tab title="Job Description">
+          </b-tab>
         </b-tabs>
       </b-card-body>
       <template v-slot:footer>
@@ -76,7 +78,6 @@ export default {
           text: "Please check the details provided.",
           showLoaderOnConfirm: true,
           preConfirm: () => {
-            this.$Progress.start();
             return new Promise((resolve, reject) => {
               axios
                 .post("/api/user", this.new_user)
@@ -85,7 +86,6 @@ export default {
                   resolve(user);
                 })
                 .catch(e => {
-                  this.$Progress.fail();
                   //(e);
                   swal.showValidationMessage(`Unable to create user`);
                   swal.hideLoading();
@@ -96,7 +96,6 @@ export default {
         })
         .then(result => {
           if (result.value) {
-            this.$Progress.finish();
             //(result);
             swal.fire({
               title: "User Succesfully Created",

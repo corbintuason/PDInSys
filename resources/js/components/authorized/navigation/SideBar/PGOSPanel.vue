@@ -1,6 +1,8 @@
 <template>
     <div>
         <div class="sidebar-header">
+            <!-- <pulse-loader></pulse-loader> -->
+
             <div class="pgos-header text-center">
                 <a class="text-white">
                     <strong>PGOS</strong>
@@ -149,6 +151,10 @@ export default {
             );
         },
         renderSection(features) {
+            console.log("testing lang muna");
+            console.log(this.user.abilities.some(feature => {
+                features.includes(feature.name);
+            }));
             return this.user.abilities.some((feature) =>
                features.includes(feature.name)
             );

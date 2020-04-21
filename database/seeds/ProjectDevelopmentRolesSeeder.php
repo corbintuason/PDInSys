@@ -31,12 +31,28 @@ class ProjectDevelopmentRolesSeeder extends Seeder
             'title' => 'Delete All Projects',
         ]);
         
-        // Project List - Create Project (PROCESS FLOW - CREATE, APPROVE)
+        // Project List - Create Project (PROCESS FLOW - CREATE, REVIEW, RETURN, REJECT, APPROVE)
 
         $approve_projects = Bouncer::ability()->firstOrCreate([
             'name' => 'approve-all-projects',
             'title' => 'Approve All Projects',
         ]);
+        
+        $review_projects = Bouncer::ability()->firstOrCreate([
+            'name' => 'review-all-projects',
+            'title' => 'Review All Projects',
+        ]);
+
+        $reject_projects = Bouncer::ability()->firstOrCreate([
+            'name' => 'reject-all-projects',
+            'title' => 'Reject All Projects'
+        ]);
+        
+        $return_projects = Bouncer::ability()->firstOrCreate([
+            'name' => 'return-all-projects',
+            'title' => 'Return all Projects'
+        ]);
+
 
         
         // Role Creation
@@ -45,6 +61,12 @@ class ProjectDevelopmentRolesSeeder extends Seeder
             'title' => 'Project Creator',
         ]);
 
+        $project_reviewer = Bouncer::role()->firstOrCreate([
+            'name' => 'project-reviewer',
+            'title' => 'Project Reviewer',
+        ]);
+
+
         $project_approver = Bouncer::role()->firstOrCreate([
             'name' => 'project-approver',
             'title' => 'Project Approver'
@@ -52,6 +74,8 @@ class ProjectDevelopmentRolesSeeder extends Seeder
 
         // Assign
         Bouncer::allow($project_creator)->to([$view_projects, $create_projects]);
-        Bouncer::allow($project_approver)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $approve_projects]);
+        Bouncer::allow($project_reviewer)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects]);
+        Bouncer::allow($project_approver)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $approve_projects]);
+    
     }
 }

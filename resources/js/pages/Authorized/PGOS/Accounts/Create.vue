@@ -11,7 +11,7 @@
     </b-card>
     <b-card class="mt-3">
       <template v-slot:header>
-        <h1 class="component-title">Create Account & Client <strong class="orange float-right">{{user_role}}</strong></h1>
+        <h1 class="component-title">Create Account & Client </h1>
       </template>
       <b-card-text>
         <b-tabs content-class="mt-3" fill>
@@ -25,7 +25,6 @@
       </b-card-text>
              <template v-slot:footer>
                 <b-button variant="outline-success" class="float-right" @click="createAccount">Create Account and Clients</b-button>
-
       </template>
     </b-card>
   </div>
@@ -39,7 +38,6 @@ export default {
   data() {
     return {
       user: this.$store.state.user,
-      user_role: null,
       my_steps: ["Create", "Approve"],
       form: {
         registered_name: "",
@@ -69,10 +67,6 @@ export default {
     "clients-information": clientsInformation
   },
   methods:{
-    getUserRole(){
-      //('start')
-      this.user_role = this.user.data.module_access[0]["modules"][0]["features"][1]["role"];
-    },
        createAccount() {
          //("rak");
       swal
@@ -119,7 +113,6 @@ export default {
 
   },
   mounted(){
-    this.getUserRole();
   }
 };
 </script>

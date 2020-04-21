@@ -14,46 +14,58 @@
                         ></step-progress>
                     </div>
                 </div>
-                <b-card-text>
-                    <div class="row mt-2">
-                        <div class="col-md-12">
-                            <b-list-group>
-                                <b-list-group-item
-                                    v-for="(front_step, front_step_index) in front_steps" :key="front_step_index"
-                                    class="d-flex align-items-center"
-                                >
-                                    <b-avatar class="mr-3"></b-avatar>
-                                    <span class="mr-auto"><strong> {{front_step.responsible}}: </strong></span>
-                                </b-list-group-item>
-                            </b-list-group>
-                        </div>
+                <div class="row mt-2" v-if="mode!='Create'">
+                    <div class="col-md-12">
+                        <contribution-list
+                            ref="contribution_list"
+                            :front_steps="front_steps"
+                            :involved_users="item.involved_users"
+                        ></contribution-list>
                     </div>
-                </b-card-text>
+                </div>
             </b-card-body>
         </b-card>
     </div>
 </template>
 
 <script>
+import contributionList from "./ContributionList";
 export default {
     data() {
         return {
-          steps: []
+            steps: [],
+            current_step: null
         };
     },
     props: {
         front_steps: Array,
-        current_step: Number,
+        db_steps: Array,
+        mode: String,
+        item: Object,
     },
-    methods:{
-      loadSteps(){
-        this.front_steps.forEach(front_step => {
-          this.steps.push(front_step.name);
-        });
-      }
+    components: {
+        "contribution-list": contributionList,
     },
-    mounted(){
-      this.loadSteps();
-    }
+    methods: {
+        loadSteps() {
+            this.front_steps.forEach((front_step) => {
+                this.steps.push(front_step.name);
+            });
+            this.getCurrentStep();
+        },
+        getCurrentStep() {
+            console.log("asdf");
+            if(this.mode!='Create'){
+            var status_index = this.db_steps.indexOf(this.item.status) + 1;
+            this.current_step = status_index;
+            }else{
+                this.current_step = 0;
+            }
+
+        },
+    },
+    mounted() {
+        this.loadSteps();
+    },
 };
 </script>
