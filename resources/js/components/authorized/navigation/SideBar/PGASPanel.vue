@@ -150,7 +150,7 @@
             <li v-if="renderFeature('Human Resource', 'Mandate')" class="nav-item">
               <a href="#" class="nav-link">
                 <i class="far fa-dot-circle nav-icon"></i>
-                <p>Mandate</p>
+                <p>Manpower Pool</p>
               </a>
             </li>
             <li v-if="renderFeature('Human Resource', 'PDIS')" class="nav-item">

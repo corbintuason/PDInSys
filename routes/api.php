@@ -27,10 +27,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         'account' => 'API\AccountController',
         'project' => 'API\ProjectController',
         'vendor' => 'API\VendorController',
+        'mandate' => 'API\MandateController',
     ]);
 
     Route::get('/activities', "API\ActivityController@index");
-
 });
 
 
