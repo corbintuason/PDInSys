@@ -70,14 +70,18 @@ export default new Vuex.Store({
                             },
                             {
                                 name: "Account and Client Accreditation",
-                                permission: "view-account-and-client-accreditation",
-                                roles:[{
-                                    name: "Creator",
-                                    role: "account-creator"
-                                },{
-                                    name: "Approver",
-                                    role: "account-approver"
-                                }],
+                                permission:
+                                    "view-account-and-client-accreditation",
+                                roles: [
+                                    {
+                                        name: "Creator",
+                                        role: "account-creator",
+                                    },
+                                    {
+                                        name: "Approver",
+                                        role: "account-approver",
+                                    },
+                                ],
                             },
                         ],
                     },
@@ -86,21 +90,29 @@ export default new Vuex.Store({
                         features: [
                             {
                                 name: "Project List and Status",
-                                permission: "view-project-list-and-status"
+                                permission: "view-project-list-and-status",
                             },
                             {
                                 name: "Create Project",
                                 permission: "view-create-project",
-                                roles: [{
-                                    name: "Creator",
-                                    role: "project-creator"
-                                },{
-                                    name: "Reviewer",
-                                    role: "project-reviewer",
-                                },{
-                                    name: "Approver",
-                                    role: "project-approver"
-                                }],
+                                roles: [
+                                    {
+                                        name: "Creator",
+                                        role: "project-creator",
+                                    },
+                                    {
+                                        name: "Reviewer",
+                                        role: "project-reviewer",
+                                    },
+                                    {
+                                        name: "Approver",
+                                        role: "project-approver",
+                                    },
+                                    {
+                                        name: "Assigner",
+                                        role: "project-assigner"
+                                    }
+                                ],
                             },
                             // {
                             //     name: "CE and Budget Management",
@@ -297,21 +309,138 @@ export default new Vuex.Store({
                 front_steps: ["Create", "Approve"],
                 db_steps: ["For Approval", "Approved"],
             },
-            project:{
-                front_steps: [{
-                    name: "Create",
-                    responsible: "Creator"
-                },{
-                    name: "Review",
-                    responsible: "Reviewer"
-                },
-                {
-                    name: "Approve",
-                    responsible: "Approver"
-                }
+            project: {
+                front_steps: [
+                    {
+                        name: "Create",
+                        responsible: "Creator",
+                    },
+                    {
+                        name: "Review",
+                        responsible: "Reviewer",
+                    },
+                    {
+                        name: "Approve",
+                        responsible: "Approver",
+                    },
+                    {
+                        name: "Assigned",
+                        responsible: "Assigners"
+                    }
                 ],
-                db_steps: ["For Review", "For Approval", "Approved"],
+                db_steps: ["For Review", "For Approval", "Approved", "Assigned"],
             },
         },
+        positions: [
+            {
+                name: "President, CEO",
+                positions: [
+                    // PGOS
+                    {
+                        name: "VP For General Operations",
+                        positions: [
+                            {
+                                name: "AVP For Sales & Operations",
+                                positions: [
+                                    {
+                                        name: "Sales and Operations Director",
+                                        positions: [
+                                            {
+                                                name:
+                                                    "Head of Accounts & Biz Development",
+                                                    positions:[
+                                                        {
+                                                            name: "Associate Head - ABD",
+                                                            positions:[
+                                                                {
+                                                                    name: "Sr. Account Manager",
+                                                                    positions:[
+                                                                        {
+                                                                            name: "Account Manager"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                            },
+                                            {
+                                                name: "Project Execution Head",
+                                                positions:[
+                                                    {
+                                                        name: "Associate Head - PE",
+                                                        positions:[{
+                                                            name: "Project Manager",
+                                                            positions:[{
+                                                                name: "Project Coordinator"
+                                                            }]
+                                                        }]
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                name: "AVP For Creatives",
+                                positions:[
+                                    {
+                                        name: "Creative Director",
+                                        positions: [
+                                            {
+                                                name: "Associate CD - Copy and Digital",
+                                                positions:[{
+                                                    name: "Sr. Creative Writer"
+                                                }]
+                                            },
+                                            {
+                                                name: "Associate CD - Design and Multimedia",
+                                                positions:[{
+                                                    name: "Sr. Graphic Artist"
+                                                }]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                    },
+                    {
+                        name: "VP For General Admin.",
+                        positions:[{
+                            name: "AVP For Administrative Support Group",
+                            positions:[{
+                                name: "Assets & Property Management Head",
+                                positions:[{
+                                    name: "Assets & Property Management Officer",
+                                    positions:[{
+                                        name: "Administrative Support Assistant"
+                                    }]
+                                }]
+                            },{
+                                name: "Human Resource Head",
+                                positions:[{
+                                    name:"Human Resource Officer"
+                                }]
+                            }]
+                        },{
+                            name: "AVP For Accounting & Finance Group",
+                            positions:[{
+                                name: "Accounting & Finance Head",
+                                positions:[{
+                                    name: "Accounts Receivable Officer",
+                                    positions:[{
+                                        name: "Accounting & Finance Assistant"
+                                    }]
+                                },{
+                                    name: "Accounts Payable Officer"
+                                }]
+                            }]
+                        }]
+                    },
+                ],
+            },
+        ],
     },
 });

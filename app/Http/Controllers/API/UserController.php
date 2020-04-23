@@ -42,7 +42,7 @@ class UserController extends Controller
             'birth_date' => 'required',
             'pdem_email' => 'required',
             'pdem_gmail' => 'required',
-            'job_details' => 'required',
+            'positions' => 'required',
             'module_access' => 'required',
             'contact_numbers' => 'required'
         ]);

@@ -19,7 +19,5 @@ class RolesSeeder extends Seeder
         // Project List - Create Project (CRUD)
 
         Bouncer::allow('super-admin')->everything();
-        $user = User::first();
-        $user->assign('super-admin');
     }
 }

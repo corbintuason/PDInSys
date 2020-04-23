@@ -97,9 +97,6 @@ class ProjectController extends Controller
         
         // Past Involved Users 
         $update_users = collect([]);
-        foreach($project->involved_users as $user){
-                $update_users->push(User::findOrFail($user->id));
-        };
 
         // If status updated to 'For Approval'
         $involved_users = $project->involved_users;
@@ -127,6 +124,8 @@ class ProjectController extends Controller
                         'involved_users' => $involved_users,
                     ]);
                 });
+                $assigners = User::whereIs('project-assigner')->get();
+                $update_users = $update_users->merge($assigners);
             } break;
         }
        

@@ -43,6 +43,11 @@ class ProjectDevelopmentRolesSeeder extends Seeder
             'title' => 'Review All Projects',
         ]);
 
+        $assign_projects = Bouncer::ability()->firstOrCreate([
+            'name' => 'assign-all-projects',
+            'title' => 'Assign All Projects'
+        ]);
+
         $reject_projects = Bouncer::ability()->firstOrCreate([
             'name' => 'reject-all-projects',
             'title' => 'Reject All Projects'
@@ -72,10 +77,15 @@ class ProjectDevelopmentRolesSeeder extends Seeder
             'title' => 'Project Approver'
         ]);
 
+        $project_assigner = Bouncer::role()->firstOrCreate([
+            'name' => 'project-assigner',
+            'title' => 'Project Assigner'
+        ]);
+
         // Assign
         Bouncer::allow($project_creator)->to([$view_projects, $create_projects]);
         Bouncer::allow($project_reviewer)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects]);
         Bouncer::allow($project_approver)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $approve_projects]);
-    
+        Bouncer::allow($project_assigner)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $approve_projects, $assign_projects]);
     }
 }
