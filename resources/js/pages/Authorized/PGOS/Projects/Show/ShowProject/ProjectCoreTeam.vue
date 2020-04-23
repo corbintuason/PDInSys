@@ -1,25 +1,11 @@
 <template>
     <div>
         <!-- Accts and Biz Dev and Proj. Execution -->
-        <div class="row mt-3">
-            <!-- Accts and Biz -->
-            <div class="col-md-6">
-                <accounts-business-development-team :project="project"></accounts-business-development-team>
-            </div>
-            <!-- Project Execution Team -->
-            <div class="col-md-6">
-                <project-execution-team></project-execution-team>
-            </div>
-        </div>
-
-        <div class="row">
-            <!-- Accts and Biz -->
-            <div class="col-md-6">
-                <copy-digital-team></copy-digital-team>
-            </div>
-            <!-- Project Execution Team -->
-            <div class="col-md-6">
-                <design-multimedia-team></design-multimedia-team>
+        <div v-for="(team, team_index) in teams" :key="team_index">
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <core-team :team="team" :project="project"> </core-team>
+                </div>
             </div>
         </div>
 
@@ -28,19 +14,86 @@
 </template>
 
 <script>
-import accountsBusinessDevelopmentTeam from "./ProjectCoreTeam/AccountsBusinessDevelopmentTeam";
-import projectExecutionTeam from "./ProjectCoreTeam/ProjectExecutionTean";
-import copyAndDigitalTeam from "./ProjectCoreTeam/CopyAndDigitalTeam";
-import designAndMultimediaTeam from "./ProjectCoreTeam/DesignAndMultimediaTeam";
+
+import coreTeam from "./ProjectCoreTeam/CoreTeam";
 export default {
     data() {
-        return {};
+        return {
+            teams: [
+                {
+                    name: "Accounts and Business Development Team",
+                    divisions: [
+                        {
+                            name: "Main Account Manager",
+                            modal_model: false,
+                        },
+                        {
+                            name: "Deputy Account Manager",
+                            modal_model: false,
+                        },
+                    ],
+                    assignables: [
+                        "AVP For Sales & Operations",
+                        "Sales and Operations Director",
+                        "Head of Accounts & Biz Development",
+                        "Associate Head - ABD",
+                        "Sr. Account Manager",
+                        "Account Manager",
+                    ],
+                },
+                {
+                    name: "Project Execution Team",
+                    divisions: [
+                        {
+                            name: "Main Project Manager",
+                            modal_model: false,
+                        },
+                        {
+                            name: "Deputy Project Manager",
+                            modal_model: false,
+                        },
+                    ],
+                        assignables: [
+                        "President, CEO",
+                    ],
+                },
+                {
+                    name: "Copy and Digital Team",
+                    divisions: [
+                        {
+                            name: "Main Creative Writer",
+                            modal_model: false,
+                        },
+                        {
+                            name: "Deputy Creative Writer",
+                            modal_model: false,
+                        },
+                    ],
+                        assignables: [
+                        "President, CEO",
+                    ],
+                },
+                {
+                    name: "Design and Multimedia Team",
+                    divisions: [
+                        {
+                            name: "Main Graphic Artist",
+                            modal_model: false,
+                        },
+                        {
+                            name: "Deputy Graphic Artist",
+                            modal_model: false,
+                        },
+                    ],
+                        assignables: [
+                        "President, CEO",
+                    ],
+                },
+            ],
+        };
     },
     components: {
-        "accounts-business-development-team": accountsBusinessDevelopmentTeam,
-        "project-execution-team": projectExecutionTeam,
-        "copy-digital-team": copyAndDigitalTeam,
-        "design-multimedia-team": designAndMultimediaTeam,
+        "core-team": coreTeam,
     },
     props: {
         project: Object,
