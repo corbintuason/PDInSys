@@ -18,7 +18,10 @@ class Project extends JsonResource
     }
     public function with($request){
         return [
-            'actions'=> $this->activities
+            'actions'=> $this->activities,
+            'relationships' =>[
+                'project_core_employees' => $this->project_core_employees
+            ]
         ];
     }
 }

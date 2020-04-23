@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         'project' => 'API\ProjectController',
         'vendor' => 'API\VendorController',
         'mandate' => 'API\MandateController',
+        'project_core_employee' => 'API\ProjectCoreEmployeeController'
     ]);
 
     Route::get('/activities', "API\ActivityController@index");

@@ -24,8 +24,8 @@ class User extends JsonResource
             ],
             'notifications' => $this->notifications,
             'roles' => $this->getRoles(),
-            'abilities' => $this->getAbilities()
-      
+            'abilities' => $this->getAbilities(),
+            'scores' => $this->getScores()
         ];
     }
 }

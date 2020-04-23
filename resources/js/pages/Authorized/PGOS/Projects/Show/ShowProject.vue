@@ -8,7 +8,9 @@
                 <b-tab title="Project Details">
                     <project-details :mode="mode" :project="project"></project-details>
                 </b-tab>
-                <b-tab title="Project Core Team" :disabled="allowProjectCoreTeam"></b-tab>
+                <b-tab title="Project Core Team" :disabled="allowProjectCoreTeam">
+                    <project-core-team :project="project"></project-core-team>
+                </b-tab>
             </b-tabs>
          
         </b-card-body>
@@ -21,6 +23,7 @@
 
 <script>
 import projectDetails from "./ShowProject/ProjectDetails"
+import projectCoreTeam from "./ShowProject/ProjectCoreTeam"
 import showProjectButtons from "./ShowProject/ShowProjectButtons"
 export default {
     data() {
@@ -38,7 +41,8 @@ export default {
     },
     components: {
         "show-project-buttons": showProjectButtons,
-        "project-details": projectDetails
+        "project-details": projectDetails,
+        "project-core-team": projectCoreTeam
     },
     computed: {
  

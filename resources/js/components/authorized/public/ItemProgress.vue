@@ -16,11 +16,11 @@
                 </div>
                 <div class="row mt-2" v-if="mode!='Create'">
                     <div class="col-md-12">
-                        <contribution-list
+                        <!-- <contribution-list
                             ref="contribution_list"
                             :front_steps="front_steps"
                             :involved_users="item.involved_users"
-                        ></contribution-list>
+                        ></contribution-list> -->
                     </div>
                 </div>
             </b-card-body>

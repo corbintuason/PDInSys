@@ -37,4 +37,8 @@ protected static $logName = 'Project';
         'supporting_documents' => 'Array', 
         'involved_users' => 'Object'
     ];
+
+    public function project_core_employees(){
+        return $this->hasMany("App\ProjectCoreEmployee", "project_id");
+    }
 }

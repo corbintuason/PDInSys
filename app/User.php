@@ -13,6 +13,7 @@ use App\Builders\UserBuilder;
 use App\Collections\UserCollection;
 use App\Vendor;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
+use \stdclass;
 
 class User extends Authenticatable
 {
@@ -62,6 +63,13 @@ class User extends Authenticatable
         'positions' => 'array',
     ];
 
+    public function getScores(){
+        $scores = new stdClass;
+        $scores->current_score = 0;
+        $scores->total_score = 1;
+        return $scores;
+    }
+
     public function accounts()
     {
         return $this->hasMany("App/Account");
@@ -76,4 +84,5 @@ class User extends Authenticatable
     {
         return $this->hasMany("App/Mandate");
     }
+  
 }
