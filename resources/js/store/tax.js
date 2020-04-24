@@ -1406,6 +1406,485 @@ export default new Vuex.Store({
                     },
                 ],
             },
+            // WC180
+            {
+                name: "WC180",
+                descriptions: [
+                    {
+                        name:
+                            "Interest on Foreign loans payable to Non-Resident Foreign Corporation (NRFCs)",
+                        percents: [
+                            {
+                                name: "20%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC190
+            {
+                name: "WC190",
+                descriptions: [
+                    {
+                        name:
+                            "Interest and other income payments on foreign currency transactions/loans payable of Offshore Banking Units (OBUs)",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC191
+            {
+                name: "WC191",
+                descriptions: [
+                    {
+                        name:
+                            "Interest and other income payments on foreign currency transactions/loans payable of Foreign Currency Deposits Units (FCDUs)",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI202
+            {
+                name: "WI202",
+                descriptions: [
+                    {
+                        name:
+                            "Cash dividend payment by domestic corporation to citizens ans residents aliens/NRFCs",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC212
+            {
+                name: "WC212",
+                descriptions: [
+                    {
+                        name:
+                            "Cash dividend payment by domestic corporation to citizens ans residents aliens/NRFCs",
+                        percents: [
+                            {
+                                name: "30%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI203
+            {
+                name: "WI203",
+                descriptions: [
+                    {
+                        name:
+                            "Property dividend payment by domestic corporation to citizens and resident aliens/NRFCs",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC213
+            {
+                name: "WC213",
+                descriptions: [
+                    {
+                        name:
+                            "Property dividend payment by domestic corporation to citizens and resident aliens/NRFCs",
+                        percents: [
+                            {
+                                name: "30%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC222
+            {
+                name: "WC222",
+                descriptions: [
+                    {
+                        name:
+                            "Cash dividend payment by domestic corporation to NFRCs whose countries allowed tax deemed paid credit (subject to tax sparing rule)",
+                        percents: [
+                            {
+                                name: "15%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC223
+            {
+                name: "WC223",
+                descriptions: [
+                    {
+                        name:
+                            "Property dividend payment by domestic corporation to NFRCs whose countries allowed tax deemed paid credit (subject to tax sparing rule)",
+                        percents: [
+                            {
+                                name: "15%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI224
+            {
+                name: "WI224",
+                descriptions: [
+                    {
+                        name:
+                            "Cash dividend payment by domestic corporation to non-resident alien engaged in Trade or Business within the Philippines (NRAETB) ",
+                        percents: [
+                            {
+                                name: "20%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI225
+            {
+                name: "WI225",
+                descriptions: [
+                    {
+                        name:
+                            "Property dividend payment by domestic corporation to NRAETB",
+                        percents: [
+                            {
+                                name: "20%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI226
+            {
+                name: "WI226",
+                descriptions: [
+                    {
+                        name:
+                            "Share of NRAETB in the distributable net income after tax of a partnership (except GPPs) of which he is a partner, or share in the net income after tax of an association, joint account or a joint venture taxable as a corporation of which he is a member or a co-venturer",
+                        percents: [
+                            {
+                                name: "20%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC230
+            {
+                name: "WC230",
+                descriptions: [
+                    {
+                        name: "On other payments to NRFCs",
+                        percents: [
+                            {
+                                name: "30%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI240
+            {
+                name: "WI240",
+                descriptions: [
+                    {
+                        name:
+                            "Distributive share of individual partners in a taxable partnership, association, joint account or joint venture or consortium",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI250
+            {
+                name: "WI250",
+                descriptions: [
+                    {
+                        name:
+                            "All kinds of royalty payments to citizens, resident aliens and NRAETB (other than WI380 and WI341), domestic and resident foreign corporations",
+                        percents: [
+                            {
+                                name: "20%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC250
+            {
+                name: "WC250",
+                descriptions: [
+                    {
+                        name:
+                            "All kinds of royalty payments to citizens, resident aliens and NRAETB (other than WI380 and WI341), domestic and resident foreign corporations",
+                        percents: [
+                            {
+                                name: "20%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI260
+            {
+                name: "WI260",
+                descriptions: [
+                    {
+                        name:
+                            "On prizes exceeding P10,000 and other winnings paid to individuals",
+                        percents: [
+                            {
+                                name: "20%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC280
+            {
+                name: "WC280",
+                descriptions: [
+                    {
+                        name:
+                            "Branch profit remittance by all corporations except PEZA/SBMA/CDA registered",
+                        percents: [
+                            {
+                                name: "15%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC290
+            {
+                name: "WC290",
+                descriptions: [
+                    {
+                        name:
+                            "On the gross rentals, lease and charter fees derived by non-resident owner or lessor of foreign vessels",
+                        percents: [
+                            {
+                                name: "4.5%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC300
+            {
+                name: "WC300",
+                descriptions: [
+                    {
+                        name:
+                            "On gross rentals, charter and other fees derived by non-resident lessor or aircraft, machineries and equipment",
+                        percents: [
+                            {
+                                name: "7.5%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI310
+            {
+                name: "WI310",
+                descriptions: [
+                    {
+                        name:
+                            "On payments to oil exploration service contractors/sub-contractors",
+                        percents: [
+                            {
+                                name: "8%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC310
+            {
+                name: "WC310",
+                descriptions: [
+                    {
+                        name:
+                            "On payments to oil exploration service contractors/sub-contractors",
+                        percents: [
+                            {
+                                name: "8%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI330
+            {
+                name: "WI330",
+                descriptions: [
+                    {
+                        name:
+                            "Payments to non-resident alien not engage in trade or business within the Philippines (NRANETB) except on sale of shares in domestic corporation and real property",
+                        percents: [
+                            {
+                                name: "25%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI340
+            {
+                name: "WI340",
+                descriptions: [
+                    {
+                        name:
+                            "On payments to non-residnet individual/foreign corporate cinematographic film owners, lessors or distributors",
+                        percents: [
+                            {
+                                name: "25%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC340
+            {
+                name: "WC340",
+                descriptions: [
+                    {
+                        name:
+                            "On payments to non-residnet individual/foreign corporate cinematographic film owners, lessors or distributors",
+                        percents: [
+                            {
+                                name: "25%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI341
+            {
+                name: "WI341",
+                descriptions: [
+                    {
+                        name:
+                            "Royalties paid to NRAETB on cinematographic films and similar works",
+                        percents: [
+                            {
+                                name: "25%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI350
+            {
+                name: "WI350",
+                descriptions: [
+                    {
+                        name:
+                            "Final tax on interest or other payments upon tax-free covenant bonds, mortgages, deeds of trust or other obligations under Sec. 57C of the NIRC of 1997, as amended",
+                        percents: [
+                            {
+                                name: "30%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI380
+            {
+                name: "WI380",
+                descriptions: [
+                    {
+                        name:
+                            "Royalties paid to citizens, resident aliens and nraetb on books, other literary works and musical compositions",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI410
+            {
+                name: "WI410",
+                descriptions: [
+                    {
+                        name:
+                            "Informers cash reward to individuals/juridical persons",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC410
+            {
+                name: "WC410",
+                descriptions: [
+                    {
+                        name:
+                            "Informers cash reward to individuals/juridical persons",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WI700
+            {
+                name: "WI700",
+                descriptions: [
+                    {
+                        name:
+                            "Cash on property dividend paid by a Real Estate Investment Trust  ",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
+            // WC700
+            {
+                name: "WC700",
+                descriptions: [
+                    {
+                        name:
+                            "Cash on property dividend paid by a Real Estate Investment Trust  ",
+                        percents: [
+                            {
+                                name: "10%",
+                            },
+                        ],
+                    },
+                ],
+            },
         ],
     },
 });

@@ -1,52 +1,57 @@
 <template>
-  <div>
-    <b-breadcrumb class="mt-4">
-      <b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
-      <b-breadcrumb-item href="/mandates">List of Manpower</b-breadcrumb-item>
-      <b-breadcrumb-item active>Create Manpower</b-breadcrumb-item>
-    </b-breadcrumb>
-    <b-card class="mt-4">
-      <template v-slot:header>
-        <h1 class="component-title">Progress Bar</h1>
-      </template>
-      <b-card-text>
-        <step-progress :steps="my_steps" icon-class="fa fa-check"></step-progress>
-      </b-card-text>
-    </b-card>
-    <b-card class="mt-3">
-      <template v-slot:header>
-        <h1 class="component-title">Project Based Info Sheet</h1>
-      </template>
-      <template v-slot:footer>
-        <b-button variant="success" class="float-right" @click="createMandate">Create Mandate</b-button>
-      </template>
+	<div>
+		<b-breadcrumb class="mt-4">
+			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+			<b-breadcrumb-item href="/mandates">List of Manpower</b-breadcrumb-item>
+			<b-breadcrumb-item active>Create Manpower</b-breadcrumb-item>
+		</b-breadcrumb>
+		<b-card class="mt-4">
+			<template v-slot:header>
+				<h1 class="component-title">Progress Bar</h1>
+			</template>
+			<b-card-text>
+				<step-progress :steps="my_steps" icon-class="fa fa-check"></step-progress>
+			</b-card-text>
+		</b-card>
+		<b-card class="mt-3">
+			<template v-slot:header>
+				<h1 class="component-title">Project Based Info Sheet</h1>
+			</template>
+			<template v-slot:footer>
+				<b-button
+					:disabled="isDisabled"
+					variant="success"
+					class="float-right"
+					@click="createMandate"
+				>Create Mandate</b-button>
+			</template>
 
-      <b-card-text>
-        <b-tabs v-model="tabIndex" content-class="mt-3" fill>
-          <b-tab title="General Info" active>
-            <general-info :form="form"></general-info>
-          </b-tab>
-          <b-tab title="Government Details">
-            <government-details :form="form"></government-details>
-          </b-tab>
-          <b-tab title="Education Attainment and Work Experience">
-            <education-work :form="form"></education-work>
-          </b-tab>
-          <b-tab title="Other Information">
-            <other-information :form="form"></other-information>
-          </b-tab>
-        </b-tabs>
-      </b-card-text>
-    </b-card>
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b-button-group class="mt-1">
-          <b-button variant="primary" @click="tabIndex--">Previous</b-button>
-          <b-button variant="primary" @click="tabIndex++">Next</b-button>
-        </b-button-group>
-      </div>
-    </div>
-  </div>
+			<b-card-text>
+				<b-tabs v-model="tabIndex" content-class="mt-3" fill>
+					<b-tab title="General Info" active>
+						<general-info :form="form"></general-info>
+					</b-tab>
+					<b-tab title="Government Details">
+						<government-details :form="form"></government-details>
+					</b-tab>
+					<b-tab title="Education Attainment and Work Experience">
+						<education-work :form="form"></education-work>
+					</b-tab>
+					<b-tab title="Other Information">
+						<other-information :form="form"></other-information>
+					</b-tab>
+				</b-tabs>
+			</b-card-text>
+		</b-card>
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<b-button-group class="mt-1">
+					<b-button variant="primary" @click="tabIndex--">Previous</b-button>
+					<b-button variant="primary" @click="tabIndex++">Next</b-button>
+				</b-button-group>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -57,12 +62,12 @@ import educationWork from "./Create/EducationWork";
 export default {
 	data() {
 		return {
-				user: this.$store.state.user,
-				user_role: null,
-				my_steps: ["Create", "Approve"],
-				tabIndex: 0,
-				form: {
-					date: "",
+			user: this.$store.state.user,
+			user_role: null,
+			my_steps: ["Create", "Approve"],
+			tabIndex: 0,
+			form: {
+				date: "",
 				position: "",
 				full_name: {
 					last_name: "",
@@ -127,6 +132,25 @@ export default {
 		"government-details": governmentDetails,
 		"other-information": otherInformation,
 		"education-work": educationWork,
+	},
+	computed:{
+		isDisabled() {
+			if (this.form.position == "" || this.form.full_name == "") {
+				return true;
+			}
+			if (this.form.present_address == "" || this.form.permanent_address == "") {
+				return true;
+			}
+			if (this.form.mobile_number == "" || this.form.telephone_number == "") {
+				return true;
+			}
+			if (this.form.tin_number == "" || this.form.sss_number == "") {
+				return true;
+			}
+			if (this.form.pagibig_number == "" || this.form.philhealth_number == "") {
+				return true;
+			}
+		}
 	},
 	methods:{
 	// getUserRole(){
