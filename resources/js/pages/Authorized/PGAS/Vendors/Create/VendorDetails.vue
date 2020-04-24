@@ -30,6 +30,7 @@
 								<option disabled>Please select an option</option>
 								<option>Services</option>
 								<option>Goods</option>
+								<option>Both</option>
 							</b-form-select>
 						</b-input-group>
 					</div>
