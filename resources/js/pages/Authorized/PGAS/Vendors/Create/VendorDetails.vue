@@ -121,8 +121,8 @@
 						<b-input-group>
 							<b-form-select v-model="form.type_business" required>
 								<option disabled>Please select an option</option>
-								<option>Sole Proprietorship</option>
-								<option>Corporation</option>
+								<option value="Sole Proprietorship">Sole Proprietorship</option>
+								<option value="Corporation">Corporation</option>
 							</b-form-select>
 						</b-input-group>
 					</div>
@@ -148,7 +148,7 @@
 import vueStep from "vue-step";
 export default {
     props: {
-        form: Object
+        form: Object,
     },
     data() {
         return {

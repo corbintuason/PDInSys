@@ -23,7 +23,7 @@
 
 			<div class="row mt-2" v-for="(value, value_index) in form.bank_details" :key="value_index">
 				<div class="col-md-3">
-					<b-form-select v-model="form.bank_details[value_index].bank_name" required>
+					<b-form-select v-model="form.bank_details[value_index].bank_name">
 						<option disabled>Please select an option</option>
 						<option>BDO (Banco de Oro Universal Bank)</option>
 						<option>BPI (Bank of the Philippine Islands)</option>
@@ -99,7 +99,7 @@ export default {
 	methods: {
 		addRow(model) {
             model.push({
-        bank_name: "",
+        		bank_name: "",
 				bank_address: "",
 				account_name: "",
 				account_number: ""

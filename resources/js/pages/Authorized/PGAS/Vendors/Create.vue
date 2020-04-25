@@ -39,9 +39,9 @@
 						<!-- Bank Details -->
 						<bank-details :form="form"></bank-details>
 					</b-tab>
-					<b-tab title="Accreditation Attachments">
+					<b-tab title="Accreditation Attachments" active>
 						<!-- Accreditation Attachments -->
-						<accreditation-details></accreditation-details>
+						<accreditation-details :form="form"></accreditation-details>
 					</b-tab>
 				</b-tabs>
 			</b-card-text>
@@ -104,6 +104,7 @@ export default {
 					account_name: "",
 					account_number: ""
 				}],
+				other_attachments: [""],
 				creator_id: this.$store.state.user.data.id
 			},
 		};

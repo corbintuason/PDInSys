@@ -159,7 +159,6 @@ export default {
           value.ewt_description = event.name;
 
           // Set Percentages for Dropdown
-          console.log(event);
           value.dropdowns.ewt_percent = event.percents;
         }
 	},
