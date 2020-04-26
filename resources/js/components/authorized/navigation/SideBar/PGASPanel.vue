@@ -90,10 +90,10 @@
 							</a>
 						</li>
 						<li v-if="renderFeature('Accounting', 'Budget Allocation')" class="nav-item">
-							<a href="#" class="nav-link">
+							<router-link :to="{ name: 'budget_allocation_index'}" class="nav-link">
 								<i class="far fa-dot-circle nav-icon"></i>
 								<p>Budget Allocation</p>
-							</a>
+							</router-link>
 						</li>
 						<li v-if="renderFeature('Accounting', 'Projected Financial Statements')" class="nav-item">
 							<a href="#" class="nav-link">

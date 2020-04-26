@@ -42,7 +42,16 @@
 				</div>
 				<div class="col-md-4">
 					<b-input-group>
-						<b-input v-model="form.bank_details[value_index].bank_address" type="text"></b-input>
+						<b-input
+							placeholder="Branch"
+							v-model="form.bank_details[value_index].bank_address.bank_branch"
+							type="text"
+						></b-input>
+						<b-input
+							placeholder="Brgy / City"
+							v-model="form.bank_details[value_index].bank_address.bank_city"
+							type="text"
+						></b-input>
 					</b-input-group>
 				</div>
 				<div class="col-md-2">
@@ -90,7 +99,10 @@ export default {
 			stepList: ["", "", "", ""],
 			bank_details: [{
 				bank_name: "",
-				bank_address: "",
+				bank_address: [{
+					bank_branch: "",
+					bank_city: ""
+				}],
 				account_name: "",
 				account_number: ""
 			}]
@@ -100,7 +112,10 @@ export default {
 		addRow(model) {
             model.push({
         		bank_name: "",
-				bank_address: "",
+				bank_address: [{
+					bank_branch: "",
+					bank_city: ""
+				}],
 				account_name: "",
 				account_number: ""
 			});

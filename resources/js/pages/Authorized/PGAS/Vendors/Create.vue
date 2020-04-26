@@ -100,7 +100,10 @@ export default {
 				}],
 				bank_details: [{
 					bank_name: "",
-					bank_address: "",
+					bank_address: [{
+						bank_branch: "",
+						bank_city: ""
+					}],
 					account_name: "",
 					account_number: ""
 				}],

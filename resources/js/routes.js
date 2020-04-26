@@ -26,6 +26,10 @@ import CreateMandate from "./pages/Authorized/PGAS/Mandate/Create.vue";
 import IndexVendor from "./pages/Authorized/PGAS/Vendors/Index.vue";
 import CreateVendor from "./pages/Authorized/PGAS/Vendors/Create.vue";
 
+//  Budget Allocation Module
+import IndexBudgetAllocation from "./pages/Authorized/PGAS/BudgetAllocation/Index.vue";
+import CreateBudgetAllocation from "./pages/Authorized/PGAS/BudgetAllocation/Create.vue";
+
 // User Profile Settings
 import EditUserProfile from "./pages/Authorized/PD/UserProfile/Edit.vue";
 
@@ -118,6 +122,17 @@ export default [
                 path: "/vendors/create",
                 component: CreateVendor,
                 name: "vendor_create",
+            },
+            // BUDGET ALLOCATION PATHS
+            {
+                path: "/budget-allocation",
+                component: IndexBudgetAllocation,
+                name: "budget_allocation_index",
+            },
+            {
+                path: "/budget-allocation/create",
+                component: CreateBudgetAllocation,
+                name: "budget_allocation_create",
             },
             // USER PROFILE PATH
             {

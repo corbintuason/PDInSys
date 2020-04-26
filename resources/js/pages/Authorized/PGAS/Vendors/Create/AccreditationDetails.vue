@@ -95,7 +95,7 @@
 								<label for="other-attachment">Other Attachment:</label>
 							</div>
 							<div class="col-md-8">
-								<b-form-file v-model="form.other_attachments[value_index]" id="other-attachment"></b-form-file>
+								<b-input v-model="form.other_attachments[value_index]" id="other-attachment"></b-input>
 							</div>
 							<div class="col-md-1">
 								<b-button
