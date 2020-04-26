@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\User;
 use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserCollection;
 use Mail;
 use App\Mail\NewUserCreated;
 use Illuminate\Support\Facades\Mail as FacadesMail;

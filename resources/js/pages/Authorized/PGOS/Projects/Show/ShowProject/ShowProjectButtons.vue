@@ -3,7 +3,7 @@
         <b-button-group class="float-right">
             <!-- Reject Project -->
 
-            <b-button class="float-right" variant="outline-danger"
+            <b-button @click="rejectProject" v-if="showRejectProject" class="float-right" variant="outline-danger"
                 >Reject Project</b-button
             >
             <!-- Return Project -->
@@ -33,12 +33,21 @@
                 variant="outline-success"
                 >Approve Project</b-button
             >
+
+            <b-button
+            @click="editProject"
+            v-if="showEditProject"
+            class="float-right"
+            variant="outline-dark"
+            > Edit Project
+            </b-button>
         </b-button-group>
 
         <return-item
             :item="project"
             :item_model="item_model"
             :front_steps="front_steps"
+            :contributors="contributors"
         ></return-item>
     </div>
 </template>
@@ -59,27 +68,74 @@ export default {
     props:{
         project: Object,
         item_model: String,
-        front_steps: Array
+        front_steps: Array,
+        contributors: Array,
+        mode: String
     },
     components:{
         "return-item": returnItem
     },
     computed:{
+        showEditProject(){
+            return true;
+        },
         showRejectProject(){
-            return this.rejectProjectStatuses.includes(this.project.status);
+            // Status of Project should be included in the array
+            // Logged in user 
+            return this.rejectProjectStatuses.includes(this.project.status) && this.$store.getters.hasAbility("reject-all-projects");
         },
         showReturnProject(){
-            return this.returnProjectStatuses.includes(this.project.status);
+            return this.returnProjectStatuses.includes(this.project.status) && this.$store.getters.hasAbility("return-all-projects");
         },
         showReviewProject(){  
-            console.log("aaa");  
-            return this.reviewProjectStatuses.includes(this.project.status) && this.user.abilities.find(ability=> ability.name == 'review-all-projects') != null;
+            return this.reviewProjectStatuses.includes(this.project.status) && this.$store.getters.hasAbility("review-all-projects");
         },
         showApproveProject(){
-            return this.approveProjectStatuses.includes(this.project.status);
+            return this.approveProjectStatuses.includes(this.project.status) && this.$store.getters.hasAbility("approve-all-projects");
         }
     },
     methods: {
+        editProject(){
+           
+        },
+         rejectProject() {
+            swal.fire({
+                title: "Reject Project",
+                icon: "question",
+                confirmButtonText: "Reject Project",
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    return new Promise((resolve, reject) => {
+                        axios
+                            .put("/api/project/" + this.project.id, {
+                                status: "Rejected",
+                            })
+                            .then((response) => {
+                                const item = response.data;
+                                resolve(item);
+                            })
+                            .catch((e) => {
+                                //(e);
+                                swal.showValidationMessage(`Unable to update`);
+                                swal.hideLoading();
+                                reject(e);
+                            });
+                    });
+                },
+            }).then((result) => {
+                if (result.value) {
+                    //(result);
+                    swal.fire({
+                        title: "Project Successfully Rejected",
+                        icon: "success",
+                        timer: "2500",
+                        onClose: () => {
+                            this.$router.go();
+                        },
+                    });
+                }
+            });
+        },
         aproveProject() {
             swal.fire({
                 title: "Approve Project",
@@ -113,7 +169,7 @@ export default {
                         icon: "success",
                         timer: "2500",
                         onClose: () => {
-                            this.$router.push({name: 'project_index'});
+                            this.$router.go();
                         },
                     });
                 }
@@ -137,7 +193,6 @@ export default {
                                 resolve(item);
                             })
                             .catch((e) => {
-                                //(e);
                                 swal.showValidationMessage(`Unable to update`);
                                 swal.hideLoading();
                                 reject(e);
@@ -146,7 +201,6 @@ export default {
                 },
             }).then((result) => {
                 if (result.value) {
-                    //(result);
                     swal.fire({
                         title: "Project Successfully Reviewed",
                         icon: "success",

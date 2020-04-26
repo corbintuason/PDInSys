@@ -14,7 +14,20 @@ class User extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'last_name' => $this->last_name,
+            'first_name' => $this->first_name,
+            'middle_name' => $this->middle_name,
+            'official_photo' => $this->official_photo,
+            'birth_date' => $this->birth_date,
+            'pdem_email' => $this->pdem_email,
+            'pdem_gmail' => $this->pdem_gmail,
+            'contact_numbers' => $this->contact_numbers,
+            'employment_date' => $this->employment_date,
+            'positions' => $this->positions,
+            'scores' => $this->scores
+        ];
     }
 
     public function with($request){
@@ -25,7 +38,6 @@ class User extends JsonResource
             'notifications' => $this->notifications,
             'roles' => $this->getRoles(),
             'abilities' => $this->getAbilities(),
-            'scores' => $this->getScores()
         ];
     }
 }

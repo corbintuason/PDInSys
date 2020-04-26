@@ -17,6 +17,7 @@ class CreateProjectCoreEmployeesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('project_id');
             $table->integer('user_id');
+            $table->string('team');
             $table->string('type');
             $table->float('score_percentage');
             $table->timestamps();

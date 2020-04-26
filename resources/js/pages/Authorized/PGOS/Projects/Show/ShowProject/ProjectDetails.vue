@@ -1,9 +1,28 @@
 <template>
     <div class="row">
         <div class="col-md-6">
+                 <!-- Status -->
+            <b-form-group
+                label="Project Status"
+                label-class="font-weight-bold"
+                class=" mt-3"
+            >
+                <b-form-select class="col-md-8" v-model="project.project_status" :disabled="mode!='Create'">
+                    <b-select-option :value="null" disabled
+                        >-- Please select a status --</b-select-option
+                    >
+                    <b-select-option
+                        v-for="(status, status_index) in statuses"
+                        :key="status_index"
+                        :value="status"
+                        >{{ status }}</b-select-option
+                    >
+                </b-form-select>
+            </b-form-group>
+
             <!-- Project Name -->
             <b-form-group label="Project Name" label-class="font-weight-bold">
-                <b-form-input type="text" v-model="project.name"></b-form-input>
+                <b-form-input type="text" :disabled="mode=='Show'" v-model="project.name"></b-form-input>
             </b-form-group>
 
             <!-- Account Name -->
@@ -20,6 +39,7 @@
             >
                 <b-form-input
                     type="date"
+                    :disabled="mode=='Show'"
                     v-model="project.start_date"
                 ></b-form-input>
             </b-form-group>
@@ -32,6 +52,7 @@
             >
                 <b-form-input
                     type="date"
+                    :disabled="mode=='Show'"
                     v-model="project.end_date"
                 ></b-form-input>
             </b-form-group>
@@ -39,25 +60,7 @@
             <!-- Locations -->
             <locations :project="project" :mode="mode"></locations>
 
-            <!-- Status -->
-            <b-form-group
-                label="Project Status"
-                label-class="font-weight-bold"
-                class="mt-3"
-            >
-                <b-form-select v-model="project.project_status">
-                    <b-select-option :value="null"
-                        >-- Please select a status --</b-select-option
-                    >
-                    <b-select-option
-                        v-for="(status, status_index) in statuses"
-                        :key="status_index"
-                        :value="status"
-                        >{{ status }}</b-select-option
-                    >
-                </b-form-select>
-            </b-form-group>
-
+       
             <!-- Project Score -->
             <b-form-group
                 label="Project Score"
@@ -69,10 +72,12 @@
                         <b-form-input
                             type="number"
                             v-model="project.score"
+                            :disabled="mode=='Show'"
                         ></b-form-input>
                     </template>
                     <b-form-input
                         type="range"
+                        :disabled="mode=='Show'"
                         v-model="project.score"
                         :min="project_score_vals.min"
                         :max="project_score_vals.max"
@@ -82,7 +87,7 @@
 
             <!-- For Project Bidding -->
             <b-form-group>
-                <b-form-checkbox v-model="project.for_project_bidding" switch>
+                <b-form-checkbox :disabled="mode=='Show'" v-model="project.for_project_bidding" switch>
                     For Project Bidding?
 
                     <template>
@@ -98,19 +103,11 @@
             </b-form-group>
 
             <!-- Departments Needed -->
-            <b-form-group
-                label="Departments Needed"
-                label-class="font-weight-bold"
-                class="mt-3"
-            >
-                <b-form-checkbox-group
-                    v-model="project.departments_needed"
-                    :options="available_departments"
-                    stacked
-                ></b-form-checkbox-group>
-            </b-form-group>
+            <label>Departments Needed</label>
+            <b-alert v-for="(department, department_index) in project.departments_needed" :key="department_index"  show variant="secondary">
+                {{department.name}}
+            </b-alert>
         </div>
-        {{ project }}
     </div>
 </template>
 

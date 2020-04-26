@@ -63,13 +63,43 @@ class User extends Authenticatable
         'positions' => 'array',
     ];
 
-    public function getScores(){
-        $scores = new stdClass;
-        $scores->current_score = 0;
-        $scores->total_score = 1;
-        return $scores;
+    public function getCurrentScoreAttribute(){
+        $score = 0;
+        foreach($this->team_projects as $team_project){
+            $score+=$this->getProjectScore($team_project);
+        }
+        return $score;
+        // return $this->team_projects;
     }
 
+    public function getTotalScoreAttribute(){
+        return 10;
+    }
+
+    public function getProjectScore($team_project){
+        $score_percentage = $team_project->score_percentage;
+        $project_percentage = $team_project->project->score;
+        return $project_percentage*$score_percentage;
+    }
+
+    public function getScoresAttribute(){
+        $scores = new stdClass;
+        $current_score = 0;
+        $total_score = 0;
+        foreach($this->team_projects as $team_project){
+            if($team_project->project->project_status != 'Closed'){
+                $current_score+=$this->getProjectScore($team_project);
+            }else{
+                $total_score+=$this->getProjectScore($team_project);
+            }
+        }
+        $scores->current_score = $current_score;
+        $scores->total_score = $total_score;
+        return $scores;
+    }
+    public function getFullNameAttribute(){
+        return $this->attributes["last_name"].", ".$this->attributes["first_name"];
+    }
     public function accounts()
     {
         return $this->hasMany("App/Account");
@@ -83,6 +113,13 @@ class User extends Authenticatable
     public function mandates()
     {
         return $this->hasMany("App/Mandate");
+    }
+
+    public function core_team_projects(){
+        return $this->belongsToMany("App\Project", 'project_core_employees');
+    }
+    public function team_projects(){
+        return $this->hasMany("App\ProjectCoreEmployee")->with('project');
     }
   
 }

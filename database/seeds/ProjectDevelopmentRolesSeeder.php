@@ -84,8 +84,8 @@ class ProjectDevelopmentRolesSeeder extends Seeder
 
         // Assign
         Bouncer::allow($project_creator)->to([$view_projects, $create_projects]);
-        Bouncer::allow($project_reviewer)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects]);
-        Bouncer::allow($project_approver)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $approve_projects]);
-        Bouncer::allow($project_assigner)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $approve_projects, $assign_projects]);
+        Bouncer::allow($project_reviewer)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $reject_projects]);
+        Bouncer::allow($project_approver)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $reject_projects, $approve_projects]);
+        Bouncer::allow($project_assigner)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $reject_projects, $approve_projects, $assign_projects]);
     }
 }

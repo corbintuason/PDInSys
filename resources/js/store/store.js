@@ -5,10 +5,12 @@ import axios from "axios";
 Vue.use(Vuex);
 import globals from "./globals";
 import tax from "./tax";
+import project from "./project";
 export const store = new Vuex.Store({
     modules: {
         globals: globals,
         tax: tax,
+        project: project
     },
     state: {
         // FOR MODULE LOG IN
@@ -19,8 +21,10 @@ export const store = new Vuex.Store({
         loggedIn(state) {
             return state.token != null;
         },
-        user(state) {
-            return state.user;
+        hasAbility(state){
+            return keyword => state.user.abilities.some(item =>{
+                return item.name === keyword
+              });
         },
     },
     mutations: {

@@ -22,12 +22,31 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(notification, notification_index) in user.notifications" :key="notification_index">
-                                            <td>{{notification.data.notification_table.project_name}}</td>
-                                                                                    <td>{{notification.data.notification_table.item}}</td>
-                                                                                                                                <td>{{notification.data.notification_table.status}}</td>
-
-
+                                        <tr
+                                            v-for="(notification,
+                                            notification_index) in user.notifications"
+                                            :key="notification_index"
+                                        >
+                                            <td>
+                                                {{
+                                                    notification.data
+                                                        .notification_table
+                                                        .project_name
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{
+                                                    notification.data
+                                                        .notification_table.item
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{
+                                                    notification.data
+                                                        .notification_table
+                                                        .status
+                                                }}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -41,14 +60,12 @@
 </template>
 
 <script>
-export default{
-    data(){
-        return{
-            user: this.$store.state.user
-        }
+export default {
+    data() {
+        return {
+            user: this.$store.state.user,
+        };
     },
-    methods:{
-        
-    },
-}
+    methods: {},
+};
 </script>

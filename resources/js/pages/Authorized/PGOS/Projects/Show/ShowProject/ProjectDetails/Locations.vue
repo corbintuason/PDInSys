@@ -7,6 +7,7 @@
         >
             <b-input
                 type="text"
+                :disabled="mode=='Show'"
                 v-model="project.locations[location_index]"
             ></b-input>
             <b-input-group-append v-if="mode=='Edit'">

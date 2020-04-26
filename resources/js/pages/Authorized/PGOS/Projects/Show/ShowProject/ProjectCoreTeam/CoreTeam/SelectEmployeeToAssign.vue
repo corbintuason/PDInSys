@@ -1,7 +1,8 @@
 <template>
     <b-modal v-model="division.modal_model" size="xl">
         <template v-slot:modal-title> {{division.name}} </template>
-        <b-card-body>
+        <div class="row">
+            <div class ="col-md-12">
             <b-table
                 selectable
                 select-mode="single"
@@ -54,9 +55,13 @@
                         </span>
                     </b-list-group-item>
                 </div>
-                {{ selected_employee }}
             </div>
-        </b-card-body>
+            </div>
+            {{selected_employee}}
+        </div>
+        <template v-slot:modal-footer>
+            <b-button class="float-right" @click="assignEmployee" :disabled="disableAssignButton" variant="outline-success">Assign {{division.name}}</b-button>
+        </template>
     </b-modal>
 </template>
 
@@ -115,7 +120,7 @@ export default {
         "basic-table": basicTable,
     },
       computed: {
-        canAssignManager() {
+        disableAssignButton() {
             return (
                 this.selected_employee.employee == null ||
                 this.selected_employee.score_percentage == null
@@ -126,9 +131,11 @@ export default {
         selectEmployee(employee) {
             this.selected_employee.employee = employee[0];
         },
-        assignManager() {
+        assignEmployee() {
+            console.log("assigning time");
+            console.log(this.team.name);
             swal.fire({
-                title: "Assign Project Core Employee",
+                title: "Assign " + this.division.name,
                 icon: "question",
                 text: "Please make sure you selected the right employee",
                 confirmButtonText: "Assign Employee",
@@ -140,7 +147,8 @@ export default {
                         var employee = {
                             project_id: this.project.id,
                             user_id: this.selected_employee.employee.id,
-                            type: "Main Account Manager",
+                            team: this.team.name,
+                            type: this.division.name,
                             score_percentage: this.selected_employee.score_percentage,
                         };
                         axios
@@ -163,7 +171,6 @@ export default {
                     swal.fire({
                         title: "Employee Successfully Assigned",
                         icon: "success",
-                        timer: "2500",
                         onClose: () => {
                             this.$router.go();
                         },
@@ -181,7 +188,14 @@ export default {
                 })
                 .then((response) => {
                     response.data.data.forEach((user) => {
-                        this.available_employees.push(user);
+                        this.available_employees.push({
+                            id: user.id,
+                            last_name: user.last_name,
+                            first_name: user.first_name,
+                            positions: user.positions,
+                            current_score: user.scores.current_score,
+                            total_score: user.scores.total_score
+                        });
                     });
                 });
         },

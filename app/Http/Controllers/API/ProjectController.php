@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 
 Use App\Project;
 use App\User;
+use App\ProjectContributor;
 use App\Http\Resources\Project as ProjectResource;
 use App\Notifications\ProjectCreated;
 use App\Notifications\ProjectStatusChange;
 use App\Http\Resources\User as UserResource;
 use Notification;
 use \stdclass;
+use Bouncer;
+use App\Remark;
+use App\Notifications\ProjectReturned;
 
 class ProjectController extends Controller
 {
@@ -34,32 +38,26 @@ class ProjectController extends Controller
         ]);
         
         $auth_user = auth()->user();
-        $involved_users = array();
-        $creator = new stdClass;
-        $creator->type = "Creator";
-        $creator->id = $auth_user->id;
-        array_push($involved_users, $creator);
         $status = 'For Review';
         
         // Create Project
-        $project = activity()->withoutLogs(function() use($request, $status, $involved_users){
+        $project = activity()->withoutLogs(function() use($request, $status){
         $new_project = $request->toArray();
         $new_project['status'] = $status;
-        $new_project['involved_users'] = $involved_users;
         return Project::create($new_project);
         });
 
-        // Set Project Code
-        $project = activity()->withoutLogs(function() use($project){
-            $project_id = $project->id;
-            $curr_year = date("y");
-            $project->code = $curr_year . "-" . $project_id;
-            $project->save();
-            return $project;
-        });
-      
+        // Add Project Contributor List
+        
+        $project_contributor = ProjectContributor::create([
+            'project_id' => $project->id,
+            'contributor_id' => $auth_user->id,
+            'responsibility' => "Creator"
+        ]);
 
-          // Notify all Accounts that can Approve this Project
+        // Bouncer::allow($auth_user)->to('see', $project);
+
+        // Notify all Accounts that can Approve this Project
         $approvers = User::whereIs('project-reviewer')->get();
         Notification::send($approvers, new ProjectCreated($project));
 
@@ -94,49 +92,57 @@ class ProjectController extends Controller
                 'status' => $request['status'],
             ]);
         });
+            if($project->status == 'For Approval' || $project->status== 'Approved') {
+                if($request['status']=='For Approval'){
+                    ProjectContributor::create([
+                        'project_id' => $project->id,
+                        'contributor_id' => $auth_user->id,
+                        'responsibility' => "Reviewer"
+                    ]);
+                    $approvers = User::whereIs('project-approver')->get();
+                    Notification::send($approvers, new ProjectStatusChange($project));
+                }else if ($request['status'] =='Approved'){
+                    $project_contributor = ProjectContributor::create([
+                        'project_id' => $project->id,
+                        'contributor_id' => $auth_user->id,
+                        'responsibility' => "Approver"
+                    ]);
+                    $assigners = User::whereIs('project-assigner')->get();
+                    Notification::send($assigners, new ProjectStatusChange($project));
+                }
+                // Create Activity Log
+                activity('Project Status Change')
+                ->on($project)
+                ->withProperties(["link_name" => "project_show", "link_id" => $project->id])
+                ->log("User " . $auth_user->last_name .", " . $auth_user->first_name  . " has changed Account " . $project->name . "'s status from ". $old_status . " to ". $project->status);
+
+            } else if($project->status == 'Returned'){
+                $remark = Remark::create([
+                    'remarkable_type' => "App\\". $request['remarkable_type'],
+                    'remarkable_id' => $request['remarkable_id'],
+                    'returned_to_id' => $request['user']['id'],
+                    'returned_by_id' => $auth_user->id,
+                    'remarks' => $request['remarks']
+                ]);
+                $returned_to = User::findOrFail($remark->returned_to_id);                
+                Notification::send($returned_to, new ProjectReturned($project));
+
+                activity('Project Returned')
+                ->on($project)
+                ->withProperties(["link_name" => "project_show", "link_id" => $project->id])
+                ->log("User ". $auth_user->full_name . " has returned Project Code ". $project->code . " to " . $returned_to->full_name);
+
+            } else if($project->status == 'Rejected'){
+                activity('Project Rejected')
+                ->on($project)
+                ->withProperties(["link_name" => "project_show", "link_id" => $project->id])
+                ->log("User ". $auth_user->full_name . " has rejected Project Code ". $project->code . ".");
+
+            }
+            
+           
         
-        // Past Involved Users 
-        $update_users = collect([]);
-
-        // If status updated to 'For Approval'
-        $involved_users = $project->involved_users;
-        switch($request['status']){
-            case 'For Approval': {
-                $reviewer = new stdClass;
-                $reviewer->type = "Reviewer";
-                $reviewer->id = $auth_user->id;
-                array_push($involved_users, $reviewer);
-                activity()->withoutLogs(function() use($project, $involved_users){
-                    $project->update([
-                        'involved_users' => $involved_users,
-                    ]);
-                });
-                $approvers = User::whereIs('project-approver')->get();
-                $update_users = $update_users->merge($approvers);
-            } break;
-            case 'Approved': {
-                $approver = new stdClass;
-                $approver->type = "Approver";
-                $approver->id = $auth_user->id;
-                array_push($involved_users, $approver);
-                activity()->withoutLogs(function() use($project, $involved_users){
-                    $project->update([
-                        'involved_users' => $involved_users,
-                    ]);
-                });
-                $assigners = User::whereIs('project-assigner')->get();
-                $update_users = $update_users->merge($assigners);
-            } break;
-        }
-       
-        Notification::send($update_users->unique(), new ProjectStatusChange($project));
-         // Create Activity Log
-         activity('Project Status Change')
-         ->on($project)
-         ->withProperties(["link_name" => "project_show", "link_id" => $project->id])
-         ->log("User " . $auth_user->last_name .", " . $auth_user->first_name  . " has changed Account " . $project->name . "'s status from ". $old_status . " to ". $project->status);
- 
-
+    
         return new ProjectResource($project);
         //
     }
