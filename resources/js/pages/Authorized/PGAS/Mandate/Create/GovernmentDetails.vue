@@ -16,32 +16,32 @@
 						SSS No:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.sss_number" id="sss" type="number"></b-input>
+					<b-input v-model="form.sss_number" id="sss"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="tin">
 						TIN No:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.tin_number" id="tin" type="number"></b-input>
+					<b-input v-model="form.tin_number" id="tin"></b-input>
 				</div>
 				<div class="col-md-6">
 					<label for="pagibig">
 						PAGIBIG No:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.pagibig_number" id="pagibig" type="number"></b-input>
+					<b-input v-model="form.pagibig_number" id="pagibig"></b-input>
 				</div>
 				<div class="col-md-6">
 					<label for="philhealth">
 						PHILHEALTH No:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.philhealth_number" id="philhealth" type="number"></b-input>
+					<b-input v-model="form.philhealth_number" id="philhealth"></b-input>
 				</div>
 				<div class="col-md-12 mt-3">
 					<label for="passport">PASSPORT No:</label>
-					<b-input v-model="form.passport_number" id="passport" type="number"></b-input>
+					<b-input v-model="form.passport_number" id="passport"></b-input>
 				</div>
 			</div>
 		</div>

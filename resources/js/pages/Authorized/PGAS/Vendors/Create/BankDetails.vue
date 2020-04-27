@@ -27,7 +27,7 @@
 						<option disabled>Please select an option</option>
 						<option>BDO (Banco de Oro Universal Bank)</option>
 						<option>BPI (Bank of the Philippine Islands)</option>
-						<option>BPI Family Savings Bank (BFSB)</option>
+						<option>BFSB (BPI Family Savings Bank)</option>
 						<option>China Bank (China Banking Corporation)</option>
 						<option>City Bank</option>
 						<option>EastWest (East West Banking Corporation)</option>
@@ -37,7 +37,8 @@
 						<option>PNB (Philippine National Bank)</option>
 						<option>RCBC (Rizal Commercial Banking Corporation)</option>
 						<option>Security Bank</option>
-						<option>UPB (Union Bank of the Philippines</option>
+						<option>Standard Chartered</option>
+						<option>UBP (Union Bank of the Philippines</option>
 					</b-form-select>
 				</div>
 				<div class="col-md-4">

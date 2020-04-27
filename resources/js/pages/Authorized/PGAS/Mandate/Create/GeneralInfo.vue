@@ -8,7 +8,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<label for="date">Date:</label>
-					<b-form-datepicker v-model="form.date" id="date" locale="en"></b-form-datepicker>
+					<b-form-datepicker readonly :value="dateToday" v-model="form.date" id="date" locale="en"></b-form-datepicker>
 				</div>
 				<div class="col-md-6">
 					<label for="position">
@@ -100,7 +100,7 @@
 				<!-- Age -->
 				<div class="col-md-3">
 					<label for="age">Age:</label>
-					<b-input id="age" v-model="form.age" type="number"></b-input>
+					<b-input id="age" v-model="form.age"></b-input>
 				</div>
 				<!-- Mobile Number -->
 				<div class="col-md-4">
@@ -108,7 +108,7 @@
 						Mobile Number:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.mobile_number" id="mobile-number" type="number"></b-input>
+					<b-input v-model="form.mobile_number" id="mobile-number"></b-input>
 				</div>
 				<!-- Telephone Number -->
 				<div class="col-md-4">
@@ -116,7 +116,7 @@
 						Telephone Number:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.telephone_number" id="telephone-number" type="number"></b-input>
+					<b-input v-model="form.telephone_number" id="telephone-number"></b-input>
 				</div>
 				<!-- Religion -->
 				<div class="col-md-4">
@@ -155,6 +155,12 @@ export default {
 			mobile_number: "",
 			telephone_number: "",
 			religion: "",
+		}
+	},
+	computed: {
+		dateToday() {
+			this.form.date = new Date().toISOString().substr(0, 10);
+			return true
 		}
 	},
     components: {

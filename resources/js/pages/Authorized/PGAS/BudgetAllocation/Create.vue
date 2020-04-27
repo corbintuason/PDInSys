@@ -10,7 +10,7 @@
 				<h1 class="component-title">Budget Allocation</h1>
 			</template>
 			<b-card-text>
-				<budget-allocation></budget-allocation>
+				<budget-allocation :form="form"></budget-allocation>
 			</b-card-text>
 			<template v-slot:footer>
 				<b-button variant="success" class="float-right">Create Budget</b-button>
@@ -24,7 +24,19 @@ import budgetAllocation from "./Create/BudgetAllocation";
 export default {
 	data() {
 		return {
-			
+			form: {
+				cost_centers: [{
+					cost_code: "",
+					cost_description: "",
+					cost_total: 0,
+					budget_details: [{
+						budget_code: "",
+						budget_description: "",
+						budget_year: 0,
+						budget_month: 0
+					}]
+				}]
+			}
 		}
 	},
 	components: {

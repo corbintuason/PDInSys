@@ -44,7 +44,7 @@
 						class="row col-md-12 mt-4"
 					>
 						<div class="col-md-3 mt-1">
-							<label for="invoice">Collection Receipt:</label>
+							<label for="invoice">Sample Collection Receipt:</label>
 						</div>
 						<div class="col-md-8">
 							<b-form-file id="invoice" required></b-form-file>
@@ -55,7 +55,7 @@
 						class="row col-md-12 mt-4"
 					>
 						<div class="col-md-3 mt-1">
-							<label for="official-receipt">Official Receipt:</label>
+							<label for="official-receipt">Sample Official Receipt:</label>
 						</div>
 						<div class="col-md-8">
 							<b-form-file id="official-receipt" required></b-form-file>
@@ -74,7 +74,7 @@
 					</div>
 					<!-- SEC Certificate -->
 					<div
-						v-if="form.type_business == 'Sole Proprietorship' || form.type_business == ''"
+						v-if="form.type_business == 'Corporation' || form.type_business == ''"
 						class="row col-md-12 mt-4"
 					>
 						<div class="col-md-3 mt-1">
@@ -95,7 +95,7 @@
 								<label for="other-attachment">Other Attachment:</label>
 							</div>
 							<div class="col-md-8">
-								<b-input v-model="form.other_attachments[value_index]" id="other-attachment"></b-input>
+								<b-form-file v-model="form.other_attachments[value_index]" id="other-attachment"></b-form-file>
 							</div>
 							<div class="col-md-1">
 								<b-button
@@ -138,7 +138,7 @@ export default {
 	},
 	methods: {
 		addRow(model) {
-            model.push();
+            model.push([""]);
         },
         removeRow(model, index) {
             model.splice(index, 1);

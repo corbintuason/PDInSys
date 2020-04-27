@@ -1,17 +1,51 @@
 <template>
 	<div>
 		<div class="row ml-3 mt-2 mb-4">
-			<div class="col-md-12 mt-2">
-				<label>Budget Allocation for Year:</label>
+			<div class="col-md-8">
+				<div class="col-md-4 mt-2 text-center">
+					<label>Budget Allocation for Year:</label>
+				</div>
+				<div class="col-md-4">
+					<b-form-input class="budget-year text-center" size="lg" type="number"></b-form-input>
+				</div>
 			</div>
-			<div class="col-md-2">
-				<b-form-input class="budget-year text-center" size="lg" type="number"></b-form-input>
+			<div class="col-md-4 text-center">
+				<div class="col-md-12 mt-2">
+					<label>Annual Budget:</label>
+				</div>
+				<div class="row col-md-12">
+					<b-input-group prepend="₱">
+						<b-form-input
+							placeholder="0,000,000.00"
+							class="total-amount text-center"
+							size="lg"
+							type="number"
+							disabled
+						></b-form-input>
+					</b-input-group>
+				</div>
 			</div>
 		</div>
 		<!-- Cost Center -->
-		<div class="cost-center mb-3">
+		<div
+			class="cost-center mb-3"
+			v-for="(value, value_index) in form.cost_centers"
+			:key="value_index"
+		>
+			<div class="row">
+				<div class="col-md-12 text-right">
+					<b-button
+						:disabled="value_index==0"
+						@click="removeRow(form.cost_centers, value_index)"
+						variant="danger"
+						pill
+					>
+						<i class="fas fa-times"></i>
+					</b-button>
+				</div>
+			</div>
 			<!-- first row -->
-			<div class="row ml-3 mt-4 mb-3">
+			<div class="row ml-3 mt-1 mb-3">
 				<div class="col-md-3">
 					<label>Cost Center</label>
 				</div>
@@ -22,14 +56,20 @@
 					<label>Total Amount:</label>
 				</div>
 				<div class="col-md-3">
-					<b-form-input type="text"></b-form-input>
+					<b-form-input v-model="form.cost_centers[value_index].cost_code" type="text"></b-form-input>
 				</div>
 				<div class="col-md-5">
-					<b-form-input type="text"></b-form-input>
+					<b-form-input v-model="form.cost_centers[value_index].cost_description" type="text"></b-form-input>
 				</div>
 				<div class="col-md-3">
 					<b-input-group prepend="₱" class="font-weight-bold">
-						<b-form-input class="total-amount" placeholder="000,000.00" type="text" disabled></b-form-input>
+						<b-form-input
+							v-model="form.cost_centers[value_index].cost_total"
+							class="total-amount"
+							placeholder="000,000.00"
+							type="text"
+							disabled
+						></b-form-input>
 					</b-input-group>
 				</div>
 			</div>
@@ -49,37 +89,59 @@
 					<label>Budget per month</label>
 				</div>
 				<div class="col-md-1"></div>
-
+			</div>
+			<div
+				class="row ml-3 mb-3"
+				v-for="(value, value_index) in form.cost_centers[value_index].budget_details"
+				:key="value_index"
+			>
 				<div class="col-md-3 ml-md-auto">
-					<b-form-input type="text"></b-form-input>
+					<b-form-input v-model="form.cost_centers[value_index].budget_details.budget_code" type="text"></b-form-input>
 				</div>
 				<div class="col-md-3">
-					<b-form-input type="text"></b-form-input>
+					<b-form-input
+						v-model="form.cost_centers[value_index].budget_details.budget_description"
+						type="text"
+					></b-form-input>
 				</div>
 				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ yr" class="font-weight-bold">
-						<b-form-input placeholder="000,000.00" type="text"></b-form-input>
+						<b-form-input
+							v-model="form.cost_centers[value_index].budget_details.budget_year"
+							placeholder="000,000.00"
+						></b-form-input>
 					</b-input-group>
 				</div>
 				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ mo." class="font-weight-bold">
-						<b-form-input class="total-amount" placeholder="000,000.00" type="text" disabled></b-form-input>
+						<b-form-input
+							v-model="form.cost_centers[value_index].budget_details.budget_month"
+							class="total-amount"
+							placeholder="000,000.00"
+							disabled
+						></b-form-input>
 					</b-input-group>
 				</div>
 				<div class="col-md-1">
-					<b-button variant="outline-danger">
+					<b-button
+						:disabled="value_index==0"
+						@click="removeRow(form.cost_centers.budget_details, value_index)"
+						variant="outline-danger"
+					>
 						<i class="fas fa-trash"></i>
 					</b-button>
 				</div>
 			</div>
+			<!-- Budget Code Add button -->
 			<div class="row ml-5 mr-5 mt-4 mb-4">
-				<b-button variant="primary" block>
+				<b-button @click="addRow(form.cost_centers.budget_details)" block>
 					<i class="text-white fas fa-plus"></i>
 				</b-button>
 			</div>
 		</div>
+		<!-- Cost Center Add Button -->
 		<div class="row ml-2 mr-2">
-			<b-button variant="success" block>
+			<b-button @click="addCostCenter(form.cost_centers)" variant="success" block>
 				<i class="fas fa-plus"></i>
 				<strong>Add Cost Center</strong>
 			</b-button>
@@ -89,19 +151,74 @@
 
 <script>
 export default {
+    props: {
+        form: Object
+    },
+    data() {
+        return {
+            cost_centers: [{
+                cost_code: "",
+                cost_description: "",
+                cost_total: 0,
+                budget_details: [{
+                    budget_code: "",
+                    budget_description: "",
+                    budget_year: "",
+                    budget_month: ""
+                }]
+            }]
+        }
+    },
+	methods: {
+        addCostCenter(model) {
+            model.push({
+                // cost_centers: [{
+                    cost_code: "",
+                    cost_description: "",
+                    cost_total: 0,
+                    budget_details: [{
+                        budget_code: "",
+                        budget_description: "",
+                        budget_year: 0,
+                        budget_month: 0
+                    }]
+                // }]
+            });
+        },
+		addRow(model) {
+            model.push({
+                // budget_details: [{
+                    budget_code: "",
+                    budget_description: "",
+                    budget_year: 0,
+                    budget_month: 0
+                // }]
+            });
+        },
+        removeRow(model, index) {
+            model.splice(index, 1);
+        },
+    },
+    computed: {
+        monthlyBudget() {
+            calculatedMonthly = this.form.cost_centers.budget_details.budget_year / 12;
+            this.form.cost_centers.budget_details = calculatedMonthly;
 
+            return calculatedMonthly;
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .budget-year {
-	border-left: 6px solid #f7942c;
-	border-right: 6px solid #f7942c;
+	border-top: 6px solid #f7942c;
+	border-bottom: 6px solid #f7942c;
 }
 .cost-center {
 	background: #e9ecef;
-	border-top: 7px solid #f7942c;
-	border-bottom: 7px solid #f7942c;
+	border-left: 10px solid #f7942c;
+	border-right: 10px solid #f7942c;
 	border-radius: 5px;
 	padding: 10px;
 	margin: 15px;

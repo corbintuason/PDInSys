@@ -13,7 +13,7 @@
 						<strong class="red">*</strong>
 					</label>
 					<b-input-group>
-						<b-input v-model="form.tin_number" type="number" placeholder="000-000-000-00000" required></b-input>
+						<b-input v-model="form.tin_number" placeholder="000-000-000-00000" required></b-input>
 					</b-input-group>
 				</div>
 
@@ -34,7 +34,7 @@
 			<!-- EWT Details -->
 			<div class="row mt-3">
 				<div class="col-md-2">
-					<label>EWT Details</label>
+					<label>EWT Code</label>
 				</div>
 				<div class="col-md-7">
 					<label>EWT Description</label>

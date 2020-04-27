@@ -39,7 +39,7 @@
 						<!-- Bank Details -->
 						<bank-details :form="form"></bank-details>
 					</b-tab>
-					<b-tab title="Accreditation Attachments" active>
+					<b-tab title="Accreditation Attachments">
 						<!-- Accreditation Attachments -->
 						<accreditation-details :form="form"></accreditation-details>
 					</b-tab>

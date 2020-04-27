@@ -153,9 +153,9 @@ export default {
 		}
 	},
 	methods:{
-	// getUserRole(){
-	//   this.user_role = this.user.data.module_access[0]["modules"][0]["features"][1]["role"];
-	// },
+	getUserRole(){
+	  this.user_role = this.user.data.module_access[0]["modules"][0]["features"][1]["role"];
+	},
 	   createMandate() {
 	  swal
 		.fire({
