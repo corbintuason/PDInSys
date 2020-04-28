@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<div class="row ml-3 mt-2 mb-4">
-			<div class="col-md-8">
+		<div class="row ml-1 mt-2 mb-4">
+			<div class="col-md-10">
 				<div class="col-md-4 mt-2 text-center">
 					<label>Budget Allocation for Year:</label>
 				</div>
@@ -9,20 +9,12 @@
 					<b-form-input class="budget-year text-center" size="lg" type="number"></b-form-input>
 				</div>
 			</div>
-			<div class="col-md-4 text-center">
-				<div class="col-md-12 mt-2">
-					<label>Annual Budget:</label>
-				</div>
-				<div class="row col-md-12">
-					<b-input-group prepend="₱">
-						<b-form-input
-							placeholder="0,000,000.00"
-							class="total-amount text-center"
-							size="lg"
-							type="number"
-							disabled
-						></b-form-input>
-					</b-input-group>
+			<div class="col-md-2 text-center">
+				<div class="mt-5 mr-3">
+					<b-button class="mt-1" @click="addCostCenter(form.cost_centers)" variant="success" block>
+						<i class="fas fa-plus"></i>
+						<strong>Add Cost Center</strong>
+					</b-button>
 				</div>
 			</div>
 		</div>
@@ -35,6 +27,7 @@
 			<div class="row">
 				<div class="col-md-12 text-right">
 					<b-button
+						v-if="value_index != 0"
 						:disabled="value_index==0"
 						@click="removeRow(form.cost_centers, value_index)"
 						variant="danger"
@@ -45,7 +38,7 @@
 				</div>
 			</div>
 			<!-- first row -->
-			<div class="row ml-3 mt-1 mb-3">
+			<div class="row ml-1 mt-1 mb-3">
 				<div class="col-md-3">
 					<label>Cost Center</label>
 				</div>
@@ -75,7 +68,7 @@
 			</div>
 			<!-- end first row -->
 			<!-- second row -->
-			<div class="row ml-3 mt-4">
+			<div class="row ml-1 mt-4">
 				<div class="col-md-3 ml-md-auto">
 					<label>Budget Code</label>
 				</div>
@@ -91,7 +84,7 @@
 				<div class="col-md-1"></div>
 			</div>
 			<div
-				class="row ml-3 mb-3"
+				class="row ml-1 mb-3"
 				v-for="(value, value_index) in form.cost_centers[value_index].budget_details"
 				:key="value_index"
 			>
@@ -134,18 +127,18 @@
 			</div>
 			<!-- Budget Code Add button -->
 			<div class="row ml-5 mr-5 mt-4 mb-4">
-				<b-button @click="addRow(form.cost_centers.budget_details)" block>
+				<b-button @click="addRow(form.budget_details)" block>
 					<i class="text-white fas fa-plus"></i>
 				</b-button>
 			</div>
 		</div>
 		<!-- Cost Center Add Button -->
-		<div class="row ml-2 mr-2">
+		<!-- <div class="row ml-1 mr-2">
 			<b-button @click="addCostCenter(form.cost_centers)" variant="success" block>
 				<i class="fas fa-plus"></i>
 				<strong>Add Cost Center</strong>
 			</b-button>
-		</div>
+		</div>-->
 	</div>
 </template>
 
@@ -160,12 +153,10 @@ export default {
                 cost_code: "",
                 cost_description: "",
                 cost_total: 0,
-                budget_details: [{
-                    budget_code: "",
-                    budget_description: "",
-                    budget_year: "",
-                    budget_month: ""
-                }]
+				budget_code: "",
+				budget_description: "",
+				budget_year: "",
+				budget_month: ""
             }]
         }
     },
@@ -176,12 +167,12 @@ export default {
                     cost_code: "",
                     cost_description: "",
                     cost_total: 0,
-                    budget_details: [{
-                        budget_code: "",
-                        budget_description: "",
-                        budget_year: 0,
-                        budget_month: 0
-                    }]
+					budget_details: [{
+						budget_code: "",
+						budget_description: "",
+						budget_year: 0,
+						budget_month: 0
+					}]
                 // }]
             });
         },
