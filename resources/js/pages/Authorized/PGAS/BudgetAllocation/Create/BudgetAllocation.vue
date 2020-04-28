@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<div class="row ml-1 mt-2 mb-4">
+		<div class="row mt-2 mb-4">
 			<div class="col-md-10">
 				<div class="col-md-4 mt-2 text-center">
-					<label>Budget Allocation for Year:</label>
+					<label>ASSIGN BUDGET TO:</label>
 				</div>
 				<div class="col-md-4">
-					<b-form-input class="budget-year text-center" size="lg" type="number"></b-form-input>
+					<b-form-input class="text-center assign-budget" type="text"></b-form-input>
 				</div>
 			</div>
 			<div class="col-md-2 text-center">
@@ -202,9 +202,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.budget-year {
-	border-top: 6px solid #f7942c;
-	border-bottom: 6px solid #f7942c;
+.assign-budget {
+	border: 2px solid #6c757d;
 }
 .cost-center {
 	background: #e9ecef;

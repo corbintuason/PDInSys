@@ -12,6 +12,16 @@
 						<h1 class="component-title">Budget Allocation</h1>
 					</template>
 					<b-card-text>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="col-md-2 mt-2 text-center">
+									<label>Annual Budget for Year:</label>
+								</div>
+								<div class="col-md-2">
+									<b-form-input class="budget-year text-center" type="number"></b-form-input>
+								</div>
+							</div>
+						</div>
 						<div class="mt-3">
 							<b-tabs
 								active-nav-item-class="font-weight-bold text-uppercase"
@@ -115,5 +125,8 @@ export default {
 .total-amount {
 	border: 1px solid #3333;
 	background: #e9ecef;
+}
+.budget-year {
+	border: 2px solid #6c757d;
 }
 </style>
