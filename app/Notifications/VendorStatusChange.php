@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use App\Vendor;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class VendorCreated extends Notification
+class VendorStatusChange extends Notification
 {
     use Queueable;
 
@@ -25,7 +25,7 @@ class VendorCreated extends Notification
     public function __construct(Vendor $vendor)
     {
         $this->vendor = $vendor;
-        $this->project_name = "Vendor Created";
+        $this->project_name = "Vendor Status Updated";
     }
 
     /**
@@ -71,7 +71,7 @@ class VendorCreated extends Notification
             'notification_table' => [
                 'project_name' => $this->project_name,
                 'item' => $this->vendor->registered_name,
-                'status' => 'For Approval'
+                'status' => $this->vendor->status,
             ],
             'notification_bell' => [
                 'header' => $this->project_name,
