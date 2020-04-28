@@ -79,6 +79,7 @@ class ProjectController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $this->validate($request, [
             'status' => 'required|string|max:191',
         ]);

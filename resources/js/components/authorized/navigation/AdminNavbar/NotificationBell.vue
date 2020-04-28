@@ -95,7 +95,7 @@ export default {
             Echo.private("users." + this.user.data.id).notification(
                 (notification) => {
                     // Push New Notification
-                    this.all_notifications.push(notification.notification);
+                    this.all_notifications.unshift(notification.notification);
 
                     // Activate Notification
                     this.activateNotification(notification);

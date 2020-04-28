@@ -15,6 +15,7 @@ export const store = new Vuex.Store({
     state: {
         // FOR MODULE LOG IN
         user: JSON.parse(localStorage.getItem("user")) || null,
+        all_notifications: [],
         token: localStorage.getItem("access_token") || null,
     },
     getters: {
@@ -28,6 +29,13 @@ export const store = new Vuex.Store({
         },
     },
     mutations: {
+        pushNotification(state, notification){
+            console.log("hello");
+            state.all_notifications.push(notification.notification);
+        },
+        storeNotifications(state, notifications){
+            state.all_notifications = notifications;
+        },
         storeUser(state, user) {
             state.user = user;
         },
@@ -51,6 +59,7 @@ export const store = new Vuex.Store({
                         console.log(response);
                         localStorage.setItem("user", JSON.stringify(user));
                         context.commit("storeUser", user);
+                        context.commit("storeNotifications", user.notifications);
                         resolve(user);
                     })
                     .catch((e) => {
@@ -101,5 +110,8 @@ export const store = new Vuex.Store({
                 });
             }
         },
+        pushNotification(context, notification){
+            context.commit('pushNotification', notification);
+        }
     },
 });

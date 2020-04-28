@@ -8,9 +8,65 @@
 
     <show-project v-if="project!=null" :project="project" :project_code="project_code" :front_steps="front_steps" :core_team="core_team" :mode="mode" :contributors="contributors"></show-project>
 
+    <!-- Quick Access  -->
+  <!-- COST ESTIMATE: Activate when Main AM has been assigned 
+    - Made through excel
+      - Creator -> Reviewer -> Approver -> Clearance
+      - For Review -> For APproval -> For Clearance -> Cleared
+            - Creator of CE is automatically the Main AM
+      
+      - Fields:
+        - Upload A CE
+          - CE Number (automatic) - CEPD-(Project Code).1
+          - CE Version Number (Dont automate)
+          - Sub Total (Input) 
+          - ASF Rate (Input %)
+          - Total Project Cost (Sub Total *  ASF Rate)
+          - VAT (12% of Total Project Cost)
+          - Radio (Peza, AR Only)
+            - If Ticked, Vat will be set to 0
+          - Grand Total (Total Project Cost + Vat)
+          - NOTE: THIS IS DYNAMIC. ADD A DYNAMIC BUTTON TO ADD ANOTHER CODE
+
+          - CREATE -> Notify Reviewer
+          - Restructure file format uplaoded should be ()
+              *CEPD(PROJECTCODE) PROJECT NAME*
+      
+      WHEN REVIEWED
+        - Name of the download link of renamed CE File
+        - Inputted Details 
+        - When Editing (Reviewer Mode):
+          - Reupload new file (Remove old file)
+          - Change to correct values
+          - Reviewed
+
+      ONCE CLEARED, NOTIFY ALL INVOLVED IN THE ITEM
+        - CEPD.1v1 have been cleared
+      
+
+      
+      // Cost Estimate -> roles ["Reviewer", "Approver", "Clearer"]
+
+  -->
+  <!-- BUDGET OPENING: Activate when Cost Estimate's Status is Cleared -->
+   <b-card>
+      <template v-slot:header>Quick Access
+
+        
+      </template>
+      <template v-slot:footer>
+     
+     <b-button-group class="float-right">
+        <b-button v-for="(access, access_index) in quick_access_buttons" :key="access_index"> {{access}}</b-button>
+
+        </b-button-group>
+      </template>
+    </b-card>
+
     <!-- Change Logs  -->
     <change-logs v-if="change_logs!=null" :logs="change_logs"></change-logs>
     
+ 
   </div>
 </template>
 
@@ -30,7 +86,9 @@ export default {
       core_team: null,
       project_code: null,
       contributors: null,
-      remarks: null
+      remarks: null,
+
+      quick_access_buttons:["Cost Estimate", "Budget Opening", "Budget Request", "Request For Payment", "Project Execution Plan", "Job Order", "Supplies Requesition", "Vehicle Requisition", "Asset Movement"]
     };
   },
 

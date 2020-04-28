@@ -21,7 +21,7 @@
                         <tbody>
                             <tr
                                 v-for="(notification,
-                                notification_index) in user.notifications"
+                                notification_index) in all_notifications"
                                 :key="notification_index"
                             >
                 
@@ -63,11 +63,25 @@ export default {
     data() {
         return {
             user: this.$store.state.user,
+            all_notifications: [],
         };
     },
 
-    methods: {},
-    mounted() {},
+    methods: {
+           echoNotifications() {
+            // Call Echo to listen to notifications
+            Echo.private("users." + this.user.data.id).notification(
+                (notification) => {
+                    // Push New Notification
+                    this.all_notifications = this.user.notifications;
+                }
+            );
+        },
+    },
+    mounted() {
+        this.all_notifications = this.user.notifications;
+        this.echoNotifications();
+    },
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
     <b-card class="mt-3">
         <template v-slot:header>
-            <h1 class="component-title" ref="lmfao">{{ project_code }}</h1>
+            <h1 class="component-title" ref="lmfao">Project Code {{ project_code }} {{project.status}}</h1>
         </template>
         <b-card-body>
             <b-tabs fill>
@@ -67,10 +67,7 @@ export default {
             return this.allowProjectCoreTeam ? "Project Core Team (Available once project has been Approved)": "Project Core Team" ;
         },
         allowProjectCoreTeam() {
-            return (
-                this.project.status != "Approved" &&
-                this.project.status != "Assigned"
-            );
+            return (this.project.status != "Approved" && this.project.status != "Assigned");
         },
     },
     methods: {},

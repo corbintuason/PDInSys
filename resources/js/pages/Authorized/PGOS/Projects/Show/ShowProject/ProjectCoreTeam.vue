@@ -37,6 +37,7 @@ export default {
                         "Associate Head - ABD",
                         "Sr. Account Manager",
                         "Account Manager",
+                        "VP For General Operations"
                     ],
                     can_edit: ["Head of Accounts & Biz Development"],
                 },
