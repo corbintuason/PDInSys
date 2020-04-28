@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\User;
 use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserCollection;
 use Mail;
 use App\Mail\NewUserCreated;
 use Illuminate\Support\Facades\Mail as FacadesMail;
@@ -21,19 +22,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return UserResource::collection(User::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $users = User::query();
+        if($request->get('positions')){
+            $positions = $request->get('positions');
+            foreach($positions as $position){
+                $users->orWhereJsonContains('positions', ['name' => $position]);
+            }
+        }
+        return UserResource::collection($users->get());
     }
 
     /**
@@ -52,31 +50,28 @@ class UserController extends Controller
             'birth_date' => 'required',
             'pdem_email' => 'required',
             'pdem_gmail' => 'required',
-            'job_details' => 'required',
+            'positions' => 'required',
             'module_access' => 'required',
             'contact_numbers' => 'required'
         ]);
 
         // Generate a random string for default password
         $password = Str::random(5);
-        $validatedData["pdem_email"] = $validatedData["pdem_email"];
-        $validatedData["password"] = bcrypt($password);
+        $request["password"] = bcrypt($password);
 
         $user_id = auth()->user()->id;
         $user = User::findOrFail($user_id);
-
-        $created_user =  activity()->withoutLogs(function() use($validatedData){
-           return User::create($validatedData);
+        
+        // Create the User
+        $created_user =  activity()->withoutLogs(function() use($validatedData, $request){
+           return User::create($request->except('module_access'));
         });
 
-        // if($request->official_photo!=null){
-        //     $official_photo = $request->file('official_photo');
-        //     $fileName = time().'.'.$official_photo->getClientOriginalExtension();
-        //     Image::make($official_photo)->resize(300, 300)->save( public_path('/storage/officialPhotos/'.$fileName));
-        //     $user = Auth::user();
-        //     $user->official_photo = $fileName;
-        //     $user->save();
-        // }
+        // Add Permissions
+        $created_user->allow($request['module_access.permissions']);
+
+        // Add Roles
+        $created_user->assign($request['module_access.roles']);
         
         // Notify Users
         FacadesMail::to($created_user->pdem_email)->send(new NewUserCreated($created_user, $password));
@@ -84,7 +79,6 @@ class UserController extends Controller
         $notify_user = User::first();
         $notify_users = collect([]);
         $notify_users->push($notify_user);
-        // $notify_user->notify(new UserRegistered($created_user));
         
         Notification::send($notify_users, new UserRegistered($created_user));
 
@@ -104,7 +98,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return new UserResource(User::findorFail($id));
+
     }
 
     /**

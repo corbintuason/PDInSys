@@ -15,8 +15,8 @@
         "laravel/passport": "^8.4",
         "laravel/tinker": "^2.0",
         "pusher/pusher-php-server": "~4.0",
-        "spatie/laravel-activitylog": "^3.14",
-        "spatie/laravel-permission": "^3.11"
+        "silber/bouncer": "v1.0.0-rc.8",
+        "spatie/laravel-activitylog": "^3.14"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

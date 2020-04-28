@@ -84,12 +84,6 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
-import App from "./App.vue";
-
-// new Vue({
-//     router,
-//     render: h => h(App)
-// }).$mount('#app');
 
 const app = new Vue({
     el: "#app",

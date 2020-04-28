@@ -169,36 +169,113 @@
 
 <script>
 export default {
-  data() {
-    return {};
-  },
-  props:{
-    module_access: Array,
-      pgas: Object,
-  },
-  methods: {
-    renderSection(section) {
-      var result = false;
-      this.pgas.modules.forEach(pdis_section => {
-        if (pdis_section.section == section) {
-          result = true;
-        }
-      });
-      return result;
+    data() {
+        return {
+            user: this.$store.state.user,
+            pgos: [],
+        };
     },
-    renderFeature(section, feature) {
-      var result = false;
-      var involved_section = this.pgas.modules.find(
-        pdis_section => pdis_section.section == section
-      );
-      involved_section.features.forEach(pdis_feature => {
-        if (pdis_feature.name == feature) {
-          result = true;
-        }
-      });
-      return result;
-    }
-  }
+    methods: {
+        loadPGAS() {
+            this.pgas.push(
+                {
+                    section: "Admin",
+                    render: this.renderSection([
+                    ]),
+                    features: [
+                        {
+                            name: "Companies",
+                            link: "company_index",
+                        },
+                        {
+                            name: "ADM Advisories",
+                            link: "account_create",
+                        },
+                        {
+                          name: "Assets",
+                          link: "asset_index"
+                        },
+                        {
+                          name: "Vehicles",
+                          link: "vehicle_index"
+                        }
+                    ],
+                },
+                {
+                    section: "Project Development",
+                    render: this.renderSection([
+                        "view-all-projects",
+                        "create-projects",
+                    ]),
+                    features: [
+                        {
+                            name: "Project List & Status",
+                            link: "project_index",
+                            render: this.renderFeature("view-all-projects"),
+                        },
+                        {
+                            name: "Create Project",
+                            link: "project_create",
+                            render: this.renderFeature("create-projects"),
+                        },
+                        {
+                            name: "CE & Bdgt. Mgmt.",
+                            link: "",
+                            render: this.renderFeature("ce-bdgt-mgmt"),
+                        },
+                        {
+                            name: "Project Reports",
+                            link: "",
+                            render: this.renderFeature("project-reports"),
+                        },
+                    ],
+                },
+                {
+                    section: "Project Execution",
+                    features: [
+                        {
+                            name: "Vendors Pool",
+                            link: "",
+                            render: this.renderFeature("view-all-vendors"),
+                        },
+                        {
+                            name: "Manpower Pool",
+                            link: "",
+                            render: this.renderFeature("view-all-manpower"),
+                        },
+                        {
+                            name: "Warehouse Management",
+                            link: "",
+                            render: this.renderFeature("view-all-warehouse"),
+                        },
+                        {
+                            name: "Project Templates",
+                            link: "",
+                            render: this.renderFeature("view-all-templates"),
+                        },
+                    ],
+                }
+            );
+        },
+        renderSection(features) {
+            return this.user.abilities.some((feature) =>
+                this.user.abilities.includes(feature)
+            );
+        },
+        renderFeature(feature) {
+            var render = false;
+            console.log(feature);
+            this.user.abilities.forEach((ability) => {
+                if (ability.name == feature) {
+                    render = true;
+                }
+            });
+            return render;
+        },
+    },
+    mounted() {
+        this.loadPGAS();
+    },
 };
 </script>
 

@@ -5,25 +5,37 @@ import axios from "axios";
 Vue.use(Vuex);
 import globals from "./globals";
 import tax from "./tax";
+import project from "./project";
 export const store = new Vuex.Store({
     modules: {
         globals: globals,
         tax: tax,
+        project: project
     },
     state: {
         // FOR MODULE LOG IN
         user: JSON.parse(localStorage.getItem("user")) || null,
+        all_notifications: [],
         token: localStorage.getItem("access_token") || null,
     },
     getters: {
         loggedIn(state) {
             return state.token != null;
         },
-        user(state) {
-            return state.user;
+        hasAbility(state){
+            return keyword => state.user.abilities.some(item =>{
+                return item.name === keyword
+              });
         },
     },
     mutations: {
+        pushNotification(state, notification){
+            console.log("hello");
+            state.all_notifications.push(notification.notification);
+        },
+        storeNotifications(state, notifications){
+            state.all_notifications = notifications;
+        },
         storeUser(state, user) {
             state.user = user;
         },
@@ -47,6 +59,7 @@ export const store = new Vuex.Store({
                         console.log(response);
                         localStorage.setItem("user", JSON.stringify(user));
                         context.commit("storeUser", user);
+                        context.commit("storeNotifications", user.notifications);
                         resolve(user);
                     })
                     .catch((e) => {
@@ -97,5 +110,8 @@ export const store = new Vuex.Store({
                 });
             }
         },
+        pushNotification(context, notification){
+            context.commit('pushNotification', notification);
+        }
     },
 });

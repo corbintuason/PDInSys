@@ -21,6 +21,7 @@ class CreateProjectsTable extends Migration
             $table->date('end_date');
             $table->json('locations');
             $table->string('status');
+            $table->string('project_status');
             $table->integer('score');
             $table->boolean('for_project_bidding');
             $table->json('departments_needed');

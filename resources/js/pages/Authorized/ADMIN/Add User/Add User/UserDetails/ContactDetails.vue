@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import validators from "../../../../../mixins/validators";
+import validators from "../../../../../../mixins/validators";
 export default {
   data() {
     return {};

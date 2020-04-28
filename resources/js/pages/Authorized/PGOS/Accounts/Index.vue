@@ -26,7 +26,6 @@ export default {
   },
   methods: {
     loadItems() {
-      console.log("asdklfjaslkdjflkasjfl");
       axios.get("/api/account").then(response => {
         const accounts = response.data.data;
         this.accounts = response.data.data;

@@ -2,11 +2,10 @@
   <div>
     <!-- Progress Bar -->
     
-    <item-progress class="mt-3" :my_steps="my_steps" :current_step="0"></item-progress>
-    
+    <item-progress class="mt-3" :front_steps="front_steps" :db_steps="db_steps" :mode="mode"></item-progress>
     <!-- Main Project Form -->
 
-    <create-project></create-project>
+    <create-project :front_steps="front_steps"></create-project>
 
   </div>
 </template>
@@ -16,8 +15,9 @@ import createProject from "./Create/CreateProject"
 export default {
   data() {
     return {
-      my_steps: ["Create", "Review", "Approve"],
-      account_options: [{ value: 1, text: "GLOBE" }]
+      mode: "Create",
+      front_steps: this.$store.state.globals.statuses.project.front_steps,
+      db_steps: this.$store.state.globals.statuses.project.db_steps,
     };
   },
 

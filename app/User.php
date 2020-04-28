@@ -11,12 +11,13 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
 use App\Builders\UserBuilder;
 use App\Collections\UserCollection;
-use Spatie\Permission\Traits\HasRoles;
 use App\Vendor;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
+use \stdclass;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, LogsActivity, CausesActivity, HasRoles;
+    use HasApiTokens, Notifiable, LogsActivity, CausesActivity, HasRolesAndAbilities;
 
     public function receivesBroadcastNotificationsOn()
     {
@@ -39,7 +40,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'last_name', 'first_name', 'middle_name', 'official_photo', 'birth_date', 'pdem_email', 'pdem_gmail', 'contact_numbers', 'employment_date', 'job_details', 'module_access', 'password',
+        'last_name', 'first_name', 'middle_name', 'official_photo', 'birth_date', 'pdem_email', 'pdem_gmail', 'contact_numbers', 'employment_date', 'positions', 'password',
     ];
 
     /**
@@ -59,10 +60,46 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'contact_numbers' => 'array',
-        'job_details' => 'object',
-        'module_access' => 'array'
+        'positions' => 'array',
     ];
 
+    public function getCurrentScoreAttribute(){
+        $score = 0;
+        foreach($this->team_projects as $team_project){
+            $score+=$this->getProjectScore($team_project);
+        }
+        return $score;
+        // return $this->team_projects;
+    }
+
+    public function getTotalScoreAttribute(){
+        return 10;
+    }
+
+    public function getProjectScore($team_project){
+        $score_percentage = $team_project->score_percentage;
+        $project_percentage = $team_project->project->score;
+        return $project_percentage*$score_percentage;
+    }
+
+    public function getScoresAttribute(){
+        $scores = new stdClass;
+        $current_score = 0;
+        $total_score = 0;
+        foreach($this->team_projects as $team_project){
+            if($team_project->project->project_status != 'Closed'){
+                $current_score+=$this->getProjectScore($team_project);
+            }else{
+                $total_score+=$this->getProjectScore($team_project);
+            }
+        }
+        $scores->current_score = $current_score;
+        $scores->total_score = $total_score;
+        return $scores;
+    }
+    public function getFullNameAttribute(){
+        return $this->attributes["last_name"].", ".$this->attributes["first_name"];
+    }
     public function accounts()
     {
         return $this->hasMany("App/Account");
@@ -77,4 +114,12 @@ class User extends Authenticatable
     {
         return $this->hasMany("App/Mandate");
     }
+
+    public function core_team_projects(){
+        return $this->belongsToMany("App\Project", 'project_core_employees');
+    }
+    public function team_projects(){
+        return $this->hasMany("App\ProjectCoreEmployee")->with('project');
+    }
+  
 }

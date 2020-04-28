@@ -66,11 +66,22 @@ export default new Vuex.Store({
                         features: [
                             {
                                 name: "View Accounts",
-                                roles: ["View Only", "View and Edit"],
+                                permission: "view-view-accounts",
                             },
                             {
                                 name: "Account and Client Accreditation",
-                                roles: ["Creator", "Approver"],
+                                permission:
+                                    "view-account-and-client-accreditation",
+                                roles: [
+                                    {
+                                        name: "Creator",
+                                        role: "account-creator",
+                                    },
+                                    {
+                                        name: "Approver",
+                                        role: "account-approver",
+                                    },
+                                ],
                             },
                         ],
                     },
@@ -79,42 +90,61 @@ export default new Vuex.Store({
                         features: [
                             {
                                 name: "Project List and Status",
+                                permission: "view-project-list-and-status",
                             },
                             {
                                 name: "Create Project",
-                                roles: ["Creator", "Reviewer", "Approver"],
-                            },
-                            {
-                                name: "CE and Budget Management",
+                                permission: "view-create-project",
                                 roles: [
-                                    "Creator",
-                                    "Reviewer",
-                                    "Approver",
-                                    "Clearance",
+                                    {
+                                        name: "Creator",
+                                        role: "project-creator",
+                                    },
+                                    {
+                                        name: "Reviewer",
+                                        role: "project-reviewer",
+                                    },
+                                    {
+                                        name: "Approver",
+                                        role: "project-approver",
+                                    },
+                                    {
+                                        name: "Assigner",
+                                        role: "project-assigner"
+                                    }
                                 ],
                             },
-                            {
-                                name: "Project Clearance and Report",
-                            },
+                            // {
+                            //     name: "CE and Budget Management",
+                            //     roles: [
+                            //         "Creator",
+                            //         "Reviewer",
+                            //         "Approver",
+                            //         "Clearance",
+                            //     ],
+                            // },
+                            // {
+                            //     name: "Project Clearance and Report",
+                            // },
                         ],
                     },
-                    {
-                        section: "Project Execution",
-                        features: [
-                            {
-                                name: "Vendors Pool",
-                            },
-                            {
-                                name: "Manpower Pool",
-                            },
-                            {
-                                name: "Warehouse Management",
-                            },
-                            {
-                                name: "Project Templates",
-                            },
-                        ],
-                    },
+                    // {
+                    //     section: "Project Execution",
+                    //     features: [
+                    //         {
+                    //             name: "Vendors Pool",
+                    //         },
+                    //         {
+                    //             name: "Manpower Pool",
+                    //         },
+                    //         {
+                    //             name: "Warehouse Management",
+                    //         },
+                    //         {
+                    //             name: "Project Templates",
+                    //         },
+                    //     ],
+                    // },
                 ],
             },
             {
@@ -279,14 +309,138 @@ export default new Vuex.Store({
                 front_steps: ["Create", "Approve"],
                 db_steps: ["For Approval", "Approved"],
             },
-            vendor: {
-                front_steps: ["Create", "Approve"],
-                db_steps: ["For Approval", "Approved"],
-            },
-            mandate: {
-                front_steps: ["Create", "Approve"],
-                db_steps: ["For Approval", "Approved"],
+            project: {
+                front_steps: [
+                    {
+                        name: "Create",
+                        responsible: "Creator",
+                    },
+                    {
+                        name: "Review",
+                        responsible: "Reviewer",
+                    },
+                    {
+                        name: "Approve",
+                        responsible: "Approver",
+                    },
+                    {
+                        name: "Assigned",
+                        responsible: "Assigners"
+                    }
+                ],
+                db_steps: ["For Review", "For Approval", "Approved", "Assigned"],
             },
         },
+        positions: [
+            {
+                name: "President, CEO",
+                positions: [
+                    // PGOS
+                    {
+                        name: "VP For General Operations",
+                        positions: [
+                            {
+                                name: "AVP For Sales & Operations",
+                                positions: [
+                                    {
+                                        name: "Sales and Operations Director",
+                                        positions: [
+                                            {
+                                                name:
+                                                    "Head of Accounts & Biz Development",
+                                                    positions:[
+                                                        {
+                                                            name: "Associate Head - ABD",
+                                                            positions:[
+                                                                {
+                                                                    name: "Sr. Account Manager",
+                                                                    positions:[
+                                                                        {
+                                                                            name: "Account Manager"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                            },
+                                            {
+                                                name: "Project Execution Head",
+                                                positions:[
+                                                    {
+                                                        name: "Associate Head - PE",
+                                                        positions:[{
+                                                            name: "Project Manager",
+                                                            positions:[{
+                                                                name: "Project Coordinator"
+                                                            }]
+                                                        }]
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                name: "AVP For Creatives",
+                                positions:[
+                                    {
+                                        name: "Creative Director",
+                                        positions: [
+                                            {
+                                                name: "Associate CD - Copy and Digital",
+                                                positions:[{
+                                                    name: "Sr. Creative Writer"
+                                                }]
+                                            },
+                                            {
+                                                name: "Associate CD - Design and Multimedia",
+                                                positions:[{
+                                                    name: "Sr. Graphic Artist"
+                                                }]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                    },
+                    {
+                        name: "VP For General Admin.",
+                        positions:[{
+                            name: "AVP For Administrative Support Group",
+                            positions:[{
+                                name: "Assets & Property Management Head",
+                                positions:[{
+                                    name: "Assets & Property Management Officer",
+                                    positions:[{
+                                        name: "Administrative Support Assistant"
+                                    }]
+                                }]
+                            },{
+                                name: "Human Resource Head",
+                                positions:[{
+                                    name:"Human Resource Officer"
+                                }]
+                            }]
+                        },{
+                            name: "AVP For Accounting & Finance Group",
+                            positions:[{
+                                name: "Accounting & Finance Head",
+                                positions:[{
+                                    name: "Accounts Receivable Officer",
+                                    positions:[{
+                                        name: "Accounting & Finance Assistant"
+                                    }]
+                                },{
+                                    name: "Accounts Payable Officer"
+                                }]
+                            }]
+                        }]
+                    },
+                ],
+            },
+        ],
     },
 });

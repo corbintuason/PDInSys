@@ -46,11 +46,13 @@
                     <td>
                       <b-form-select
                         v-if="feature.roles!=null"
-                        :options="feature.roles"
                         size="sm"
-                        @change="selectRole($event, office, pdis_module, feature)"
-                        :disabled="featureDisabled(office, pdis_module, feature)"
-                      ></b-form-select>
+                        @change="selectRole($event, feature)"
+                        :disabled="featureDisabled(feature)"
+                      >
+                      <b-form-select-option first disabled :value='null'>--Please select a role --</b-form-select-option>
+                      <b-form-select-option v-for="(role, role_index) in feature.roles" :key="role_index" :value="role.role">{{role.name}}</b-form-select-option>
+                      </b-form-select>
                     </td>
                   </tr>
                 </template>
@@ -59,6 +61,7 @@
           </div>
         </div>
       </div>
+      {{new_user.module_access}}
     </div>
   </div>
 </template>
@@ -67,6 +70,7 @@ export default {
   data() {
     return {
       module_key: 0,
+      module_access: [],
       fields: [
         {
           key: "module",
@@ -80,29 +84,27 @@ export default {
       offices: this.$store.state.globals.offices
     };
   },
-  watch: {},
   props: {
     new_user: Object,
-    module_access: Array
   },
   methods: {
     // SELECT OFFICE
     addOffice(event, office) {
       if (event) {
-        this.new_user.module_access.push({
+        this.module_access.push({
           name: office.name,
           modules: []
         });
       } else {
-        var splice_module = this.new_user.module_access.findIndex(
+        var splice_module = this.module_access.findIndex(
           pdis_module => pdis_module.name == office.name
         );
-        this.new_user.module_access.splice(splice_module, 1);
+        this.module_access.splice(splice_module, 1);
       }
     },
     // SELECT SECTION
     selectSection(event, office, pdis_module) {
-      var involved_office = this.new_user.module_access.find(
+      var involved_office = this.module_access.find(
         involved_module => involved_module.name == office.name
       );
       if (event) {
@@ -119,47 +121,21 @@ export default {
     },
     // SELECT FEATURE
     selectFeature(event, office, duo_module, feature) {
-      var involved_office = this.new_user.module_access.find(
-        pdis_module => pdis_module.name == office.name
-      );
+
       if (event) {
-        var involved_feature = involved_office.modules.find(
-          test_feature => test_feature.section == duo_module.section
-        );
-        involved_feature.features.push({
-          name: feature.name,
-          role: null
-        });
+        this.new_user.module_access.permissions.push(feature.permission);
 
       } else {
-        var involved_module = involved_office.modules.find(test_feature => test_feature.section == duo_module.section);
-        var splice_feature = involved_module.features.findIndex(
-          pdis_feature => pdis_feature.name == feature.name
+        var splice_feature = this.new_user.module_access.permissions.findIndex(
+          user_feature => user_feature == feature.permission
         );
-        involved_module.features.splice(splice_feature, 1);
+        this.new_user.module_access.permissions.splice(splice_feature, 1);
       }
-    },
-    // SELECT ROLE
-    selectRole(event, office, duo_module, feature) {
-      // GET OFFICE
-      var involved_office = this.new_user.module_access.find(
-        pdis_module => pdis_module.name == office.name
-      );
-      // GET MODULE
-      var involved_module = involved_office.modules.find(
-          test_module => test_module.section == duo_module.section
-      );
-      // GET FEATURE
-      var involved_feature = involved_module.features.find(
-          test_feature => test_feature.name == feature.name
-      );
-      involved_feature.role = event;
-
     },
 
     // RENDERING FEATURES
     renderModules(office, pdis_module) {
-      var involved_office = this.new_user.module_access.find(
+      var involved_office = this.module_access.find(
         pdis_module => pdis_module.name == office.name
       );
       var result = false;
@@ -170,31 +146,39 @@ export default {
       });
       return result;
     },
-    featureDisabled(office, duo_module, feature) {
-      var involved_office = this.new_user.module_access.find(
-        pdis_module => pdis_module.name == office.name
-      );
-      
-      // GET MODULE
-      var involved_module = involved_office.modules.find(
-          test_module => test_module.section == duo_module.section
-      );
-      // GET FEATURE
-      var result = true;
-      involved_module.features.forEach(pdis_feature => {
-        if(pdis_feature.name == feature.name){
-          result = false;
-        }
-      }); return result;
+    featureDisabled(feature) {
+      var render = true;
+      this.new_user.module_access.permissions.forEach(permission => {
+        if(permission == feature.permission) render = false;
+      });
+      console.log(render);
+      return render;
     },
+
     renderModule(office) {
       var result = false;
-      this.new_user.module_access.forEach(pdis_module => {
+      this.module_access.forEach(pdis_module => {
         if (pdis_module.name == office.name) {
           result = true;
         }
       });
       return result;
+    },
+
+    selectRole(event, feature){
+      console.log('testing time');
+      console.log(feature);
+      console.log(this.new_user.module_access.roles)
+      if(feature.roles.some(role => this.new_user.module_access.roles.includes(role.role))){
+        var remove_roles = [];
+        feature.roles.forEach(remove_role => {
+          remove_roles.push(remove_role.role);
+        });
+        var test = this.new_user.module_access.roles.filter(user_role => !remove_roles.includes(user_role));
+        this.new_user.module_access.roles = test;
+      }
+      this.new_user.module_access.roles.push(event);
+      return true;
     }
   }
 };

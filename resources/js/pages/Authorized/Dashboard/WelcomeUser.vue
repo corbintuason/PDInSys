@@ -35,9 +35,11 @@
         </strong>
       </div>
       <div class="mt-1 ml-1 mb-2">
+        
         <h5
           class="text-uppercase font-weight-bold text-primary"
-        >{{ user.data.job_details.position }}</h5>
+          v-for="(position, position_index) in user.data.positions" :key="position_index"
+        >{{ position.name }}</h5>
       </div>
     </b-card-text>
   </b-card>

@@ -6,7 +6,7 @@
     <div class="row mt-5">
       <div class="col-md-6">
         <!-- JOB DETAILS -->
-        <job-details :new_user="new_user"></job-details>
+        <!-- <job-details :new_user="new_user"></job-details> -->
       </div>
       <div class="col-md-6">
         <!-- CONTACT DETAILS -->

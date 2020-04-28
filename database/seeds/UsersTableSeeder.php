@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use App\User;
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -14,61 +14,158 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'last_name' => "Super",
-            'first_name' => "Admin",
+        $super_admin = User::create([    
+        'last_name' => "Super",
+        'first_name' => "Admin",
+        'middle_name' => "Middle",
+        'employment_date' => date("Y/m/d"),
+        'birth_date' => date("Y/m/d"),
+        'pdem_email' => 'superadmin@pdem.com',
+        'pdem_gmail' => 'superadmin@gmail.com',
+        'contact_numbers' => json_encode(["09999999999", "01111111"]),
+        'positions'=> array(
+            array(
+                "name" => 'President, CEO',
+                'job_level' => '1A'
+            ),
+            array(
+                "name" => 'Standing Officer',
+                "job_level" => '1A'
+            )
+        ),
+        'password' => Hash::make("password")
+        ]);
+
+        // Give Super Admin
+        $super_admin->assign('super-admin');
+
+        $project_creator = User::create([    
+            'last_name' => "Project",
+            'first_name' => "Creator",
             'middle_name' => "Middle",
             'employment_date' => date("Y/m/d"),
             'birth_date' => date("Y/m/d"),
-            'pdem_email' => 'superadmin@pdem.com',
-            'pdem_gmail' => 'superadmin@gmail.com',
+            'pdem_email' => 'projectcreator@pdem.com',
+            'pdem_gmail' => 'projectcreator@gmail.com',
             'contact_numbers' => json_encode(["09999999999", "01111111"]),
-            'job_details' => json_encode([
-                "office" => "PGOS",
-                "group" => "Creatives Group",
-                "department" => "Design and Multimedia",
-                "job_level" => "5C"]),
-            
-            "module_access" => json_encode(array(
-                [
-                    "name" => "PGOS",
-                    "modules" => array(
-                    [
-                       "section" => "Accounts and Clients",
-                       "features" => array([
-                            "name" => "View Accounts",
-                            "role" => "View Only"
-                       ],
-                       [
-                        "name" => "Account and Client Accreditation",
-                        "role" => "Creator"
-                       ],
-                       )
-                    ],
-                    [
-                        "section" => "Project Development",
-                        "features" => array([
-                            "name" => "Project List and Status",
-                            "role" => null,
-                        ],
-                    [
-                        "name" => "Create Project",
-                        "role" => "Approver"
-                    ]),
-                    ],
-                    [
-                        "section" => "Project Execution",
-                        "features" => array([
-                            "name" => "Vendors Pool",
-                            "role" => null
-                        ])
-                    ]
+            'positions'=> array(
+                array(
+                    "name" => 'Some Project Creator',
+                    'job_level' => '1A'
+                )
+            ),
+            'password' => Hash::make("password")
+            ]);
 
-                    )
-                ]
-                    
-               )),
-            'password' => Hash::make("password"),
-        ]);
+        $project_creator->assign('project-creator');
+
+        $project_reviewer = User::create([    
+            'last_name' => "Project",
+            'first_name' => "Reviewer",
+            'middle_name' => "Middle",
+            'employment_date' => date("Y/m/d"),
+            'birth_date' => date("Y/m/d"),
+            'pdem_email' => 'projectreviewer@pdem.com',
+            'pdem_gmail' => 'projectreviewer@gmail.com',
+            'contact_numbers' => json_encode(["09999999999", "01111111"]),
+            'positions'=> array(
+                array(
+                    "name" => 'Some Project Reviewer',
+                    'job_level' => '1A'
+                )
+            ),
+            'password' => Hash::make("password")
+            ]);
+
+        $project_reviewer->assign('project-reviewer');
+
+        $project_approver = User::create([    
+            'last_name' => "Project",
+            'first_name' => "Approver",
+            'middle_name' => "Middle",
+            'employment_date' => date("Y/m/d"),
+            'birth_date' => date("Y/m/d"),
+            'pdem_email' => 'projectapprover@pdem.com',
+            'pdem_gmail' => 'projectapprover@gmail.com',
+            'contact_numbers' => json_encode(["09999999999", "01111111"]),
+            'positions'=> array(
+                array(
+                    "name" => 'Some Project Approver',
+                    'job_level' => '1A'
+                )
+            ),
+            'password' => Hash::make("password")
+            ]);
+
+        $project_approver->assign('project-approver');
+        
+        // Project Assigners
+        $head_account_biz = User::create([    
+            'last_name' => "Head",
+            'first_name' => "Account Biz",
+            'middle_name' => "Middle",
+            'employment_date' => date("Y/m/d"),
+            'birth_date' => date("Y/m/d"),
+            'pdem_email' => 'accountbizhead@pdem.com',
+            'pdem_gmail' => 'accountbizhead@gmail.com',
+            'contact_numbers' => json_encode(["09999999999", "01111111"]),
+            'positions'=> array(
+                array(
+                    "name" => 'Head of Accounts & Biz Development',
+                    'job_level' => '1A'
+                )
+            ),
+            'password' => Hash::make("password")
+            ]);
+
+        $head_account_biz->assign('project-assigner');
+
+        $head_project_execution = User::create([    
+            'last_name' => "Head",
+            'first_name' => "Project Execution",
+            'middle_name' => "Middle",
+            'employment_date' => date("Y/m/d"),
+            'birth_date' => date("Y/m/d"),
+            'pdem_email' => 'projectexecutionhead@pdem.com',
+            'pdem_gmail' => 'projectexecutionhead@gmail.com',
+            'contact_numbers' => json_encode(["09999999999", "01111111"]),
+            'positions'=> array(
+                array(
+                    "name" => 'Project Execution Head',
+                    'job_level' => '1A'
+                )
+            ),
+            'password' => Hash::make("password")
+            ]);
+
+        $head_project_execution->assign('project-assigner');
+
+        $head_creatives = User::create([    
+            'last_name' => "Head",
+            'first_name' => "Creatives",
+            'middle_name' => "Middle",
+            'employment_date' => date("Y/m/d"),
+            'birth_date' => date("Y/m/d"),
+            'pdem_email' => 'creativeshead@pdem.com',
+            'pdem_gmail' => 'creativeshead@gmail.com',
+            'contact_numbers' => json_encode(["09999999999", "01111111"]),
+            'positions'=> array(
+                array(
+                    "name" => 'Associate CD - Copy and Digital',
+                    'job_level' => '1A'
+                ),
+                array(
+                    "name" => 'Associate CD - Design and Multimedia',
+                    'job_level' => '1A'
+                ),
+            ),
+            'password' => Hash::make("password")
+            ]);
+
+        $head_creatives->assign('project-assigner');
+        
+        
+
+
     }
 }
