@@ -42,7 +42,6 @@ class CreateMandatesTable extends Migration
             $table->json('spouse_details');
             $table->json('emergency_details');
             $table->string('status');
-            $table->json("change_logs");
 
             $table->integer('creator_id');
             $table->timestamps();

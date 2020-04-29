@@ -31,11 +31,11 @@ class VendorAccreditationRolesSeeder extends Seeder
             'title' => 'Delete All Vendors',
         ]);
 
-        // Project List - Create Project (PROCESS FLOW - CREATE, REVIEW, RETURN, REJECT, APPROVE)
+        // Vendor List - Create Vendor (PROCESS FLOW - CREATE, RETURN, REJECT, APPROVE)
 
         $approve_vendors = Bouncer::ability()->firstOrCreate([
             'name' => 'approve-all-vendors',
-            'title' => 'Approve All vendors',
+            'title' => 'Approve All Vendors',
         ]);
 
         $reject_vendors = Bouncer::ability()->firstOrCreate([

@@ -207,5 +207,48 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $vendor_approver->assign('vendor-approver');
+
+
+        //  Mandate Creator
+
+        $mandate_creator = User::create([
+            'last_name' => "Mandate",
+            'first_name' => "Creator",
+            'middle_name' => "Middle",
+            'employment_date' => date("Y/m/d"),
+            'birth_date' => date("Y/m/d"),
+            'pdem_email' => 'mandatecreator@pdem.com',
+            'pdem_gmail' => 'mandatecreator@gmail.com',
+            'contact_numbers' => json_encode(["09999999999", "01111111"]),
+            'positions' => array(
+                array(
+                    "name" => 'Mandate Creator',
+                    'job_level' => '1A'
+                )
+            ),
+            'password' => Hash::make("password")
+        ]);
+
+        $mandate_creator->assign('mandate-creator');
+
+        $mandate_approver = User::create([
+            'last_name' => "Mandate",
+            'first_name' => "Approver",
+            'middle_name' => "Middle",
+            'employment_date' => date("Y/m/d"),
+            'birth_date' => date("Y/m/d"),
+            'pdem_email' => 'mandateapprover@pdem.com',
+            'pdem_gmail' => 'mandateapprover@gmail.com',
+            'contact_numbers' => json_encode(["09999999999", "01111111"]),
+            'positions' => array(
+                array(
+                    "name" => 'Mandate Approver',
+                    'job_level' => '1A'
+                )
+            ),
+            'password' => Hash::make("password")
+        ]);
+
+        $mandate_approver->assign('mandate-approver');
     }
 }
