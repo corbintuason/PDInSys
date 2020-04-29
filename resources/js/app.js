@@ -21,10 +21,10 @@ Vue.use(VerticalTimeline);
 import PublicNavbar from "./components/guest/PublicNavbar.vue";
 Vue.component("public-navbar", PublicNavbar);
 
-import Notifications from 'vue-notification';
+import Notifications from "vue-notification";
 Vue.use(Notifications);
 
-import Vuelidate from 'vuelidate'
+import Vuelidate from "vuelidate";
 Vue.use(Vuelidate);
 
 import swal from "sweetalert2";
@@ -32,8 +32,8 @@ window.swal = swal;
 
 const toast = swal.mixin({
     toast: true,
-    position: 'bottom-end',
-    timer: null
+    position: "bottom-end",
+    timer: null,
 });
 
 window.toast = toast;
@@ -55,9 +55,8 @@ Vue.component("pagination", require("laravel-vue-pagination"));
 import StepProgress from "vue-step-progress";
 Vue.component("step-progress", StepProgress);
 
-import itemProgress from "./components/authorized/public/ItemProgress.vue"
+import itemProgress from "./components/authorized/public/ItemProgress.vue";
 Vue.component("item-progress", itemProgress);
-
 
 const router = new VueRouter({
     mode: "history",

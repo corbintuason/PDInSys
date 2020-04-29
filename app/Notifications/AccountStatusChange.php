@@ -19,13 +19,13 @@ class AccountStatusChange extends Notification
      * @return void
      */
 
-     public $account;
-     public $project_name;
+    public $account;
+    public $project_name;
 
     public function __construct(Account $account)
     {
-     $this->account = $account;
-     $this->project_name = "Account Status Updated"; 
+        $this->account = $account;
+        $this->project_name = "Account Status Updated";
     }
 
     /**
@@ -48,9 +48,9 @@ class AccountStatusChange extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -73,7 +73,7 @@ class AccountStatusChange extends Notification
                 'item' => $this->account->registered_name,
                 'status' => $this->account->status,
             ],
-            'notification_bell'=> [
+            'notification_bell' => [
                 'header' => $this->project_name,
                 'date' => $this->account->created_at
             ]

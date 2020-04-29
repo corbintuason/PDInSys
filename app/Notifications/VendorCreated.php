@@ -18,6 +18,10 @@ class VendorCreated extends Notification
      *
      * @return void
      */
+
+    public $vendor;
+    public $project_name;
+
     public function __construct(Vendor $vendor)
     {
         $this->vendor = $vendor;
@@ -66,7 +70,7 @@ class VendorCreated extends Notification
             ],
             'notification_table' => [
                 'project_name' => $this->project_name,
-                'item' => $this->vendor->vendor_name,
+                'item' => $this->vendor->registered_name,
                 'status' => 'For Approval'
             ],
             'notification_bell' => [

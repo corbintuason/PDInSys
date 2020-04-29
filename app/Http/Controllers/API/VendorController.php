@@ -9,6 +9,9 @@ use App\Http\Resources\User as UserResource;
 use App\Vendor;
 use App\User;
 use \stdclass;
+use Notification;
+use App\Notifications\VendorCreated;
+use App\Notifications\VendorStatusChange;
 
 class VendorController extends Controller
 {
@@ -25,13 +28,6 @@ class VendorController extends Controller
 
     public function store(Request $request)
     {
-
-        // STATUS IS SET TO FOR APPROVAL
-        $user = new UserResource(User::findOrFail($request->creator_id));
-        $date_today = date('Y/m/d');
-        $status = "For Approval";
-        $change_log = [$date_today . ": User " . $user->last_name . " has created this vendor"];
-
         $validatedData = $request->validate([
             'vendor_name' => 'required',
             'trade_name' => 'required',
@@ -47,9 +43,9 @@ class VendorController extends Controller
             'ewt_details' => 'required',
         ]);
 
-        $validatedData["status"] = $status;
-        $validatedData["creator_id"] = $request['creator_id'];
-        $validatedData["change_logs"] = $change_log;
+        $user_id = auth()->user()->id;
+        $auth_user = new UserResource(User::findOrFail($user_id));
+        $status = "For Approval";
 
         $new_details = array();
         foreach ($validatedData["ewt_details"] as $detail) {
@@ -63,23 +59,38 @@ class VendorController extends Controller
             array_push($new_details, $detail_object);
         }
 
-        $vendor = Vendor::create([
-            'vendor_name' => $request['vendor_name'],
-            'trade_name' => $request['trade_name'],
-            'registered_address' => $request['registered_address'],
-            'type_business' => $request['type_business'],
-            'line_business' => $request['line_business'],
-            'contact_person' => $request['contact_person'],
-            'contact_number' => $request['contact_number'],
-            'email_address' => $request['email_address'],
-            'bank_details' => $request['bank_details'],
-            'tin_number' => $request['tin_number'],
-            'type_vat' => $request['type_vat'],
-            'ewt_details' => $new_details,
-            'status' => $status,
-            'creator_id' => $request['creator_id'],
-            'change_logs' => $change_log
-        ]);
+        $vendor = activity()->withoutLogs(function () use ($request, $status, $user_id, $new_details) {
+
+
+            return Vendor::create([
+                'vendor_name' => $request['vendor_name'],
+                'trade_name' => $request['trade_name'],
+                'registered_address' => $request['registered_address'],
+                'type_business' => $request['type_business'],
+                'line_business' => $request['line_business'],
+                'contact_person' => $request['contact_person'],
+                'contact_number' => $request['contact_number'],
+                'email_address' => $request['email_address'],
+                'bank_details' => $request['bank_details'],
+                'tin_number' => $request['tin_number'],
+                'type_vat' => $request['type_vat'],
+                'ewt_details' => $new_details,
+                'status' => $status,
+                'creator_id' => $user_id,
+            ]);
+        });
+
+        // Notify User that can Approve this Vendor
+
+        $approvers = User::whereIs('vendor-approver')->get();
+
+        Notification::send($approvers, new VendorCreated($vendor));
+
+        // Create Activity Log
+        activity('Vendor Created')
+            ->on($vendor)
+            ->withProperties(["link_name" => "vendor_show", "link_id" => $vendor->id])
+            ->log("User " . $auth_user->last_name . ", " . $auth_user->first_name  . " has created Vendor " . $vendor->registered_name);
 
         return new VendorResource($vendor);
     }

@@ -4,7 +4,7 @@
 				Props needed:
 					- front_steps: Array from globals store vuex. Gawa ka muna ng array of statuses na nakikita sa progress bar (Create, Review, etc). See globals vuex for an example
 					- db_steps: Array from globals store vuex. Gawa ka muna ng array of statuses na sinasave sa database (For Approval, For Review, etc.)
-					- item: Prop na kinukuha mo sa axios. In this case yung makukuha mo sa axios.get("/api/vendor")
+					- item: Prop na kinukuha mo sa axios. In this case yung makukuha mo sa axios.get("/api/vendor/{id}")
 					- contributors: Create ka ng relationship table for vendors and contributors. A vendor hasMany contributors through sa contribution list. See Project Model and Project Contributor (I'll make this a polymorphic soon. for now, iapply mo nalang muna yung Vendor and VendorContributor relationship. Tignan mo nalang yung database structure ng project contributor, gayahin mo)
 					- api_link: Hindi ko to inapply so ignore mo muna
 					- remarks: May polymorphic relationship na ang remarks. Apply mo lang to sa Vendor Model mo:

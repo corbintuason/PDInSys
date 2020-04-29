@@ -1,103 +1,101 @@
 <template>
-  <div>
-    <div class="text-center">
-      <vue-step :now-step="nowStep" :step-list="stepList"></vue-step>
-    </div>
-    <hr />
-    <div class="component-sub-content mt-4 mb-4">
-      <div class="row">
-        <!-- TIN Number -->
-        <div class="col-md-6">
-          <label>TIN Number</label>
-          <b-input-group>
-            <b-input
-              v-model="form.tin_number"
-              type="number"
-              placeholder="000-000-000-00000"
-              required
-            ></b-input>
-          </b-input-group>
-        </div>
+	<div>
+		<div class="text-center">
+			<vue-step :now-step="nowStep" :step-list="stepList"></vue-step>
+		</div>
+		<hr />
+		<div class="component-sub-content mt-4 mb-4">
+			<div class="row">
+				<!-- TIN Number -->
+				<div class="col-md-6">
+					<label>
+						TIN Number:
+						<strong class="red">*</strong>
+					</label>
+					<b-input-group>
+						<b-input v-model="form.tin_number" placeholder="000-000-000-00000" required></b-input>
+					</b-input-group>
+				</div>
 
-        <!-- VAT / NV / NR -->
-        <div class="col-md-6">
-          <label>VAT / NV / NR</label>
-          <b-input-group>
-            <b-form-select v-model="form.type_vat" required>
-              <option disabled>Please select an option</option>
-              <option>VAT</option>
-              <option>Non-VAT</option>
-              <option>Not Registered</option>
-            </b-form-select>
-          </b-input-group>
-        </div>
-      </div>
+				<!-- VAT / NV / NR -->
+				<div class="col-md-6">
+					<label>VAT / NV / NR</label>
+					<b-input-group>
+						<b-form-select v-model="form.type_vat" required>
+							<option disabled>Please select an option</option>
+							<option>VAT</option>
+							<option>Non-VAT</option>
+							<option>Not Registered</option>
+						</b-form-select>
+					</b-input-group>
+				</div>
+			</div>
 
-      <!-- EWT Details -->
-      <div class="row mt-3">
-        <div class="col-md-2">
-          <label>EWT Details</label>
-        </div>
-        <div class="col-md-7">
-          <label>EWT Description</label>
-        </div>
-        <div class="col-md-3">
-          <label>EWT %</label>
-        </div>
-      </div>
+			<!-- EWT Details -->
+			<div class="row mt-3">
+				<div class="col-md-2">
+					<label>EWT Code</label>
+				</div>
+				<div class="col-md-7">
+					<label>EWT Description</label>
+				</div>
+				<div class="col-md-3">
+					<label>EWT %</label>
+				</div>
+			</div>
 
-      <div class="row mt-2" v-for="(value, value_index) in form.ewt_details" :key="value_index">
-        <!-- EWT Details -->
-        <div class="col-md-2">
-          <b-form-select @input="renderEWTDescription($event, value)">
-            <b-form-select-option :value="null" disabled>-- Please select a EWT --</b-form-select-option>
-            <b-form-select-option
-              v-for="(ewt_detail, ewt_index) in ewts"
-              :key="ewt_index"
-              :value="ewt_detail"
-            >{{ewt_detail.name}}</b-form-select-option>
-          </b-form-select>
-        </div>
-        <div class="col-md-7">
-          <b-form-select @input="renderEWTPercentages($event, value)">
-            <b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
-            <b-form-select-option
-              :value="ewt_description"
-              v-for="(ewt_description, description_index) in value.dropdowns.ewt_descriptions"
-              :key="description_index"
-            >{{ewt_description.name}}</b-form-select-option>
-          </b-form-select>
-        </div>
+			<div class="row mt-2" v-for="(value, value_index) in form.ewt_details" :key="value_index">
+				<!-- EWT Details -->
+				<div class="col-md-2">
+					<b-form-select @input="renderEWTDescription($event, value)">
+						<b-form-select-option :value="null" disabled>-- Please select a EWT --</b-form-select-option>
+						<b-form-select-option
+							v-for="(ewt_detail, ewt_index) in ewts"
+							:key="ewt_index"
+							:value="ewt_detail"
+						>{{ewt_detail.name}}</b-form-select-option>
+					</b-form-select>
+				</div>
+				<div class="col-md-7">
+					<b-form-select @input="renderEWTPercentages($event, value)">
+						<b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
+						<b-form-select-option
+							:value="ewt_description"
+							v-for="(ewt_description, description_index) in value.dropdowns.ewt_descriptions"
+							:key="description_index"
+						>{{ewt_description.name}}</b-form-select-option>
+					</b-form-select>
+				</div>
 
-        <div class="col-md-2">
-          <b-form-select v-model="value.ewt_percent">
-            <b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
-            <b-form-select-option
-              :value="ewt_percentage.name"
-              v-for="(ewt_percentage, percentage_index) in value.dropdowns.ewt_percent"
-              :key="percentage_index"
-            >{{ewt_percentage.name}}</b-form-select-option>
-          </b-form-select>
-        </div>
-        <div class="col-md-1">
-          <b-button
-            :disabled="value_index==0"
-            @click="removeRow(form.ewt_details, value_index)"
-            variant="outline-danger"
-          >
-            <i class="fas fa-trash"></i>
-          </b-button>
-        </div>
-      </div>
+				<div class="col-md-2">
+					<b-form-select v-model="value.ewt_percent">
+						<b-form-select-option :value="null" disabled>-- Please select a EWT Description --</b-form-select-option>
+						<b-form-select-option
+							:value="ewt_percentage.name"
+							v-for="(ewt_percentage, percentage_index) in value.dropdowns.ewt_percent"
+							:key="percentage_index"
+						>{{ewt_percentage.name}}</b-form-select-option>
+					</b-form-select>
+				</div>
+				<div class="col-md-1">
+					<b-button
+						:disabled="value_index==0"
+						@click="removeRow(form.ewt_details, value_index)"
+						variant="outline-danger"
+					>
+						<i class="fas fa-trash"></i>
+					</b-button>
+				</div>
+			</div>
 
-      <div class="mt-4">
-        <b-button @click="addRow(form.ewt_details)" variant="success" block>
-          <i class="fas fa-plus"></i>
-          <strong>Add EWT</strong>
-        </b-button>
-      </div>
-    </div>
-  </div>
+			<div class="mt-4">
+				<b-button @click="addRow(form.ewt_details)" variant="success" block>
+					<i class="fas fa-plus"></i>
+					<strong>Add EWT</strong>
+				</b-button>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -161,7 +159,6 @@ export default {
           value.ewt_description = event.name;
 
           // Set Percentages for Dropdown
-          console.log(event);
           value.dropdowns.ewt_percent = event.percents;
         }
 	},

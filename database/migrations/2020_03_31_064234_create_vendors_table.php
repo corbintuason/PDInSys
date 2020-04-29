@@ -28,7 +28,6 @@ class CreateVendorsTable extends Migration
             $table->string('type_vat');
             $table->json('ewt_details');
             $table->string('status');
-            $table->json("change_logs");
 
             $table->integer('creator_id');
             $table->timestamps();

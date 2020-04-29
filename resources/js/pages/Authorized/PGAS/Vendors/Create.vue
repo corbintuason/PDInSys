@@ -1,55 +1,60 @@
 <template>
-  <div>
-    <b-breadcrumb class="mt-4">
-      <b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
-      <b-breadcrumb-item href="/vendors">List of Vendors</b-breadcrumb-item>
-      <b-breadcrumb-item active>Create Vendor</b-breadcrumb-item>
-    </b-breadcrumb>
-    <b-card class="mt-4">
-      <template v-slot:header>
-        <h1 class="component-title">Progress Bar</h1>
-      </template>
-      <b-card-text>
-        <step-progress :steps="my_steps" icon-class="fa fa-check"></step-progress>
-      </b-card-text>
-    </b-card>
-    <b-card class="mt-3">
-      <template v-slot:header>
-        <h1 class="component-title">Vendor Accreditation</h1>
-      </template>
-      <template v-slot:footer>
-        <b-button variant="success" class="float-right" @click="createVendor">Create Vendor</b-button>
-      </template>
-      <b-card-text>
-        <b-tabs v-model="tabIndex" content-class="mt-3" fill>
-          <b-tab title="Vendor Details" active>
-            <!-- Vendor Details -->
-            <vendor-details :form="form"></vendor-details>
-          </b-tab>
-          <b-tab title="Tax Details">
-            <!-- Tax Details -->
-            <tax-details :form="form"></tax-details>
-          </b-tab>
-          <b-tab title="Bank Details">
-            <!-- Bank Details -->
-            <bank-details :form="form"></bank-details>
-          </b-tab>
-          <b-tab title="Accreditation Attachments">
-            <!-- Accreditation Attachments -->
-            <accreditation-details></accreditation-details>
-          </b-tab>
-        </b-tabs>
-      </b-card-text>
-    </b-card>
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b-button-group class="mt-1">
-          <b-button variant="primary" @click="tabIndex--">Previous</b-button>
-          <b-button variant="primary" @click="tabIndex++">Next</b-button>
-        </b-button-group>
-      </div>
-    </div>
-  </div>
+	<div>
+		<b-breadcrumb class="mt-4">
+			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+			<b-breadcrumb-item href="/vendors">List of Vendors</b-breadcrumb-item>
+			<b-breadcrumb-item active>Create Vendor</b-breadcrumb-item>
+		</b-breadcrumb>
+		<b-card class="mt-4">
+			<template v-slot:header>
+				<h1 class="component-title">Progress Bar</h1>
+			</template>
+			<b-card-text>
+				<step-progress :steps="my_steps" icon-class="fa fa-check"></step-progress>
+			</b-card-text>
+		</b-card>
+		<b-card class="mt-3">
+			<template v-slot:header>
+				<h1 class="component-title">Vendor Accreditation</h1>
+			</template>
+			<template v-slot:footer>
+				<b-button
+					:disabled="isDisabled"
+					variant="success"
+					class="float-right"
+					@click="createVendor"
+				>Create Vendor</b-button>
+			</template>
+			<b-card-text>
+				<b-tabs v-model="tabIndex" content-class="mt-3" fill>
+					<b-tab title="Vendor Details" active>
+						<!-- Vendor Details -->
+						<vendor-details :form="form"></vendor-details>
+					</b-tab>
+					<b-tab title="Tax Details">
+						<!-- Tax Details -->
+						<tax-details :form="form"></tax-details>
+					</b-tab>
+					<b-tab title="Bank Details">
+						<!-- Bank Details -->
+						<bank-details :form="form"></bank-details>
+					</b-tab>
+					<b-tab title="Accreditation Attachments">
+						<!-- Accreditation Attachments -->
+						<accreditation-details :form="form"></accreditation-details>
+					</b-tab>
+				</b-tabs>
+			</b-card-text>
+		</b-card>
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<b-button-group class="mt-1">
+					<b-button variant="primary" @click="tabIndex--">Previous</b-button>
+					<b-button variant="primary" @click="tabIndex++">Next</b-button>
+				</b-button-group>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -95,9 +100,14 @@ export default {
 				}],
 				bank_details: [{
 					bank_name: "",
+					bank_address: [{
+						bank_branch: "",
+						bank_city: ""
+					}],
 					account_name: "",
 					account_number: ""
 				}],
+				other_attachments: [""],
 				creator_id: this.$store.state.user.data.id
 			},
 		};
@@ -107,6 +117,25 @@ export default {
 		"bank-details": bankDetails,
 		"tax-details": taxDetails,
 		"accreditation-details": accreditationDetails
+	},
+	computed:{
+		isDisabled() {
+			if (this.form.vendor_name == "" || this.form.trade_name == "") {
+				return true;
+			}
+			if (this.form.registered_address == "" || this.form.contact_person == "") {
+				return true;
+			}
+			if (this.form.type_business == "" || this.form.line_business == "") {
+				return true;
+			}
+			if (this.form.contact_number == "" || this.form.email_address == "") {
+				return true;
+			}
+			if (this.form.tin_number == "") {
+				return true;
+			}
+		}
 	},
 	methods:{
 	getUserRole(){
