@@ -16,7 +16,7 @@ import ShowAccount from "./pages/Authorized/PGOS/Accounts/Show.vue";
 import IndexProject from "./pages/Authorized/PGOS/Projects/Index.vue";
 import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue";
 import ShowProject from "./pages/Authorized/PGOS/Projects/Show.vue";
-
+import CostEstimate from "./pages/Authorized/PGOS/CostEstimate/Create.vue"
 // PGAS
 
 // Mandate Creation Module
@@ -106,7 +106,14 @@ export default [
                 path: "/projects/:id",
                 component: ShowProject,
                 name: "project_show",
+                props: true,
             },
+                // PROJECT SPECIFIC ITEMS PATHS
+                {
+                    path: "/projects/:id/cost-estimate",
+                    component: CostEstimate,
+                    name: "cost_estimate_show"
+                },
             // MANDATE PATHS
             {
                 path: "/mandates",

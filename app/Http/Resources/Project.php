@@ -15,21 +15,17 @@ class Project extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
-    }
-    public function with($request){
-        return [
-            'meta'=> [
-                'code' => $this->code,
-                'isCompletelyAssigned' => $this->isAssignmentComplete
-            ],
-            'actions'=> $this->activities,
-            'relationships' =>[
-                'project_core_employees' => $this->project_core_employees,
-                'core_team' => $this->core_team,
-                'contributors' => ProjectContributorResource::collection($this->contributors),
-                'remarks' => RemarkResource::collection($this->remarks)
-            ]
+        $response = parent::toArray($request);
+        $response["code"] = $this->code;
+        $response["isCompletelyAssigned"] = $this->isAssignmentComplete;
+        $response["relationships"] = [
+            'actions' => $this->activities,
+            'project_core_employees' => $this->project_core_employees,
+            'core_team' => $this->core_team,
+            'contributors' => ProjectContributorResource::collection($this->contributors),
+            'remarks' => RemarkResource::collection($this->remarks)
         ];
+        
+        return $response;
     }
 }

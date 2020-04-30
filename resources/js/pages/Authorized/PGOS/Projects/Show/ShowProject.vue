@@ -22,22 +22,28 @@
                         :core_team="core_team"
                     ></project-core-team>
                 </b-tab>
+                <b-tab title="Quick Access">
+                    <quick-access :project="project">
+
+                    </quick-access>
+                </b-tab>
 
             </b-tabs>
         </b-card-body>
         <template v-slot:footer>
             <show-project-buttons
                 :mode="mode"
-                :project="project"
+                :item="project"
                 :item_model="item_model"
                 :front_steps="front_steps"
-                :contributors="contributors"
+                :contributors="project.relationships.contributors"
             ></show-project-buttons>
         </template>
     </b-card>
 </template>
 
 <script>
+import quickAccess from "./ShowProject/QuickAccess"
 import projectDetails from "./ShowProject/ProjectDetails";
 import projectCoreTeam from "./ShowProject/ProjectCoreTeam";
 import showProjectButtons from "./ShowProject/ShowProjectButtons";
@@ -61,6 +67,7 @@ export default {
         "show-project-buttons": showProjectButtons,
         "project-details": projectDetails,
         "project-core-team": projectCoreTeam,
+        "quick-access": quickAccess
     },
     computed: {
         core_team_title(){

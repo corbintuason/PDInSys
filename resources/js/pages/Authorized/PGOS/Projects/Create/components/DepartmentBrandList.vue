@@ -1,5 +1,6 @@
 <template>
-    <div class="col-md-4">
+<div class = "row">
+    <div class="col-md-12">
         <strong>Department Brand List</strong>
         <!-- If Client is Not Null -->
         <template v-if="selected_client != null">
@@ -31,6 +32,8 @@
             </b-alert>
         </template>
     </div>
+</div>
+  
 </template>
 
 <script>

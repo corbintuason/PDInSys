@@ -1,5 +1,6 @@
 <template>
-    <div class="col-md-4">
+<div class ="row">
+ <div class="col-md-12">
         <strong>Account List</strong>
         <b-list-group v-if="accounts != null">
             <b-list-group-item
@@ -11,7 +12,10 @@
                 {{ account.registered_name }}
             </b-list-group-item>
         </b-list-group>
+        <clip-loader v-else color="orange"></clip-loader>                    
     </div>
+</div>
+   
 </template>
 
 <script>

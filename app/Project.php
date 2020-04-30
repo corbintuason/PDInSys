@@ -76,4 +76,8 @@ protected static $logName = 'Project';
     public function remarks(){
         return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
     }
+
+    public function cost_estimates(){
+        return $this->hasMany("App\CostEstimate");
+    }
 }

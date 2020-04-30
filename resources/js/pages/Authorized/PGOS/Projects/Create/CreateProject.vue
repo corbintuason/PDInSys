@@ -6,6 +6,26 @@
         <b-card-body>
             <div class="row">
                 <div class="col-md-6">
+                    
+                    <!-- Status -->
+                    <b-form-group
+                        label="Project Status"
+                        label-class="font-weight-bold"
+                        class="mt-3"
+                    >
+                        <b-form-select v-model="project.project_status">
+                            <b-select-option :value="null"
+                                >-- Please select a status --</b-select-option
+                            >
+                            <b-select-option
+                                v-for="(status, status_index) in statuses"
+                                :key="status_index"
+                                :value="status"
+                                >{{ status }}</b-select-option
+                            >
+                        </b-form-select>
+                    </b-form-group>
+
                     <!-- Project Name -->
                     <b-form-group
                         label="Project Name"
@@ -17,8 +37,7 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <!-- Account Name -->
-                    <account-selector :project="project"></account-selector>
+    
 
                     <!-- Start Date -->
                     <b-form-group
@@ -44,29 +63,11 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <!-- Locations -->
-                    <locations :project="project"></locations>
-
-                    <!-- Status -->
-                    <b-form-group
-                        label="Project Status"
-                        label-class="font-weight-bold"
-                        class="mt-3"
-                    >
-                        <b-form-select v-model="project.project_status">
-                            <b-select-option :value="null"
-                                >-- Please select a status --</b-select-option
-                            >
-                            <b-select-option
-                                v-for="(status, status_index) in statuses"
-                                :key="status_index"
-                                :value="status"
-                                >{{ status }}</b-select-option
-                            >
-                        </b-form-select>
-                    </b-form-group>
-
-                    <!-- Project Score -->
+                                    <!-- Account Name -->
+                    <account-selector :project="project"></account-selector>
+                </div>
+                <div class="col-md-6">
+                                        <!-- Project Score -->
                     <b-form-group
                         label="Project Score"
                         label-class="font-weight-bold"
@@ -87,9 +88,11 @@
                             ></b-form-input>
                         </b-input-group>
                     </b-form-group>
+                    <!-- Locations -->
+                    <locations :project="project"></locations>
 
                     <!-- For Project Bidding -->
-                    <b-form-group>
+                    <b-form-group class="mt-2">
                         <b-form-checkbox
                             v-model="project.for_project_bidding"
                             switch
@@ -121,7 +124,6 @@
                         ></b-form-checkbox-group>
                     </b-form-group>
                 </div>
-                {{ project }}
             </div>
         </b-card-body>
         <template v-slot:footer>
@@ -138,6 +140,7 @@
 <script>
 import accountSelector from "./CreateProject/AccountSelector";
 import locations from "./CreateProject/Locations";
+import form from "../../../../../mixins/form";
 export default {
     data() {
         return {
@@ -160,31 +163,31 @@ export default {
                     value: {
                         name: "Accounts and Business Development Team",
                         main: "Main Account Manager",
-                        deputy: "Deputy Account Manager"
-                    }
+                        deputy: "Deputy Account Manager",
+                    },
                 },
                 {
                     text: "Project Execution",
                     value: {
                         name: "Project Execution Team",
                         main: "Main Project Manager",
-                        deputy: "Deputy Project Writer"
+                        deputy: "Deputy Project Writer",
                     },
                 },
                 {
                     text: "Creatives - Copy and Digital",
-                    value:{
+                    value: {
                         name: "Copy and Digital Team",
                         main: "Main Creative Writer",
-                        deputy: "Deputy Creative Writer"
+                        deputy: "Deputy Creative Writer",
                     },
                 },
                 {
                     text: "Creatives - Design and Multimedia",
-                    value:{
+                    value: {
                         name: "Design and Multimedia Team",
                         main: "Main Graphic Artist",
-                        deputy: "Deputy Graphic Artist"
+                        deputy: "Deputy Graphic Artist",
                     },
                 },
             ],
@@ -205,8 +208,10 @@ export default {
         };
     },
     props: {
-        front_steps: Array,
+        steps: Array,
+        endpoints: Object,
     },
+    mixins: [form],
     components: {
         "account-selector": accountSelector,
         locations: locations,
@@ -221,72 +226,18 @@ export default {
     },
     methods: {
         createProject() {
-            var contents = "";
-            console.log(this.project);
-
-            // // Load Contents first
-            this.front_steps.forEach((step) => {
-                if (step.name == "Create") {
-                    contents +=
-                        '<div class="list-group-item d-flex align-items-center"><span class="b-avatar mr-3 badge-secondary rounded-circle" style="width: 2.5em; height: 2.5em;"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" alt="avatar" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-person-fill b-icon bi"><g><path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></g></svg></span> <span class="mr-auto"><strong>' +
-                        step.responsible +
-                        ": " +
-                        this.user.meta.full_name +
-                        "</strong></span></div>";
-                } else {
-                    contents +=
-                        '<div class="list-group-item d-flex align-items-center"><span class="b-avatar mr-3 badge-secondary rounded-circle" style="width: 2.5em; height: 2.5em;"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" alt="avatar" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-person-fill b-icon bi"><g><path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></g></svg></span> <span class="mr-auto"><strong>' +
-                        step.responsible +
-                        ": " +
-                        "</strong></span></div>";
-                }
-            });
-            var swal_html =
-                '<span>Contribution List will be Updated</span><div class="list-group">' +
-                contents +
-                "</div> <span>Please check the details provided</span>";
-            swal.fire({
+            var swal_html = this.loadSwalContents(this.steps, this.user);
+            console.log(this.endpoints);
+            console.log("testing");
+            const swal_object = {
                 title: "Create Project",
-                icon: "question",
                 html: swal_html,
                 text: "Please check the details provided.",
                 confirmButtonText: "Create Project",
-                showLoaderOnConfirm: true,
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                preConfirm: () => {
-                    return new Promise((resolve, reject) => {
-                        axios
-                            .post("/api/project", this.project)
-                            .then((response) => {
-                                resolve(response.data);
-                            })
-                            .catch((e) => {
-                                //(e);
-                                swal.showValidationMessage(
-                                    `Unable to create project`
-                                );
-                                swal.hideLoading();
-                                reject(e);
-                            });
-                    });
-                },
-            }).then((result) => {
-                console.log(result);
-                if (result.value) {
-                    swal.fire({
-                        title: "Project Succesfully Created",
-                        icon: "success",
-                        timer: "2500",
-                        onClose: () => {
-                            this.$router.push({
-                                name: "project_show",
-                                params: { id: result.value.data.id },
-                            });
-                        },
-                    });
-                }
-            });
+                endpoints: this.endpoints,
+                completion_title: "Project Succesfully Created",
+            };
+            this.fireContributionList(swal_object);
         },
     },
     mounted() {},

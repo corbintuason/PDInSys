@@ -1,119 +1,140 @@
 <template>
-    <div class="row">
-        <div class="col-md-6">
-                 <!-- Status -->
-            <b-form-group
-                label="Project Status"
-                label-class="font-weight-bold"
-                class=" mt-3"
-            >
-                <b-form-select class="col-md-8" v-model="project.project_status" :disabled="mode!='Create'">
-                    <b-select-option :value="null" disabled
-                        >-- Please select a status --</b-select-option
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Status -->
+                <b-form-group
+                    label="Project Status"
+                    label-class="font-weight-bold"
+                    class="mt-3"
+                >
+                    <b-form-select
+                        class="col-md-8"
+                        v-model="project.project_status"
+                        :disabled="mode != 'Create'"
                     >
-                    <b-select-option
-                        v-for="(status, status_index) in statuses"
-                        :key="status_index"
-                        :value="status"
-                        >{{ status }}</b-select-option
-                    >
-                </b-form-select>
-            </b-form-group>
-
-            <!-- Project Name -->
-            <b-form-group label="Project Name" label-class="font-weight-bold">
-                <b-form-input type="text" :disabled="mode=='Show'" v-model="project.name"></b-form-input>
-            </b-form-group>
-
-            <!-- Account Name -->
-            <account-selector
-                :project="project"
-                :mode="mode"
-            ></account-selector>
-
-            <!-- Start Date -->
-            <b-form-group
-                label="Start Date"
-                label-class="font-weight-bold"
-                class="mt-3"
-            >
-                <b-form-input
-                    type="date"
-                    :disabled="mode=='Show'"
-                    v-model="project.start_date"
-                ></b-form-input>
-            </b-form-group>
-            <!-- End Date -->
-
-            <b-form-group
-                label="End Date"
-                label-class="font-weight-bold"
-                class="mt-3"
-            >
-                <b-form-input
-                    type="date"
-                    :disabled="mode=='Show'"
-                    v-model="project.end_date"
-                ></b-form-input>
-            </b-form-group>
-
-            <!-- Locations -->
-            <locations :project="project" :mode="mode"></locations>
-
-       
-            <!-- Project Score -->
-            <b-form-group
-                label="Project Score"
-                label-class="font-weight-bold"
-                class="mt-3"
-            >
-                <b-input-group>
-                    <template v-slot:prepend>
-                        <b-form-input
-                            type="number"
-                            v-model="project.score"
-                            :disabled="mode=='Show'"
-                        ></b-form-input>
-                    </template>
-                    <b-form-input
-                        type="range"
-                        :disabled="mode=='Show'"
-                        v-model="project.score"
-                        :min="project_score_vals.min"
-                        :max="project_score_vals.max"
-                    ></b-form-input>
-                </b-input-group>
-            </b-form-group>
-
-            <!-- For Project Bidding -->
-            <b-form-group>
-                <b-form-checkbox :disabled="mode=='Show'" v-model="project.for_project_bidding" switch>
-                    For Project Bidding?
-
-                    <template>
-                        <strong
-                            :class="{
-                                green: project.for_project_bidding,
-                                red: !project.for_project_bidding,
-                            }"
-                            >{{ bidding_convert }}</strong
+                        <b-select-option :value="null" disabled
+                            >-- Please select a status --</b-select-option
                         >
-                    </template>
-                </b-form-checkbox>
-            </b-form-group>
+                        <b-select-option
+                            v-for="(status, status_index) in statuses"
+                            :key="status_index"
+                            :value="status"
+                            >{{ status }}</b-select-option
+                        >
+                    </b-form-select>
+                </b-form-group>
 
-            <!-- Departments Needed -->
-            <label>Departments Needed</label>
-            <b-alert v-for="(department, department_index) in project.departments_needed" :key="department_index"  show variant="secondary">
-                {{department.name}}
-            </b-alert>
+                <!-- Project Name -->
+                <b-form-group
+                    label="Project Name"
+                    label-class="font-weight-bold"
+                >
+                    <b-form-input
+                        type="text"
+                        :disabled="mode == 'Show'"
+                        v-model="project.name"
+                    ></b-form-input>
+                </b-form-group>
+
+                <!-- Start Date -->
+                <b-form-group
+                    label="Start Date"
+                    label-class="font-weight-bold"
+                    class="mt-3"
+                >
+                    <b-form-input
+                        type="date"
+                        :disabled="mode == 'Show'"
+                        v-model="project.start_date"
+                    ></b-form-input>
+                </b-form-group>
+                <!-- End Date -->
+
+                <b-form-group
+                    label="End Date"
+                    label-class="font-weight-bold"
+                    class="mt-3"
+                >
+                    <b-form-input
+                        type="date"
+                        :disabled="mode == 'Show'"
+                        v-model="project.end_date"
+                    ></b-form-input>
+                </b-form-group>
+                                <!-- Account Name -->
+                <account-selector
+                    :project="project"
+                    :mode="mode"
+                ></account-selector>
+            </div>
+              <div class="col-md-6">
+        
+                <!-- Project Score -->
+                <b-form-group
+                    label="Project Score"
+                    label-class="font-weight-bold"
+                    class="mt-3"
+                >
+                    <b-input-group>
+                        <template v-slot:prepend>
+                            <b-form-input
+                                type="number"
+                                v-model="project.score"
+                                :disabled="mode == 'Show'"
+                            ></b-form-input>
+                        </template>
+                        <b-form-input
+                            type="range"
+                            :disabled="mode == 'Show'"
+                            v-model="project.score"
+                            :min="project_score_vals.min"
+                            :max="project_score_vals.max"
+                        ></b-form-input>
+                    </b-input-group>
+                </b-form-group>
+
+                        <!-- Locations -->
+                <locations :project="project" :mode="mode"></locations>
+
+                <!-- For Project Bidding -->
+                <b-form-group class="mt-3">
+                    <b-form-checkbox
+                        :disabled="mode == 'Show'"
+                        v-model="project.for_project_bidding"
+                        switch
+                    >
+                        For Project Bidding?
+
+                        <template>
+                            <strong
+                                :class="{
+                                    green: project.for_project_bidding,
+                                    red: !project.for_project_bidding,
+                                }"
+                                >{{ bidding_convert }}</strong
+                            >
+                        </template>
+                    </b-form-checkbox>
+                </b-form-group>
+
+                <!-- Departments Needed -->
+                <label>Departments Needed</label>
+                <b-alert
+                    v-for="(department,
+                    department_index) in project.departments_needed"
+                    :key="department_index"
+                    show
+                    variant="secondary"
+                >
+                    {{ department.name }}
+                </b-alert>
+            </div>
         </div>
-    </div>
 </template>
 
 <script>
-import accountSelector from "./ProjectDetails/AccountSelector"
-import locations from "./ProjectDetails/Locations"
+import accountSelector from "./ProjectDetails/AccountSelector";
+import locations from "./ProjectDetails/Locations";
 export default {
     data() {
         return {
@@ -140,9 +161,9 @@ export default {
             ],
         };
     },
-    components:{
+    components: {
         "account-selector": accountSelector,
-        "locations": locations
+        locations: locations,
     },
     props: {
         project: Object,

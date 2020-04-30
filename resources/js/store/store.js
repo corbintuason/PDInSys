@@ -6,11 +6,12 @@ Vue.use(Vuex);
 import globals from "./globals";
 import tax from "./tax";
 import project from "./project";
+
 export const store = new Vuex.Store({
     modules: {
         globals: globals,
         tax: tax,
-        project: project
+        project: project,
     },
     state: {
         // FOR MODULE LOG IN

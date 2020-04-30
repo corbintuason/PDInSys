@@ -304,33 +304,7 @@ export default new Vuex.Store({
             "8C",
             "8D",
         ],
-        statuses: {
-            account: {
-                front_steps: ["Create", "Approve"],
-                db_steps: ["For Approval", "Approved"],
-            },
-            project: {
-                front_steps: [
-                    {
-                        name: "Create",
-                        responsible: "Creator",
-                    },
-                    {
-                        name: "Review",
-                        responsible: "Reviewer",
-                    },
-                    {
-                        name: "Approve",
-                        responsible: "Approver",
-                    },
-                    {
-                        name: "Assigned",
-                        responsible: "Assigners"
-                    }
-                ],
-                db_steps: ["For Review", "For Approval", "Approved", "Assigned"],
-            },
-        },
+
         positions: [
             {
                 name: "President, CEO",

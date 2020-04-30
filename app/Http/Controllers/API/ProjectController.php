@@ -67,9 +67,11 @@ class ProjectController extends Controller
         ->on($project)
         ->withProperties(["link_name" => "project_show", "link_id" => $project->id])
         ->log("User " . $auth_user->last_name .", " . $auth_user->first_name  . " has created Project " . $project->name);
-
-        return new ProjectResource($project);
-
+        
+        return [
+            'project' => new ProjectResource($project),
+            'success_text' => "Project " . $project->code . " has been successfully created"
+        ];
     }
 
     public function show($id)

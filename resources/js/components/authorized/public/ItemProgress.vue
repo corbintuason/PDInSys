@@ -2,13 +2,14 @@
     <div>
         <b-card>
             <template v-slot:header>
-                <h1 class="component-title">Progress Bar</h1>
+                <h1 class="component-title">{{progress_bar_header}}</h1>
             </template>
             <b-card-body>
                 <div class="row">
                     <div v-if="steps.length > 0" class="col-md-12">
                         <step-progress
-                            :steps="steps"
+                        v-if="progress_steps.length > 0"
+                            :steps="progress_steps"
                             :current-step="current_step"
                             icon-class="fa fa-check"
 
@@ -35,14 +36,14 @@
         <div v-if="mode != 'Create'">
              <b-modal id="contribution-list" size="xl" hide-footer>
         <template v-slot:modal-header>
-            Contribution List
+            Contribution List 
         </template>
             <contribution-list
-                :front_steps="front_steps"
-                :contributors="contributors"
+                :steps="steps"
+                :contributors="item.relationships.contributors"
             ></contribution-list>
              </b-modal>
-                         <remarks-list :remarks="remarks"></remarks-list>
+        <remarks-list :remarks="item.relationships.remarks"></remarks-list>
 
         </div>
 
@@ -56,41 +57,46 @@ import remarksList from "./RemarksList";
 export default {
     data() {
         return {
-            steps: [],
+            progress_steps: [],
             current_step: null,
         };
     },
     props: {
-        front_steps: Array,
-        db_steps: Array,
+        steps: Array,
         mode: String,
         item: Object,
-        contributors: Array,
-        api_link: String,
-        remarks: Array
     },
     components: {
         "contribution-list": contributionList,
         "remarks-list": remarksList
     },
+    computed:{
+        progress_bar_header(){
+            return (this.item!=null) ? this.item.code : "Progress Bar";
+        }
+    },
     methods: {
         loadSteps() {
-            this.front_steps.forEach((front_step) => {
-                this.steps.push(front_step.name);
+            this.steps.forEach((step) => {
+                this.progress_steps.push(step.name);
             });
+            console.log("asdfasfdf");
+            console.log(this.progress_steps);
             this.getCurrentStep();
         },
         showContributionList() {
             this.$bvModal.show("contribution-list");
         },
         showRemarksList() {
-            console.log("awit gaming ah");
             this.$bvModal.show("remarks-list");
         },
         getCurrentStep() {
-            console.log("asdf");
             if (this.mode != "Create") {
-                var status_index = this.db_steps.indexOf(this.item.status) + 1;
+                var status = this.item.status;
+                var current_step = this.steps.find(step => {
+                   return step.database_equivalent.includes(status);
+                });
+                var status_index = this.progress_steps.indexOf(current_step.name)+1;
                 this.current_step = status_index;
             } else {
                 this.current_step = 0;
