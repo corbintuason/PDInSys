@@ -73,28 +73,22 @@ export default {
     },
     props: {
         project: Object,
-        core_team: Object,
     },
     methods: {
         getUser(name, division) {
-            console.log("~~~~");
-            console.log(this.core_team);
-
-            var user = this.core_team.project_core_employees.find(
+            var user = this.project.relationships.project_core_employees.find(
                 (employee) => employee.team == name && employee.type == division
             );
             if (user != null) {
                 console.log("asldflkasjdfljaslfdjlaskfj");
                 console.log(user);
-                user = this.core_team.core_team.find(
+                user = this.project.relationships.core_team.find(
                     (core_employee) => core_employee.user.id == user.user_id
                 );
             }
             return user;
         },
         loadCoreTeam() {
-            console.log(";asdkfasdfa");
-            // [{"name":"Accounts and Business Development","main":"Main Account Manager","deputy":"Deputy Account Manager"},{"name":"Project Execution Team","main":"Main Project Manager","deputy":"Deputy Project Writer"},{"name":"Copy and Digital Team","main":"Main Creative Writer","deputy":"Deputy Creative Writer"}]
             this.project.departments_needed.forEach((department) => {
                 this.team_params.forEach((param) => {
                     if (department.name == param.name) {

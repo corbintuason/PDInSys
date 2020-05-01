@@ -26,15 +26,13 @@ class User extends JsonResource
             'contact_numbers' => $this->contact_numbers,
             'employment_date' => $this->employment_date,
             'positions' => $this->positions,
-            'scores' => $this->scores
+            'scores' => $this->scores,
+            'full_name' => $this->last_name. ", ". $this->first_name . " " . $this->middle_name
         ];
     }
 
     public function with($request){
         return [
-            'meta' => [
-                'full_name' => $this->last_name. ", ". $this->first_name . " " . $this->middle_name
-            ],
             'notifications' => $this->notifications,
             'roles' => $this->getRoles(),
             'abilities' => $this->getAbilities(),

@@ -70,14 +70,14 @@
 					<i class="fas fa-trash-alt"></i>
 				</b-button>
 			</template>
-			<template v-slot:cell(item_details.name)="data">
-				<!-- `data.value` is the value after formatted by the Formatter -->
+			<template v-slot:cell(code)="data">
+				<!-- {{data}} -->
 				<router-link
 					:to="{
                         name: data.item.item_params.link,
                         params: { id: data.item.item_params.id }
                     }"
-				>{{ data.item.item_name }}</router-link>
+				>{{ data.item.code }}</router-link>
 			</template>
 		</b-table>
 		<div class="row">

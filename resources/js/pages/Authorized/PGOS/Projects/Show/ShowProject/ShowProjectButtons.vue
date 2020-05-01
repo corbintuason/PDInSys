@@ -140,45 +140,6 @@ export default {
                 }
             });
         },
-        aproveProject() {
-            swal.fire({
-                title: "Approve Project",
-                icon: "question",
-                confirmButtonText: "Approve Project",
-                text: "Please check the details provided",
-                showLoaderOnConfirm: true,
-                preConfirm: () => {
-                    return new Promise((resolve, reject) => {
-                        axios
-                            .put("/api/project/" + this.project.id, {
-                                status: "Approved",
-                            })
-                            .then((response) => {
-                                const item = response.data;
-                                resolve(item);
-                            })
-                            .catch((e) => {
-                                //(e);
-                                swal.showValidationMessage(`Unable to update`);
-                                swal.hideLoading();
-                                reject(e);
-                            });
-                    });
-                },
-            }).then((result) => {
-                if (result.value) {
-                    //(result);
-                    swal.fire({
-                        title: "Project Successfully Approved",
-                        icon: "success",
-                        timer: "2500",
-                        onClose: () => {
-                            this.$router.go();
-                        },
-                    });
-                }
-            });
-        },
         reviewProject() {
                    var swal_html = this.loadSwalContents(this.steps, this.user);
             console.log(this.endpoints);

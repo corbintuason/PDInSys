@@ -1,5 +1,5 @@
 <template>
-    <b-modal id="select-account" size="xxl" @hidden="resetModal">
+    <b-modal id="select-account" size="xl" @hidden="resetModal">
         <template v-slot:modal-title>Select Account and Client</template>
         <div class="modal-body">
                 <!-- Account List -->

@@ -38,27 +38,36 @@ class ProjectController extends Controller
         ]);
         
         $auth_user = auth()->user();
-        $status = 'For Review';
-        
+
         // Create Project
-        $project = activity()->withoutLogs(function() use($request, $status){
-        $new_project = $request->toArray();
-        $new_project['status'] = $status;
-        return Project::create($new_project);
+        $project = activity()->withoutLogs(function() use($request){
+        return Project::create($request->all());
         });
 
         // Add Project Contributor List
-        
+        $responsibility;
+        $notify;
+        if($project->status == "For Review"){
+            $responsibility = "Creator";
+            $notify = "project-reviewer";
+        }else if($project->status == "For Approval"){
+            $responsibility = "Reviewer";
+            $notify = "project-approver";
+        }else if ($project->status == "For Assigning"){
+            $responsibility = "Approver";
+            $notify = "project-assigner"; 
+        }
+
         $project_contributor = ProjectContributor::create([
             'project_id' => $project->id,
             'contributor_id' => $auth_user->id,
-            'responsibility' => "Creator"
+            'responsibility' => $responsibility
         ]);
 
+    
         // Bouncer::allow($auth_user)->to('see', $project);
-
         // Notify all Accounts that can Approve this Project
-        $approvers = User::whereIs('project-reviewer')->get();
+        $approvers = User::whereIs($notify)->get();
         Notification::send($approvers, new ProjectCreated($project));
 
         // Create Activity Log
@@ -69,7 +78,7 @@ class ProjectController extends Controller
         ->log("User " . $auth_user->last_name .", " . $auth_user->first_name  . " has created Project " . $project->name);
         
         return [
-            'project' => new ProjectResource($project),
+            'item_id' => $project->id,
             'success_text' => "Project " . $project->code . " has been successfully created"
         ];
     }
@@ -86,8 +95,7 @@ class ProjectController extends Controller
             'status' => 'required|string|max:191',
         ]);
         $project = Project::findOrFail($id);
-        $user_id = auth()->user()->id;
-        $auth_user = new UserResource(User::findOrFail($user_id));
+        $auth_user = new UserResource(User::findOrFail(auth()->user()->id));
         
         $old_status = $project->status;
         activity()->withoutLogs(function() use($project, $request){
@@ -95,7 +103,7 @@ class ProjectController extends Controller
                 'status' => $request['status'],
             ]);
         });
-            if($project->status == 'For Approval' || $project->status== 'Approved') {
+            if($project->status == 'For Approval' || $project->status== 'For Assigning') {
                 if($request['status']=='For Approval'){
                     ProjectContributor::create([
                         'project_id' => $project->id,
@@ -104,7 +112,7 @@ class ProjectController extends Controller
                     ]);
                     $approvers = User::whereIs('project-approver')->get();
                     Notification::send($approvers, new ProjectStatusChange($project));
-                }else if ($request['status'] =='Approved'){
+                }else if ($request['status'] =='For Assigning'){
                     $project_contributor = ProjectContributor::create([
                         'project_id' => $project->id,
                         'contributor_id' => $auth_user->id,
@@ -143,10 +151,10 @@ class ProjectController extends Controller
 
             }
             
-           
-        
-    
-        return new ProjectResource($project);
+            return [
+                'item_id' => $project->id,
+                'success_text' => "Project " . $project->code . " has been successfully updated to " . $project->status
+            ];
         //
     }
 

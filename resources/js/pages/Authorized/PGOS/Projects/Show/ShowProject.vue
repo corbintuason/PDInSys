@@ -19,7 +19,6 @@
                         id="core-team"
                         v-if="!allowProjectCoreTeam"
                         :project="project"
-                        :core_team="core_team"
                     ></project-core-team>
                 </b-tab>
                 <b-tab title="Quick Access">
@@ -35,8 +34,8 @@
                 :mode="mode"
                 :item="project"
                 :item_model="item_model"
-                :front_steps="front_steps"
-                :contributors="project.relationships.contributors"
+                :steps="steps"
+                :endpoints="endpoints"
             ></show-project-buttons>
         </template>
     </b-card>
@@ -46,7 +45,7 @@
 import quickAccess from "./ShowProject/QuickAccess"
 import projectDetails from "./ShowProject/ProjectDetails";
 import projectCoreTeam from "./ShowProject/ProjectCoreTeam";
-import showProjectButtons from "./ShowProject/ShowProjectButtons";
+import showProjectButtons from "../../../../../components/authorized/public/ShowProjectButtons";
 export default {
     data() {
         return {
@@ -56,12 +55,11 @@ export default {
         };
     },
     props: {
-        front_steps: Array,
+        steps: Array,
         project: Object,
         mode: String,
-        core_team: Object,
         project_code: String,
-        contributors: Array,
+        endpoints: Object
     },
     components: {
         "show-project-buttons": showProjectButtons,
@@ -74,7 +72,7 @@ export default {
             return this.allowProjectCoreTeam ? "Project Core Team (Available once project has been Approved)": "Project Core Team" ;
         },
         allowProjectCoreTeam() {
-            return (this.project.status != "Approved" && this.project.status != "Assigned");
+            return (this.project.status != "For Assigning" && this.project.status != "Assigned");
         },
     },
     methods: {},

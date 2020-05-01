@@ -15,17 +15,21 @@ export default new Vuex.Store({
             {
                 name: "Review",
                 responsible: "Reviewer",
-                database_equivalent: ["For Approval"]
+                database_equivalent: ["For Approval"],
+                action: "For Approval",
+                ability_visibility: "review-all-projects"
             },
             {
                 name: "Approve",
                 responsible: "Approver",
-                database_equivalent: ["Approved"]
+                database_equivalent: ["For Assigning"],
+                action: "For Assigning",
+                ability_visibility: "approve-all-projects",
             },
             {
                 name: "Assigned",
                 responsible: "Assigners",
-                database_equivalent: ["Assigned"]
+                database_equivalent: ["Assigned"],    
             }
         ]
     },

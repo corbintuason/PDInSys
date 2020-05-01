@@ -53,7 +53,7 @@
 <script>
 import contributionList from "./ContributionList";
 import remarksList from "./RemarksList";
-
+import steps from "../../../mixins/steps"
 export default {
     data() {
         return {
@@ -66,6 +66,7 @@ export default {
         mode: String,
         item: Object,
     },
+    mixins:[steps],
     components: {
         "contribution-list": contributionList,
         "remarks-list": remarksList
@@ -80,27 +81,21 @@ export default {
             this.steps.forEach((step) => {
                 this.progress_steps.push(step.name);
             });
-            console.log("asdfasfdf");
-            console.log(this.progress_steps);
-            this.getCurrentStep();
+            if(this.mode != 'Create'){
+            var current_step = this.getCurrentStep(this.item, this.steps);
+            var status_index = this.progress_steps.indexOf(current_step.name)+1;
+            this.current_step = status_index;
+            }else{
+                this.current_step = 0;
+
+            }
+           
         },
         showContributionList() {
             this.$bvModal.show("contribution-list");
         },
         showRemarksList() {
             this.$bvModal.show("remarks-list");
-        },
-        getCurrentStep() {
-            if (this.mode != "Create") {
-                var status = this.item.status;
-                var current_step = this.steps.find(step => {
-                   return step.database_equivalent.includes(status);
-                });
-                var status_index = this.progress_steps.indexOf(current_step.name)+1;
-                this.current_step = status_index;
-            } else {
-                this.current_step = 0;
-            }
         },
     },
     mounted() {

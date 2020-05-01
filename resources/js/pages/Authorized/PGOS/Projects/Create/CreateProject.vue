@@ -124,6 +124,7 @@
                         ></b-form-checkbox-group>
                     </b-form-group>
                 </div>
+                {{project}}
             </div>
         </b-card-body>
         <template v-slot:footer>
@@ -214,9 +215,18 @@ export default {
     mixins: [form],
     components: {
         "account-selector": accountSelector,
-        locations: locations,
+        "locations": locations,
     },
     computed: {
+        get_status(){
+            if(this.$store.getters.hasAbility("review-all-projects")){
+                return "For Approval";
+            }else if(this.$store.getters.hasAbility("approve-all-projects")){
+                return "For Assigning";
+            }else{
+                return "For Review";
+            } 
+        },
         account() {
             return this.project.account;
         },
@@ -226,18 +236,19 @@ export default {
     },
     methods: {
         createProject() {
+            this.project.status = this.get_status;
+            console.log("ayieee" + this.project.status);
             var swal_html = this.loadSwalContents(this.steps, this.user);
-            console.log(this.endpoints);
-            console.log("testing");
             const swal_object = {
                 title: "Create Project",
                 html: swal_html,
                 text: "Please check the details provided.",
                 confirmButtonText: "Create Project",
+
+                item: this.project,
                 endpoints: this.endpoints,
-                completion_title: "Project Succesfully Created",
             };
-            this.fireContributionList(swal_object);
+            this.fireCreateSwal(swal_object);
         },
     },
     mounted() {},

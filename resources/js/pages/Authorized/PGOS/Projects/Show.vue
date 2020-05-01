@@ -6,7 +6,7 @@
    
     <!-- Main Project Details -->
 
-    <show-project v-if="project!=null" :project="project" :steps="steps" :mode="mode"></show-project>
+    <show-project v-if="project!=null" :project="project" :steps="steps" :mode="mode" :endpoints="endpoints" :key="show_project_key"></show-project>
     <!-- Quick Access  -->
   <!-- COST ESTIMATE: Activate when Main AM has been assigned 
     - Made through excel
@@ -64,6 +64,7 @@ export default {
   data() {
     return {
       mode: "Show",
+      show_project_key: 0,
       steps: this.$store.state.project.steps,
         endpoints:{
         api: "/api/project/",
@@ -77,6 +78,13 @@ export default {
     "show-project": showProject,
     "change-logs": changeLogs
   },
+  watch:{
+    mode(){
+      console.log("there have been changes");
+      this.show_project_key++;
+      console.log(this.show_project_key);
+    }
+  },
   methods:{
       loadProject(){
           var project_id = this.$route.params.id
@@ -87,6 +95,13 @@ export default {
   },
   mounted(){
       this.loadProject();
+
+      Fire.$on('switch-mode', mode => {
+        if(mode == 'Show'){
+          this.loadProject();
+         }
+        this.mode = mode;
+      });
   },
 };
 </script>
