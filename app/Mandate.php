@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class Mandate extends Model
 {
+
+    use LogsActivity, CausesActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -73,5 +77,11 @@ class Mandate extends Model
     public function user()
     {
         return $this->belongsTo("App\User", "creator_id");
+    }
+    // Mandate Code
+    public function getCodeAttribute()
+    {
+        $year = date("y");
+        return $year . "-" . sprintf('%04d', $this->attributes['id']);
     }
 }

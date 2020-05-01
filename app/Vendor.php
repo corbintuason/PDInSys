@@ -58,4 +58,9 @@ class Vendor extends Model
     {
         return $this->belongsTo("App\User", "creator_id");
     }
+
+    public function remarks()
+    {
+        return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
+    }
 }

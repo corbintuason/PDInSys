@@ -23,6 +23,7 @@ class Mandate extends JsonResource
             'relationships' => [
                 'user' => $this->user
             ],
+            'actions' => $this->activities
         ];
     }
 }

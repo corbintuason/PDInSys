@@ -22,6 +22,7 @@ import ShowProject from "./pages/Authorized/PGOS/Projects/Show.vue";
 // Mandate Creation Module
 import IndexMandate from "./pages/Authorized/PGAS/Mandate/Index.vue";
 import CreateMandate from "./pages/Authorized/PGAS/Mandate/Create.vue";
+import ShowMandate from "./pages/Authorized/PGAS/Mandate/Show.vue";
 
 // Vendor Accreditation Module
 import IndexVendor from "./pages/Authorized/PGAS/Vendors/Index.vue";
@@ -117,6 +118,11 @@ export default [
                 path: "/mandates/create",
                 component: CreateMandate,
                 name: "mandate_create",
+            },
+            {
+                path: "/mandates/:id",
+                component: ShowMandate,
+                name: "mandate_show",
             },
             // VENDOR PATHS
             {

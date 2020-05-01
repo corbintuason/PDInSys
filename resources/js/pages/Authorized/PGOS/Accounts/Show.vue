@@ -1,32 +1,31 @@
 <template>
-    <div>
-        <b-card v-if="account.status != 'Rejected'" class="mt-3">
-            <template v-slot:header>
-                <h1 class="component-title">Progress Bar {{ mode }}</h1>
-            </template>
-            <b-card-body>
-                <step-progress
-                    :steps="front_steps"
-                    :current-step="current_step"
-                    icon-class="fa fa-check"
-                ></step-progress>
-                <br />
-            </b-card-body>
-        </b-card>
-        <b-alert show v-else variant="danger" class="mt-3">This account has been <strong>Rejected</strong></b-alert>
+	<div>
+		<b-card v-if="account.status != 'Rejected'" class="mt-3">
+			<template v-slot:header>
+				<h1 class="component-title">Progress Bar {{ mode }}</h1>
+			</template>
+			<b-card-body>
+				<step-progress :steps="front_steps" :current-step="current_step" icon-class="fa fa-check"></step-progress>
+				<br />
+			</b-card-body>
+		</b-card>
+		<b-alert show v-else variant="danger" class="mt-3">
+			This account has been
+			<strong>Rejected</strong>
+		</b-alert>
 
-        <!-- Create Account and Client -->
-        <account-client
-            v-if="account != null"
-            :user="user"
-            :account="account"
-            :mode="mode"
-            :user_role="user_role"
-            @update-mode="updateMode"
-        ></account-client>
-        <!-- Change Logs -->
-        <change-logs :logs="change_logs"></change-logs>
-    </div>
+		<!-- Create Account and Client -->
+		<account-client
+			v-if="account != null"
+			:user="user"
+			:account="account"
+			:mode="mode"
+			:user_role="user_role"
+			@update-mode="updateMode"
+		></account-client>
+		<!-- Change Logs -->
+		<change-logs :logs="change_logs"></change-logs>
+	</div>
 </template>
 
 <script>
@@ -72,7 +71,7 @@ export default {
                 this.getCurrentStep();
                 this.fireToast();
             }).catch(e => {
-                console.log("dito palang mali na");
+                console.log("mali dito");
             });
         },
 

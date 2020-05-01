@@ -125,9 +125,38 @@ class MandateController extends Controller
      * @param  \App\Mandate  $mandate
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mandate $mandate)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'status' => 'required|string|max:191',
+        ]);
+        $mandate = Mandate::findOrFail($id);
+        $user_id = auth()->user()->id;
+        $user = new UserResource(User::findOrFail($user_id));
+
+        $old_status = $mandate->status;
+        activity()->withoutLogs(function () use ($mandate, $request) {
+            $mandate->update([
+                'status' => $request['status'],
+            ]);
+        });
+
+
+        // Notify the creator that the mandate has been approved
+        $update_user = User::findOrFail($mandate->creator_id);
+        $update_users = collect([]);
+        $update_users->push($update_user);
+        Notification::send($update_users, new MandateStatusChange($mandate));
+
+        // Create Activity Log
+
+        activity('Mandate Status Change')
+            ->on($mandate)
+            ->withProperties(["link_name" => "mandate_show", "link_id" => $mandate->id])
+            ->log("User " . $user->last_name . ", " . $user->first_name  . " has changed Mandate " . $mandate->registered_name . "'s status from " . $old_status . " to " . $mandate->status);
+
+
+        return new MandateResource($mandate);
     }
 
     /**

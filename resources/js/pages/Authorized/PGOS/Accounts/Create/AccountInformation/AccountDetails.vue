@@ -1,44 +1,43 @@
 <template>
-  <div>
-    <div id="account_details">
-      <h1 class="component-sub-header">Account Details</h1>
-      <div class="component-sub-content">
-
-        <div class="row">
-          <div class="col-md-6">
-            <!-- Single Layer -->
-            <b-form-group
-              v-for="(builder, builder_index) in account_builder"
-              :key="builder_index"
-              :label="builder.label"
-              label-class="font-weight-bold"
-            >
-              <!-- Non Address -->
-              <template v-if="builder.model != 'registered_address'">
-                <b-form-input
-                  v-if="builder.form == 'input'"
-                  :type="builder.type"
-                  v-model="form[builder.model]"
-                  :placeholder="builder.placeholder"
-                ></b-form-input>
-              </template>
-              <!-- Address -->
-              <template v-else>
-                <b-form-input
-                  v-for="(section, section_index) in builder.sections"
-                  :key="section_index"
-                  :type="section.type"
-                  v-model="form['registered_address'][section.model]"
-                  :placeholder="section.placeholder"
-                ></b-form-input>
-              </template>
-            </b-form-group>
-            <!-- Double Layer -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div>
+		<div id="account_details">
+			<h1 class="component-sub-header">Account Details</h1>
+			<div class="component-sub-content">
+				<div class="row">
+					<div class="col-md-6">
+						<!-- Single Layer -->
+						<b-form-group
+							v-for="(builder, builder_index) in account_builder"
+							:key="builder_index"
+							:label="builder.label"
+							label-class="font-weight-bold"
+						>
+							<!-- Non Address -->
+							<template v-if="builder.model != 'registered_address'">
+								<b-form-input
+									v-if="builder.form == 'input'"
+									:type="builder.type"
+									v-model="form[builder.model]"
+									:placeholder="builder.placeholder"
+								></b-form-input>
+							</template>
+							<!-- Address -->
+							<template v-else>
+								<b-form-input
+									v-for="(section, section_index) in builder.sections"
+									:key="section_index"
+									:type="section.type"
+									v-model="form['registered_address'][section.model]"
+									:placeholder="section.placeholder"
+								></b-form-input>
+							</template>
+						</b-form-group>
+						<!-- Double Layer -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -128,27 +127,27 @@ export default{
 
 <style>
 input {
-  border: 1px solid silver;
-  border-radius: 4px;
-  background: white;
-  padding: 5px 10px;
+	border: 1px solid silver;
+	border-radius: 4px;
+	background: white;
+	padding: 5px 10px;
 }
 
 .dirty {
-  border-color: #5a5;
-  background: #efe;
+	border-color: #5a5;
+	background: #efe;
 }
 
 .dirty:focus {
-  outline-color: #8e8;
+	outline-color: #8e8;
 }
 
 .error {
-  border-color: red;
-  background: #fdd;
+	border-color: red;
+	background: #fdd;
 }
 
 .error:focus {
-  outline-color: #f99;
+	outline-color: #f99;
 }
 </style>
