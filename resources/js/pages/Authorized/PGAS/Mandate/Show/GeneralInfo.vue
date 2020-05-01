@@ -16,7 +16,8 @@ export default {
     },
     props:{
       mandate: Object,
-      mode: String
+      mode: String,
+      mandate_code: String,
     },
     components:{
       "general-info": generalInfo,

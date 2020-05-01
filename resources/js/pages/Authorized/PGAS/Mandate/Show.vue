@@ -17,6 +17,7 @@
 		<!-- Mandate -->
 		<mandate-module
 			v-if="mandate != null"
+			:mandate_code="mandate_code"
 			:user="user"
 			:mandate="mandate"
 			:mode="mode"
@@ -26,6 +27,7 @@
 
 		<!-- Change Logs -->
 		<change-logs :logs="change_logs"></change-logs>
+		{{mandate}}
 	</div>
 </template>
 
@@ -40,6 +42,7 @@ export default {
             change_logs: null,
             user_role: null,
             mandate: null,
+            mandate_code: null,
 
             front_steps: this.$store.state.globals.statuses.mandate.front_steps,
             db_steps: this.$store.state.globals.statuses.mandate.db_steps,
