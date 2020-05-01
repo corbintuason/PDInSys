@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\ProjectContributor as ProjectContributorResource;
+use App\Http\Resources\Contributor as ContributorResource;
 use App\Http\Resources\Remark as RemarkResource;
 class Project extends JsonResource
 {
@@ -22,7 +22,7 @@ class Project extends JsonResource
             'actions' => $this->activities,
             'project_core_employees' => $this->project_core_employees,
             'core_team' => $this->core_team,
-            'contributors' => ProjectContributorResource::collection($this->contributors),
+            'contributors' => ContributorResource::collection($this->contributors),
             'remarks' => RemarkResource::collection($this->remarks)
         ];
         

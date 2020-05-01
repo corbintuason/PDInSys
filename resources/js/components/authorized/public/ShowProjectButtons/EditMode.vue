@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import form from "../../../../mixins/form";
+import steps from "../../../../mixins/steps";
 export default{
     data(){
         return{
@@ -18,8 +20,13 @@ export default{
         steps: Array,
         endpoints: Object
     },
+    mixins:[form, steps],
     methods:{
         saveChanges(){
+            console.log("og status ", this.item.status);
+            var current_step = this.getCurrentStep(this.item, this.steps);
+            this.item.status = current_step.action;
+            console.log("lets check for changes", this.item.status);
             swal.fire({
                 title: "Save Changes to " + this.item_model + " " + this.item.code +"?",
                 icon: "question",

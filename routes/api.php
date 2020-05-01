@@ -32,6 +32,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         'remark' => 'API\RemarkController'
     ]);
+    
+    // Additional Routes
+    Route::put("/project/{id}/returnToUser", 'API\ProjectController@returnToUser');
     Route::get('/activities', "API\ActivityController@index");
 });
 

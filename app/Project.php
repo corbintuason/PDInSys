@@ -53,24 +53,20 @@ protected static $logName = 'Project';
         return $divisions_needed == $divisions_assigned;
     }
 
-    public function project_core_team(){
-        return $this->hasManyThrough('App\User', 'App\ProjectCoreEmployee', 'project_id', 'id', 'id', 'user_id');
-    }
-
     public function project_core_employees(){
         return $this->hasMany("App\ProjectCoreEmployee");
-    }
-
-    public function contributors(){
-        return $this->hasMany("App\ProjectContributor")->with('user');
     }
 
     public function core_team(){
         return $this->hasMany("App\ProjectCoreEmployee")->with('user');
     }
 
-    public function project_contributors(){
-        return $this->hasManyThrough("App\User", 'App\ProjectContributor', 'project_id', 'id', 'id', 'contributor_id');
+    // public function project_contributors(){
+    //     return $this->hasManyThrough("App\User", 'App\ProjectContributor', 'project_id', 'id', 'id', 'contributor_id');
+    // }
+
+    public function contributors(){
+        return $this->morphMany("App\Contributor", 'contributable')->with('user');
     }
 
     public function remarks(){

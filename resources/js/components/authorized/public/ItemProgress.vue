@@ -79,12 +79,18 @@ export default {
     methods: {
         loadSteps() {
             this.steps.forEach((step) => {
+                console.log("vibe check", step);
                 this.progress_steps.push(step.name);
             });
             if(this.mode != 'Create'){
             var current_step = this.getCurrentStep(this.item, this.steps);
-            var status_index = this.progress_steps.indexOf(current_step.name)+1;
+            if(current_step!= null){
+            var status_index = this.progress_steps.indexOf(current_step.name);
             this.current_step = status_index;
+            }else{
+                this.current_step = this.progress_steps.length
+            }
+          
             }else{
                 this.current_step = 0;
 

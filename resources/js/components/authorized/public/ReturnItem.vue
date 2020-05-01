@@ -1,38 +1,38 @@
 <template>
-    <b-modal id="return-item" @hidden="removeSelectedUser" size="lg">
+    <b-modal id="return-item" @hidden="loadReturnItem" size="lg">
         <template v-slot:modal-title> Return {{ item_model }} </template>
-        <div class="modal-body">
+        <div class="modal-body" v-if="return_to_user!=null">
             <contribution-list
-                :front_steps="front_steps"
-                :contributors="contributors"
+                :steps="steps"
+                :contributors="item.relationships.contributors"
                 @return-item="returnItem"
             ></contribution-list>
             <!-- Remarks -->
             <label class="mt-2">Remarks</label>
-             <b-input-group
-            v-for="(remark, remark_index) in return_to_user.remarks"
-            :key="remark_index"
-        >
-            <b-input
-                type="text"
-                v-model="return_to_user.remarks[remark_index]"
-            ></b-input>
-            <b-input-group-append>
-                <b-button
-                    variant="outline-danger"
-                    :disabled="remark_index == 0"
-                    @click="removeRow(return_to_user.remarks, remark_index)"
-                >
-                    <i class="fas fa-trash"></i>
-                </b-button>
-            </b-input-group-append>
-        </b-input-group>
+            <b-input-group
+                v-for="(remark, remark_index) in return_to_user.remarks"
+                :key="remark_index"
+            >
+                <b-input
+                    type="text"
+                    v-model="return_to_user.remarks[remark_index]"
+                ></b-input>
+                <b-input-group-append>
+                    <b-button
+                        variant="outline-danger"
+                        :disabled="remark_index == 0"
+                        @click="removeRow(return_to_user.remarks, remark_index)"
+                    >
+                        <i class="fas fa-trash"></i>
+                    </b-button>
+                </b-input-group-append>
+            </b-input-group>
             <b-button
-            variant="outline-primary"
-            block
-            @click="addRow(return_to_user.remarks)"
-            >Add Remark</b-button
-        >
+                variant="outline-primary"
+                block
+                @click="addRow(return_to_user.remarks)"
+                >Add Remark</b-button
+            >
         </div>
 
         <template v-slot:modal-footer>
@@ -54,58 +54,57 @@ export default {
     data() {
         return {
             mode: "Return",
-            return_to_user: {
-                user: null,
-                status: "Returned",
-                remarkable_type: "Project",
-                remarkable_id: this.item.id,
-                remarks: [""],
-            },
+            return_to_user: null,
             users: [],
         };
     },
-    mixins:[form],
+    mixins: [form],
     props: {
         item: Object,
         item_model: String,
-        front_steps: Array,
-        contributors: Array,
+        steps: Array,
+        endpoints: Object,
     },
     components: {
         "contribution-list": contributionList,
     },
+    computed: {
+    },
     methods: {
-        removeSelectedUser(){
-            this.return_to_user = {
-                user: null,
-                show_link_route: "project_show",
-                remarkable_type: "Project",
-                remarkable_id: this.item.id,
-                remarks: [""],
-            }
-        },
         returnItem(item) {
             this.return_to_user.user = item;
         },
-        returnProject(){
+        returnProject() {
             swal.fire({
-                title: "Return Project",
+                title: "Return " + this.item_model,
                 icon: "question",
-                confirmButtonText: "Return Project",
-                text: "Project will be returned to " + this.return_to_user.user.name,
+                confirmButtonText: "Return",
+                text:
+                    this.item_model +
+                    "will be returned to " +
+                    this.return_to_user.user.name,
+                       showCancelButton: true,
+                cancelButtonColor: "#d33",
                 showLoaderOnConfirm: true,
                 allowOutsideClick: false,
                 preConfirm: () => {
                     return new Promise((resolve, reject) => {
                         axios
-                            .put("/api/project/" + this.item.id, this.return_to_user)
+                            .put(
+                                this.endpoints.api +
+                                    this.item.id +
+                                    "/returnToUser",
+                                this.return_to_user
+                            )
                             .then((response) => {
                                 const item = response.data;
                                 resolve(item);
                             })
                             .catch((e) => {
                                 //(e);
-                                swal.showValidationMessage(`Unable to return project`);
+                                swal.showValidationMessage(
+                                    `Unable to return project`
+                                );
                                 swal.hideLoading();
                                 reject(e);
                             });
@@ -115,7 +114,7 @@ export default {
                 if (result.value) {
                     //(result);
                     swal.fire({
-                        title: "Project Successfully Returned",
+                        title: result.value.success_text,
                         icon: "success",
                         onClose: () => {
                             this.$router.go();
@@ -123,8 +122,18 @@ export default {
                     });
                 }
             });
-        }
+        },
+        loadReturnItem() {
+            this.return_to_user = {
+                user: null,
+                remarkable_type: this.item_model,
+                remarkable_id: this.item.id,
+                remarks: [""],
+            };
+        },
     },
-    mounted() {},
+    mounted() {
+        this.loadReturnItem();
+    },
 };
 </script>

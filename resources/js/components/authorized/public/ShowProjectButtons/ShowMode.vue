@@ -1,5 +1,5 @@
 <template>
-    <b-button-group v-if="next_step!=null" class="float-right">
+    <b-button-group v-if="current_step!=null" class="float-right">
         <b-button
             @click="rejectProject"
             v-if="canUpdate()"
@@ -17,30 +17,37 @@
         >
             Edit Project
         </b-button>
-
+       <b-button 
+        @click="returnItem"
+        variant="outline-dark"
+        > Return {{item_model}}
+        </b-button>
         <b-button
-            v-if="next_step != null && canUpdate()"
+            v-if="canUpdate()"
             @click="updateStatus"
             variant="outline-success"
             >{{ action_name }}</b-button
         >
-        <!-- <return-item
+
+ 
+        <return-item
             :item="item"
             :item_model="item_model"
-            :front_steps="front_steps"
-            :contributors="contributors"
-        ></return-item> -->
+            :steps="steps"
+            :endpoints="endpoints"
+        ></return-item>
     </b-button-group>
 </template>
 
 <script>
 import form from "../../../../mixins/form";
 import steps from "../../../../mixins/steps";
+import returnItem from "../ReturnItem"
 export default {
     data() {
         return {
             user: this.$store.state.user,
-            next_step: null,
+            current_step: null,
         };
     },
     props: {
@@ -51,10 +58,13 @@ export default {
         endpoints: Object,
     },
     mixins: [form, steps],
+    components:{
+        "return-item": returnItem
+    },
     computed: {
         action_name() {
-            return this.next_step
-                ? this.next_step.name + " " + this.item_model
+            return this.current_step
+                ? this.current_step.name + " " + this.item_model
                 : "awit";
         },
         showEditProject() {
@@ -70,9 +80,9 @@ export default {
     methods: {
         canUpdate() {
             console.log("next ability po");
-            console.log(this.next_step);
+            console.log(this.current_step);
             return this.$store.getters.hasAbility(
-                this.next_step.ability_visibility
+                this.current_step.ability_visibility
             );
         },
         updateStatus() {
@@ -81,14 +91,12 @@ export default {
                 this.user,
                 this.item
             );
-            console.log(this.endpoints);
-            console.log("testing");
             const swal_object = {
                 title: this.action_name + " " + this.item.code,
                 html: swal_html,
                 confirmButtonText: this.action_name,
                 endpoints: this.endpoints,
-                new_status: this.next_step.action,
+                new_status: this.current_step.action,
             };
             this.fireUpdateSwal(swal_object, this.item);
         },
@@ -149,17 +157,13 @@ export default {
             });
         },
 
-        returnProject() {
+        returnItem() {
             this.$bvModal.show("return-item");
         },
     },
     mounted() {
-        this.next_step = this.getNextStep(
-            this.getCurrentStep(this.item, this.steps),
-            this.steps
-        );
-        console.log("Ang next stop po ay");
-        console.log(this.next_step);
+        this.current_step = this.getCurrentStep(this.item, this.steps);
+        console.log("current step is ", this.current_step);
     },
 };
 </script>
