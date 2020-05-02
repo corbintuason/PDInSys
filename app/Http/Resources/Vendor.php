@@ -23,6 +23,7 @@ class Vendor extends JsonResource
             'relationships' => [
                 'user' => $this->user
             ],
+            'actions' => $this->activities
         ];
     }
 }

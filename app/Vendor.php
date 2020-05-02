@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
 
 class Vendor extends Model
 {
+
+    use LogsActivity, CausesActivity;
 
     /**
      * The attributes that are mass assignable.

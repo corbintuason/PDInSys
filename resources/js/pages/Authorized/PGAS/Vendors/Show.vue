@@ -3,11 +3,11 @@
 		<b-breadcrumb class="mt-4">
 			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
 			<b-breadcrumb-item href="/vendors">List of Vendors</b-breadcrumb-item>
-			<b-breadcrumb-item active>PMID-20-000</b-breadcrumb-item>
+			<b-breadcrumb-item active>VID-20-000{{vendor.id}}</b-breadcrumb-item>
 		</b-breadcrumb>
 		<b-card v-if="vendor!=null" class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">PMID-20-000</h1>
+				<h1 class="component-title">VID-20-000{{vendor.id}}</h1>
 			</template>
 			<b-card-body>
 				<step-progress :steps="front_steps" :current-step="current_step" icon-class="fa fa-check"></step-progress>

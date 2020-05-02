@@ -18,13 +18,25 @@
 				<h1 class="component-title">Vendor Accreditation</h1>
 			</template>
 			<template v-slot:footer>
-				<b-button
-					:disabled="isDisabled"
-					variant="success"
-					class="float-right"
-					@click="createVendor"
-				>Create Vendor</b-button>
+				<!-- For Approval Status -->
+				<div class="row">
+					<div class="col-md-6">
+						<b-button-group class="mt-1">
+							<b-button @click="tabIndex--">Previous Tab</b-button>
+							<b-button @click="tabIndex++">Next Tab</b-button>
+						</b-button-group>
+					</div>
+					<div class="col-md-6 text-right">
+						<b-button
+							:disabled="isDisabled"
+							variant="success"
+							class="float-right"
+							@click="createVendor"
+						>Create Vendor</b-button>
+					</div>
+				</div>
 			</template>
+
 			<b-card-text>
 				<b-tabs v-model="tabIndex" content-class="mt-3" fill>
 					<b-tab title="Vendor Details" active>
@@ -46,14 +58,6 @@
 				</b-tabs>
 			</b-card-text>
 		</b-card>
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<b-button-group class="mt-1">
-					<b-button variant="primary" @click="tabIndex--">Previous</b-button>
-					<b-button variant="primary" @click="tabIndex++">Next</b-button>
-				</b-button-group>
-			</div>
-		</div>
 	</div>
 </template>
 

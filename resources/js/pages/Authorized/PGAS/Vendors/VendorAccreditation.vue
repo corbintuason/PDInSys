@@ -9,9 +9,9 @@
 					<b-tab title="Vendor Details" active>
 						<vendor-details :mode="mode" :vendor="vendor"></vendor-details>
 					</b-tab>
-					<!-- <b-tab title="Tax Details">
+					<b-tab title="Tax Details">
 						<tax-details :mode="mode" :vendor="vendor"></tax-details>
-					</b-tab>-->
+					</b-tab>
 					<b-tab title="Bank Details">
 						<bank-details :mode="mode" :vendor="vendor"></bank-details>
 					</b-tab>
@@ -22,10 +22,30 @@
 			</b-card-text>
 			<template v-slot:footer>
 				<!-- For Approval Status -->
-				<template v-if="vendor.status=='For Approval'">
-					<b-button variant="outline-success" class="float-right">Approve Vendor Accreditation</b-button>
-					<b-button variant="outline-danger" class="float-right">Reject Vendor</b-button>
-				</template>
+				<div class="row">
+					<div class="col-md-6">
+						<b-button-group class="mt-1">
+							<b-button @click="tabIndex--">Previous Tab</b-button>
+							<b-button @click="tabIndex++">Next Tab</b-button>
+						</b-button-group>
+					</div>
+					<div class="col-md-6 text-right">
+						<template v-if="vendor.status=='For Approval'">
+							<b-button
+								v-if="user.roles=='vendor-approver'"
+								variant="danger"
+								class="mr-1"
+								@click="rejectVendor"
+							>Reject Vendor</b-button>
+							<b-button
+								v-if="user.roles=='vendor-approver' "
+								variant="success"
+								class="ml-1"
+								@click="approveVendor"
+							>Approve Vendor</b-button>
+						</template>
+					</div>
+				</div>
 			</template>
 		</b-card>
 	</div>

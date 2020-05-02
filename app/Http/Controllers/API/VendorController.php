@@ -105,4 +105,38 @@ class VendorController extends Controller
     {
         return new VendorResource(Vendor::findorFail($id));
     }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'status' => 'required|string|max:191',
+        ]);
+        $vendor = Vendor::findOrFail($id);
+        $user_id = auth()->user()->id;
+        $user = new UserResource(User::findOrFail($user_id));
+
+        $old_status = $vendor->status;
+        activity()->withoutLogs(function () use ($vendor, $request) {
+            $vendor->update([
+                'status' => $request['status'],
+            ]);
+        });
+
+
+        // Notify the creator that the vendor has been approved
+        $update_user = User::findOrFail($vendor->creator_id);
+        $update_users = collect([]);
+        $update_users->push($update_user);
+        Notification::send($update_users, new VendorStatusChange($vendor));
+
+        // Create Activity Log
+
+        activity('Vendor Status Change')
+            ->on($vendor)
+            ->withProperties(["link_name" => "vendor_show", "link_id" => $vendor->id])
+            ->log("User " . $user->last_name . ", " . $user->first_name  . " has changed Vendor " . $vendor->registered_name . "'s status from " . $old_status . " to " . $vendor->status);
+
+
+        return new VendorResource($vendor);
+    }
 }
