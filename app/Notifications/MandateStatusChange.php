@@ -21,11 +21,13 @@ class MandateStatusChange extends Notification
 
     public $mandate;
     public $project_name;
+    public $item_name;
 
     public function __construct(Mandate $mandate)
     {
         $this->mandate = $mandate;
-        $this->project_name = "Mandate Status Updated";
+        $this->project_name = "PMID";
+        $this->item_name = "Mandate Module";
     }
 
     /**
@@ -69,12 +71,12 @@ class MandateStatusChange extends Notification
                 "id" => $this->mandate->id
             ],
             'notification_table' => [
-                'project_name' => $this->project_name,
-                'item' => $this->mandate->registered_name,
+                'project_name' => "PMID" . '-' . $this->mandate->code,
+                'item' => $this->item_name,
                 'status' => $this->mandate->status,
             ],
             'notification_bell' => [
-                'header' => $this->project_name,
+                'header' => $this->project_name . '-' . $this->mandate->code . " " . "Approved",
                 'date' => $this->mandate->created_at
             ]
         ];

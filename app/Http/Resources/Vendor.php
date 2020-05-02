@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\VendorContributor as VendorContributorResource;
 
 class Vendor extends JsonResource
 {
@@ -21,9 +22,13 @@ class Vendor extends JsonResource
     {
         return [
             'relationships' => [
-                'user' => $this->user
+                'user' => $this->user,
+                'contributors' => VendorContributorResource::collection($this->contributors),
             ],
-            'actions' => $this->activities
+            'actions' => $this->activities,
+            'meta' => [
+                'code' => $this->code,
+            ],
         ];
     }
 }

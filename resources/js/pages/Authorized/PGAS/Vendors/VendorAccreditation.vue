@@ -72,7 +72,8 @@ export default {
   },
   props: {
     user: Object,
-    vendor: Object,
+	vendor: Object,
+	mandate_code: String,
     mode: String,
     user_role: String
   },
@@ -108,7 +109,10 @@ export default {
       };
 
       this.updateItem(swal_object, axios_form);
-    }
+	},
+	returnProject() {
+		this.$bvModal.show("return-item");
+	},
   },
   mounted() {
   }

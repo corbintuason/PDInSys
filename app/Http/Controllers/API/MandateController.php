@@ -98,7 +98,7 @@ class MandateController extends Controller
         activity('Mandate Created')
             ->on($mandate)
             ->withProperties(["link_name" => "mandate_show", "link_id" => $mandate->id])
-            ->log("User " . $auth_user->last_name . ", " . $auth_user->first_name  . " has created Mandate " . $mandate->registered_name);
+            ->log("User " . $auth_user->last_name . ", " . $auth_user->first_name  . " has created " . "PMID"  . '-' . $mandate->code);
 
         return new MandateResource($mandate);
     }
@@ -160,7 +160,7 @@ class MandateController extends Controller
         activity('Mandate Status Change')
             ->on($mandate)
             ->withProperties(["link_name" => "mandate_show", "link_id" => $mandate->id])
-            ->log("User " . $user->last_name . ", " . $user->first_name  . " has changed Mandate " . $mandate->registered_name . "'s status from " . $old_status . " to " . $mandate->status);
+            ->log("User " . $user->last_name . ", " . $user->first_name  . " has changed Mandate " . ' ' . $mandate->code . " status from " . $old_status . " to " . $mandate->status);
 
 
         return new MandateResource($mandate);

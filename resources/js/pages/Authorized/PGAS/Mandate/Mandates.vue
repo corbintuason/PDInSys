@@ -2,7 +2,7 @@
 	<div>
 		<b-card class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">Mandate</h1>
+				<h1 class="component-title">Mandate {{ mandate_code }}</h1>
 			</template>
 			<b-card-body v-if="mandate!=null">
 				<b-card-text>

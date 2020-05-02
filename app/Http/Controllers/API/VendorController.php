@@ -97,7 +97,7 @@ class VendorController extends Controller
         activity('Vendor Created')
             ->on($vendor)
             ->withProperties(["link_name" => "vendor_show", "link_id" => $vendor->id])
-            ->log("User " . $auth_user->last_name . ", " . $auth_user->first_name  . " has created Vendor " . $vendor->registered_name);
+            ->log("User " . $auth_user->last_name . ", " . $auth_user->first_name  . " has created Vendor " . $vendor->registered_name . ' ' . $vendor->code);
 
         return new VendorResource($vendor);
     }
@@ -141,7 +141,7 @@ class VendorController extends Controller
         activity('Vendor Status Change')
             ->on($vendor)
             ->withProperties(["link_name" => "vendor_show", "link_id" => $vendor->id])
-            ->log("User " . $user->last_name . ", " . $user->first_name  . " has changed Vendor " . $vendor->registered_name . "'s status from " . $old_status . " to " . $vendor->status);
+            ->log("User " . $user->last_name . ", " . $user->first_name  . " has changed Vendor " . ' ' . $vendor->code . " status from " . $old_status . " to " . $vendor->status);
 
 
         return new VendorResource($vendor);

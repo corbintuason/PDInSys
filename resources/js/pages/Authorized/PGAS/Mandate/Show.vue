@@ -1,11 +1,22 @@
 <template>
 	<div>
+		<b-breadcrumb class="mt-4">
+			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+			<b-breadcrumb-item href="/mandates">List of mandates</b-breadcrumb-item>
+			<b-breadcrumb-item active>PMID-{{mandate_code}}</b-breadcrumb-item>
+		</b-breadcrumb>
 		<b-card v-if="mandate.status != 'Rejected'" class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">PMID-20-000{{mandate.id}}</h1>
+				<h1 class="component-title">PMID-{{mandate_code}}</h1>
 			</template>
 			<b-card-body>
-				<step-progress :steps="front_steps" :current-step="current_step" icon-class="fa fa-check"></step-progress>
+				<step-progress
+					:steps="front_steps"
+					:current-step="current_step"
+					icon-class="fa fa-check"
+					active-color="green"
+					passive-color="gray"
+				></step-progress>
 				<br />
 			</b-card-body>
 		</b-card>
@@ -69,6 +80,7 @@ export default {
                 var mandate_id = this.$route.params.id;
                 axios.get("/api/mandate/" + mandate_id).then((response) => {
                     this.mandate = response.data.data;
+                    this.mandate_code = response.data.meta.code;
                     this.change_logs = response.data.actions;
                     this.getCurrentStep();
                     this.fireToast();

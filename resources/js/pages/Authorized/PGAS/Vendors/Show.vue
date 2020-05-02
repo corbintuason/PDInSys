@@ -3,11 +3,11 @@
 		<b-breadcrumb class="mt-4">
 			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
 			<b-breadcrumb-item href="/vendors">List of Vendors</b-breadcrumb-item>
-			<b-breadcrumb-item active>VID-20-000{{vendor.id}}</b-breadcrumb-item>
+			<b-breadcrumb-item active>VID-{{vendor_code}}</b-breadcrumb-item>
 		</b-breadcrumb>
 		<b-card v-if="vendor!=null" class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">VID-20-000{{vendor.id}}</h1>
+				<h1 class="component-title">VID-{{vendor_code}}</h1>
 			</template>
 			<b-card-body>
 				<step-progress
@@ -30,6 +30,7 @@
 			v-if="vendor != null"
 			:user="user"
 			:vendor="vendor"
+			:vendor_code="vendor_code"
 			:mode="mode"
 			:user_role="user_role"
 			@update-mode="updateMode"
@@ -51,6 +52,7 @@ export default {
             change_logs: null,
             user_role: null,
             vendor: null,
+            vendor_code: null,
 
             front_steps: this.$store.state.globals.statuses.vendor.front_steps,
             db_steps: this.$store.state.globals.statuses.vendor.db_steps,
@@ -77,6 +79,7 @@ export default {
                 var vendor_id = this.$route.params.id;
                 axios.get("/api/vendor/" + vendor_id).then((response) => {
                     this.vendor = response.data.data;
+                    this.vendor_code = response.data.meta.code;
                     this.change_logs = response.data.actions;
                     this.getCurrentStep();
                     this.fireToast();

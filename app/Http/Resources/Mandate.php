@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\MandateContributor as MandateContributorResource;
 
 class Mandate extends JsonResource
 {
@@ -21,9 +22,13 @@ class Mandate extends JsonResource
     {
         return [
             'relationships' => [
-                'user' => $this->user
+                'user' => $this->user,
+                'contributors' => MandateContributorResource::collection($this->contributors),
             ],
-            'actions' => $this->activities
+            'actions' => $this->activities,
+            'meta' => [
+                'code' => $this->code,
+            ],
         ];
     }
 }

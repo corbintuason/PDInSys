@@ -21,11 +21,13 @@ class VendorCreated extends Notification
 
     public $vendor;
     public $project_name;
+    public $item_name;
 
     public function __construct(Vendor $vendor)
     {
         $this->vendor = $vendor;
-        $this->project_name = "Vendor Created";
+        $this->project_name = "VID";
+        $this->item_name = "Vendor Accreditation";
     }
 
     /**
@@ -69,12 +71,12 @@ class VendorCreated extends Notification
                 "id" => $this->vendor->id
             ],
             'notification_table' => [
-                'project_name' => $this->project_name,
-                'item' => $this->vendor->registered_name,
+                'project_name' => "VID" . '-' . $this->vendor->code,
+                'item' => $this->item_name,
                 'status' => 'For Approval'
             ],
             'notification_bell' => [
-                'header' => $this->project_name,
+                'header' => $this->project_name . '-' . $this->vendor->code . " " . "Created",
                 'date' => $this->vendor->created_at
             ]
         ];
