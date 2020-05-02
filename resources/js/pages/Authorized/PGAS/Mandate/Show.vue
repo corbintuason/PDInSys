@@ -2,7 +2,7 @@
 	<div>
 		<b-card v-if="mandate.status != 'Rejected'" class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">Progress Bar {{ mode }}</h1>
+				<h1 class="component-title">PMID-20-000{{mandate.id}}</h1>
 			</template>
 			<b-card-body>
 				<step-progress :steps="front_steps" :current-step="current_step" icon-class="fa fa-check"></step-progress>

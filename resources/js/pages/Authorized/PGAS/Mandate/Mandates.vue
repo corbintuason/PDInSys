@@ -67,6 +67,7 @@ export default {
   props: {
     user: Object,
     mandate: Object,
+    mandate_code: String,
     mode: String,
     user_role: String
   },
