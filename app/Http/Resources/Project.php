@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Contributor as ContributorResource;
 use App\Http\Resources\Remark as RemarkResource;
+use App\Http\Resources\CostEstimate as CostEstimateResource;
 class Project extends JsonResource
 {
     /**
@@ -20,10 +21,10 @@ class Project extends JsonResource
         $response["isCompletelyAssigned"] = $this->isAssignmentComplete;
         $response["relationships"] = [
             'actions' => $this->activities,
-            'project_core_employees' => $this->project_core_employees,
             'core_team' => $this->core_team,
             'contributors' => ContributorResource::collection($this->contributors),
-            'remarks' => RemarkResource::collection($this->remarks)
+            'remarks' => RemarkResource::collection($this->remarks),
+            'cost_estimate' => new CostEstimateResource($this->cost_estimate)
         ];
         
         return $response;

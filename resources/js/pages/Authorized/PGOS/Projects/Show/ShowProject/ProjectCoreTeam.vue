@@ -76,16 +76,10 @@ export default {
     },
     methods: {
         getUser(name, division) {
-            var user = this.project.relationships.project_core_employees.find(
+            var user = this.project.relationships.core_team.find(
                 (employee) => employee.team == name && employee.type == division
             );
-            if (user != null) {
-                console.log("asldflkasjdfljaslfdjlaskfj");
-                console.log(user);
-                user = this.project.relationships.core_team.find(
-                    (core_employee) => core_employee.user.id == user.user_id
-                );
-            }
+
             return user;
         },
         loadCoreTeam() {

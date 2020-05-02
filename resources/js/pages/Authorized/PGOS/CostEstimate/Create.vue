@@ -1,16 +1,8 @@
 <template>
     <div>
         <!-- Item Progress -->
-        <!-- <item-progress
-            class="mt-3"
-            :front_steps="front_steps"
-            :db_steps="db_steps"
-            :item="a"
-            :contributors="contributors"
-            :mode="mode"
-            :remarks="remarks"
-        ></item-progress> -->
-
+        <item-progress class="mt-3" :steps="steps" :mode="mode"></item-progress>
+        
         <!-- Cost Estiamtes -->
         <cost-estimate></cost-estimate>
     </div>
@@ -23,7 +15,7 @@ export default {
         return {
             mode: "Create",
             cost_estimate: null,
-            steps: null
+            steps: this.$store.state.costEstimate.steps
         };
     },
     components:{

@@ -45,16 +45,12 @@ protected static $logName = 'Project';
 
     public function getIsAssignmentCompleteAttribute(){
         $divisions_needed = array_merge(array_column($this->departments_needed, 'main'),array_column($this->departments_needed, 'deputy')); 
-        $divisions_assigned = array_column($this->project_core_employees->toArray(), "type");
+        $divisions_assigned = array_column($this->core_team->toArray(), "type");
         
         sort($divisions_needed);
         sort($divisions_assigned);
         
         return $divisions_needed == $divisions_assigned;
-    }
-
-    public function project_core_employees(){
-        return $this->hasMany("App\ProjectCoreEmployee");
     }
 
     public function core_team(){
@@ -73,7 +69,7 @@ protected static $logName = 'Project';
         return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
     }
 
-    public function cost_estimates(){
-        return $this->hasMany("App\CostEstimate");
+    public function cost_estimate(){
+        return $this->hasOne("App\CostEstimate")->with('App\CostEstimateDetail');
     }
 }
