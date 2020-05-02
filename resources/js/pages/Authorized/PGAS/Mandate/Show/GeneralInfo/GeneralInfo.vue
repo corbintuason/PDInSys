@@ -8,10 +8,7 @@
 					<b-input readonly v-model="mandate.date" id="date" locale="en"></b-input>
 				</div>
 				<div class="col-md-6">
-					<label for="position">
-						Position Applying For:
-						<strong class="red">*</strong>
-					</label>
+					<label for="position">Position Applying For:</label>
 					<b-input :disabled="mode=='Show'" id="position" v-model="mandate.position"></b-input>
 				</div>
 			</div>
@@ -25,10 +22,7 @@
 				<!-- Full Name -->
 				<div class="col-md-6">
 					<div class="mandate-group">
-						<label>
-							Full Name:
-							<strong class="red">*</strong>
-						</label>
+						<label>Full Name:</label>
 						<b-input-group>
 							<b-input
 								:disabled="mode=='Show'"
@@ -57,11 +51,8 @@
 					<b-input :disabled="mode=='Show'" v-model="mandate.region" id="region"></b-input>
 				</div>
 				<!-- Permanent Address -->
-				<div class="col-md-12 mb-3">
-					<label for="permanent-address">
-						Permanent Address:
-						<strong class="red">*</strong>
-					</label>
+				<div class="col-md-12 mb-3 mt-3">
+					<label for="permanent-address">Permanent Address:</label>
 					<b-input
 						:disabled="mode=='Show'"
 						v-model="mandate.permanent_address"
@@ -71,10 +62,7 @@
 				</div>
 				<!-- Present Address -->
 				<div class="col-md-12 mb-3">
-					<label for="present-address">
-						Present Address:
-						<strong class="red">*</strong>
-					</label>
+					<label for="present-address">Present Address:</label>
 					<b-input
 						:disabled="mode=='Show'"
 						v-model="mandate.present_address"
@@ -106,23 +94,17 @@
 					<b-input :disabled="mode=='Show'" id="age" v-model="mandate.age"></b-input>
 				</div>
 				<!-- Mobile Number -->
-				<div class="col-md-4">
-					<label for="mobile-number">
-						Mobile Number:
-						<strong class="red">*</strong>
-					</label>
+				<div class="col-md-4 mt-3">
+					<label for="mobile-number">Mobile Number:</label>
 					<b-input :disabled="mode=='Show'" v-model="mandate.mobile_number" id="mobile-number"></b-input>
 				</div>
 				<!-- Telephone Number -->
-				<div class="col-md-4">
-					<label for="telephone-number">
-						Telephone Number:
-						<strong class="red">*</strong>
-					</label>
+				<div class="col-md-4 mt-3">
+					<label for="telephone-number">Telephone Number:</label>
 					<b-input :disabled="mode=='Show'" v-model="mandate.telephone_number" id="telephone-number"></b-input>
 				</div>
 				<!-- Religion -->
-				<div class="col-md-4">
+				<div class="col-md-4 mt-3">
 					<label for="religion">Religion:</label>
 					<b-input :disabled="mode=='Show'" v-model="mandate.religion" id="religion" type="text"></b-input>
 				</div>

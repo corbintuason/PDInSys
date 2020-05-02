@@ -17,14 +17,6 @@
 			<template v-slot:header>
 				<h1 class="component-title">Project Based Info Sheet</h1>
 			</template>
-			<template v-slot:footer>
-				<b-button
-					:disabled="isDisabled"
-					variant="success"
-					class="float-right"
-					@click="createMandate"
-				>Create Mandate</b-button>
-			</template>
 
 			<b-card-text>
 				<b-tabs v-model="tabIndex" content-class="mt-3" fill>
@@ -42,15 +34,25 @@
 					</b-tab>
 				</b-tabs>
 			</b-card-text>
+			<template v-slot:footer>
+				<div class="row">
+					<div class="col-md-6">
+						<b-button-group class="mt-1">
+							<b-button @click="tabIndex--">Previous Tab</b-button>
+							<b-button @click="tabIndex++">Next Tab</b-button>
+						</b-button-group>
+					</div>
+					<div class="col-md-6 text-right">
+						<b-button
+							:disabled="isDisabled"
+							variant="success"
+							class="float-right"
+							@click="createMandate"
+						>Create Mandate</b-button>
+					</div>
+				</div>
+			</template>
 		</b-card>
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<b-button-group class="mt-1">
-					<b-button variant="primary" @click="tabIndex--">Previous</b-button>
-					<b-button variant="primary" @click="tabIndex++">Next</b-button>
-				</b-button-group>
-			</div>
-		</div>
 	</div>
 </template>
 
