@@ -14,13 +14,12 @@
 				<!-- Father's -->
 				<div class="col-md-6 mb-3">
 					<label for="father">Father's Name:</label>
-					<b-input v-model="form.father_details.father_name" id="father" type="text"></b-input>
+					<b-input v-model="form.father_details.father_name" type="text"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="father">Occupation:</label>
 					<b-input
 						v-model="form.father_details.father_occupation"
-						id="father"
 						type="text"
 						placeholder="Father's Occupation"
 					></b-input>
@@ -28,13 +27,12 @@
 				<!-- Mother's -->
 				<div class="col-md-6 mb-3">
 					<label for="mother">Mother's Name:</label>
-					<b-input v-model="form.mother_details.mother_name" id="mother" type="text"></b-input>
+					<b-input v-model="form.mother_details.mother_name" type="text"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="mother">Occupation:</label>
 					<b-input
 						v-model="form.mother_details.mother_occupation"
-						id="mother"
 						type="text"
 						placeholder="Mother's Occupation"
 					></b-input>
@@ -42,13 +40,12 @@
 				<!-- Spouse's -->
 				<div class="col-md-6 mb-3">
 					<label for="spouse">Spouse's Name:</label>
-					<b-input v-model="form.spouse_details.spouse_name" id="spouse" type="text"></b-input>
+					<b-input v-model="form.spouse_details.spouse_name" type="text"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="spouse">Occupation:</label>
 					<b-input
 						v-model="form.spouse_details.spouse_occupation"
-						id="spouse"
 						type="text"
 						placeholder="Spouse's Occupation"
 					></b-input>

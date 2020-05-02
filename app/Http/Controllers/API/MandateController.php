@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Mandate as MandateResource;
 use App\Http\Resources\User as UserResource;
 use App\Mandate;
+use App\MandateContributor;
 use App\User;
 use Notification;
 use App\Notifications\MandateCreated;
@@ -79,6 +80,12 @@ class MandateController extends Controller
                 'creator_id' => $user_id,
             ]);
         });
+
+        $mandate_contributor = MandateContributor::create([
+            'mandate_id' => $mandate->id,
+            'contributor_id' => $auth_user->id,
+            'responsibility' => "Creator"
+        ]);
 
         // Notify all User that can Approve this Mandate
 

@@ -105,7 +105,6 @@
 					<b-input
 						:disabled="mode=='Show'"
 						v-model="mandate.work_details[value_index].job_description"
-						id="job-description"
 						type="text"
 					></b-input>
 				</div>
@@ -114,7 +113,6 @@
 					<b-input
 						:disabled="mode=='Show'"
 						v-model="mandate.work_details[value_index].start_date"
-						id="job-description"
 						type="text"
 					></b-input>
 				</div>
@@ -123,7 +121,6 @@
 					<b-input
 						:disabled="mode=='Show'"
 						v-model="mandate.work_details[value_index].end_date"
-						id="job-description"
 						type="text"
 					></b-input>
 				</div>

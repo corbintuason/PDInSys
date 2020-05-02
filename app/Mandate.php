@@ -74,10 +74,24 @@ class Mandate extends Model
         'change_logs' => 'array'
     ];
 
+    protected static $logFillable = true;
+    protected static $logName = 'Mandate';
+
     public function user()
     {
         return $this->belongsTo("App\User", "creator_id");
     }
+
+    public function mandate_contributors()
+    {
+        return $this->hasManyThrough("App\User", 'App\MandateContributor', 'mandate_id', 'id', 'id', 'contributor_id');
+    }
+
+    public function contributors()
+    {
+        return $this->hasMany("App\MandateContributor")->with('user');
+    }
+
     // Mandate Code
     public function getCodeAttribute()
     {

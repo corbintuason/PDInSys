@@ -82,19 +82,15 @@
 				</div>
 				<!-- Job Description -->
 				<div class="col-md-4 mb-3">
-					<b-input
-						v-model="form.work_details[value_index].job_description"
-						id="job-description"
-						type="text"
-					></b-input>
+					<b-input v-model="form.work_details[value_index].job_description" type="text"></b-input>
 				</div>
 				<!-- Start Date -->
 				<div class="col-md-2 mb-3">
-					<b-input v-model="form.work_details[value_index].start_date" id="job-description" type="text"></b-input>
+					<b-input v-model="form.work_details[value_index].start_date" type="text"></b-input>
 				</div>
 				<!-- End Date -->
 				<div class="col-md-2 mb-3">
-					<b-input v-model="form.work_details[value_index].end_date" id="job-description" type="text"></b-input>
+					<b-input v-model="form.work_details[value_index].end_date" type="text"></b-input>
 				</div>
 
 				<div class="col-md-1">
