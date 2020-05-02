@@ -1,18 +1,5 @@
 <template>
 	<div>
-		<b-breadcrumb class="mt-4">
-			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
-			<b-breadcrumb-item href="/vendors">List of Vendors</b-breadcrumb-item>
-			<b-breadcrumb-item active>Create Vendor</b-breadcrumb-item>
-		</b-breadcrumb>
-		<b-card class="mt-4" v-if="vendor!=null">
-			<template v-slot:header>
-				<h1 class="component-title">Progress Bar</h1>
-			</template>
-			<b-card-text>
-				<step-progress :steps="my_steps" icon-class="fa fa-check"></step-progress>
-			</b-card-text>
-		</b-card>
 		<b-card class="mt-3">
 			<template v-slot:header>
 				<h1 class="component-title">Vendor Accreditation</h1>
@@ -20,21 +7,17 @@
 			<b-card-text>
 				<b-tabs v-model="tabIndex" content-class="mt-3" fill>
 					<b-tab title="Vendor Details" active>
-						<!-- Vendor Details -->
 						<vendor-details :mode="mode" :vendor="vendor"></vendor-details>
 					</b-tab>
-					<b-tab title="Tax Details">
-						<!-- Tax Details -->
+					<!-- <b-tab title="Tax Details">
 						<tax-details :mode="mode" :vendor="vendor"></tax-details>
-					</b-tab>
+					</b-tab>-->
 					<b-tab title="Bank Details">
-						<!-- Bank Details -->
 						<bank-details :mode="mode" :vendor="vendor"></bank-details>
 					</b-tab>
-					<b-tab title="Accreditation Attachments">
-						<!-- Accreditation Attachments -->
+					<!-- <b-tab title="Accreditation Attachments">
 						<accreditation-details :mode="mode" :vendor="vendor"></accreditation-details>
-					</b-tab>
+					</b-tab>-->
 				</b-tabs>
 			</b-card-text>
 			<template v-slot:footer>
@@ -49,13 +32,16 @@
 </template>
 
 <script>
+import form from "../../../../mixins/form";
 import vendorDetails from "./Show/VendorDetails";
 import bankDetails from "./Show/BankDetails";
 import taxDetails from "./Show/TaxDetails";
 import accreditationDetails from "./Show/AccreditationDetails";
 export default {
   data() {
-    return {};
+    return {
+		 tabIndex: 0,
+	};
   },
   mixins: [form],
   components: {

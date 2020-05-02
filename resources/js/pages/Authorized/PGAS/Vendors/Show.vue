@@ -1,5 +1,126 @@
 <template>
 	<div>
+		<b-breadcrumb class="mt-4">
+			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+			<b-breadcrumb-item href="/vendors">List of Vendors</b-breadcrumb-item>
+			<b-breadcrumb-item active>PMID-20-000</b-breadcrumb-item>
+		</b-breadcrumb>
+		<b-card v-if="vendor!=null" class="mt-3">
+			<template v-slot:header>
+				<h1 class="component-title">PMID-20-000</h1>
+			</template>
+			<b-card-body>
+				<step-progress :steps="front_steps" :current-step="current_step" icon-class="fa fa-check"></step-progress>
+				<br />
+			</b-card-body>
+		</b-card>
+		<b-alert v-else show variant="danger" class="mt-3">
+			This vendor has been
+			<strong>Rejected</strong>
+		</b-alert>
+
+		<!-- Vendor -->
+		<vendor-module
+			v-if="vendor != null"
+			:user="user"
+			:vendor="vendor"
+			:mode="mode"
+			:user_role="user_role"
+			@update-mode="updateMode"
+		></vendor-module>
+
+		<!-- Change Logs -->
+		<change-logs :logs="change_logs"></change-logs>
+	</div>
+</template>
+
+<script>
+import vendorModule from "./VendorAccreditation";
+import changeLogs from "../../../../components/public/ChangeLogs";
+export default {
+    data() {
+        return {
+            mode: "Show",
+            user: this.$store.state.user,
+            change_logs: null,
+            user_role: null,
+            vendor: null,
+
+            front_steps: this.$store.state.globals.statuses.vendor.front_steps,
+            db_steps: this.$store.state.globals.statuses.vendor.db_steps,
+            current_step: null,
+        } 
+    },
+    components: {
+        "vendor-module": vendorModule,
+        "change-logs": changeLogs,
+    },
+    watch: {
+        mode() {
+            this.fireToast();
+        },
+    },
+    methods: {
+            getUserRole() {
+                //("start");
+                this.user_role = this.user.data.module_access[0]["modules"][0][
+                    "features"
+                ][1]["role"];
+            },
+            getVendor() {
+                var vendor_id = this.$route.params.id;
+                axios.get("/api/vendor/" + vendor_id).then((response) => {
+                    this.vendor = response.data.data;
+                    this.change_logs = response.data.actions;
+                    this.getCurrentStep();
+                    this.fireToast();
+                }).catch(e => {
+                    console.log("dito palang mali na");
+                });
+            },
+            getCurrentStep() {
+                console.log(this.vendor);
+                var status = this.vendor.status;
+                var status_index = this.db_steps.indexOf(status) + 1;
+                this.current_step = status_index;
+            },
+            updateMode(new_mode) {
+                this.mode = new_mode;
+            },
+             switchMode(mode) {
+                swal.fire({
+                    title: mode + " Mode",
+                    text: "Proceeding will grant you access to " + mode + " mode",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Proceed!",
+                    onDestroy: () => {
+                        this.fireToast();
+                    },
+                }).then((result) => {
+                    if (result.value) {
+                        this.mode = mode;
+                        swal.fire(
+                            mode + " Mode!",
+                            "You are now in" + mode + " Mode.",
+                            "success"
+                        );
+                    }
+                });
+            },
+    },
+    mounted() {
+        // this.getUserRole();
+        this.getVendor();
+    },
+}
+</script>
+
+<style>
+</style>
+
 		<!-- Import Item Progress Here:
 				Props needed:
 					- front_steps: Array from globals store vuex. Gawa ka muna ng array of statuses na nakikita sa progress bar (Create, Review, etc). See globals vuex for an example
@@ -27,16 +148,3 @@
 					- front_steps: As described earlier
 					- contributors: As described earlier
 		 -->
-		
-
-	</div>
-</template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-</style>

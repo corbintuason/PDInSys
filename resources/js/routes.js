@@ -27,6 +27,7 @@ import ShowMandate from "./pages/Authorized/PGAS/Mandate/Show.vue";
 // Vendor Accreditation Module
 import IndexVendor from "./pages/Authorized/PGAS/Vendors/Index.vue";
 import CreateVendor from "./pages/Authorized/PGAS/Vendors/Create.vue";
+import ShowVendor from "./pages/Authorized/PGAS/Vendors/Show.vue";
 
 //  Budget Allocation Module
 import IndexBudgetAllocation from "./pages/Authorized/PGAS/BudgetAllocation/Index.vue";
@@ -134,6 +135,11 @@ export default [
                 path: "/vendors/create",
                 component: CreateVendor,
                 name: "vendor_create",
+            },
+            {
+                path: "/vendors/:id",
+                component: ShowVendor,
+                name: "vendor_show",
             },
             // BUDGET ALLOCATION PATHS
             {
