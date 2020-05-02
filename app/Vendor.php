@@ -57,9 +57,29 @@ class Vendor extends Model
         'change_logs' => 'array'
     ];
 
+    protected static $logFillable = true;
+    protected static $logName = 'Mandate';
+
     public function user()
     {
         return $this->belongsTo("App\User", "creator_id");
+    }
+
+    public function vendor_contributors()
+    {
+        return $this->hasManyThrough("App\User", 'App\VendorContributor', 'vendor_id', 'id', 'id', 'contributor_id');
+    }
+
+    public function contributors()
+    {
+        return $this->hasMany("App\VendorContributor")->with('user');
+    }
+
+    // Vendor Code
+    public function getCodeAttribute()
+    {
+        $year = date("y");
+        return $year . "-" . sprintf('%04d', $this->attributes['id']);
     }
 
     public function remarks()

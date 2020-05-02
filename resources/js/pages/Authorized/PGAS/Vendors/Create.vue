@@ -73,6 +73,8 @@ export default {
 			user_role: null,
 			my_steps: ["Create", "Approve"],
 			tabIndex: 0,
+			front_steps: this.$store.state.globals.statuses.vendor.front_steps,
+			db_steps: this.$store.state.globals.statuses.vendor.db_steps,
 			form: {
 				vendor_name: "",
 				trade_name: "",
@@ -146,10 +148,35 @@ export default {
 	  this.user_role = this.user.data.module_access[0]["modules"][0]["features"][1]["role"];
 	},
 	   createVendor() {
-	  swal
+		   var contents = "";
+            console.log(this.mandate);
+
+            // // Load Contents first
+            this.front_steps.forEach((step) => {
+                if (step.name == "Create") {
+                    contents +=
+                        '<div class="list-group-item d-flex align-items-center"><span class="b-avatar mr-3 badge-secondary rounded-circle" style="width: 2.5em; height: 2.5em;"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" alt="avatar" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-person-fill b-icon bi"><g><path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></g></svg></span> <span class="mr-auto"><strong>' +
+                        step.responsible +
+                        ": " +
+                        this.user.meta.full_name +
+                        "</strong></span></div>";
+                } else {
+                    contents +=
+                        '<div class="list-group-item d-flex align-items-center"><span class="b-avatar mr-3 badge-secondary rounded-circle" style="width: 2.5em; height: 2.5em;"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" alt="avatar" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-person-fill b-icon bi"><g><path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></g></svg></span> <span class="mr-auto"><strong>' +
+                        step.responsible +
+                        ": " +
+                        "</strong></span></div>";
+                }
+            });
+            var swal_html =
+                '<span>Contribution List will be Updated</span><div class="list-group">' +
+                contents +
+                "</div> <span>Please check the details provided</span>";
+	 	 swal
 		.fire({
 		  title: "Create Vendor",
 		  icon: "question",
+		  html: swal_html,
 		  confirmButtonText: "Create Vendor",
 		  text: "Please check the details provided.",
 		  showLoaderOnConfirm: true,

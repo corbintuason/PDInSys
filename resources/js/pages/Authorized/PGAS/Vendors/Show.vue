@@ -10,7 +10,13 @@
 				<h1 class="component-title">VID-20-000{{vendor.id}}</h1>
 			</template>
 			<b-card-body>
-				<step-progress :steps="front_steps" :current-step="current_step" icon-class="fa fa-check"></step-progress>
+				<step-progress
+					:steps="front_steps"
+					:current-step="current_step"
+					icon-class="fa fa-check"
+					active-color="green"
+					passive-color="gray"
+				></step-progress>
 				<br />
 			</b-card-body>
 		</b-card>

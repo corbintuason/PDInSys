@@ -34,8 +34,21 @@
 					</div>
 					<div class="col-md-6 text-right">
 						<template v-if="mandate.status=='For Approval'">
-							<b-button variant="success" class="mr-1" @click="approveMandate">Approve Mandate</b-button>
-							<b-button variant="danger" class="ml-1" @click="rejectMandate">Reject Mandate</b-button>
+							<!-- Return Mandate -->
+							<b-button class="mr-1" variant="primary">Return Mandate</b-button>
+							<!-- Reject Mandate -->
+							<b-button
+								v-if="user.roles=='mandate-approver' "
+								variant="danger"
+								class="mr-1 ml-1"
+								@click="rejectMandate"
+							>Reject Mandate</b-button>
+							<b-button
+								v-if="user.roles=='mandate-approver' "
+								variant="success"
+								class="ml-1"
+								@click="approveMandate"
+							>Approve Mandate</b-button>
 						</template>
 					</div>
 				</div>

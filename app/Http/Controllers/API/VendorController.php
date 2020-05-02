@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\Vendor as VendorResource;
 use App\Http\Resources\User as UserResource;
 use App\Vendor;
+use App\VendorContributor;
 use App\User;
 use \stdclass;
 use Notification;
@@ -79,6 +80,12 @@ class VendorController extends Controller
                 'creator_id' => $user_id,
             ]);
         });
+
+        $vendor_contributor = VendorContributor::create([
+            'vendor_id' => $vendor->id,
+            'contributor_id' => $auth_user->id,
+            'responsibility' => "Creator"
+        ]);
 
         // Notify User that can Approve this Vendor
 
