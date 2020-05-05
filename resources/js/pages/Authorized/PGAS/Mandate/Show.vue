@@ -1,11 +1,31 @@
 <template>
+	<!-- TODO: 
+        -- Reject Notification for Vendor and Mandate
+        -- Return Notification for Vendor and Mandate
+        -- Return Method for Vendor and Mandate
+        -- EWT DETAILS Update
+	    -- Attachments files
+	-->
 	<div>
 		<b-breadcrumb class="mt-4">
 			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
 			<b-breadcrumb-item href="/mandates">List of mandates</b-breadcrumb-item>
 			<b-breadcrumb-item active>PMID-{{mandate_code}}</b-breadcrumb-item>
 		</b-breadcrumb>
-		<b-card v-if="mandate.status != 'Rejected'" class="mt-3">
+		<div v-if="mandate.status != 'Rejected'">
+			<item-progress
+				class="mt-3"
+				:front_steps="front_steps"
+				v-if="mandate!=null"
+				:db_steps="db_steps"
+				:item="mandate"
+				:contributors="contributors"
+				:mode="mode"
+				:api_link="api_link"
+				:remarks="remarks"
+			></item-progress>
+		</div>
+		<!-- <b-card v-if="mandate.status != 'Rejected'" class="mt-3">
 			<template v-slot:header>
 				<h1 class="component-title">PMID-{{mandate_code}}</h1>
 			</template>
@@ -18,9 +38,16 @@
 					passive-color="gray"
 				></step-progress>
 				<br />
+                <template v-slot:footer>
+				<div class="row  text-right">
+                    <div class="col-md-12">
+
+                    </div>
+                </div>
+			</template>
 			</b-card-body>
-		</b-card>
-		<b-alert show v-else variant="danger" class="mt-3">
+		</b-card>-->
+		<b-alert v-else show variant="danger" class="mt-3">
 			This mandate has been
 			<strong>Rejected</strong>
 		</b-alert>
@@ -38,7 +65,6 @@
 
 		<!-- Change Logs -->
 		<change-logs :logs="change_logs"></change-logs>
-		{{mandate}}
 	</div>
 </template>
 
@@ -49,11 +75,14 @@ export default {
     data() {
         return {
             mode: "Show",
+            api_link: "/api/mandate",
             user: this.$store.state.user,
             change_logs: null,
             user_role: null,
             mandate: null,
             mandate_code: null,
+            contributors: null,
+            remarks: null,
 
             front_steps: this.$store.state.globals.statuses.mandate.front_steps,
             db_steps: this.$store.state.globals.statuses.mandate.db_steps,
@@ -82,6 +111,8 @@ export default {
                     this.mandate = response.data.data;
                     this.mandate_code = response.data.meta.code;
                     this.change_logs = response.data.actions;
+                    this.contributors = response.data.relationships.contributors
+                    this.remarks = response.data.relationships.remarks
                     this.getCurrentStep();
                     this.fireToast();
                 }).catch(e => {

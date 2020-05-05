@@ -1,52 +1,38 @@
 <template>
-    <div>
-        <b-card>
-            <template v-slot:header>
-                <h1 class="component-title">Progress Bar</h1>
-            </template>
-            <b-card-body>
-                <div class="row">
-                    <div v-if="steps.length > 0" class="col-md-12">
-                        <step-progress
-                            :steps="steps"
-                            :current-step="current_step"
-                            icon-class="fa fa-check"
+	<div>
+		<b-card>
+			<template v-slot:header>
+				<h1 class="component-title">Progress Bar</h1>
+			</template>
+			<b-card-body>
+				<div class="row">
+					<div v-if="steps.length > 0" class="col-md-12">
+						<step-progress
+							:steps="steps"
+							:current-step="current_step"
+							icon-class="fa fa-check"
+							active-color="green"
+							passive-color="gray"
+						></step-progress>
+					</div>
+				</div>
+			</b-card-body>
+			<template v-slot:footer>
+				<b-button-group class="float-right" v-if="mode!='Create'">
+					<b-button @click="showRemarksList" variant="secondary">Remarks List</b-button>
+					<b-button variant="secondary" @click="showContributionList">Contribution List</b-button>
+				</b-button-group>
+			</template>
+		</b-card>
 
-                        ></step-progress>
-                    </div>
-                </div>
-            </b-card-body>
-            <template v-slot:footer>
-                <b-button-group class="float-right" v-if="mode!='Create'">
-                    <b-button
-                        @click="showRemarksList"
-                        variant="outline-secondary"
-                        >Remarks List</b-button
-                    >
-                    <b-button
-                        variant="outline-secondary"
-                        @click="showContributionList"
-                        >Contribution List</b-button
-                    >
-                </b-button-group>
-            </template>
-        </b-card>
-
-        <div v-if="mode != 'Create'">
-             <b-modal id="contribution-list" size="xl" hide-footer>
-        <template v-slot:modal-header>
-            Contribution List
-        </template>
-            <contribution-list
-                :front_steps="front_steps"
-                :contributors="contributors"
-            ></contribution-list>
-             </b-modal>
-                         <remarks-list :remarks="remarks"></remarks-list>
-
-        </div>
-
-    </div>
+		<div v-if="mode != 'Create'">
+			<b-modal id="contribution-list" size="xl" hide-footer>
+				<template v-slot:modal-header>Contribution List</template>
+				<contribution-list :front_steps="front_steps" :contributors="contributors"></contribution-list>
+			</b-modal>
+			<remarks-list :remarks="remarks"></remarks-list>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -104,5 +90,4 @@ export default {
 </script>
 
 <style>
-
 </style>

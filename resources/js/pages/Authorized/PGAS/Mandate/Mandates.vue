@@ -2,7 +2,7 @@
 	<div>
 		<b-card class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">Mandate {{ mandate_code }}</h1>
+				<h1 class="component-title">Mandate PMID-{{ mandate_code }}</h1>
 			</template>
 			<b-card-body v-if="mandate!=null">
 				<b-card-text>
@@ -35,7 +35,11 @@
 					<div class="col-md-6 text-right">
 						<template v-if="mandate.status=='For Approval'">
 							<!-- Return Mandate -->
-							<b-button class="mr-1" variant="primary">Return Mandate</b-button>
+							<b-button
+								v-if="user.roles=='mandate-approver' "
+								class="mr-1"
+								variant="primary"
+							>Return Mandate</b-button>
 							<!-- Reject Mandate -->
 							<b-button
 								v-if="user.roles=='mandate-approver' "

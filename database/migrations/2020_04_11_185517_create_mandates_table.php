@@ -23,7 +23,7 @@ class CreateMandatesTable extends Migration
             $table->string('present_address');
             $table->string('gender');
             $table->string('civil_status');
-            $table->date('birthdate');
+            $table->date('birthdate')->nullable();
             $table->string('age');
             $table->string('mobile_number');
             $table->string('telephone_number');

@@ -5,21 +5,19 @@
 			<b-breadcrumb-item href="/vendors">List of Vendors</b-breadcrumb-item>
 			<b-breadcrumb-item active>VID-{{vendor_code}}</b-breadcrumb-item>
 		</b-breadcrumb>
-		<b-card v-if="vendor!=null" class="mt-3">
-			<template v-slot:header>
-				<h1 class="component-title">VID-{{vendor_code}}</h1>
-			</template>
-			<b-card-body>
-				<step-progress
-					:steps="front_steps"
-					:current-step="current_step"
-					icon-class="fa fa-check"
-					active-color="green"
-					passive-color="gray"
-				></step-progress>
-				<br />
-			</b-card-body>
-		</b-card>
+		<div v-if="vendor.status != 'Rejected'">
+			<item-progress
+				class="mt-3"
+				:front_steps="front_steps"
+				v-if="vendor!=null"
+				:db_steps="db_steps"
+				:item="vendor"
+				:contributors="contributors"
+				:mode="mode"
+				:api_link="api_link"
+				:remarks="remarks"
+			></item-progress>
+		</div>
 		<b-alert v-else show variant="danger" class="mt-3">
 			This vendor has been
 			<strong>Rejected</strong>
@@ -48,11 +46,14 @@ export default {
     data() {
         return {
             mode: "Show",
+            api_link: "/api/mandate",
             user: this.$store.state.user,
             change_logs: null,
             user_role: null,
             vendor: null,
             vendor_code: null,
+            contributors: null,
+            remarks: null,
 
             front_steps: this.$store.state.globals.statuses.vendor.front_steps,
             db_steps: this.$store.state.globals.statuses.vendor.db_steps,
@@ -81,6 +82,8 @@ export default {
                     this.vendor = response.data.data;
                     this.vendor_code = response.data.meta.code;
                     this.change_logs = response.data.actions;
+                    this.contributors = response.data.relationships.contributors
+                    this.remarks = response.data.relationships.remarks
                     this.getCurrentStep();
                     this.fireToast();
                 }).catch(e => {

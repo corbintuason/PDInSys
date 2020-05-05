@@ -2,7 +2,7 @@
 	<div>
 		<b-card class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">Vendor Accreditation</h1>
+				<h1 class="component-title">Vendor VID-{{vendor_code}}</h1>
 			</template>
 			<b-card-text>
 				<b-tabs v-model="tabIndex" content-class="mt-3" fill>
@@ -31,6 +31,7 @@
 					</div>
 					<div class="col-md-6 text-right">
 						<template v-if="vendor.status=='For Approval'">
+							<b-button v-if="user.roles=='vendor-approver' " class="mr-1" variant="primary">Return Vendor</b-button>
 							<b-button
 								v-if="user.roles=='vendor-approver'"
 								variant="danger"
@@ -73,7 +74,7 @@ export default {
   props: {
     user: Object,
 	vendor: Object,
-	mandate_code: String,
+	vendor_code: String,
     mode: String,
     user_role: String
   },
