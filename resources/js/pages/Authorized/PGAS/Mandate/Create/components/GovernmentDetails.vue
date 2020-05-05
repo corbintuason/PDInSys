@@ -16,32 +16,32 @@
 						SSS No:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.sss_number" id="sss"></b-input>
+					<b-input v-model="mandate.sss_number" id="sss"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="tin">
 						TIN No:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.tin_number" id="tin"></b-input>
+					<b-input v-model="mandate.tin_number" id="tin"></b-input>
 				</div>
 				<div class="col-md-6">
 					<label for="pagibig">
 						PAGIBIG No:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.pagibig_number" id="pagibig"></b-input>
+					<b-input v-model="mandate.pagibig_number" id="pagibig"></b-input>
 				</div>
 				<div class="col-md-6">
 					<label for="philhealth">
 						PHILHEALTH No:
 						<strong class="red">*</strong>
 					</label>
-					<b-input v-model="form.philhealth_number" id="philhealth"></b-input>
+					<b-input v-model="mandate.philhealth_number" id="philhealth"></b-input>
 				</div>
 				<div class="col-md-12 mt-3">
 					<label for="passport">PASSPORT No:</label>
-					<b-input v-model="form.passport_number" id="passport"></b-input>
+					<b-input v-model="mandate.passport_number" id="passport"></b-input>
 				</div>
 			</div>
 		</div>
@@ -52,7 +52,7 @@
 import vueStep from "vue-step";
 export default {
 	props: {
-		form: Object
+		mandate: Object
 	},
 	data() {
 		return {

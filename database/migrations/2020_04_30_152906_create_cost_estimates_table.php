@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectContributorsTable extends Migration
+class CreateCostEstimatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateProjectContributorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_contributors', function (Blueprint $table) {
+        Schema::create('cost_estimates', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('project_id');
-            $table->integer('contributor_id');
-            $table->string('responsibility');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateProjectContributorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_contributors');
+        Schema::dropIfExists('cost_estimates');
     }
 }

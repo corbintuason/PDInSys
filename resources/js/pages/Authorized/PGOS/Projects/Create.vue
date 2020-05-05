@@ -2,10 +2,10 @@
   <div>
     <!-- Progress Bar -->
     
-    <item-progress class="mt-3" :front_steps="front_steps" :db_steps="db_steps" :mode="mode"></item-progress>
+    <item-progress class="mt-3" :steps="steps" :mode="mode"></item-progress>
     <!-- Main Project Form -->
 
-    <create-project :front_steps="front_steps"></create-project>
+    <create-project :steps="steps" :endpoints="endpoints"></create-project>
 
   </div>
 </template>
@@ -16,8 +16,11 @@ export default {
   data() {
     return {
       mode: "Create",
-      front_steps: this.$store.state.globals.statuses.project.front_steps,
-      db_steps: this.$store.state.globals.statuses.project.db_steps,
+      steps: this.$store.state.project.steps,
+      endpoints:{
+        api: "/api/project",
+        show_route: "project_show"
+      },
     };
   },
 

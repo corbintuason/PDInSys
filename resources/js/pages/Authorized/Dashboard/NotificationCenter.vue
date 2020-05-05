@@ -13,7 +13,7 @@
                     <table class="table table-sm">
                         <thead>
                             <tr>
-                                <th>Project Name</th>
+                                <th>Code</th>
                                 <th>Item</th>
                                 <th>Status</th>
                             </tr>
@@ -32,7 +32,7 @@
                     }">
                      {{
                                         notification.data.notification_table
-                                            .project_name
+                                            .code
                                     }}
                     </router-link>
                                    

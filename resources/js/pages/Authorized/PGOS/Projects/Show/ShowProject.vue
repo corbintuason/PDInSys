@@ -19,8 +19,12 @@
                         id="core-team"
                         v-if="!allowProjectCoreTeam"
                         :project="project"
-                        :core_team="core_team"
                     ></project-core-team>
+                </b-tab>
+                <b-tab title="Quick Access">
+                    <quick-access :project="project">
+
+                    </quick-access>
                 </b-tab>
 
             </b-tabs>
@@ -28,19 +32,20 @@
         <template v-slot:footer>
             <show-project-buttons
                 :mode="mode"
-                :project="project"
+                :item="project"
                 :item_model="item_model"
-                :front_steps="front_steps"
-                :contributors="contributors"
+                :steps="steps"
+                :endpoints="endpoints"
             ></show-project-buttons>
         </template>
     </b-card>
 </template>
 
 <script>
+import quickAccess from "./ShowProject/QuickAccess"
 import projectDetails from "./ShowProject/ProjectDetails";
 import projectCoreTeam from "./ShowProject/ProjectCoreTeam";
-import showProjectButtons from "./ShowProject/ShowProjectButtons";
+import showProjectButtons from "../../../../../components/authorized/public/ShowProjectButtons";
 export default {
     data() {
         return {
@@ -50,24 +55,24 @@ export default {
         };
     },
     props: {
-        front_steps: Array,
+        steps: Array,
         project: Object,
         mode: String,
-        core_team: Object,
         project_code: String,
-        contributors: Array,
+        endpoints: Object
     },
     components: {
         "show-project-buttons": showProjectButtons,
         "project-details": projectDetails,
         "project-core-team": projectCoreTeam,
+        "quick-access": quickAccess
     },
     computed: {
         core_team_title(){
             return this.allowProjectCoreTeam ? "Project Core Team (Available once project has been Approved)": "Project Core Team" ;
         },
         allowProjectCoreTeam() {
-            return (this.project.status != "Approved" && this.project.status != "Assigned");
+            return (this.project.status != "For Assigning" && this.project.status != "Assigned");
         },
     },
     methods: {},

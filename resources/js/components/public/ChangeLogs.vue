@@ -4,19 +4,12 @@
 			<h1 class="component-title">Change Logs</h1>
 		</template>
 		<b-card-body>
-			<b-alert show variant="primary" v-for="(log, log_index) in logs" :key="log_index">
-				<div>
-					<h5>
-						<strong>{{log.log_name}}</strong>
-					</h5>
-				</div>
-				<div class="ml-3 mt-3 mb-3">
-					<strong>{{log.description}}</strong>
-				</div>
-				<div class="text-right">
-					<strong>{{log.created_at}}</strong>
-				</div>
-			</b-alert>
+			<b-list-group class="scrollable">
+				<b-list-group-item v-for="(log, log_index) in logs" :key="log_index">
+					<strong>{{log.created_at}} - {{log.log_name}}:</strong>
+					{{log.description}}
+				</b-list-group-item>
+			</b-list-group>
 		</b-card-body>
 	</b-card>
 </template>
@@ -33,3 +26,11 @@ export default{
     }
 }
 </script>
+<style>
+.scrollable {
+	max-height: 300px;
+	margin-bottom: 10px;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+</style>

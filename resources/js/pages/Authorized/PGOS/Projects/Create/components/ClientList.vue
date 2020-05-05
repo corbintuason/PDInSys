@@ -1,5 +1,6 @@
 <template>
-    <div class="col-md-4">
+<div class = "row">
+    <div class= "col-md-12">
         <strong>Client List</strong>
         <!-- If Account is Not Null -->
         <template v-if="selected_account !=null ">
@@ -11,6 +12,8 @@
             <b-alert show variant="danger">Please select an Account first</b-alert>
         </template>
     </div>
+</div>
+ 
 </template>
 
 <script>

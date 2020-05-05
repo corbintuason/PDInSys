@@ -2,7 +2,7 @@
     <li class="nav-item dropdown mr-4">
         <b-nav-item-dropdown
             class="font-weight-bold"
-            :text="user.meta.full_name"
+            :text="user.data.full_name"
             right
         >
             <b-dropdown-item>

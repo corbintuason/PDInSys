@@ -27,7 +27,7 @@ class ProjectCoreEmployeeAssigned extends Notification
     {
         $this->user = $user;
         $this->project = $project;
-        $this->project_name = "You have been assigned to a project";
+        $this->project_name = "Project Assigned";
     }
 
     /**
@@ -64,17 +64,19 @@ class ProjectCoreEmployeeAssigned extends Notification
     public function toArray($notifiable)
     {
         return [
+            'item' => $this->project,
+            'approver' => $notifiable,
             'link' => [
                 "name" => 'project_show',
                 "id" => $this->project->id
             ],
             'notification_table' => [
-                'project_name' => $this->project_name,
-                'item' => $this->project->name,
+                'code' => $this->project->code,
+                'item' => $this->project_name,
                 'status' => $this->project->status
             ],
             'notification_bell'=> [
-                'header' => $this->project_name,
+                'header' => 'Project ' . $this->project->code .": " . $this->project_name,
                 'date' => $this->project->created_at
             ]
         ];

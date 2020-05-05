@@ -15,12 +15,12 @@
 				<div class="col-md-6 mb-3">
 					<label for="tertiary">Tertiary:</label>
 					<i style="color: gray">(any type of education pursued beyond the high school level)</i>
-					<b-input v-model="form.tertiary_details.tertiary_name" id="tertiary" type="text"></b-input>
+					<b-input v-model="mandate.tertiary_details.tertiary_name" id="tertiary" type="text"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="tertiary-date">Year Graduated:</label>
 					<b-input
-						v-model="form.tertiary_details.tertiary_date"
+						v-model="mandate.tertiary_details.tertiary_date"
 						id="tertiary-date"
 						type="number"
 						placeholder="Tertiary"
@@ -29,12 +29,12 @@
 				<!-- Secondary -->
 				<div class="col-md-6 mb-3">
 					<label for="secondary">Secondary Level:</label>
-					<b-input v-model="form.secondary_details.secondary_name" id="secondary" type="text"></b-input>
+					<b-input v-model="mandate.secondary_details.secondary_name" id="secondary" type="text"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="secondary-date">Year Graduated:</label>
 					<b-input
-						v-model="form.secondary_details.secondary_date"
+						v-model="mandate.secondary_details.secondary_date"
 						id="secondary-date"
 						type="number"
 						placeholder="Secondary"
@@ -43,12 +43,12 @@
 				<!-- Primary -->
 				<div class="col-md-6 mb-3">
 					<label for="primary">Primary Level:</label>
-					<b-input v-model="form.primary_details.primary_name" id="primary" type="text"></b-input>
+					<b-input v-model="mandate.primary_details.primary_name" id="primary" type="text"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="primary-date">Year Graduated:</label>
 					<b-input
-						v-model="form.primary_details.primary_date"
+						v-model="mandate.primary_details.primary_date"
 						id="primary-date"
 						type="number"
 						placeholder="Primary"
@@ -75,28 +75,28 @@
 				</div>
 				<div class="col-md-1"></div>
 			</div>
-			<div class="row" v-for="(value, value_index) in form.work_details" :key="value_index">
+			<div class="row" v-for="(value, value_index) in mandate.work_details" :key="value_index">
 				<!-- Position -->
 				<div class="col-md-3 mb-3">
-					<b-input v-model="form.work_details[value_index].work_position" id="position" type="text"></b-input>
+					<b-input v-model="mandate.work_details[value_index].work_position" id="position" type="text"></b-input>
 				</div>
 				<!-- Job Description -->
 				<div class="col-md-4 mb-3">
-					<b-input v-model="form.work_details[value_index].job_description" type="text"></b-input>
+					<b-input v-model="mandate.work_details[value_index].job_description" type="text"></b-input>
 				</div>
 				<!-- Start Date -->
 				<div class="col-md-2 mb-3">
-					<b-input v-model="form.work_details[value_index].start_date" type="text"></b-input>
+					<b-input v-model="mandate.work_details[value_index].start_date" type="text"></b-input>
 				</div>
 				<!-- End Date -->
 				<div class="col-md-2 mb-3">
-					<b-input v-model="form.work_details[value_index].end_date" type="text"></b-input>
+					<b-input v-model="mandate.work_details[value_index].end_date" type="text"></b-input>
 				</div>
 
 				<div class="col-md-1">
 					<b-button
 						:disabled="value_index==0"
-						@click="removeRow(form.work_details, value_index)"
+						@click="removeRow(mandate.work_details, value_index)"
 						id="delete-button"
 						variant="outline-danger"
 					>
@@ -106,7 +106,7 @@
 			</div>
 
 			<div class="mt-2">
-				<b-button @click="addRow(form.work_details)" variant="success" block>
+				<b-button @click="addRow(mandate.work_details)" variant="success" block>
 					<i class="fas fa-plus"></i>
 					<strong>Add Work</strong>
 				</b-button>
@@ -119,7 +119,7 @@
 import vueStep from "vue-step";
 export default {
 	props: {
-		form: Object
+		mandate: Object
 	},
 	data() {
 		return {

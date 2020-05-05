@@ -31,7 +31,7 @@
       <div class="mb-2">
         <strong>
           Welcome Back,
-          {{ user.meta.full_name }}
+          {{ user.data.full_name }}
         </strong>
       </div>
       <div class="mt-1 ml-1 mb-2">

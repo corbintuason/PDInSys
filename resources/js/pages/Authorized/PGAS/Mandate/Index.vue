@@ -35,10 +35,10 @@ export default {
         this.mandates = response.data.data;
         mandates.forEach(mandate => {
           this.items.push({
+            code: mandate.code,
             item_name: mandate.full_name.first_name + ' ' +mandate.full_name.last_name,
             contact_number: mandate.mobile_number,
             status: mandate.status,
-            action: mandate.actions,
             item_params: {
               link: "mandate_show",
               id: mandate.id
@@ -49,6 +49,13 @@ export default {
     },
     loadFields() {
       this.fields = [
+        {
+          key: "code",
+          label: "Mandate Code",
+          class: "text-center",
+          sortable: true,
+          sortDirection: "desc"
+        },
         {
           key: "item_details.name",
           label: "Full Name",

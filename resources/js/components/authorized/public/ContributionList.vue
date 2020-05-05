@@ -43,7 +43,7 @@ export default {
         };
     },
     props: {
-        front_steps: Array,
+        steps: Array,
         contributors: Array,
     },
     methods: {
@@ -55,7 +55,7 @@ export default {
             return index === this.active_item;
         },
         loadResponsibilities() {
-            this.front_steps.forEach((step) => {
+            this.steps.forEach((step) => {
                 var same_responsibility = this.contributors.find(
                     (user) => user.responsibility == step.responsible
                 );

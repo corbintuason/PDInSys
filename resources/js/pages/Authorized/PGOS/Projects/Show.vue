@@ -2,12 +2,11 @@
   <div>
     <!-- Progress Bar -->
     
-    <item-progress class="mt-3" :front_steps="front_steps" v-if="project!=null" :db_steps="db_steps" :item="project" :contributors="contributors" :mode="mode" :api_link="api_link" :remarks="remarks"></item-progress>
+    <item-progress class="mt-3" v-if="project!=null" :steps="steps" :item="project" :mode="mode"></item-progress>
    
     <!-- Main Project Details -->
 
-    <show-project v-if="project!=null" :project="project" :project_code="project_code" :front_steps="front_steps" :core_team="core_team" :mode="mode" :contributors="contributors"></show-project>
-
+    <show-project v-if="project!=null" :project="project" :steps="steps" :mode="mode" :endpoints="endpoints" :key="show_project_key"></show-project>
     <!-- Quick Access  -->
   <!-- COST ESTIMATE: Activate when Main AM has been assigned 
     - Made through excel
@@ -49,22 +48,10 @@
 
   -->
   <!-- BUDGET OPENING: Activate when Cost Estimate's Status is Cleared -->
-   <b-card>
-      <template v-slot:header>Quick Access
 
-        
-      </template>
-      <template v-slot:footer>
-     
-     <b-button-group class="float-right">
-        <b-button v-for="(access, access_index) in quick_access_buttons" :key="access_index"> {{access}}</b-button>
-
-        </b-button-group>
-      </template>
-    </b-card>
 
     <!-- Change Logs  -->
-    <change-logs v-if="change_logs!=null" :logs="change_logs"></change-logs>
+    <change-logs v-if="project!=null" :logs="project.relationships.actions"></change-logs>
     
  
   </div>
@@ -77,18 +64,13 @@ export default {
   data() {
     return {
       mode: "Show",
-      api_link: "/api/project",
-      front_steps: this.$store.state.globals.statuses.project.front_steps,
-      db_steps: this.$store.state.globals.statuses.project.db_steps,
-
+      show_project_key: 0,
+      steps: this.$store.state.project.steps,
+        endpoints:{
+        api: "/api/project/",
+        show_route: "project_show"
+      },
       project: null,
-      change_logs: null,
-      core_team: null,
-      project_code: null,
-      contributors: null,
-      remarks: null,
-
-      quick_access_buttons:["Cost Estimate", "Budget Opening", "Budget Request", "Request For Payment", "Project Execution Plan", "Job Order", "Supplies Requesition", "Vehicle Requisition", "Asset Movement"]
     };
   },
 
@@ -96,21 +78,30 @@ export default {
     "show-project": showProject,
     "change-logs": changeLogs
   },
+  watch:{
+    mode(){
+      console.log("there have been changes");
+      this.show_project_key++;
+      console.log(this.show_project_key);
+    }
+  },
   methods:{
       loadProject(){
           var project_id = this.$route.params.id
-          axios.get("/api/project/" +project_id).then(response => {
+          axios.get("/api/project/" + project_id).then(response => {
               this.project = response.data.data;
-              this.change_logs = response.data.actions;
-              this.core_team = response.data.relationships;
-              this.project_code = response.data.meta.code;
-              this.contributors = response.data.relationships.contributors
-              this.remarks = response.data.relationships.remarks
           })
       }
   },
   mounted(){
       this.loadProject();
+
+      Fire.$on('switch-mode', mode => {
+        if(mode == 'Show'){
+          this.loadProject();
+         }
+        this.mode = mode;
+      });
   },
 };
 </script>

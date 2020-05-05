@@ -14,12 +14,12 @@
 				<!-- Father's -->
 				<div class="col-md-6 mb-3">
 					<label for="father">Father's Name:</label>
-					<b-input v-model="form.father_details.father_name" type="text"></b-input>
+					<b-input v-model="mandate.father_details.father_name" type="text"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="father">Occupation:</label>
 					<b-input
-						v-model="form.father_details.father_occupation"
+						v-model="mandate.father_details.father_occupation"
 						type="text"
 						placeholder="Father's Occupation"
 					></b-input>
@@ -27,12 +27,12 @@
 				<!-- Mother's -->
 				<div class="col-md-6 mb-3">
 					<label for="mother">Mother's Name:</label>
-					<b-input v-model="form.mother_details.mother_name" type="text"></b-input>
+					<b-input v-model="mandate.mother_details.mother_name" type="text"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="mother">Occupation:</label>
 					<b-input
-						v-model="form.mother_details.mother_occupation"
+						v-model="mandate.mother_details.mother_occupation"
 						type="text"
 						placeholder="Mother's Occupation"
 					></b-input>
@@ -40,12 +40,12 @@
 				<!-- Spouse's -->
 				<div class="col-md-6 mb-3">
 					<label for="spouse">Spouse's Name:</label>
-					<b-input v-model="form.spouse_details.spouse_name" type="text"></b-input>
+					<b-input v-model="mandate.spouse_details.spouse_name" type="text"></b-input>
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="spouse">Occupation:</label>
 					<b-input
-						v-model="form.spouse_details.spouse_occupation"
+						v-model="mandate.spouse_details.spouse_occupation"
 						type="text"
 						placeholder="Spouse's Occupation"
 					></b-input>
@@ -57,7 +57,7 @@
 				</h5>
 			</div>
 			<!-- contact person -->
-			<div class="row" v-for="(value, value_index) in form.emergency_details" :key="value_index">
+			<div class="row" v-for="(value, value_index) in mandate.emergency_details" :key="value_index">
 				<div class="col-md-6">
 					<label for="contact-person">Contact Person:</label>
 				</div>
@@ -67,14 +67,14 @@
 				<div class="col-md-1"></div>
 				<div class="col-md-6 mb-3">
 					<b-input
-						v-model="form.emergency_details[value_index].contact_person"
+						v-model="mandate.emergency_details[value_index].contact_person"
 						id="contact-person"
 						type="text"
 					></b-input>
 				</div>
 				<div class="col-md-5 mb-3">
 					<b-input
-						v-model="form.emergency_details[value_index].contact_number"
+						v-model="mandate.emergency_details[value_index].contact_number"
 						id="contact-number"
 						type="number"
 						placeholder="09xx-xxx-xxx"
@@ -83,7 +83,7 @@
 				<div class="col-md-1 mb-3">
 					<b-button
 						:disabled="value_index==0"
-						@click="removeRow(form.emergency_details, value_index)"
+						@click="removeRow(mandate.emergency_details, value_index)"
 						id="delete-button"
 						variant="outline-danger"
 					>
@@ -93,7 +93,7 @@
 			</div>
 
 			<div class="mt-2">
-				<b-button @click="addRow(form.emergency_details)" variant="success" block>
+				<b-button @click="addRow(mandate.emergency_details)" variant="success" block>
 					<i class="fas fa-plus"></i>
 					<strong>Add Contact Person</strong>
 				</b-button>
@@ -106,7 +106,7 @@
 import vueStep from "vue-step";
 export default {
 	props: {
-		form: Object
+		mandate: Object
 	},
 	data() {
 		return {

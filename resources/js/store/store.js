@@ -6,11 +6,16 @@ Vue.use(Vuex);
 import globals from "./globals";
 import tax from "./tax";
 import project from "./project";
+import mandate from "./mandate";
+import costEstimate from "./cost-estmate";
+
 export const store = new Vuex.Store({
     modules: {
         globals: globals,
         tax: tax,
-        project: project
+        project: project,
+        mandate: mandate,
+        costEstimate: costEstimate,
     },
     state: {
         // FOR MODULE LOG IN
@@ -22,18 +27,19 @@ export const store = new Vuex.Store({
         loggedIn(state) {
             return state.token != null;
         },
-        hasAbility(state){
-            return keyword => state.user.abilities.some(item =>{
-                return item.name === keyword
-              });
+        hasAbility(state) {
+            return (keyword) =>
+                state.user.abilities.some((item) => {
+                    return item.name === keyword;
+                });
         },
     },
     mutations: {
-        pushNotification(state, notification){
+        pushNotification(state, notification) {
             console.log("hello");
             state.all_notifications.push(notification.notification);
         },
-        storeNotifications(state, notifications){
+        storeNotifications(state, notifications) {
             state.all_notifications = notifications;
         },
         storeUser(state, user) {
@@ -59,7 +65,10 @@ export const store = new Vuex.Store({
                         console.log(response);
                         localStorage.setItem("user", JSON.stringify(user));
                         context.commit("storeUser", user);
-                        context.commit("storeNotifications", user.notifications);
+                        context.commit(
+                            "storeNotifications",
+                            user.notifications
+                        );
                         resolve(user);
                     })
                     .catch((e) => {
@@ -110,8 +119,8 @@ export const store = new Vuex.Store({
                 });
             }
         },
-        pushNotification(context, notification){
-            context.commit('pushNotification', notification);
-        }
+        pushNotification(context, notification) {
+            context.commit("pushNotification", notification);
+        },
     },
 });

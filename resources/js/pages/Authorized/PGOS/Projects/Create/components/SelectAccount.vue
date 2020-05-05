@@ -1,15 +1,13 @@
 <template>
-    <b-modal id="select-account" size="xxl" @hidden="resetModal">
+    <b-modal id="select-account" size="xl" @hidden="resetModal">
         <template v-slot:modal-title>Select Account and Client</template>
         <div class="modal-body">
-            <div class="row">
                 <!-- Account List -->
                 <account-list @account-selected="selectAccount"></account-list>
                 <!-- Client List -->
                 <client-list :selected_account="selected_account" @client-selected="selectClient"></client-list>
                 <!-- Department Brand List -->
                 <department-brand-list :selected_client="selected_client" @department-selected="selectDepartment" @brand-selected="selectBrand"></department-brand-list>
-            </div>
         </div>
         <template v-slot:modal-footer>
             <b-button @click="selectAccountClient" variant="outline-success">Select Account and Client </b-button>

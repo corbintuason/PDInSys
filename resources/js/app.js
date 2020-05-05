@@ -48,7 +48,11 @@ Vue.use(VueProgressBar, {
     height: "2px",
 });
 
-Vue.component("pulse-loader", require("vue-spinner/src/PulseLoader.vue"));
+// Event Bus
+window.Fire = new Vue();
+
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
+Vue.component('clip-loader', ClipLoader);
 
 Vue.component("pagination", require("laravel-vue-pagination"));
 
