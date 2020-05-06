@@ -11,9 +11,6 @@ class AccountsTableSeeder extends Seeder
      */
     public function run()
     {
-        Account::create([
-            'registered_name' => 'An available account',
-            
-        ]);
+
     }
 }

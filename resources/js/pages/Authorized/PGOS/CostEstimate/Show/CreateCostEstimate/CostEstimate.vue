@@ -3,212 +3,220 @@
         <template v-slot:header>
             <h1 class="component-title">{{ name }}</h1>
         </template>
-        <div class="row">
-            <div class="col-md-12">
-                <b-form-group
-                    label="Upload Cost Estimate File"
-                    label-class="font-weight-bold"
-                    class="col-md-6"
-                >
-                    <b-form-file
-                        v-model="new_cost_estimate.file_name"
-                        class="mt-3"
-                        plain
-                        accept=".xlsx"
-                    ></b-form-file>
-                </b-form-group>
-                <div
-                    class="cost-estimate-details mb-0"
-                    v-for="(detail, detail_index) in new_cost_estimate.details"
-                    :key="detail_index"
-                >
-                    <div class="row">
-                        <div class="col-md-12 text-right">
-                            <b-button
-                                variant="danger"
-                                v-if="detail_index != 0"
-                                :disabled="detail_index == 0"
-                                @click="removeRow(detail_index)"
-                            >
-                                <i class="fas fa-times"></i>
-                            </b-button>
+        <b-card-body v-if="new_cost_estimate != null">
+            <div class="row">
+                <div class="col-md-12">
+                    <b-form-group
+                        label="Upload Cost Estimate File"
+                        label-class="font-weight-bold"
+                        class="col-md-6"
+                    >
+                        <b-form-file
+                            v-model="new_cost_estimate.cost_estimate"
+                            placeholder="Choose a file or drop it here..."
+                            drop-placeholder="Drop file here..."
+                        ></b-form-file>
+                    </b-form-group>
+                    <div
+                        class="cost-estimate-details mb-0"
+                        v-for="(detail,
+                        detail_index) in new_cost_estimate.details"
+                        :key="detail_index"
+                    >
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <b-button
+                                    variant="danger"
+                                    v-if="detail_index != 0"
+                                    :disabled="detail_index == 0"
+                                    @click="removeRow(detail_index)"
+                                >
+                                    <i class="fas fa-times"></i>
+                                </b-button>
+                            </div>
                         </div>
-                    </div>
-                    <!-- CE Number Version, Peza / AR -->
-                    <div class="row ml-1 mt-1 mb-3">
-                        <b-form-group
-                            label="CE Number"
-                            label-class="font-weight-bold"
-                            class="col-md-4"
-                        >
-                            <b-form-input
-                                type="text"
-                                :value="generateCENumber(detail_index)"
-                                readonly
-                            ></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                            label="Version"
-                            label-class="font-weight-bold"
-                            class="col-md-2"
-                        >
-                            <b-form-input
-                                type="number"
-                                v-model="detail['version']"
-                            ></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                            label="Peza/AR Only"
-                            class="col-md-4"
-                            label-class="font-weight-bold"
-                        >
-                            <b-form-radio-group
-                                v-model="detail['peza_ar']"
-                                :options="peza_ar_options"
+                        <!-- CE Number Version, Peza / AR -->
+                        <div class="row ml-1 mt-1 mb-3">
+                            <b-form-group
+                                label="CE Number"
+                                label-class="font-weight-bold"
+                                class="col-md-4"
                             >
-                            </b-form-radio-group>
-                        </b-form-group>
-                    </div>
-                    <!-- Sub Total, ASF Rate, Total Project Cost -->
-                    <div class="row ml-1 mt-1 mb-3">
-                        <b-form-group
-                            label="Sub-Total"
-                            label-class="font-weight-bold"
-                            class="col-md-2"
-                        >
-                            <b-input-group>
-                                <template v-slot:prepend>
-                                    <b-input-group-text
-                                        ><strong class="text-success"
-                                            >&#8369;</strong
-                                        ></b-input-group-text
-                                    >
-                                </template>
+                                <b-form-input
+                                    type="text"
+                                    :value="generateCENumber(detail_index)"
+                                    readonly
+                                ></b-form-input>
+                            </b-form-group>
+                            <b-form-group
+                                label="Version"
+                                label-class="font-weight-bold"
+                                class="col-md-2"
+                            >
                                 <b-form-input
                                     type="number"
-                                    v-model="detail['sub_total']"
+                                    v-model="detail['version']"
                                 ></b-form-input>
-                            </b-input-group>
-                        </b-form-group>
-                        <b-form-group
-                            label="ASF Rate"
-                            label-class="font-weight-bold"
-                            class="col-md-2"
-                        >
-                            <b-input-group>
-                                <template v-slot:append>
-                                    <b-input-group-text
-                                        ><strong class="text-success"
-                                            >%</strong
-                                        ></b-input-group-text
-                                    >
-                                </template>
-                                <b-input
-                                    type="number"
-                                    v-model="detail['asf_rate']"
-                                ></b-input>
-                            </b-input-group>
-                        </b-form-group>
-                        <b-form-group
-                            label="Total Project Cost"
-                            label-class="font-weight-bold"
-                            class="col-md-2"
-                        >
-                            <b-input-group>
-                                <template v-slot:prepend>
-                                    <b-input-group-text
-                                        ><strong class="text-success"
-                                            >&#8369;</strong
-                                        ></b-input-group-text
-                                    >
-                                </template>
-                                <b-input
-                                    readonly
-                                    type="number"
-                                    :value="
-                                        getTotalProjectCost(
-                                            detail['sub_total'],
-                                            detail['asf_rate']
-                                        )
-                                    "
-                                ></b-input>
-                            </b-input-group>
-                        </b-form-group>
-                        <b-form-group
-                            label="VAT"
-                            label-class="font-weight-bold"
-                            class="col-md-1"
-                        >
-                            <b-input-group>
-                                <template v-slot:append>
-                                    <b-input-group-text
-                                        ><strong class="text-success"
-                                            >%</strong
-                                        ></b-input-group-text
-                                    >
-                                </template>
-                                <b-form-input
-                                    readonly
-                                    :value="getVAT(detail['peza_ar'])"
-                                ></b-form-input>
-                            </b-input-group>
-                        </b-form-group>
-                        <b-form-group
-                            label="Grand Total"
-                            label-class="font-weight-bold green"
-                            class="col-md-4"
-                        >
-                            <b-input-group>
-                                <template v-slot:prepend>
-                                    <b-input-group-text class="grand-total"
-                                        ><strong class="text-success"
-                                            >&#8369;</strong
-                                        ></b-input-group-text
-                                    >
-                                </template>
-                                <b-input
-                                    class="grand-total"
-                                    readonly
-                                    type="number"
-                                    :value="
-                                        getGrandTotal(
+                            </b-form-group>
+                            <b-form-group
+                                label="Peza/AR Only"
+                                class="col-md-4"
+                                label-class="font-weight-bold"
+                            >
+                                <b-form-radio-group
+                                    v-model="detail['peza_ar']"
+                                    :options="peza_ar_options"
+                                >
+                                </b-form-radio-group>
+                            </b-form-group>
+                        </div>
+                        <!-- Sub Total, ASF Rate, Total Project Cost -->
+                        <div class="row ml-1 mt-1 mb-3">
+                            <b-form-group
+                                label="Sub-Total"
+                                label-class="font-weight-bold"
+                                class="col-md-2"
+                            >
+                                <b-input-group>
+                                    <template v-slot:prepend>
+                                        <b-input-group-text
+                                            ><strong class="text-success"
+                                                >&#8369;</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <b-form-input
+                                        type="number"
+                                        v-model="detail['sub_total']"
+                                    ></b-form-input>
+                                </b-input-group>
+                            </b-form-group>
+                            <b-form-group
+                                label="ASF Rate"
+                                label-class="font-weight-bold"
+                                class="col-md-2"
+                            >
+                                <b-input-group>
+                                    <template v-slot:append>
+                                        <b-input-group-text
+                                            ><strong class="text-success"
+                                                >%</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <b-input
+                                        type="number"
+                                        v-model="detail['asf_rate']"
+                                    ></b-input>
+                                </b-input-group>
+                            </b-form-group>
+                            <b-form-group
+                                label="Total Project Cost"
+                                label-class="font-weight-bold"
+                                class="col-md-2"
+                            >
+                                <b-input-group>
+                                    <template v-slot:prepend>
+                                        <b-input-group-text
+                                            ><strong class="text-success"
+                                                >&#8369;</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <b-input
+                                        readonly
+                                        type="number"
+                                        :value="
                                             getTotalProjectCost(
                                                 detail['sub_total'],
                                                 detail['asf_rate']
-                                            ),
-                                            getVAT(detail['peza_ar'])
-                                        )
-                                    "
-                                ></b-input>
-                            </b-input-group>
-                        </b-form-group>
+                                            )
+                                        "
+                                    ></b-input>
+                                </b-input-group>
+                            </b-form-group>
+                            <b-form-group
+                                label="VAT"
+                                label-class="font-weight-bold"
+                                class="col-md-1"
+                            >
+                                <b-input-group>
+                                    <template v-slot:append>
+                                        <b-input-group-text
+                                            ><strong class="text-success"
+                                                >%</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <b-form-input
+                                        readonly
+                                        :value="getVAT(detail['peza_ar'])"
+                                    ></b-form-input>
+                                </b-input-group>
+                            </b-form-group>
+                            <b-form-group
+                                label="Grand Total"
+                                label-class="font-weight-bold green"
+                                class="col-md-4"
+                            >
+                                <b-input-group>
+                                    <template v-slot:prepend>
+                                        <b-input-group-text class="grand-total"
+                                            ><strong class="text-success"
+                                                >&#8369;</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <b-input
+                                        class="grand-total"
+                                        readonly
+                                        type="number"
+                                        :value="
+                                            getGrandTotal(
+                                                getTotalProjectCost(
+                                                    detail['sub_total'],
+                                                    detail['asf_rate']
+                                                ),
+                                                getVAT(detail['peza_ar'])
+                                            )
+                                        "
+                                    ></b-input>
+                                </b-input-group>
+                            </b-form-group>
+                        </div>
+                        <div class="row ml-1 mb-3"></div>
                     </div>
-                    <div class="row ml-1 mb-3"></div>
+                    <b-button
+                        @click="addRow"
+                        variant="outline-success"
+                        block
+                        class="mt-0"
+                        >Add Detail</b-button
+                    >
                 </div>
-                <b-button
-                    @click="addRow"
-                    variant="outline-success"
-                    block
-                    class="mt-0"
-                    >Add Detail</b-button
-                >
             </div>
-        </div>
-        {{new_cost_estimate}}
+        </b-card-body>
+
+        {{ new_cost_estimate }}
         <template v-slot:footer>
-            <b-button class="float-right" variant="outline-success"> Create Cost Estimate </b-button>
+            <b-button
+                class="float-right"
+                variant="outline-success"
+                @click="createCostEstimate"
+            >
+                Create Cost Estimate
+            </b-button>
         </template>
     </b-card>
 </template>
 
 <script>
+import form from "../../../../../../mixins/form";
 export default {
     data() {
         return {
-            new_cost_estimate: {
-                file_name: null,
-                details: [],
-            },
+            user: this.$store.state.user,
+            new_cost_estimate: null,
             peza_ar_options: [
                 {
                     value: null,
@@ -225,9 +233,11 @@ export default {
             ],
         };
     },
+    mixins: [form],
     props: {
         project: Object,
-        cost_estimate: Object,
+        steps: Array,
+        endpoints: Object,
     },
     computed: {
         name() {
@@ -266,6 +276,32 @@ export default {
         },
     },
     methods: {
+        createCostEstimate() {
+            var swal_html = this.loadSwalContents(this.steps, this.user);
+            console.log("pa tingen endpoints", this.endpoints)
+            var object = this.new_cost_estimate;
+            const formData = new FormData();
+            Object.keys(object).forEach((key) =>{
+                if(key == 'details'){
+                    console.log("pumasok siya sa details");
+                    formData.append(key, JSON.stringify(object[key]));
+                }else{
+                    formData.append(key, object[key])
+                }
+
+            }
+            );
+            const swal_object = {
+                title: "Create Cost Estimate",
+                html: swal_html,
+                text: "Please check the details provided.",
+                confirmButtonText: "Create Cost Estimate",
+
+                item: formData,
+                endpoints: this.endpoints,
+            };
+            this.fireCreateSwal(swal_object);
+        },
         addRow() {
             this.new_cost_estimate.details.push({
                 version: null,
@@ -283,9 +319,18 @@ export default {
         removeRow(index) {
             this.new_cost_estimate.details.splice(index, 1);
         },
+        loadNewCostEstimate() {
+            this.new_cost_estimate = {
+                cost_estimate: null,
+                cost_estimate_name: this.name,
+                status: "For Review",
+                details: [],
+            };
+            this.addRow();
+        },
     },
     mounted() {
-        this.addRow();
+        this.loadNewCostEstimate();
     },
 };
 </script>

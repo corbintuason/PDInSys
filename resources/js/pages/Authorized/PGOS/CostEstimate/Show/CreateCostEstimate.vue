@@ -11,6 +11,8 @@
         <cost-estimate
             :project="project"
             :cost_estimate="cost_estimate"
+            :steps="steps"
+            :endpoints="endpoints"
         ></cost-estimate>
     </div>
 </template>
@@ -28,6 +30,7 @@ export default {
         steps: Array,
         cost_estimate: Object,
         project: Object,
+        endpoints: Object,
     },
     components: {
         "cost-estimate": costEstimate,

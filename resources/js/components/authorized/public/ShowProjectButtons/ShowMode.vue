@@ -5,7 +5,7 @@
             v-if="canUpdate()"
             class="float-right"
             variant="outline-danger"
-            >Reject Project</b-button
+            >Reject {{item_model}}</b-button
         >
 
         <!-- Edit Project -->
@@ -15,7 +15,7 @@
             class="float-right"
             variant="outline-dark"
         >
-            Edit Project
+            Edit {{item_model}}
         </b-button>
        <b-button 
         @click="returnItem"
@@ -62,6 +62,13 @@ export default {
         "return-item": returnItem
     },
     computed: {
+        canReturn(){
+                var can_return = this.current_step.can_return;
+                can_return.forEach(ability => {
+                    if(this.$store.getters.hasAbility(ability)) return true;
+                }); return false;
+            
+        },
         action_name() {
             return this.current_step
                 ? this.current_step.name + " " + this.item_model

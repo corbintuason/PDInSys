@@ -70,6 +70,6 @@ protected static $logName = 'Project';
     }
 
     public function cost_estimate(){
-        return $this->hasOne("App\CostEstimate")->with('App\CostEstimateDetail');
+        return $this->hasOne("App\CostEstimate");
     }
 }

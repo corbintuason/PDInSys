@@ -113,7 +113,7 @@ export default [
                 {
                     path: "/projects/:id/cost-estimate",
                     component: ShowCostEstimate,
-                    name: "cost_estimate_index"
+                    name: "cost_estimate_show"
                 },
             // MANDATE PATHS
             {

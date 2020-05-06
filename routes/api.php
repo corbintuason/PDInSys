@@ -29,11 +29,14 @@ Route::group(['middleware' => 'auth:api'], function () {
         'vendor' => 'API\VendorController',
         'mandate' => 'API\MandateController',
         'project_core_employee' => 'API\ProjectCoreEmployeeController',
-
-        'remark' => 'API\RemarkController'
+        'remark' => 'API\RemarkController',
+        // 'project/{id}/cost-estimate' => 'API\CostEstimateController'
     ]);
     
     // Additional Routes
+    Route::get('/download_cost_estimate/{id}', 'API\CostEstimateController@download');
+    Route::post('/project/{id}/cost-estimate', 'API\CostEstimateController@store');
+    Route::put('/project/{id}/cost-estimate', 'API\CostEstimateController@update');
     Route::put("/project/{id}/returnToUser", 'API\ProjectController@returnToUser');
     Route::get('/activities', "API\ActivityController@index");
 });
