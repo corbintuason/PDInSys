@@ -48,48 +48,68 @@ class MandateController extends Controller
         $auth_user = new UserResource(User::findOrFail($user_id));
         $status = "For Approval";
 
-        $mandate = activity()->withoutLogs(function () use ($request, $status, $user_id) {
-            return Mandate::create([
-                'date' => $request['date'],
-                'position' => $request['position'],
-                'full_name' => $request['full_name'],
-                'region' => $request['region'],
-                'permanent_address' => $request['permanent_address'],
-                'present_address' => $request['present_address'],
-                'gender' => $request['gender'],
-                'civil_status' => $request['civil_status'],
-                'birthdate' => $request['birthdate'],
-                'age' => $request['age'],
-                'mobile_number' => $request['mobile_number'],
-                'telephone_number' => $request['telephone_number'],
-                'religion' => $request['religion'],
-                'sss_number' => $request['sss_number'],
-                'tin_number' => $request['tin_number'],
-                'pagibig_number' => $request['pagibig_number'],
-                'philhealth_number' => $request['philhealth_number'],
-                'passport_number' => $request['passport_number'],
-                'tertiary_details' => $request['tertiary_details'],
-                'secondary_details' => $request['secondary_details'],
-                'primary_details' => $request['primary_details'],
-                'work_details' => $request['work_details'],
-                'father_details' => $request['father_details'],
-                'mother_details' => $request['mother_details'],
-                'spouse_details' => $request['spouse_details'],
-                'emergency_details' => $request['emergency_details'],
-                'status' => $status,
-                'creator_id' => $user_id,
-            ]);
+        $auth_user = auth()->user();
+
+        // Create Project
+        $mandate = activity()->withoutLogs(function () use ($request) {
+            return Mandate::create($request->all());
         });
 
-        $mandate_contributor = MandateContributor::create([
-            'mandate_id' => $mandate->id,
+        // $mandate = activity()->withoutLogs(function () use ($request, $status, $user_id) {
+        //     return Mandate::create([
+        //         'date' => $request['date'],
+        //         'position' => $request['position'],
+        //         'full_name' => $request['full_name'],
+        //         'region' => $request['region'],
+        //         'permanent_address' => $request['permanent_address'],
+        //         'present_address' => $request['present_address'],
+        //         'gender' => $request['gender'],
+        //         'civil_status' => $request['civil_status'],
+        //         'birthdate' => $request['birthdate'],
+        //         'age' => $request['age'],
+        //         'mobile_number' => $request['mobile_number'],
+        //         'telephone_number' => $request['telephone_number'],
+        //         'religion' => $request['religion'],
+        //         'sss_number' => $request['sss_number'],
+        //         'tin_number' => $request['tin_number'],
+        //         'pagibig_number' => $request['pagibig_number'],
+        //         'philhealth_number' => $request['philhealth_number'],
+        //         'passport_number' => $request['passport_number'],
+        //         'tertiary_details' => $request['tertiary_details'],
+        //         'secondary_details' => $request['secondary_details'],
+        //         'primary_details' => $request['primary_details'],
+        //         'work_details' => $request['work_details'],
+        //         'father_details' => $request['father_details'],
+        //         'mother_details' => $request['mother_details'],
+        //         'spouse_details' => $request['spouse_details'],
+        //         'emergency_details' => $request['emergency_details'],
+        //         'status' => $status,
+        //         'creator_id' => $user_id,
+        //     ]);
+        // });
+
+        // Add Mandate Contributor List
+        if ($mandate->status == "For Approval") {
+            $responsibility = "Creator";
+            $notify = "mandate-approver";
+        }
+
+        $mandate_contributor = Contributor::create([
+            'contributable_type' => "App\\Mandate",
+            'contributable_id' => $mandate->id,
             'contributor_id' => $auth_user->id,
-            'responsibility' => "Creator"
+            'responsibility' => $responsibility
         ]);
+
+        // $mandate_contributor = MandateContributor::create([
+        //     'mandate_id' => $mandate->id,
+        //     'contributor_id' => $auth_user->id,
+        //     'responsibility' => "Creator"
+        // ]);
 
         // Notify all User that can Approve this Mandate
 
-        $approvers = User::whereIs('mandate-approver')->get();
+        $approvers = User::whereIs($notify)->get();
 
         Notification::send($approvers, new MandateCreated($mandate));
 
@@ -100,7 +120,10 @@ class MandateController extends Controller
             ->withProperties(["link_name" => "mandate_show", "link_id" => $mandate->id])
             ->log("User " . $auth_user->last_name . ", " . $auth_user->first_name  . " has created " . "PMID"  . '-' . $mandate->code);
 
-        return new MandateResource($mandate);
+        return [
+            'item_id' => $mandate->id,
+            'success_text' => "Mandate " . $mandate->code . " has been successfully created"
+        ];
     }
 
     /**

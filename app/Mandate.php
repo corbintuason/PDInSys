@@ -89,7 +89,12 @@ class Mandate extends Model
 
     public function contributors()
     {
-        return $this->hasMany("App\MandateContributor")->with('user');
+        return $this->morphMany("App\Contributor", 'contributable')->with('user');
+    }
+
+    public function remarks()
+    {
+        return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
     }
 
     // Mandate Code

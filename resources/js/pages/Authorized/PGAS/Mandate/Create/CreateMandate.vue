@@ -125,7 +125,7 @@ export default {
 	},
 	computed:{
         get_status(){
-            if(this.$store.getters.hasAbility("approve-all-projects")){
+            if(this.$store.getters.hasAbility("approve-all-mandates")){
                 return "For Approval";
             }
         },
