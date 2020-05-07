@@ -30,10 +30,11 @@
                         name: notification.data.link.name,
                         params: { id: notification.data.link.id },
                     }">
-                     {{
+                     <!-- {{
                                         notification.data.notification_table
                                             .code
-                                    }}
+                                    }} -->
+                                    CEPD20-0009.1v1/.2v1/ LACTUM_FBLIVE
                     </router-link>
                                    
                                 </td>
@@ -42,6 +43,7 @@
                                         notification.data.notification_table
                                             .item
                                     }}
+                                    <!-- Project Creation -->
                                 </td>
                                 <td>
                                     {{

@@ -34,7 +34,7 @@ class User extends JsonResource
     public function with($request){
         return [
             'notifications' => $this->notifications,
-            'roles' => $this->getRoles(),
+            'roles' => $this->roles,
             'abilities' => $this->getAbilities(),
         ];
     }

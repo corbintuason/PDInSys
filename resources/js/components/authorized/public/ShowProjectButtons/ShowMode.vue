@@ -1,29 +1,30 @@
 <template>
     <b-button-group v-if="current_step!=null" class="float-right">
         <b-button
-            @click="rejectProject"
-            v-if="canUpdate()"
+            @click="rejectButton"
+            v-if="showRejectButton"
             class="float-right"
             variant="outline-danger"
-            >Reject Project</b-button
+            >Reject {{item_model}}</b-button
         >
 
         <!-- Edit Project -->
         <b-button
-            @click="editProject"
-            v-if="showEditProject"
+            @click="editButton"
+            v-if="showEditButton"
             class="float-right"
             variant="outline-dark"
         >
-            Edit Project
+            Edit {{item_model}}
         </b-button>
        <b-button 
         @click="returnItem"
+        v-if="showReturnButton"
         variant="outline-dark"
         > Return {{item_model}}
         </b-button>
         <b-button
-            v-if="canUpdate()"
+            v-if="showUpdateButton"
             @click="updateStatus"
             variant="outline-success"
             >{{ action_name }}</b-button
@@ -67,24 +68,23 @@ export default {
                 ? this.current_step.name + " " + this.item_model
                 : "awit";
         },
-        showEditProject() {
-            return true;
+
+        showUpdateButton(){
+           return this.$store.getters.hasRole(this.item.current_handler);
         },
-        showRejectProject() {
-            return this.$store.getters.hasAbility("reject-all-projects");
+        showEditButton() {
+            // Check first if user can edit in the first place, check if now is the time to edit
+           return this.$store.getters.hasRole(this.item.current_handler);
         },
-        showReturnProject() {
-            return this.$store.getters.hasAbility("return-all-projects");
+        showRejectButton() {
+            // Check first if user can edit in the first place, check if now is the time to reject
+           return this.$store.getters.hasRole(this.item.current_handler);
+        },
+        showReturnButton() {
+            return this.hasItemAbility(this.item.access, 'return') && this.$store.getters.isCurrentHandler(this.item.current_handler);
         },
     },
     methods: {
-        canUpdate() {
-            console.log("next ability po");
-            console.log(this.current_step);
-            return this.$store.getters.hasAbility(
-                this.current_step.ability_visibility
-            );
-        },
         updateStatus() {
             var swal_html = this.loadSwalContents(
                 this.steps,
@@ -96,11 +96,10 @@ export default {
                 html: swal_html,
                 confirmButtonText: this.action_name,
                 endpoints: this.endpoints,
-                new_status: this.current_step.action,
             };
             this.fireUpdateSwal(swal_object, this.item);
         },
-        editProject() {
+        editButton() {
                  swal.fire({
                 title: "Would you like to switch to Edit Mode?",
                 icon: "question",
@@ -118,16 +117,16 @@ export default {
                 }
             });
         },
-        rejectProject() {
+        rejectButton() {
             swal.fire({
-                title: "Reject Project",
+                title: "Reject " + this.item_model,
                 icon: "question",
-                confirmButtonText: "Reject Project",
+                confirmButtonText: "Reject " + this.item_model,
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
                     return new Promise((resolve, reject) => {
                         axios
-                            .put("/api/project/" + this.project.id, {
+                            .put("/api/project/" + this.item.id, {
                                 status: "Rejected",
                             })
                             .then((response) => {

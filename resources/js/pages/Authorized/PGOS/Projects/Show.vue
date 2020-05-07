@@ -46,6 +46,15 @@
       
       // Cost Estimate -> roles ["Reviewer", "Approver", "Clearer"]
 
+      // FIRST PANEL: UPLOAD COST ESTIMATE 
+        - TITLE: CEPD PROJECT CODE PROJECT NAME
+
+      // 2ND PANEL: 
+        - Title: (No signed CES available)
+          - Once available (Signed CEs available)
+      // Who can open budget?
+        - Anyone in the contribution list of ce
+        - Prompt after clear, attach signed ce
   -->
   <!-- BUDGET OPENING: Activate when Cost Estimate's Status is Cleared -->
 

@@ -16,10 +16,10 @@ class CreateCostEstimateDetailsTable extends Migration
         Schema::create('cost_estimate_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('cost_estimate_id');
+            $table->integer('sub_total');
             $table->integer('version');
-            $table->float('sub_total');
             $table->float('asf_rate');
-            $table->json('pezaAr');
+            $table->string('peza_ar')->nullable();
             $table->timestamps();
         });
     }

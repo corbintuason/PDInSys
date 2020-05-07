@@ -10,17 +10,7 @@ use Auth;
 class AuthController extends Controller
 {
     public function user(Request $request){
-        // $current_user = Auth::user();
-        // $accessToken = auth()->user()->createToken('authToken')->accessToken;
-        // $response = $client->request('GET', '/api/user', [
-        //     'headers' => [
-        //         'Accept' => 'application/json',
-        //         'Authorization' => 'Bearer '.$accessToken,
-        //     ],
-        // ]);
-
-            return new UserResource($request->user());
-
+            return new UserResource(auth()->user());
     }
 
     public function login(Request $request){

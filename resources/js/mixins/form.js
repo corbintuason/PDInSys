@@ -81,6 +81,7 @@ export default {
         },
 
         loadSwalContentsWithoutContributors(item_steps, user) {
+            console.log("did i pass through here");
             var contents = "";
             item_steps.forEach((step) => {
                 if (step.name == "Create") {
@@ -156,10 +157,15 @@ export default {
                         title: result.value.success_text,
                         icon: "success",
                         onClose: () => {
-                            this.$router.push({
-                                name: swal_object.endpoints.show_route,
-                                params: { id: result.value.item_id },
-                            });
+                            if(result.value.refresh){
+                                this.$router.go();
+                            }else{
+                                this.$router.push({
+                                    name: swal_object.endpoints.show_route,
+                                    params: { id: result.value.item_id },
+                                });
+                            }
+                       
                         },
                     });
                 }
@@ -167,6 +173,12 @@ export default {
         },
 
         fireUpdateSwal(swal_object, item){
+            var api_link;
+            if(this.lastCharacter(swal_object.endpoints.api, "/")){
+                api_link = swal_object.endpoints.api + item.id;
+            }else{
+                api_link = swal_object.endpoints.api;
+            }
             swal.fire({
                 title: swal_object.title,
                 icon: "question",
@@ -179,7 +191,7 @@ export default {
                 preConfirm: () => {
                     return new Promise((resolve, reject) => {
                         axios
-                            .put(swal_object.endpoints.api + item.id, {
+                            .put(api_link, {
                                 status: swal_object.new_status
                             })
                             .then((response) => {
@@ -210,6 +222,17 @@ export default {
         },
 
         // For validating if user can see and process a certain component
-        cansee(status, role) {},
+        lastCharacter(endpoint, character){
+            var last_char = endpoint[endpoint.length -1];
+            if(last_char == character){
+                return true;
+            }else{
+                return false;
+            }
+        },
+
+        hasItemAbility(access, ability){
+            return access.some(access_ability => access_ability.name == ability)
+        }
     },
 };

@@ -17,10 +17,10 @@
           data-accordion="false"
         >
           <!-- PGOS RELATED -->
-          <pgos-panel v-if="renderPGOS()"></pgos-panel>
+          <pgos-panel></pgos-panel>
 
           <!-- PGAS -->
-          <pgas-panel v-if="renderPGAS()"></pgas-panel>
+          <!-- <pgas-panel v-if="renderPGAS()"></pgas-panel> -->
 
           <!-- ModuleLess -->
           <module-less></module-less>

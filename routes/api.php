@@ -29,11 +29,18 @@ Route::group(['middleware' => 'auth:api'], function () {
         'vendor' => 'API\VendorController',
         'mandate' => 'API\MandateController',
         'project_core_employee' => 'API\ProjectCoreEmployeeController',
-
-        'remark' => 'API\RemarkController'
+        'remark' => 'API\RemarkController',
     ]);
-    
+    // Project Routes
+    Route::get('/project', 'API\ProjectController@index');
+    Route::post('/project/', 'API\ProjectController@store');
+    Route::get('/project/{id}', 'API\ProjectController@show');
+    Route::put('/project/{id}', 'API\ProjectController@update');
+    Route::put('/project/{id}/saveChanges', 'API\ProjectController@saveChanges');
     // Additional Routes
+    Route::get('/download_cost_estimate/{id}', 'API\CostEstimateController@download');
+    Route::post('/project/{id}/cost-estimate', 'API\CostEstimateController@store');
+    Route::put('/project/{id}/cost-estimate', 'API\CostEstimateController@update');
     Route::put("/project/{id}/returnToUser", 'API\ProjectController@returnToUser');
     Route::get('/activities', "API\ActivityController@index");
 });

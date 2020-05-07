@@ -33,6 +33,15 @@ export const store = new Vuex.Store({
                     return item.name === keyword;
                 });
         },
+        hasRole(state){
+            return role => state.user.roles.some(user_role => {
+                   return user_role.name == role;  
+            });
+        },
+
+        isCurrentHandler(state){
+            return current_handler => state.user.roles.includes(current_handler);
+        }
     },
     mutations: {
         pushNotification(state, notification) {
