@@ -30,6 +30,7 @@ class CreateBouncerTables extends Migration
         Schema::create(Models::table('roles'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('entity')->nullable();
             $table->string('title')->nullable();
             $table->integer('level')->unsigned()->nullable();
             $table->integer('scope')->nullable()->index();

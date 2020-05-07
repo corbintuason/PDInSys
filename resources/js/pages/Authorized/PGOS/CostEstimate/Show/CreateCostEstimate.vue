@@ -1,12 +1,12 @@
 <template>
     <div>
         <!-- Item Progress -->
-        <item-progress
+        <!-- <item-progress
             class="mt-3"
             :steps="steps"
             :item="cost_estimate"
             :mode="mode"
-        ></item-progress>
+        ></item-progress> -->
 
         <cost-estimate
             :project="project"

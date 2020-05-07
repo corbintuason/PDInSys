@@ -179,8 +179,6 @@ export default {
             }else{
                 api_link = swal_object.endpoints.api;
             }
-            console.log(swal_object.endpoints.api);
-            console.log("api_link", api_link);
             swal.fire({
                 title: swal_object.title,
                 icon: "question",
@@ -231,6 +229,10 @@ export default {
             }else{
                 return false;
             }
+        },
+
+        hasItemAbility(access, ability){
+            return access.some(access_ability => access_ability.name == ability)
         }
     },
 };

@@ -76,98 +76,89 @@ export default {
         loadPGOS() {
             this.pgos.push(
                 {
-                    section: "Accounts and Clients",
-                    render: this.renderSection([
-                        "view-view-accounts",
-                        "view-account-and-client-accreditation",
-                    ]),
-                    features: [
-                        {
-                            name: "View Accounts",
-                            link: "account_index",
-                            render: this.renderFeature('view-view-accounts')
-                        },
-                        {
-                            name: "Account & Client Accred.",
-                            link: "account_create",
-                            render: this.renderFeature('view-account-and-client-accreditation')
-                        },
-                    ],
-                },
-                {
                     section: "Project Development",
-                    render: this.renderSection([
-                        "view-all-projects",
-                        "create-projects",
+                      render: this.renderSection([
+                        {
+                            ability: "view-all",
+                            model: "App\\Project",
+                        },
+                          {
+                            ability: "create",
+                            model: "App\\Project",
+                        },
                     ]),
                     features: [
-                        {
+                                   {
                             name: "Project List & Status",
                             link: "project_index",
-                            render: this.renderFeature("view-all-projects"),
+                            render: this.renderFeature({
+                                ability: "view-all",
+                                model: "App\\Project",
+                            }),
                         },
                         {
                             name: "Create Project",
                             link: "project_create",
-                            render: this.renderFeature("create-projects"),
-                        },
-                        {
-                            name: "CE & Bdgt. Mgmt.",
-                            link: "",
-                            render: this.renderFeature("ce-bdgt-mgmt"),
-                        },
-                        {
-                            name: "Project Reports",
-                            link: "",
-                            render: this.renderFeature("project-reports"),
+                            render: this.renderFeature({
+                                ability: "create",
+                                model: "App\\Project",
+                            }),
                         },
                     ],
                 },
-                {
-                    section: "Project Execution",
-                    features: [
-                        {
-                            name: "Vendors Pool",
-                            link: "",
-                            render: this.renderFeature("view-all-vendors"),
-                        },
-                        {
-                            name: "Manpower Pool",
-                            link: "",
-                            render: this.renderFeature("view-all-manpower"),
-                        },
-                        {
-                            name: "Warehouse Management",
-                            link: "",
-                            render: this.renderFeature("view-all-warehouse"),
-                        },
-                        {
-                            name: "Project Templates",
-                            link: "",
-                            render: this.renderFeature("view-all-templates"),
-                        },
-                    ],
-                }
+                // {
+                //     section: "Project Execution",
+                //     features: [
+                //         {
+                //             name: "Vendors Pool",
+                //             link: "",
+                //             render: this.renderFeature("view-all-vendors"),
+                //         },
+                //         {
+                //             name: "Manpower Pool",
+                //             link: "",
+                //             render: this.renderFeature("view-all-manpower"),
+                //         },
+                //         {
+                //             name: "Warehouse Management",
+                //             link: "",
+                //             render: this.renderFeature("view-all-warehouse"),
+                //         },
+                //         {
+                //             name: "Project Templates",
+                //             link: "",
+                //             render: this.renderFeature("view-all-templates"),
+                //         },
+                //     ],
+                // }
             );
         },
-        renderSection(features) {
-            console.log("testing lang muna");
-            console.log(this.user.abilities.some(feature => {
-                features.includes(feature.name);
-            }));
-            return this.user.abilities.some((feature) =>
-               features.includes(feature.name)
-            );
-        },
-        renderFeature(feature) {
-            var render = false;
-            console.log(feature);
-            this.user.abilities.forEach((ability) => {
-                if (ability.name == feature) {
-                    render = true;
-                }
+        renderSection(abilities) {
+            // console.log(this.user.abilities.some(feature => {
+            //     features.includes(feature.name);
+            // }));
+            // return this.user.abilities.some((feature) =>
+            //    features.includes(feature.name)
+            // );
+
+            return this.user.abilities.some((ability) => {
+                return abilities.some((pgos_ability) => {
+                    console.log(pgos_ability.ability == ability.name);
+                    console.log(pgos_ability.model == ability.entity_type);
+                    return (
+                        pgos_ability.ability == ability.name &&
+                        pgos_ability.model == ability.entity_type
+                    );
+                });
             });
-            return render;
+        },
+        renderFeature(ability) {
+                   return this.user.abilities.some((user_ability) => {
+                    return (
+                        user_ability.ability == ability.name &&
+                        user_ability.model == ability.entity_type
+                    );
+                });
         },
     },
     mounted() {

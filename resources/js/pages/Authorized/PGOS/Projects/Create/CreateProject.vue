@@ -236,8 +236,6 @@ export default {
     },
     methods: {
         createProject() {
-            this.project.status = this.get_status;
-            console.log("ayieee" + this.project.status);
             var swal_html = this.loadSwalContents(this.steps, this.user);
             const swal_object = {
                 title: "Create Project",

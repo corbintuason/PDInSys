@@ -1,8 +1,10 @@
 <template>
     <div>
         <div v-if="project != null && mode!=null">
-         <create-cost-estimate v-if="mode=='Create' || mode=='Edit'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
-         <show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate>
+         <signed-ces></signed-ces>
+         <create-ces></create-ces>
+         <!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
+         <show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate> -->
         </div>
         <clip-loader v-else color="orange"></clip-loader>
 

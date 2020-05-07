@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\Project;
 class ProjectDevelopmentRolesSeeder extends Seeder
 {
     /**
@@ -11,90 +11,35 @@ class ProjectDevelopmentRolesSeeder extends Seeder
      */
     public function run()
     {
-        $view_projects = Bouncer::ability()->firstOrCreate([
-            'name' => 'view-all-projects',
-            'title' => 'View All Projects',
-        ]);
-
-        $create_projects = Bouncer::ability()->firstOrCreate([
-            'name' => 'create-projects',
-            'title' => 'Create Projects',
-        ]);
-
-        $edit_projects = Bouncer::ability()->firstOrCreate([
-            'name' => 'edit-all-projects',
-            'title' => 'Edit All Projects',
-        ]);
-
-        $delete_projects = Bouncer::ability()->firstOrCreate([
-            'name' => 'delete-all-projects',
-            'title' => 'Delete All Projects',
-        ]);
-        
-        // Project List - Create Project (PROCESS FLOW - CREATE, REVIEW, RETURN, REJECT, APPROVE)
-
-        $approve_projects = Bouncer::ability()->firstOrCreate([
-            'name' => 'approve-all-projects',
-            'title' => 'Approve All Projects',
-        ]);
-        
-        $review_projects = Bouncer::ability()->firstOrCreate([
-            'name' => 'review-all-projects',
-            'title' => 'Review All Projects',
-        ]);
-
-        $assign_projects = Bouncer::ability()->firstOrCreate([
-            'name' => 'assign-all-projects',
-            'title' => 'Assign All Projects'
-        ]);
-
-        $reject_projects = Bouncer::ability()->firstOrCreate([
-            'name' => 'reject-all-projects',
-            'title' => 'Reject All Projects'
-        ]);
-        
-        $return_projects = Bouncer::ability()->firstOrCreate([
-            'name' => 'return-all-projects',
-            'title' => 'Return all Projects'
-        ]);
-
-
-        
-        // Role Creation
+        // // Role Creation
         $project_creator = Bouncer::role()->firstOrCreate([
             'name' => 'project-creator',
-            'title' => 'Project Creator',
+            'title' => 'Creator',
+            'entity' => 'App\\Project'
         ]);
 
         $project_reviewer = Bouncer::role()->firstOrCreate([
             'name' => 'project-reviewer',
-            'title' => 'Project Reviewer',
+            'title' => 'Reviewer',
+            'entity' => 'App\\Project'
         ]);
 
 
         $project_approver = Bouncer::role()->firstOrCreate([
             'name' => 'project-approver',
-            'title' => 'Project Approver'
+            'title' => 'Approver',
+            'entity' => 'App\\Project'
         ]);
 
         $project_assigner = Bouncer::role()->firstOrCreate([
             'name' => 'project-assigner',
-            'title' => 'Project Assigner'
+            'title' => 'Assigner',
+            'entity' => 'App\\Project'
         ]);
-
-        // Assign
-        // OVERFLOWING METHOD:
-        // Bouncer::allow($project_creator)->to([$view_projects, $create_projects]);
-        // Bouncer::allow($project_reviewer)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $reject_projects]);
-        // Bouncer::allow($project_approver)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $reject_projects, $approve_projects]);
-        // Bouncer::allow($project_assigner)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $reject_projects, $approve_projects, $assign_projects]);
         
-        // NON OVERFLOWING METHOD:
-        
-        Bouncer::allow($project_creator)->to([$view_projects, $create_projects]);
-        Bouncer::allow($project_reviewer)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $review_projects, $return_projects, $reject_projects]);
-        Bouncer::allow($project_approver)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $return_projects, $reject_projects, $approve_projects]);
-        Bouncer::allow($project_assigner)->to([$view_projects, $create_projects, $edit_projects, $delete_projects, $return_projects, $reject_projects, $assign_projects]);
-        
+        Bouncer::allow($project_creator)->to(['view-all', 'view', 'create'], Project::class);
+        Bouncer::allow($project_reviewer)->to(['view-all', 'view', 'create', 'review'], Project::class);
+        Bouncer::allow($project_approver)->to(['view-all', 'view', 'create', 'approve'], Project::class);
+        Bouncer::allow($project_assigner)->to(['view-all', 'view', 'assign'], Project::class);
     }
 }

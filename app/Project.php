@@ -37,6 +37,25 @@ protected static $logName = 'Project';
         'involved_users' => 'Object'
     ];
 
+    protected function getStagesAttribute(){
+        $stages = collect([
+            (object) [
+                "name" => "For Review",
+                "responsible" => "project-reviewer"
+            ],
+            (object) [
+                "name" => "For Approval",
+                "responsible" => "project-approver"
+            ],
+            (object) [
+                "name" => "For Assigning",
+                "responsible" => "project-assigner"
+            ]
+        ]);
+        return $stages;
+        // return ["For Review", "For Approval", "For Approval", "For Assigning", "Assigned"];
+    }
+
     public function getCodeAttribute()
 {
     $year = date("y");
@@ -51,6 +70,12 @@ protected static $logName = 'Project';
         sort($divisions_assigned);
         
         return $divisions_needed == $divisions_assigned;
+    }
+
+    public function getCurrentHandlerAttribute(){
+        $stage = $this->stages->where('name', $this->status)->first();
+        $handler = $stage->responsible;
+        return $handler;
     }
 
     public function core_team(){
