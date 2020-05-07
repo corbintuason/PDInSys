@@ -157,14 +157,14 @@ export default {
                         title: result.value.success_text,
                         icon: "success",
                         onClose: () => {
-                            if(result.value.refresh){
-                                this.$router.go();
-                            }else{
-                                this.$router.push({
-                                    name: swal_object.endpoints.show_route,
-                                    params: { id: result.value.item_id },
-                                });
-                            }
+                            // if(result.value.refresh){
+                            //     this.$router.go();
+                            // }else{
+                            //     this.$router.push({
+                            //         name: swal_object.endpoints.show_route,
+                            //         params: { id: result.value.item_id },
+                            //     });
+                            // }
                        
                         },
                     });

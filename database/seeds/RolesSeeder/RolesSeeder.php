@@ -16,6 +16,8 @@ class RolesSeeder extends Seeder
                 $this->call(AccountsAndClientsRolesSeeder::class);
                 // Project Development 
                 $this->call(ProjectDevelopmentRolesSeeder::class);
+                // Mandate Seeder
+                $this->call(MandateRolesSeeder::class);
                 // Project List - Create Project (CRUD)
                 // Vendor Accreditation
                 $this->call(VendorAccreditationRolesSeeder::class);

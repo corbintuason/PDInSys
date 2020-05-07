@@ -8,10 +8,6 @@ use App\User;
 use App\Contributor;
 
 trait ControllersTrait {
-
-trait CommonTrait
-{
-
     public function getNextStage($item)
     {
         $stages = $item->stages;
@@ -28,9 +24,8 @@ trait CommonTrait
 
     public function getRoleIn($class)
     {
-
         $roles = auth()->user()->roles;
-
+        dd($roles);
         $role = $roles->where('entity', $class)->first();
         $responsibility = $role->title;
         return $responsibility;
@@ -53,4 +48,5 @@ trait CommonTrait
             'responsibility' => $responsibility
         ]);
     }
+
 }

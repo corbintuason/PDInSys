@@ -11,7 +11,8 @@ class MandateRolesSeeder extends Seeder
      * @return void
      */
     public function run()
-    { {
+    { 
+        
             // // Role Creation
             $mandate_creator = Bouncer::role()->firstOrCreate([
                 'name' => 'mandate-creator',
@@ -29,6 +30,6 @@ class MandateRolesSeeder extends Seeder
 
             Bouncer::allow($mandate_creator)->to(['view-all', 'view', 'create'], Mandate::class);
             Bouncer::allow($mandate_approver)->to(['view-all', 'view', 'create', 'approve'], Mandate::class);
-        }
+        
     }
 }
