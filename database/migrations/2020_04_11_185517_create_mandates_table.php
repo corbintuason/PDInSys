@@ -43,7 +43,6 @@ class CreateMandatesTable extends Migration
             $table->json('emergency_details');
             $table->string('status');
 
-            $table->integer('creator_id');
             $table->timestamps();
         });
     }

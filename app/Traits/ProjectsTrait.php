@@ -1,21 +1,24 @@
 <?php
+
 namespace App\Traits;
 
 use App\Project;
 use Illuminate\Http\Request;
 use App\Traits\CommonTrait;
 
-trait ProjectsTrait {
+trait ProjectsTrait
+{
 
     use CommonTrait;
-    public function getCreateStatus(Request $request) {
+    public function getCreateStatus(Request $request)
+    {
         $roles = auth()->user()->getRoles()->toArray();
         $next_status;
-        if(in_array('project-creator', $roles)){
+        if (in_array('project-creator', $roles)) {
             $next_status = "For Review";
-        }else if (in_array('project-reviewer', $roles)){
+        } else if (in_array('project-reviewer', $roles)) {
             $next_status = "For Approval";
-        }else if (in_array('project-approver', $roles)){
+        } else if (in_array('project-approver', $roles)) {
             $next_status = "For Assigning";
         }
         return $next_status;

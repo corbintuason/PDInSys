@@ -44,7 +44,6 @@ class Mandate extends Model
         'spouse_details',
         'emergency_details',
         'status',
-        'creator_id',
         'change_logs'
     ];
 
@@ -76,6 +75,17 @@ class Mandate extends Model
 
     protected static $logFillable = true;
     protected static $logName = 'Mandate';
+
+    protected function getStagesAttribute()
+    {
+        $stages = collect([
+            (object) [
+                "name" => "For Approval",
+                "responsible" => "mandate-approver"
+            ]
+        ]);
+        return $stages;
+    }
 
     public function user()
     {

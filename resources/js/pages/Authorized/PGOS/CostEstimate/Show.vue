@@ -1,28 +1,14 @@
 <template>
-<<<<<<< HEAD
 	<div>
-		<div v-if="project != null">
-			<create-cost-estimate
-				v-if="cost_estimate==null"
-				:steps="steps"
-				:project="project"
-				:cost_estimate="cost_estimate"
-			></create-cost-estimate>
-			<show-cost-estimate v-else></show-cost-estimate>
+		<div v-if="project != null && mode!=null">
+			<signed-ces></signed-ces>
+			<create-ces></create-ces>
+			<!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
+			<show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate>-->
 		</div>
 		<clip-loader v-else color="orange"></clip-loader>
-	</div>
-=======
-    <div>
-        <div v-if="project != null && mode!=null">
-         <signed-ces></signed-ces>
-         <create-ces></create-ces>
-         <!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
-         <show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate> -->
-        </div>
-        <clip-loader v-else color="orange"></clip-loader>
 
-        <!-- 
+		<!-- 
             May 3 2020 Revisions:
                 - Progress bar header should be : Project Code -- {code}
                 - Only show code when project is finished to assigning
@@ -45,9 +31,8 @@
 
 
 
-         -->
-    </div>
->>>>>>> ca3f5dc14ab553ac0bbfb122cd5267c112468bbd
+		-->
+	</div>
 </template>
 
 <script>

@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
         $this->call(ProjectDevelopmentUsersSeeder::class);
         $this->call(CostEstimateUsersSeeder::class);
         $this->call(VendorUsersSeeder::class);
+        $this->call(MandateUsersSeeder::class);
 
         $super_admin = User::create([
             'last_name' => "Super",
@@ -42,9 +43,5 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $super_admin->assign('super-admin');
-
-
-
- 
     }
 }

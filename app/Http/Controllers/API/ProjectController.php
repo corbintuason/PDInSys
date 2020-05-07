@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-Use App\Project;
+use App\Project;
 use App\User;
 use App\Contributor;
 use App\Http\Resources\Project as ProjectResource;
@@ -24,11 +24,13 @@ class ProjectController extends Controller
 
     use ProjectsTrait;
 
-    public function index(){
+    public function index()
+    {
         return ProjectResource::collection(Project::all());
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $validatedData = $request->validate([
             'name' => 'required',
@@ -41,12 +43,12 @@ class ProjectController extends Controller
             'for_project_bidding' => 'required',
             'departments_needed' => 'required',
         ]);
-        
+
         $auth_user = auth()->user();
         $request['status'] = $this->getCreateStatus($request);
-        
+
         // Create Project
-        $project = activity()->withoutLogs(function() use($request){
+        $project = activity()->withoutLogs(function () use ($request) {
             return Project::create($request->all());
         });
 
@@ -61,9 +63,9 @@ class ProjectController extends Controller
 
         // Create Activity Log
         activity('Project Created')
-        ->on($project)
-        ->log($auth_user->full_name. " has created Project " . $project->code);
-        
+            ->on($project)
+            ->log($auth_user->full_name . " has created Project " . $project->code);
+
         return [
             'item_id' => $project->id,
             'success_text' => "Project " . $project->code . " has been successfully created"
@@ -83,10 +85,10 @@ class ProjectController extends Controller
 
         // Update Project
         $status = $this->getNextStage($project)->name;
-        activity()->withoutLogs(function() use($project, $status){
-             $project->update([
-                 'status' => $status
-             ]);
+        activity()->withoutLogs(function () use ($project, $status) {
+            $project->update([
+                'status' => $status
+            ]);
         });
 
         // Create Contributor Object
@@ -97,11 +99,11 @@ class ProjectController extends Controller
 
         // Notify Process Users
         Notification::send($this->notifyApprovers($project), new ProjectCreated($project));
-        
+
         // Create Activity Log
         activity('Project Status Change')
-        ->on($project)
-        ->log( $auth_user->full_name . " has changed Project " . $project->code . "'s status to ". $project->status);
+            ->on($project)
+            ->log($auth_user->full_name . " has changed Project " . $project->code . "'s status to " . $project->status);
 
         return [
             'item_id' => $project->id,
@@ -109,33 +111,33 @@ class ProjectController extends Controller
         ];
     }
 
-    public function returnToUser(Request $request, $id){
+    public function returnToUser(Request $request, $id)
+    {
         $auth_user = auth()->user();
         $remark = Remark::create([
-            'remarkable_type' => "App\\". $request['remarkable_type'],
+            'remarkable_type' => "App\\" . $request['remarkable_type'],
             'remarkable_id' => $request['remarkable_id'],
             'returned_to_id' => $request['user']['id'],
             'returned_by_id' => $auth_user->id,
             'remarks' => $request['remarks']
-            ]);
+        ]);
         $project = $remark->remarkable;
-            activity()->withoutLogs(function() use($project, $request){
-                $project->update([
-                    'status' => 'Returned to ' . $request['user']['responsibility']
-                ]);
-           });
-        
-        $returned_to = User::findOrFail($remark->returned_to_id);                
+        activity()->withoutLogs(function () use ($project, $request) {
+            $project->update([
+                'status' => 'Returned to ' . $request['user']['responsibility']
+            ]);
+        });
+
+        $returned_to = User::findOrFail($remark->returned_to_id);
         Notification::send($returned_to, new ProjectReturned($project));
 
         activity('Project Returned')
-        ->on($project)
-        ->log($auth_user->full_name . " has returned Project Code ". $project->code . " to " . $returned_to->full_name);
-        
+            ->on($project)
+            ->log($auth_user->full_name . " has returned Project Code " . $project->code . " to " . $returned_to->full_name);
+
         return [
             'item_id' => $project->id,
             'success_text' => "Project " . $project->code . " has been successfully Returned"
         ];
     }
-
 }

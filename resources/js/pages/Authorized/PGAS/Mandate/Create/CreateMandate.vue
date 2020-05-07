@@ -48,13 +48,16 @@ import generalInfo from "./components/GeneralInfo";
 import governmentDetails from "./components/GovernmentDetails";
 import otherInformation from "./components/OtherInformation";
 import educationWork from "./components/EducationWork";
+import form from "../../../../../mixins/form";
 export default {
     props: {
         steps: Array,
         endpoints: Object,
-    },
+	},
+	mixins: [form],
 	data() {
 		return {
+			name: "Create Mandate",
             user: this.$store.state.user,
             tabIndex: 0,
 			mandate: {
@@ -150,14 +153,14 @@ export default {
 	methods:{
 	   createMandate() {
             this.mandate.status = this.get_status;
-            console.log("ayieee" + this.mandate.status);
+            console.log("The status is" + this.mandate.status);
             var swal_html = this.loadSwalContents(this.steps, this.user);
             const swal_object = {
                 title: "Create Mandate",
                 html: swal_html,
                 text: "Please check the details provided.",
                 confirmButtonText: "Create Mandate",
-
+			
                 item: this.mandate,
                 endpoints: this.endpoints,
             };
