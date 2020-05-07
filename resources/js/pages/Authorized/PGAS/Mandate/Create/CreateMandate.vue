@@ -153,17 +153,16 @@ export default {
 	methods:{
 	   createMandate() {
             this.mandate.status = this.get_status;
-            console.log("The status is" + this.mandate.status);
             var swal_html = this.loadSwalContents(this.steps, this.user);
-            const swal_object = {
+            const swal_object = ({
                 title: "Create Mandate",
                 html: swal_html,
                 text: "Please check the details provided.",
                 confirmButtonText: "Create Mandate",
-			
                 item: this.mandate,
-                endpoints: this.endpoints,
-            };
+				endpoints: this.endpoints,
+				
+            });
             this.fireCreateSwal(swal_object);
         },
 
