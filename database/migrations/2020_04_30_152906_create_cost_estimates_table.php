@@ -17,7 +17,6 @@ class CreateCostEstimatesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('project_id')->unique();
-            $table->string('status');
             $table->timestamps();
         });
     }

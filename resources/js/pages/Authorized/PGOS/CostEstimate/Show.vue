@@ -1,8 +1,13 @@
 <template>
 	<div>
-		<div v-if="project != null && mode!=null">
-			<signed-ces></signed-ces>
-			<create-ces></create-ces>
+		<div v-if="mode!=null">
+			<!-- Here you can upload the cost estimate  -->
+			<cost-estimate-file :project="project"></cost-estimate-file>
+			<!-- Here you can see the signed CEs -->
+			<signed-ces :project="project"></signed-ces>
+			<!-- Here you can see unsigned CEs -->
+			<unsigned-ces :project="project"></unsigned-ces>
+			<!-- <create-ces></create-ces> -->
 			<!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
 			<show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate>-->
 		</div>
@@ -26,11 +31,6 @@
                 CE Development:
                     - Add a progress bar for EACH detail
                     - Remove progress bar from entire cost estimate
-                
-
-
-
-
 		-->
 	</div>
 </template>
@@ -38,6 +38,9 @@
 <script>
 import showCostEstimate from "./Show/ShowCostEstimate";
 import createCostEstimate from "./Show/CreateCostEstimate";
+import costEstimateFile from "./Show/CostEstimateFile"
+import signedCEs from "./Show/SignedCEs";
+import unsignedCEs from "./Show/UnsignedCEs";
 export default {
     data() {
         return {
@@ -49,7 +52,10 @@ export default {
     },
     components: {
         "show-cost-estimate": showCostEstimate,
-        "create-cost-estimate": createCostEstimate
+        "create-cost-estimate": createCostEstimate,
+        "signed-ces": signedCEs,
+        "cost-estimate-file": costEstimateFile,
+        "unsigned-ces": unsignedCEs
     },
     computed:{
     },
@@ -58,7 +64,7 @@ export default {
             var project_id = this.$route.params.id;
             axios.get("/api/project/" + project_id).then((response) => {
                 this.project = response.data.data;
-                        this.getMode();
+                this.getMode();
                 this.loadEndpoints();
             });
         },

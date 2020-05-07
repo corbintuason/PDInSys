@@ -15,26 +15,26 @@ class ProjectDevelopmentRolesSeeder extends Seeder
         $project_creator = Bouncer::role()->firstOrCreate([
             'name' => 'project-creator',
             'title' => 'Creator',
-            'entity' => 'App\\Project'
+            'entity' => Project::class
         ]);
 
         $project_reviewer = Bouncer::role()->firstOrCreate([
             'name' => 'project-reviewer',
             'title' => 'Reviewer',
-            'entity' => 'App\\Project'
+            'entity' => Project::class
         ]);
 
 
         $project_approver = Bouncer::role()->firstOrCreate([
             'name' => 'project-approver',
             'title' => 'Approver',
-            'entity' => 'App\\Project'
+            'entity' => Project::class
         ]);
 
         $project_assigner = Bouncer::role()->firstOrCreate([
             'name' => 'project-assigner',
             'title' => 'Assigner',
-            'entity' => 'App\\Project'
+            'entity' => Project::class
         ]);
         
         Bouncer::allow($project_creator)->to(['view-all', 'view', 'create'], Project::class);

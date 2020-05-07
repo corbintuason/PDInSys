@@ -11,7 +11,7 @@ class CostEstimate extends Model
     protected static $logFillable = true; 
     protected static $logName = 'Cost Estimate';
     protected $fillable = [
-        "name", "project_id", "status"
+        "name", "project_id"
     ];
 
     public function getCodeAttribute(){

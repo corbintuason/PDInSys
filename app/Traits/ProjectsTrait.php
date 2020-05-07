@@ -4,12 +4,13 @@ namespace App\Traits;
 
 use App\Project;
 use Illuminate\Http\Request;
-use App\Traits\CommonTrait;
+use App\Traits\ControllersTrait;
 
 trait ProjectsTrait
 {
 
-    use CommonTrait;
+    use ControllersTrait;
+
     public function getCreateStatus(Request $request)
     {
         $roles = auth()->user()->getRoles()->toArray();
