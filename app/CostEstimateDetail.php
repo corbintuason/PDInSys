@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CostEstimateDetail extends Model
 {
     protected $fillable=[
-        'cost_estimate_id', 'sub_total', 'version', 'asf_rate', 'peza_ar'
+        'cost_estimate_id', 'sub_total', 'version', 'asf_rate', 'peza_ar', 'status'
     ];
 
     public function getCENumberAttribute(){

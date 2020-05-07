@@ -16,6 +16,7 @@ use App\Notifications\CostEstimateCreated;
 use App\Notifications\CostEstimateStatusChange;
 class CostEstimateController extends Controller
 {
+    use ControllersTrait;
     /**
      * Display a listing of the resource.
      *
@@ -35,10 +36,10 @@ class CostEstimateController extends Controller
     public function store(Request $request, $id)
     {
         $auth_user = auth()->user();
-        $extension = $request->file('cost_estimate')->extension();
-        $full_name = $request->input('cost_estimate_name').'.'.$extension;
+        $extension = $request->file('file')->extension();
+        $full_name = $request->input('name').'.'.$extension;
         $path = Storage::putFileAs(
-            'cost-estimates', $request->file('cost_estimate'), $full_name
+            'cost-estimates', $request->file('file'), $full_name
         );
         
         $cost_estimate = activity()->withoutLogs(function() use($request, $full_name, $id){
@@ -47,47 +48,47 @@ class CostEstimateController extends Controller
                 'project_id' => $id,
                 'status' => $request->input('status')
                 ]);
-            });
+        });
 
         // Create Cost Estimate Details
-        $details = json_decode($request->get('details'), true);
-        foreach($details as $detail){
-            CostEstimateDetail::create([
-                'cost_estimate_id' => $cost_estimate->id,
-                'sub_total' => $detail['sub_total'],
-                'version' => $detail['version'],
-                'asf_rate' => $detail['asf_rate'],
-                'peza_ar' => $detail['peza_ar']
-            ]);
-        }
+        // $details = json_decode($request->get('details'), true);
+        // foreach($details as $detail){
+        //     CostEstimateDetail::create([
+        //         'cost_estimate_id' => $cost_estimate->id,
+        //         'sub_total' => $detail['sub_total'],
+        //         'version' => $detail['version'],
+        //         'asf_rate' => $detail['asf_rate'],
+        //         'peza_ar' => $detail['peza_ar']
+        //     ]);
+        // }
 
         // Add Contributor
         // Add Project Contributor List
-           if($cost_estimate->status == "For Review"){
-            $responsibility = "Creator";
-            $notify = "cost-estimate-reviewer";
-        }else if($cost_estimate->status == "For Approval"){
-            $responsibility = "Reviewer";
-            $notify = "cost-estimate-approver";
-        }else if ($cost_estimate->status == "For Clearance"){
-            $responsibility = "Approver";
-            $notify = "cost-estimate-clearer"; 
-        }
+        //    if($cost_estimate->status == "For Review"){
+        //     $responsibility = "Creator";
+        //     $notify = "cost-estimate-reviewer";
+        // }else if($cost_estimate->status == "For Approval"){
+        //     $responsibility = "Reviewer";
+        //     $notify = "cost-estimate-approver";
+        // }else if ($cost_estimate->status == "For Clearance"){
+        //     $responsibility = "Approver";
+        //     $notify = "cost-estimate-clearer"; 
+        // }
 
-        $cost_estimate_contributor = Contributor::create([
-            'contributable_type' => "App\\CostEstimate",
-            'contributable_id' => $cost_estimate->id,
-            'contributor_id' => $auth_user->id,
-            'responsibility' => $responsibility
-        ]);
+        // $cost_estimate_contributor = Contributor::create([
+        //     'contributable_type' => "App\\CostEstimate",
+        //     'contributable_id' => $cost_estimate->id,
+        //     'contributor_id' => $auth_user->id,
+        //     'responsibility' => $responsibility
+        // ]);
 
-        $notify_users = User::whereIs($notify)->get();
-        Notification::send($notify_users, new CostEstimateCreated($cost_estimate));
+        // $notify_users = User::whereIs($notify)->get();
+        // Notification::send($notify_users, new CostEstimateCreated($cost_estimate));
         // Create Activity Log
         
-        activity('Cost Estimate Created')
-        ->on($cost_estimate)
-        ->log($auth_user->full_name . " has created " . $cost_estimate->code);
+        // activity('Cost Estimate Created')
+        // ->on($cost_estimate)
+        // ->log($auth_user->full_name . " has created " . $cost_estimate->code);
         
         return [
             'refresh' => true,

@@ -15,6 +15,7 @@ class CreateCostEstimateDetailsTable extends Migration
     {
         Schema::create('cost_estimate_details', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('status');
             $table->integer('cost_estimate_id');
             $table->integer('sub_total');
             $table->integer('version');
