@@ -97,6 +97,13 @@ class Mandate extends Model
         return $this->hasManyThrough("App\User", 'App\MandateContributor', 'mandate_id', 'id', 'id', 'contributor_id');
     }
 
+    public function getCurrentHandlerAttribute()
+    {
+        $stage = $this->stages->where('name', $this->status)->first();
+        $handler = $stage->responsible;
+        return $handler;
+    }
+
     public function contributors()
     {
         return $this->morphMany("App\Contributor", 'contributable')->with('user');

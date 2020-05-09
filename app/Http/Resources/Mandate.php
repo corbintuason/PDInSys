@@ -16,13 +16,9 @@ class Mandate extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
-    }
-
-    public function with($request)
-    {
         $response = parent::toArray($request);
         $response["code"] = $this->code;
+        $response['current_handler'] = $this->currentHandler;
         $response["access"] = auth()->user()->getAbilities()->where('entity_type', get_class($this->resource));
         $response["relationships"] = [
             'actions' => $this->activities,

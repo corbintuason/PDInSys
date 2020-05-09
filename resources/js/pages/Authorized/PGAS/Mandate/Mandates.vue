@@ -2,7 +2,7 @@
 	<div>
 		<b-card class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">Mandate PMID-{{ mandate_code }}</h1>
+				<h1 class="component-title">Mandate PMID-{{ mandate.code }} {{mandate.status}}</h1>
 			</template>
 			<b-card-body v-if="mandate!=null">
 				<b-card-text>
@@ -33,26 +33,12 @@
 						</b-button-group>
 					</div>
 					<div class="col-md-6 text-right">
-						<template v-if="mandate.status=='For Approval'">
+						<template>
 							<!-- Return Mandate -->
-							<b-button
-								v-if="user.roles=='mandate-approver' "
-								class="mr-1"
-								variant="primary"
-							>Return Mandate</b-button>
+							<b-button class="mr-1" variant="primary">Return Mandate</b-button>
 							<!-- Reject Mandate -->
-							<b-button
-								v-if="user.roles=='mandate-approver' "
-								variant="danger"
-								class="mr-1 ml-1"
-								@click="rejectMandate"
-							>Reject Mandate</b-button>
-							<b-button
-								v-if="user.roles=='mandate-approver' "
-								variant="success"
-								class="ml-1"
-								@click="approveMandate"
-							>Approve Mandate</b-button>
+							<b-button variant="danger" class="mr-1 ml-1" @click="rejectMandate">Reject Mandate</b-button>
+							<b-button variant="success" class="ml-1" @click="approveMandate">Approve Mandate</b-button>
 						</template>
 					</div>
 				</div>
@@ -71,7 +57,8 @@ import otherInformation from "./Show/OtherInformation";
 export default {
   data() {
     return {
-        tabIndex: 0,
+		tabIndex: 0,
+		user: this.$store.state.user,
     };
   },
   mixins: [form],
@@ -82,11 +69,11 @@ export default {
     "other-information": otherInformation,
   },
   props: {
-    user: Object,
+    steps: Array,
     mandate: Object,
     mandate_code: String,
     mode: String,
-    user_role: String
+    endpoints: Object
   },
   methods: {
     approveMandate() {

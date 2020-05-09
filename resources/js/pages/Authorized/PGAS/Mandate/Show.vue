@@ -10,61 +10,24 @@
 		<b-breadcrumb class="mt-4">
 			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
 			<b-breadcrumb-item href="/mandates">List of mandates</b-breadcrumb-item>
-			<b-breadcrumb-item active>PMID-{{mandate_code}}</b-breadcrumb-item>
+			<b-breadcrumb-item active>PMID-{{mandate.code}}</b-breadcrumb-item>
 		</b-breadcrumb>
-		<div v-if="mandate.status != 'Rejected'">
-			<item-progress
-				class="mt-3"
-				:front_steps="front_steps"
-				v-if="mandate!=null"
-				:db_steps="db_steps"
-				:item="mandate"
-				:contributors="contributors"
-				:mode="mode"
-				:api_link="api_link"
-				:remarks="remarks"
-			></item-progress>
+		<div>
+			<item-progress class="mt-3" v-if="mandate!=null" :steps="steps" :item="mandate" :mode="mode"></item-progress>
 		</div>
-		<!-- <b-card v-if="mandate.status != 'Rejected'" class="mt-3">
-			<template v-slot:header>
-				<h1 class="component-title">PMID-{{mandate_code}}</h1>
-			</template>
-			<b-card-body>
-				<step-progress
-					:steps="front_steps"
-					:current-step="current_step"
-					icon-class="fa fa-check"
-					active-color="green"
-					passive-color="gray"
-				></step-progress>
-				<br />
-                <template v-slot:footer>
-				<div class="row  text-right">
-                    <div class="col-md-12">
-
-                    </div>
-                </div>
-			</template>
-			</b-card-body>
-		</b-card>-->
-		<b-alert v-else show variant="danger" class="mt-3">
-			This mandate has been
-			<strong>Rejected</strong>
-		</b-alert>
-
+		{{mandate.relationships}}
 		<!-- Mandate -->
 		<mandate-module
-			v-if="mandate != null"
-			:mandate_code="mandate_code"
-			:user="user"
+			v-if="mandate!=null"
 			:mandate="mandate"
+			:steps="steps"
 			:mode="mode"
-			:user_role="user_role"
-			@update-mode="updateMode"
+			:endpoints="endpoints"
+			:key="show_mandate_key"
 		></mandate-module>
 
 		<!-- Change Logs -->
-		<change-logs :logs="change_logs"></change-logs>
+		<change-logs v-if="mandate!=null" :logs="mandate.relationships.actions"></change-logs>
 	</div>
 </template>
 
@@ -75,36 +38,21 @@ export default {
     data() {
         return {
             mode: "Show",
-            api_link: "/api/mandate",
-            user: this.$store.state.user,
-            change_logs: null,
-            user_role: null,
+            show_mandate_key: 0,
+            steps: this.$store.state.mandate.steps,
+            endpoints:{
+                api: "/api/mandate/",
+                show_route: "mandate_show"
+            },
             mandate: null,
-            mandate_code: null,
-            contributors: null,
-            remarks: null,
-
-            front_steps: this.$store.state.globals.statuses.mandate.front_steps,
-            db_steps: this.$store.state.globals.statuses.mandate.db_steps,
-            current_step: null,
+            mandate_code: null
         } 
     },
     components: {
         "mandate-module": mandateModule,
         "change-logs": changeLogs,
     },
-    watch: {
-        mode() {
-            this.fireToast();
-        },
-    },
     methods: {
-            getUserRole() {
-                //("start");
-                this.user_role = this.user.data.module_access[0]["modules"][0][
-                    "features"
-                ][1]["role"];
-            },
             getMandate() {
                 var mandate_id = this.$route.params.id;
                 axios.get("/api/mandate/" + mandate_id).then((response) => {
@@ -152,10 +100,32 @@ export default {
                 });
             },
     },
-    mounted() {
-        // this.getUserRole();
-        this.getMandate();
-    },
+    watch:{
+    mode(){
+      console.log("there have been changes");
+      this.show_mandate_key++;
+      console.log(this.show_mandate_key);
+    }
+  },
+  methods:{
+      loadMandate(){
+          var mandate_id = this.$route.params.id
+          axios.get("/api/mandate/" + mandate_id).then(response => {
+              this.mandate = response.data.data;
+          })
+      }
+  },
+  mounted(){
+      this.loadMandate();
+
+      Fire.$on('switch-mode', mode => {
+        if(mode == 'Show'){
+          this.loadMandate();
+         }
+        this.mode = mode;
+      });
+  },
+
 }
 </script>
 

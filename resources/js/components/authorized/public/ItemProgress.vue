@@ -12,6 +12,8 @@
 							:steps="progress_steps"
 							:current-step="current_step"
 							icon-class="fa fa-check"
+							active-color="green"
+							passive-color="gray"
 						></step-progress>
 					</div>
 				</div>

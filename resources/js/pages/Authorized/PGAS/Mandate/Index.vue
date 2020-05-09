@@ -36,7 +36,7 @@ export default {
         this.mandates = response.data.data;
         mandates.forEach(mandate => {
           this.items.push({
-            code: 'PMID20-000' +mandate.id,
+            code: 'PMID' +mandate.code,
             item_name: mandate.full_name.first_name + ' ' +mandate.full_name.last_name,
             contact_number: mandate.mobile_number,
             status: mandate.status,
