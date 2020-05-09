@@ -14,11 +14,11 @@ use App\Notifications\MandateCreated;
 use App\Notifications\MandateStatusChange;
 use App\Remark;
 use App\Contributor;
-use App\Traits\MandatesTrait;
+use App\Traits\ControllersTrait;
 
 class MandateController extends Controller
 {
-    use MandatesTrait;
+    use ControllersTrait;
 
     public function index()
     {

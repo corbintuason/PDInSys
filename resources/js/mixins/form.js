@@ -158,10 +158,10 @@ export default {
                             // if(result.value.refresh){
                             //     this.$router.go();
                             // }else{
-                            this.$router.push({
-                                name: swal_object.endpoints.show_route,
-                                params: { id: result.value.item_id },
-                            });
+                            // this.$router.push({
+                            //     name: swal_object.endpoints.show_route,
+                            //     params: { id: result.value.item_id },
+                            // });
                             // }
                         },
                     });
