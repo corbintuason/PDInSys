@@ -12,6 +12,7 @@
 				<basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
 			</b-card-body>
 		</b-card>
+		<!-- {{mandates}} -->
 	</div>
 </template>
 
@@ -35,7 +36,7 @@ export default {
         this.mandates = response.data.data;
         mandates.forEach(mandate => {
           this.items.push({
-            code: mandate.code,
+            code: 'PMID' +mandate.code,
             item_name: mandate.full_name.first_name + ' ' +mandate.full_name.last_name,
             contact_number: mandate.mobile_number,
             status: mandate.status,
@@ -57,8 +58,8 @@ export default {
           sortDirection: "desc"
         },
         {
-          key: "item_details.name",
-          label: "Full Name",
+          key: "item_name",
+          label: "Mandate Name",
           sortable: true,
           sortDirection: "desc",
           class: "text-center"

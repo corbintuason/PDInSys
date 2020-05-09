@@ -101,10 +101,6 @@ class Mandate extends Model
         return $this->belongsTo("App\User", "creator_id");
     }
 
-    public function mandate_contributors()
-    {
-        return $this->hasManyThrough("App\User", 'App\MandateContributor', 'mandate_id', 'id', 'id', 'contributor_id');
-    }
 
     public function contributors()
     {

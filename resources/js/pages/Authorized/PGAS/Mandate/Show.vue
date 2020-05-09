@@ -6,28 +6,19 @@
         -- EWT DETAILS Update
 	    -- Attachments files
 	-->
-    <div>
-        <b-breadcrumb class="mt-4">
+    <div v-if="mandate!=null">
+        <b-breadcrumb class="mt-4" >
             <b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
             <b-breadcrumb-item href="/mandates"
                 >List of mandates</b-breadcrumb-item
             >
             <b-breadcrumb-item active
-                >PMID-{{ mandate_code }}</b-breadcrumb-item
+                >PMID-{{ mandate.code }}</b-breadcrumb-item
             >
         </b-breadcrumb>
         <div v-if="mandate.status != 'Rejected'">
-            <item-progress
-                class="mt-3"
-                :front_steps="front_steps"
-                v-if="mandate != null"
-                :db_steps="db_steps"
-                :item="mandate"
-                :contributors="contributors"
-                :mode="mode"
-                :api_link="api_link"
-                :remarks="remarks"
-            ></item-progress>
+              <item-progress class="mt-3" :steps="steps" :item="mandate" :mode="mode"></item-progress>
+
         </div>
         <!-- <b-card v-if="mandate.status != 'Rejected'" class="mt-3">
 			<template v-slot:header>
@@ -59,16 +50,14 @@
         <!-- Mandate -->
         <mandate-module
             v-if="mandate != null"
-            :mandate_code="mandate_code"
+            :mandate_code="mandate.code"
             :user="user"
             :mandate="mandate"
             :mode="mode"
-            :user_role="user_role"
-            @update-mode="updateMode"
         ></mandate-module>
 
         <!-- Change Logs -->
-        <change-logs :logs="change_logs"></change-logs>
+        <change-logs :logs="mandate.relationships.actions"></change-logs>
     </div>
 </template>
 
@@ -78,6 +67,7 @@ import changeLogs from "../../../../components/public/ChangeLogs";
 export default {
     data() {
         return {
+            user: this.$store.state.user,
             mode: "Show",
             show_project_key: 0,
             steps: this.$store.state.mandate.steps,

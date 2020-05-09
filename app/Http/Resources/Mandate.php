@@ -3,7 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\MandateContributor as MandateContributorResource;
+use App\Http\Resources\Contributor as ContributorResource;
+use App\Http\Resources\Remark as RemarkResource;
 
 class Mandate extends JsonResource
 {
@@ -15,21 +16,14 @@ class Mandate extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
-    }
-
-    public function with($request)
-    {
         $response = parent::toArray($request);
         $response["code"] = $this->code;
-        $response["isCompletelyAssigned"] = $this->isAssignmentComplete;
         $response['current_handler'] = $this->currentHandler;
-        $response['code'] = $this->code;
-        // $response["access"] = auth()->user()->getAbilities()->where('entity_type', get_class($this->resource));
         $response["relationships"] = [
             'user' => $this->user,
-            'contributors' => MandateContributorResource::collection($this->contributors),
+            'contributors' => ContributorResource::collection($this->contributors),
             'actions' => $this->actions
         ];
+        return $response;
     }
 }

@@ -1,14 +1,15 @@
 <template>
-  <div>
-    <b-card class="mt-3">
-      <template v-slot:header>
-        <h1 class="component-title">Project List and Status</h1>
-      </template>
-      <b-card-body>
-        <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
-      </b-card-body>
-    </b-card>
-  </div>
+	<div>
+		<b-card class="mt-3">
+			<template v-slot:header>
+				<h1 class="component-title">Project List and Status</h1>
+			</template>
+			<b-card-body>
+				<basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
+			</b-card-body>
+		</b-card>
+		{{items}}
+	</div>
 </template>
 
 <script>

@@ -12,6 +12,8 @@ use App\User;
 use Notification;
 use App\Notifications\MandateCreated;
 use App\Notifications\MandateStatusChange;
+use App\Remark;
+use App\Contributor;
 use App\Traits\MandatesTrait;
 
 class MandateController extends Controller
@@ -84,46 +86,64 @@ class MandateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'status' => 'required|string|max:191',
-        ]);
         $mandate = Mandate::findOrFail($id);
-        $user_id = auth()->user()->id;
-        $user = new UserResource(User::findOrFail($user_id));
+        $auth_user = auth()->user();
 
-        $old_status = $mandate->status;
-        activity()->withoutLogs(function () use ($mandate, $request) {
+        // Update Mandate
+        $status = $this->getNextStage($mandate)->name;
+        activity()->withoutLogs(function () use ($mandate, $status) {
             $mandate->update([
-                'status' => $request['status'],
+                'status' => $status
             ]);
         });
 
+        // Create Contributor Object
+        $this->addContributor($mandate);
 
-        // Notify the creator that the mandate has been approved
-        $update_user = User::findOrFail($mandate->creator_id);
-        $update_users = collect([]);
-        $update_users->push($update_user);
-        Notification::send($update_users, new MandateStatusChange($mandate));
+        // Authorize user to edit this item
+        $auth_user->allow('edit', $mandate);
+
+        // Notify Process Users
+        Notification::send($this->notifyApprovers($mandate), new MandateCreated($mandate));
 
         // Create Activity Log
-
         activity('Mandate Status Change')
             ->on($mandate)
-            ->withProperties(["link_name" => "mandate_show", "link_id" => $mandate->id])
-            ->log("User " . $user->last_name . ", " . $user->first_name  . " has changed Mandate " . ' ' . $mandate->code . " status from " . $old_status . " to " . $mandate->status);
+            ->log($auth_user->full_name . " has changed Mandate " . $mandate->code . "'s status to " . $mandate->status);
 
-
-        return new MandateResource($mandate);
+        return [
+            'item_id' => $mandate->id,
+            'success_text' => "Mandate " . $mandate->code . " has been successfully updated"
+        ];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Mandate  $mandate
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Mandate $mandate)
+    public function returnToUser(Request $request, $id)
     {
-        //
+        $auth_user = auth()->user();
+        $remark = Remark::create([
+            'remarkable_type' => "App\\" . $request['remarkable_type'],
+            'remarkable_id' => $request['remarkable_id'],
+            'returned_to_id' => $request['user']['id'],
+            'returned_by_id' => $auth_user->id,
+            'remarks' => $request['remarks']
+        ]);
+        $mandate = $remark->remarkable;
+        activity()->withoutLogs(function () use ($mandate, $request) {
+            $mandate->update([
+                'status' => 'Returned to ' . $request['user']['responsibility']
+            ]);
+        });
+
+        $returned_to = User::findOrFail($remark->returned_to_id);
+        Notification::send($returned_to, new MandateReturned($mandate));
+
+        activity('Mandate Returned')
+            ->on($mandate)
+            ->log($auth_user->full_name . " has returned Mandate Code " . $mandate->code . " to " . $returned_to->full_name);
+
+        return [
+            'item_id' => $mandate->id,
+            'success_text' => "Mandate " . $mandate->code . " has been successfully Returned"
+        ];
     }
 }
