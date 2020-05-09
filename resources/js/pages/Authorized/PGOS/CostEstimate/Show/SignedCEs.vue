@@ -1,10 +1,47 @@
 <template>
-    <b-card class="mt-3">
-        <template v-slot:header>
-            <h1 class="component-title" ref="lmfao">
-                Signed CEs
-            </h1>
-        </template>
-        <b-card-body></b-card-body>
-    </b-card>
+    <div>
+        <!-- If Project Does Not Have Cost Estimate -->
+        <with-cost-estimate
+            v-if="hasCostEstimate"
+            :cost_estimate_name="cost_estimate_name"
+            :cost_estimate="project.relationships.cost_estimate"
+        ></with-cost-estimate>
+
+        <!-- If Project has Cost Estimate -->
+        <without-cost-estimate
+            v-else
+            :cost_estimate_name="cost_estimate_name"
+        ></without-cost-estimate>
+    </div>
 </template>
+
+<script>
+import withCostEstimate from "./SignedCEs/WithCostEstimate";
+import withoutCostEstimate from "./SignedCEs/WithoutCostEstimate";
+export default {
+    data() {
+        return {
+            endpoints: {
+                api: "/api/project/" + this.project.id + "/cost-estimate",
+                show_route: "cost_estimate_show",
+            },
+        };
+    },
+    props: {
+        project: Object,
+    },
+    components: {
+        "with-cost-estimate": withCostEstimate,
+        "without-cost-estimate": withoutCostEstimate,
+    },
+    computed: {
+        hasCostEstimate() {
+            return this.project.relationships.cost_estimate;
+        },
+
+        cost_estimate_name() {
+            return "CEPD" + this.project.code + " " + this.project.name;
+        },
+    },
+};
+</script>

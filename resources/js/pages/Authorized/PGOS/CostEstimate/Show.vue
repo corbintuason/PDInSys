@@ -6,8 +6,9 @@
 			<!-- Here you can see the signed CEs -->
 			<signed-ces :project="project"></signed-ces>
 			<!-- Here you can see unsigned CEs -->
-			<unsigned-ces :project="project"></unsigned-ces>
-			<!-- <create-ces></create-ces> -->
+			<unsigned-ces :project="project" :steps="steps"></unsigned-ces>
+            <!-- Here you can create CEs -->
+			<create-ces :steps="steps" :endpoints="endpoints"></create-ces>
 			<!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
 			<show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate>-->
 		</div>
@@ -36,11 +37,10 @@
 </template>
 
 <script>
-import showCostEstimate from "./Show/ShowCostEstimate";
-import createCostEstimate from "./Show/CreateCostEstimate";
 import costEstimateFile from "./Show/CostEstimateFile"
 import signedCEs from "./Show/SignedCEs";
 import unsignedCEs from "./Show/UnsignedCEs";
+import createCEs from "./Show/CreateCEs";
 export default {
     data() {
         return {
@@ -51,11 +51,10 @@ export default {
         };
     },
     components: {
-        "show-cost-estimate": showCostEstimate,
-        "create-cost-estimate": createCostEstimate,
         "signed-ces": signedCEs,
         "cost-estimate-file": costEstimateFile,
-        "unsigned-ces": unsignedCEs
+        "unsigned-ces": unsignedCEs,
+        "create-ces": createCEs
     },
     computed:{
     },

@@ -30,13 +30,13 @@
             </b-tabs>
         </b-card-body>
         <template v-slot:footer>
-            <show-project-buttons
+            <show-process-buttons
                 :mode="mode"
                 :item="project"
                 :item_model="item_model"
                 :steps="steps"
                 :endpoints="endpoints"
-            ></show-project-buttons>
+            ></show-process-buttons>
         </template>
     </b-card>
 </template>
@@ -45,7 +45,7 @@
 import quickAccess from "./ShowProject/QuickAccess"
 import projectDetails from "./ShowProject/ProjectDetails";
 import projectCoreTeam from "./ShowProject/ProjectCoreTeam";
-import showProjectButtons from "../../../../../components/authorized/public/ShowProjectButtons";
+import showProcessButtons from "../../../../../components/authorized/public/ShowProcessButtons";
 export default {
     data() {
         return {
@@ -62,7 +62,7 @@ export default {
         endpoints: Object
     },
     components: {
-        "show-project-buttons": showProjectButtons,
+        "show-process-buttons": showProcessButtons,
         "project-details": projectDetails,
         "project-core-team": projectCoreTeam,
         "quick-access": quickAccess

@@ -5,10 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
-
+use App\Traits\ModelsTrait;
 class Project extends Model
 {
-    use LogsActivity, CausesActivity;
+    use LogsActivity, CausesActivity, ModelsTrait;
 
     protected $fillable = [
     'name',
@@ -40,15 +40,19 @@ protected static $logName = 'Project';
     protected function getStagesAttribute(){
         $stages = collect([
             (object) [
-                "name" => "For Review",
+                "names" => ["Returned to Creator"],
+                "responsible" => "project-creator"
+            ],
+            (object) [
+                "names" => ["For Review", "Returned to Reviewer"],
                 "responsible" => "project-reviewer"
             ],
             (object) [
-                "name" => "For Approval",
+                "names" => ["For Approval", "Returned to Approver"],
                 "responsible" => "project-approver"
             ],
             (object) [
-                "name" => "For Assigning",
+                "names" => ["For Assigning"],
                 "responsible" => "project-assigner"
             ]
         ]);
@@ -72,11 +76,7 @@ protected static $logName = 'Project';
         return $divisions_needed == $divisions_assigned;
     }
 
-    public function getCurrentHandlerAttribute(){
-        $stage = $this->stages->where('name', $this->status)->first();
-        $handler = $stage->responsible;
-        return $handler;
-    }
+ 
 
     public function core_team(){
         return $this->hasMany("App\ProjectCoreEmployee")->with('user');

@@ -89,9 +89,7 @@ export default {
   },
   watch:{
     mode(){
-      console.log("there have been changes");
       this.show_project_key++;
-      console.log(this.show_project_key);
     }
   },
   methods:{

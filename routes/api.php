@@ -37,10 +37,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/project/{id}', 'API\ProjectController@show');
     Route::put('/project/{id}', 'API\ProjectController@update');
     Route::put('/project/{id}/saveChanges', 'API\ProjectController@saveChanges');
-    // Additional Routes
+    // Cost Estimate Routes
     Route::get('/download_cost_estimate/{id}', 'API\CostEstimateController@download');
     Route::post('/project/{id}/cost-estimate', 'API\CostEstimateController@store');
     Route::put('/project/{id}/cost-estimate', 'API\CostEstimateController@update');
+    // Cost Estimate Detail Routes
+    Route::post("/project/{id}/cost-estimate-detail", "API\CostEstimateDetailController@store");
+    // Additional Routes
+
     Route::put("/project/{id}/returnToUser", 'API\ProjectController@returnToUser');
     Route::get('/activities', "API\ActivityController@index");
 });

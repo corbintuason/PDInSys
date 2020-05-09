@@ -3,21 +3,45 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ModelsTrait;
 
 class CostEstimateDetail extends Model
 {
+    use ModelsTrait;
     protected $fillable=[
         'cost_estimate_id', 'sub_total', 'version', 'asf_rate', 'peza_ar', 'status'
     ];
 
-    public function getCENumberAttribute(){
-        /**
-         *             return "CEPD-" + this.project.code;
 
-         */
-        return "CEPD-".$this->cost_estimate->project->code . ".". 1;
+    protected function getStagesAttribute(){
+        $stages = collect([
+            (object) [
+                "names" => ["Returned to Creator"],
+                "responsible" => "cost-estimate-creator"
+            ],
+            (object) [
+                "names" => ["For Review", "Returned to Reviewer"],
+                "responsible" => "cost-estimate-reviewer"
+            ],
+            (object) [
+                "names" => ["For Approval", "Returned to Approver"],
+                "responsible" => "cost-estimate-approver"
+            ],
+            (object) [
+                "names" => ["For Clearance"],
+                "responsible" => "cost-estimate-clearer"
+            ]
+        ]);
+        return $stages;
+        // return ["For Review", "For Approval", "For Approval", "For Assigning", "Assigned"];
     }
 
+    public function getCodeAttribute()
+{
+    $co_details = $this->cost_estimate->cost_estimate_details;
+    return "CEPD". $this->cost_estimate->project->code.".".($co_details->search($co_details->where('id', $this->id)->first())+1);
+
+}
     public function getTotalProjectCostAttribute(){
     /* 
             return (sub_total, asf_rate) => {
@@ -70,5 +94,14 @@ class CostEstimateDetail extends Model
     }
     public function cost_estimate(){
         return $this->belongsTo('App\CostEstimate');
+    }
+
+    
+    public function contributors(){
+        return $this->morphMany("App\Contributor", 'contributable')->with('user');
+    }
+
+    public function remarks(){
+        return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
     }
 }

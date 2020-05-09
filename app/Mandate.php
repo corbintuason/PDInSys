@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
+use App\Traits\ModelsTrait;
 
 class Mandate extends Model
 {
 
-    use LogsActivity, CausesActivity;
+    use LogsActivity, CausesActivity, ModelsTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -80,7 +81,15 @@ class Mandate extends Model
     {
         $stages = collect([
             (object) [
-                "name" => "For Approval",
+                "names" => ["Returned to Creator"],
+                "responsible" => "mandate-creator"
+            ],
+            (object) [
+                "names" => ["For Review", "Returned to Reviewer"],
+                "responsible" => "mandate-reviewer"
+            ],
+            (object) [
+                "names" => ["For Approval", "Returned to Approver"],
                 "responsible" => "mandate-approver"
             ]
         ]);

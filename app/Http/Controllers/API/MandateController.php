@@ -42,28 +42,10 @@ class MandateController extends Controller
     {
 
         // STATUS IS SET TO FOR APPROVAL
-        $auth_user = auth()->user();
-        $request['status'] = $this->getCreateStatus($request);
-
-        // Create Project
-        $mandate = activity()->withoutLogs(function () use ($request) {
-            return Mandate::create($request->all());
-        });
-
-        // Create Contributor Object
-        $this->addContributor($mandate);
-
-        // Authorize user to edit this item
-        $auth_user->allow('edit', $mandate);
-
+        $auth_user = auth()->user();        
+        $mandate = $this->createItem($request, Mandate::class, "Mandate");
         // Notify Process Users
-        Notification::send($this->notifyApprovers($mandate), new MandateCreated($mandate));
-
-        // Create Activity Log
-
-        activity('Mandate Created')
-            ->on($mandate)
-            ->log($auth_user->full_name . " has created Mandate " . $mandate->code);
+         Notification::send($this->notifyApprovers($mandate), new MandateCreated($mandate));
 
         return [
             'item_id' => $mandate->id,

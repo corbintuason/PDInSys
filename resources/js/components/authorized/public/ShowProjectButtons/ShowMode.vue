@@ -81,7 +81,7 @@ export default {
            return this.$store.getters.hasRole(this.item.current_handler);
         },
         showReturnButton() {
-            return this.hasItemAbility(this.item.access, 'return') && this.$store.getters.isCurrentHandler(this.item.current_handler);
+           return this.$store.getters.hasRole(this.item.current_handler);
         },
     },
     methods: {

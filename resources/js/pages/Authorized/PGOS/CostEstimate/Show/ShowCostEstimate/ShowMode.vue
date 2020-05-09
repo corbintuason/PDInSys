@@ -192,7 +192,7 @@ export default {
                 );
                 const link = document.createElement("a");
                 link.href = url;
-                link.setAttribute("download", "file.xlsx");
+                link.setAttribute("download", "file");
                 document.body.appendChild(link);
                 link.click();
             });

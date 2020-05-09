@@ -20,15 +20,16 @@ class Mandate extends JsonResource
 
     public function with($request)
     {
-        return [
-            'relationships' => [
-                'user' => $this->user,
-                'contributors' => MandateContributorResource::collection($this->contributors),
-            ],
-            'actions' => $this->activities,
-            'meta' => [
-                'code' => $this->code,
-            ],
+        $response = parent::toArray($request);
+        $response["code"] = $this->code;
+        $response["isCompletelyAssigned"] = $this->isAssignmentComplete;
+        $response['current_handler'] = $this->currentHandler;
+        $response['code'] = $this->code;
+        // $response["access"] = auth()->user()->getAbilities()->where('entity_type', get_class($this->resource));
+        $response["relationships"] = [
+            'user' => $this->user,
+            'contributors' => MandateContributorResource::collection($this->contributors),
+            'actions' => $this->actions
         ];
     }
 }

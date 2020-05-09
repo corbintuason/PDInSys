@@ -14,6 +14,8 @@ use Notification;
 use App\Contributor;
 use App\Notifications\CostEstimateCreated;
 use App\Notifications\CostEstimateStatusChange;
+use App\Traits\ControllersTrait;
+
 class CostEstimateController extends Controller
 {
     use ControllersTrait;
@@ -35,72 +37,48 @@ class CostEstimateController extends Controller
      */
     public function store(Request $request, $id)
     {
+        // Upload First Cost Estimate
+        $project = Project::findOrFail($id);
         $auth_user = auth()->user();
         $extension = $request->file('file')->extension();
-        $full_name = $request->input('name').'.'.$extension;
+        $file_name = "CEPD".$project->code. " " . $project->name. ".". $extension;
         $path = Storage::putFileAs(
-            'cost-estimates', $request->file('file'), $full_name
+            'cost-estimates', $request->file('file'), $file_name
         );
         
-        $cost_estimate = activity()->withoutLogs(function() use($request, $full_name, $id){
-           return CostEstimate::create([
-                'name' => $full_name,
-                'project_id' => $id,
-                'status' => $request->input('status')
-                ]);
-        });
+        // Call only if No Cost Estimate has been created for the project
+        if($project->cost_estimate == null){
+       // Fix Request First before calling create method
+            $modified_request = new Request;
+            $modified_request["name"] = $file_name;
+            $modified_request["project_id"] = $id;
+            $cost_estimate = activity()->withoutLogs(function () use ($modified_request) {
+                return CostEstimate::create($modified_request->all());
+            });
+        }
+        
+        // Use new instance of project because the cost estimate may have been added
+        $cost_estimate = Project::findOrFail($id)->cost_estimate;
+        
+        // Create Details
+       $details = json_decode($request->input('details'));
+       foreach($details as $detail){
+            $request_detail = new Request((array) $detail);
+            $request_detail["cost_estimate_id"] = $cost_estimate->id;
+            $cost_estimate_detail = $this->createItem($request_detail, CostEstimateDetail::class, "Cost Estimate Detail");
 
-        // Create Cost Estimate Details
-        // $details = json_decode($request->get('details'), true);
-        // foreach($details as $detail){
-        //     CostEstimateDetail::create([
-        //         'cost_estimate_id' => $cost_estimate->id,
-        //         'sub_total' => $detail['sub_total'],
-        //         'version' => $detail['version'],
-        //         'asf_rate' => $detail['asf_rate'],
-        //         'peza_ar' => $detail['peza_ar']
-        //     ]);
-        // }
+       }
 
-        // Add Contributor
-        // Add Project Contributor List
-        //    if($cost_estimate->status == "For Review"){
-        //     $responsibility = "Creator";
-        //     $notify = "cost-estimate-reviewer";
-        // }else if($cost_estimate->status == "For Approval"){
-        //     $responsibility = "Reviewer";
-        //     $notify = "cost-estimate-approver";
-        // }else if ($cost_estimate->status == "For Clearance"){
-        //     $responsibility = "Approver";
-        //     $notify = "cost-estimate-clearer"; 
-        // }
-
-        // $cost_estimate_contributor = Contributor::create([
-        //     'contributable_type' => "App\\CostEstimate",
-        //     'contributable_id' => $cost_estimate->id,
-        //     'contributor_id' => $auth_user->id,
-        //     'responsibility' => $responsibility
-        // ]);
-
-        // $notify_users = User::whereIs($notify)->get();
-        // Notification::send($notify_users, new CostEstimateCreated($cost_estimate));
         // Create Activity Log
-        
-        // activity('Cost Estimate Created')
-        // ->on($cost_estimate)
-        // ->log($auth_user->full_name . " has created " . $cost_estimate->code);
-        
+        activity("Cost Estimate Uploaded")
+        ->on($cost_estimate)
+        ->log($auth_user->full_name . " has uploaded " . $file_name . " for Project " . $cost_estimate->project->code);
+
         return [
             'refresh' => true,
-            'success_text' => $cost_estimate->code . " has been successfully created."
+            'success_text' => $cost_estimate->code . " has been successfully created.",
+            'file_name' => $file_name
         ];
-
-        
-
-
-        
-
-
     }
 
     /**

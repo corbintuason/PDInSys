@@ -172,6 +172,124 @@ export default {
             });
         },
 
+        async fireUploadSwal(swal_object) {
+            const { value: file } = await swal.fire({
+                title: swal_object.title,
+                html: swal_object.html,
+                text: swal_object.text,
+                confirmButtonText: swal_object.confirmButtonText,
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                allowOutsideClick: false,
+                input: "file",
+                inputAttributes: {
+                    accept: ".xlsx",
+                },
+                preConfirm:(file) => {
+                              return new Promise((resolve, reject) => {
+                                var details = swal_object.item;
+                                const object = {
+                                    file: file,
+                                    details: swal_object.item
+                                };
+                                console.log("object", object);
+                                const formData = new FormData();
+                    
+                                Object.keys(object).forEach((key) => {
+                                    if(key == 'details'){
+                                        console.log("pumasok siya sa details");
+                                        formData.append(key, JSON.stringify(object[key]));
+                                    }else{
+                                        formData.append(key, object[key])
+                                    }
+                                });
+                                console.log("file?from preconfirm hek", formData);
+                            axios
+                            .post(swal_object.endpoints.api, formData)
+                            .then((response) => {
+                                resolve(response.data);
+                            })
+                            .catch((e) => {
+                                //(e);
+                                swal.showValidationMessage(
+                                    `Unable to process item`
+                                );
+                                swal.hideLoading();
+                                reject(e);
+                            });
+                    });
+                },
+        
+                
+            }).then((result) => {
+                if (result.value) {
+                    console.log(result);
+                    swal.fire({
+                        title: result.value.success_text,
+                        icon: "success",
+                        onClose: () => {
+                            if(result.value.refresh){
+                                this.$router.go();
+                            }else{
+                                this.$router.push({
+                                    name: swal_object.endpoints.show_route,
+                                    params: { id: result.value.item_id },
+                                });
+                            }
+                       
+                        },
+                    });
+                }
+            });
+            // swal.fire({
+            //     title: swal_object.title,
+            //     icon: "question",
+            //     html: swal_object.html,
+            //     confirmButtonText: swal_object.confirmButtonText,
+            //     showLoaderOnConfirm: true,
+            //     showCancelButton: true,
+            //     cancelButtonColor: "#d33",
+            //     allowOutsideClick: false,
+            //     preConfirm: () => {
+            //         return new Promise((resolve, reject) => {
+            //             axios
+            //                 .post(swal_object.endpoints.api, swal_object.item)
+            //                 .then((response) => {
+            //                     resolve(response.data);
+            //                 })
+            //                 .catch((e) => {
+            //                     //(e);
+            //                     swal.showValidationMessage(
+            //                         `Unable to process item`
+            //                     );
+            //                     swal.hideLoading();
+            //                     reject(e);
+            //                 });
+            //         });
+            //     },
+            // }).then((result) => {
+            //     if (result.value) {
+            //         console.log(result);
+            //         swal.fire({
+            //             title: result.value.success_text,
+            //             icon: "success",
+            //             onClose: () => {
+            //                 if(result.value.refresh){
+            //                     this.$router.go();
+            //                 }else{
+            //                     this.$router.push({
+            //                         name: swal_object.endpoints.show_route,
+            //                         params: { id: result.value.item_id },
+            //                     });
+            //                 }
+                       
+            //             },
+            //         });
+            //     }
+            // });
+        },
+
         fireUpdateSwal(swal_object, item){
             var api_link;
             if(this.lastCharacter(swal_object.endpoints.api, "/")){

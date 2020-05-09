@@ -43,29 +43,12 @@ class ProjectController extends Controller
             'for_project_bidding' => 'required',
             'departments_needed' => 'required',
         ]);
-
-        $auth_user = auth()->user();
-        $request['status'] = $this->getCreateStatus($request);
-
-        // Create Project
-        $project = activity()->withoutLogs(function () use ($request) {
-            return Project::create($request->all());
-        });
-
-        // Create Contributor Object
-        $this->addContributor($project);
-
-        // Authorize user to edit this item
-        $auth_user->allow('edit', $project);
-
+                
+        $project = $this->createItem($request, Project::class, "Project");
+        
         // Notify Process Users
         Notification::send($this->notifyApprovers($project), new ProjectCreated($project));
-
-        // Create Activity Log
-        activity('Project Created')
-            ->on($project)
-            ->log($auth_user->full_name . " has created Project " . $project->code);
-
+        
         return [
             'item_id' => $project->id,
             'success_text' => "Project " . $project->code . " has been successfully created"
@@ -74,7 +57,6 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        // Bouncer::allow(auth()->user())->to('Create', Project::class);
         return new ProjectResource(Project::findorFail($id));
     }
 
@@ -84,7 +66,7 @@ class ProjectController extends Controller
         $auth_user = auth()->user();
 
         // Update Project
-        $status = $this->getNextStage($project)->name;
+        $status = $this->getNextStage($project)->names[0];
         activity()->withoutLogs(function () use ($project, $status) {
             $project->update([
                 'status' => $status
@@ -98,7 +80,7 @@ class ProjectController extends Controller
         $auth_user->allow('edit', $project);
 
         // Notify Process Users
-        Notification::send($this->notifyApprovers($project), new ProjectCreated($project));
+        Notification::send($this->notifyApprovers($project), new ProjectStatusChange($project));
 
         // Create Activity Log
         activity('Project Status Change')
