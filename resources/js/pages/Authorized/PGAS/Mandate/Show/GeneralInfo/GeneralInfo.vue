@@ -9,7 +9,7 @@
 				</div>
 				<div class="col-md-6">
 					<label for="position">Position Applying For:</label>
-					<b-input :disabled="mode=='Show'" id="position" v-model="mandate.position"></b-input>
+					<b-input :disabled="mode=='Show'" v-model="mandate.position"></b-input>
 				</div>
 			</div>
 			<hr />

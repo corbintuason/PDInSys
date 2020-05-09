@@ -49,6 +49,14 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::put("/project/{id}/returnToUser", 'API\ProjectController@returnToUser');
     Route::get('/activities', "API\ActivityController@index");
+
+    // Mandate Routes
+    Route::get('/mandate', 'API\MandateController@index');
+    Route::post('/mandate', 'API\MandateController@store');
+    Route::get('/mandate/{id}', 'API\MandateController@show');
+    Route::put('/mandate/{id}', 'API\MandateController@update');
+    Route::put('/mandate/{id}/saveChanges', 'API\MandateController@saveChanges');
+    Route::put("/mandate/{id}/returnToUser", 'API\MandateController@returnToUser');
 });
 
 

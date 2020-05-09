@@ -15,7 +15,7 @@
 						Position Applying For:
 						<strong class="red">*</strong>
 					</label>
-					<b-form-select id="position" v-model="mandate.position">
+					<b-form-select v-model="mandate.position">
 						<option disabled>Please select an option</option>
 						<option>Ambassador</option>
 						<option>Ambassadress</option>
