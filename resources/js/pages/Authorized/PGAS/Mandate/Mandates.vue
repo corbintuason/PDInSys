@@ -33,13 +33,13 @@
 						</b-button-group>
 					</div>
 					<div class="col-md-6 text-right">
-						<template>
-							<!-- Return Mandate -->
-							<b-button class="mr-1" variant="primary">Return Mandate</b-button>
-							<!-- Reject Mandate -->
-							<b-button variant="danger" class="mr-1 ml-1" @click="rejectMandate">Reject Mandate</b-button>
-							<b-button variant="success" class="ml-1" @click="approveMandate">Approve Mandate</b-button>
-						</template>
+						<show-process-buttons
+							:mode="mode"
+							:item="mandate"
+							:item_model="item_model"
+							:steps="steps"
+							:endpoints="endpoints"
+						></show-process-buttons>
 					</div>
 				</div>
 			</template>
@@ -53,62 +53,65 @@ import educationWork from "./Show/EducationWork";
 import generalInfo from "./Show/GeneralInfo";
 import governmentDetails from "./Show/GovernmentDetails";
 import otherInformation from "./Show/OtherInformation";
-
+import showProcessButtons from "../../../../components/authorized/public/ShowProcessButtons";
 export default {
   data() {
     return {
 		tabIndex: 0,
+		name: "Show Mandate",
+		item_model: "Mandate",
 		user: this.$store.state.user,
     };
   },
+    props: {
+		steps: Array,
+		mandate: Object,
+		mandate_code: String,
+		mode: String,
+		endpoints: Object
+	},
   mixins: [form],
   components: {
     "education-work": educationWork,
     "general-info": generalInfo,
     "government-details": governmentDetails,
-    "other-information": otherInformation,
+	"other-information": otherInformation,
+	"show-process-buttons": showProcessButtons,
   },
-  props: {
-    steps: Array,
-    mandate: Object,
-    mandate_code: String,
-    mode: String,
-    endpoints: Object
-  },
-  methods: {
-    approveMandate() {
-      // activate sweet alert
-      const swal_object = {
-        title: "Approve Mandate",
-        icon: "question",
-        confirmButtonText: "Are you sure?",
-        text: "Mandate's status will be updated to Approved"
-      };
+//   methods: {
+//     approveMandate() {
+//       // activate sweet alert
+//       const swal_object = {
+//         title: "Approve Mandate",
+//         icon: "question",
+//         confirmButtonText: "Are you sure?",
+//         text: "Mandate's status will be updated to Approved"
+//       };
 
-      const axios_form = {
-        api_link: "/api/mandate/" + this.mandate.id,
-        status: "Approved",
-      };
+//       const axios_form = {
+//         api_link: "/api/mandate/" + this.mandate.id,
+//         status: "Approved",
+//       };
 
-      this.updateItem(swal_object, axios_form);
-    },
-    rejectMandate(){
-       // activate sweet alert
-      const swal_object = {
-        title: "Reject Mandate",
-        icon: "warning",
-        confirmButtonText: "Reject",
-        text: "Mandate's status will be updated to Rejected"
-      };
+//       this.updateItem(swal_object, axios_form);
+//     },
+//     rejectMandate(){
+//        // activate sweet alert
+//       const swal_object = {
+//         title: "Reject Mandate",
+//         icon: "warning",
+//         confirmButtonText: "Reject",
+//         text: "Mandate's status will be updated to Rejected"
+//       };
 
-      const axios_form = {
-        api_link: "/api/mandate/" + this.mandate.id,
-        status: "Rejected",
-      };
+//       const axios_form = {
+//         api_link: "/api/mandate/" + this.mandate.id,
+//         status: "Rejected",
+//       };
 
-      this.updateItem(swal_object, axios_form);
-    }
-  },
+//       this.updateItem(swal_object, axios_form);
+//     }
+//   },
   mounted() {
   }
 };
