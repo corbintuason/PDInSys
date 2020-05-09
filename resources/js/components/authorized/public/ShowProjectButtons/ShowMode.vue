@@ -161,6 +161,8 @@ export default {
         },
     },
     mounted() {
+        console.log("item?", this.item);
+        console.log("steps?", this.steps);
         this.current_step = this.getCurrentStep(this.item, this.steps);
         console.log("current step is ", this.current_step);
     },

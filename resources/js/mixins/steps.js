@@ -11,10 +11,12 @@ export default {
 
         // Returns the current step of an item
         getCurrentStep(item, steps) {
+            console.log("pasok ba me");
             var status = item.status;
             var current_step = steps.find((step) => {
                 return step.database_equivalent.includes(status);
             });
+            console.log("current step", current_step);
             return current_step;
         },
         

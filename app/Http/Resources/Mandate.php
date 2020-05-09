@@ -20,8 +20,10 @@ class Mandate extends JsonResource
         $response["code"] = $this->code;
         $response['current_handler'] = $this->currentHandler;
         $response["relationships"] = [
+            'actions' => $this->activities,
             'user' => $this->user,
             'contributors' => ContributorResource::collection($this->contributors),
+            'remarks' => RemarkResource::collection($this->remarks),
             'actions' => $this->actions
         ];
         return $response;

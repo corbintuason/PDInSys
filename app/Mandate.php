@@ -85,10 +85,6 @@ class Mandate extends Model
                 "responsible" => "mandate-creator"
             ],
             (object) [
-                "names" => ["For Review", "Returned to Reviewer"],
-                "responsible" => "mandate-reviewer"
-            ],
-            (object) [
                 "names" => ["For Approval", "Returned to Approver"],
                 "responsible" => "mandate-approver"
             ]
