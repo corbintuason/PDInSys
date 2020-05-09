@@ -1,43 +1,28 @@
 <template>
-    <b-button-group v-if="current_step!=null" class="float-right">
-        <b-button
-            @click="rejectButton"
-            v-if="showRejectButton"
-            class="float-right"
-            variant="outline-danger"
-            >Reject {{item_model}}</b-button
-        >
+	<b-button-group v-if="current_step!=null" class="float-right">
+		<b-button
+			@click="rejectButton"
+			v-if="showRejectButton"
+			class="float-right"
+			variant="outline-danger"
+		>Reject {{item_model}}</b-button>
 
-        <!-- Edit Project -->
-        <b-button
-            @click="editButton"
-            v-if="showEditButton"
-            class="float-right"
-            variant="outline-dark"
-        >
-            Edit {{item_model}}
-        </b-button>
-       <b-button 
-        @click="returnItem"
-        v-if="showReturnButton"
-        variant="outline-dark"
-        > Return {{item_model}}
-        </b-button>
-        <b-button
-            v-if="showUpdateButton"
-            @click="updateStatus"
-            variant="outline-success"
-            >{{ action_name }}</b-button
-        >
+		<!-- Edit Project -->
+		<b-button
+			@click="editButton"
+			v-if="showEditButton"
+			class="float-right"
+			variant="outline-dark"
+		>Edit {{item_model}}</b-button>
+		<b-button @click="returnItem" v-if="showReturnButton" variant="outline-dark">Return {{item_model}}</b-button>
+		<b-button
+			v-if="showUpdateButton"
+			@click="updateStatus"
+			variant="outline-success"
+		>{{ action_name }}</b-button>
 
- 
-        <return-item
-            :item="item"
-            :item_model="item_model"
-            :steps="steps"
-            :endpoints="endpoints"
-        ></return-item>
-    </b-button-group>
+		<return-item :item="item" :item_model="item_model" :steps="steps" :endpoints="endpoints"></return-item>
+	</b-button-group>
 </template>
 
 <script>
@@ -126,7 +111,7 @@ export default {
                 preConfirm: () => {
                     return new Promise((resolve, reject) => {
                         axios
-                            .put("/api/project/" + this.item.id, {
+                            .put("/api/mandate/" + this.item.id, {
                                 status: "Rejected",
                             })
                             .then((response) => {
