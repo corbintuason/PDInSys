@@ -65,8 +65,7 @@ class CostEstimateController extends Controller
        foreach($details as $detail){
             $request_detail = new Request((array) $detail);
             $request_detail["cost_estimate_id"] = $cost_estimate->id;
-            $cost_estimate_detail = $this->createItem($request_detail, CostEstimateDetail::class, "Cost Estimate Detail");
-
+            $cost_estimate_detail = $this->createItem($request_detail, CostEstimateDetail::class, "Cost Estimate Detail", "cost_estimate_show");
        }
 
         // Create Activity Log

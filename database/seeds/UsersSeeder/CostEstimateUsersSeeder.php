@@ -109,6 +109,6 @@ class CostEstimateUsersSeeder extends Seeder
             'password' => Hash::make("password")
         ]);
 
-        $cost_estimate_clearer->assign('cost-estimate-signer');
+        $cost_estimate_signer->assign('cost-estimate-signer');
     }
 }

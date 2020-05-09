@@ -2,24 +2,27 @@
     <div>
         <b-card>
             <template v-slot:header>
-                <h1 class="component-title">{{ name }}</h1>
+                <h1 class="component-title">Unsigned CEs</h1>
             </template>
             <b-card-body>
-                <div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <color-legend></color-legend>
-                        </div>
-                    </div>
+                <div v-if="unsigned_ces.length > 0">
+           
                     <div
-                        v-for="(detail, detail_index) in details"
+                        v-for="(detail, detail_index) in unsigned_ces"
                         :key="detail_index"
                     >
                         <div class="row">
                             <div class="col-md-12">
                                 <div
                                     class="cost-estimate-details mb-0"
-                                    :style="{'border-left': '10px solid ' + colorEquivalent(detail), 'border-right' : '10px solid ' + colorEquivalent(detail)}"
+                                    :style="{
+                                        'border-left':
+                                            '10px solid ' +
+                                            colorEquivalent(detail),
+                                        'border-right':
+                                            '10px solid ' +
+                                            colorEquivalent(detail),
+                                    }"
                                 >
                                     <!-- CE Number Version, Peza / AR -->
                                     <div class="row ml-1 mt-1 mb-3">
@@ -184,7 +187,13 @@
                             </div>
                         </div>
                     </div>
+                             <div class="row">
+                        <div class="col-md-12">
+                            <color-legend :legends="legends"></color-legend>
+                        </div>
+                    </div>
                 </div>
+                <b-alert show v-else variant="danger"> <strong>No Cost Estimate Details have been made yet.</strong></b-alert>
             </b-card-body>
         </b-card>
     </div>
@@ -196,7 +205,7 @@ import colorLegend from "../Show/components/ColorLegend";
 export default {
     data() {
         return {
-            details:[],
+            hasCostEstimateDetails: false,
             mode: "Show",
             item_model: "Cost Estimate Detail",
             peza_ar_options: [
@@ -213,33 +222,51 @@ export default {
                     text: "AR Only",
                 },
             ],
+                   legends: [{
+                status: "For Review",
+                color: "red"
+            }, {
+                status: "For Approval",
+                color: "orange"
+            }, {
+                status: "For Clearance",
+                color: "yellow"
+            }, {
+                status: "For Signing",
+                color: "blue"
+            },{
+                status: "Signed",
+                color: "green"
+            }]
         };
     },
     props: {
         project: Object,
         steps: Array,
+        unsigned_ces: Array,
     },
     components: {
         "color-legend": colorLegend,
-        "showProcessButtons": showProcessButtons,
+        showProcessButtons: showProcessButtons,
     },
     computed: {
-              colorEquivalent(){
-            return detail => {
-                if(detail.status == 'For Review'){
-                    return "red"
-                }else if(detail.status == 'For Approval'){
-                    return "orange"
-                }else if(detail.status == 'For Clearance'){
-                    return "yellow"
-                }else if(detail.status == 'For Signing'){
-                    return "blue"
-                }else if(detail.status == 'Signed'){
-                    return "green"
+        colorEquivalent() {
+            return (detail) => {
+                if (detail.status == "For Review") {
+                    return "red";
+                } else if (detail.status == "For Approval") {
+                    return "orange";
+                } else if (detail.status == "For Clearance") {
+                    return "yellow";
+                } else if (detail.status == "For Signing") {
+                    return "blue";
+                } else if (detail.status == "Signed") {
+                    return "green";
                 }
-            }
+            };
         },
         hasCostEstimate() {
+            console.log("????", this.project.relationships.cost_estimate )
             return this.project.relationships.cost_estimate;
         },
         ce_code() {
@@ -253,20 +280,10 @@ export default {
             return "CEPD" + this.project.code + " " + this.project.name;
         },
     },
-    methods:{
-        loadDetails(){
-            this.project.relationships.cost_estimate.relationships.details.forEach(detail => {
-                detail.endpoints = {
-                    api: "/api/cost_estimate_detail/"+detail.id,
-                    show_route: "show_cost_estimate"
-                };
-                console.log("sumthin", detail);
-                this.details.push(detail);
-            });
-        }
+    methods: {
     },
-    mounted(){
-        this.loadDetails();
-    }
+    mounted() {
+
+},
 };
 </script>

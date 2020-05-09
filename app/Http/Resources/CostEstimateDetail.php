@@ -21,6 +21,7 @@ class CostEstimateDetail extends JsonResource
         $response['vat'] = $this->vat;
         $response['grand_total'] = $this->grand_total;
         $response['current_handler'] = $this->currentHandler;
+        $response['is_signed'] = $this->isSigned;
         $response["relationships"] = [
             'actions' => $this->activities,
             'contributors' => ContributorResource::collection($this->contributors),

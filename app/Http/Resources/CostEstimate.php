@@ -22,6 +22,7 @@ class CostEstimate extends JsonResource
             'contributors' => ContributorResource::collection($this->contributors),
             'remarks' => RemarkResource::collection($this->remarks),
             'details' => CostEstimateDetail::collection($this->cost_estimate_details)
+            // 'unsigned_details' => $this->unsigned_details
         ];
         
         return $response;    

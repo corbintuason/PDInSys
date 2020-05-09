@@ -5,9 +5,12 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Contributor as ContributorResource;
 use App\Http\Resources\Remark as RemarkResource;
-
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
+use App\Traits\ModelsTrait;
 class Mandate extends JsonResource
 {
+    use LogsActivity, CausesActivity, ModelsTrait;
     /**
      * Transform the resource into an array.
      *

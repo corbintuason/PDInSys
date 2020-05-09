@@ -28,6 +28,7 @@ class Project extends Model
 
 protected static $logFillable = true; 
 protected static $logName = 'Project';
+public static $module = 'Project Creation Module';
 
     protected $casts = [
         'account' => 'Object', 

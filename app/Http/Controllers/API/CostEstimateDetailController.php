@@ -28,7 +28,6 @@ class CostEstimateDetailController extends Controller
      */
     public function store(Request $request, $id)
     {
-        dd("yun oh");
         
         $project = Project::findOrFail($id);
         $details = $request->toArray();
@@ -81,10 +80,7 @@ class CostEstimateDetailController extends Controller
     {
         $cost_estimate_detail = CostEstimateDetail::findOrFail($id);
 
-        $this->updateItem($cost_estimate_detail, CostEstimateDetail::class, "Cost Estimate Detail");
-        
-        // Notify Process Users
-        // Notification::send($this->notifyApprovers(), new ProjectCreated($project));
+        $this->updateItem($cost_estimate_detail, CostEstimateDetail::class, "Cost Estimate Detail", "cost_estimate_show");
         
         return [
             'item_id' => $cost_estimate_detail->id,

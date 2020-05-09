@@ -43,11 +43,11 @@ class ProjectController extends Controller
             'for_project_bidding' => 'required',
             'departments_needed' => 'required',
         ]);
-                
-        $project = $this->createItem($request, Project::class, "Project");
+        
+        $project = $this->createItem($request, Project::class, "Project", "project_show");
         
         // Notify Process Users
-        Notification::send($this->notifyApprovers($project), new ProjectCreated($project));
+        // Notification::send($this->notifyApprovers($project), new ProjectCreated($project));
         
         return [
             'item_id' => $project->id,
@@ -64,21 +64,9 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $auth_user = auth()->user();
-        $this->updateItem($project, Project::class, "Project");
 
-        // Create Contributor Object
-        $this->addContributor($project);
+        $this->updateItem($project, Project::class, "Project", "project_show");
 
-        // Authorize user to edit this item
-        $auth_user->allow('edit', $project);
-
-        // Notify Process Users
-        Notification::send($this->notifyApprovers($project), new ProjectStatusChange($project));
-
-        // Create Activity Log
-        activity('Project Status Change')
-            ->on($project)
-            ->log($auth_user->full_name . " has changed Project " . $project->code . "'s status to " . $project->status);
 
         return [
             'item_id' => $project->id,

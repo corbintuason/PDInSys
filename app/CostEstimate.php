@@ -52,6 +52,9 @@ class CostEstimate extends Model
     public function cost_estimate_details(){
         return $this->hasMany('App\CostEstimateDetail');
     }
+    // public function unsigned_details(){
+    //     return $this->hasMany('App\CostEstimateDetail')->whereIn('status', ['For Approval']);
+    // }
 
     public function project(){
         return $this->belongsTo('App\Project');

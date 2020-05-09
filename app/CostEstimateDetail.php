@@ -9,8 +9,9 @@ class CostEstimateDetail extends Model
 {
     use ModelsTrait;
     protected $fillable=[
-        'cost_estimate_id', 'sub_total', 'version', 'asf_rate', 'peza_ar', 'status'
+        'cost_estimate_id', 'sub_total', 'version', 'asf_rate', 'vat', 'status'
     ];
+    public static $module = 'CE & Budget Opening Module';
 
 
     protected function getStagesAttribute(){
@@ -42,6 +43,18 @@ class CostEstimateDetail extends Model
         ]);
         return $stages;
         // return ["For Review", "For Approval", "For Approval", "For Assigning", "Assigned"];
+    }
+
+    public function getIsSignedAttribute(){
+       $status = $this->status;
+       $unsigned_statuses = ["For Review", "For Approval", "For Clearance", "For Signing"];
+       $signed_statuses = ["For Review (Signed)", "For Approval (Signed)", "For Clearance (Signed)", "For Signing (Signed)"];
+       
+       if(in_array($status, $unsigned_statuses)){
+        return false;
+       }else if(in_array($status, $signed_statuses)){
+           return true;
+       }
     }
 
     public function getCodeAttribute()
