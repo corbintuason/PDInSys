@@ -8,7 +8,10 @@
                 <div class="col-md-12">
                     <div
                         class="cost-estimate-details mb-0"
-                        style='border-left:10px solid gray; border-right:10px solid gray'
+                        style="
+                            border-left: 10px solid gray;
+                            border-right: 10px solid gray;
+                        "
                         v-for="(detail,
                         detail_index) in new_cost_estimate_details"
                         :key="detail_index"
@@ -54,7 +57,7 @@
                                 label-class="font-weight-bold"
                             >
                                 <b-form-radio-group
-                                    v-model="detail['peza_ar']"
+                                    v-model="detail['vat']"
                                     :options="peza_ar_options"
                                 >
                                 </b-form-radio-group>
@@ -140,7 +143,7 @@
                                     </template>
                                     <b-form-input
                                         readonly
-                                        :value="getVAT(detail['peza_ar'])"
+                                        :value="getVAT(detail['vat'])"
                                     ></b-form-input>
                                 </b-input-group>
                             </b-form-group>
@@ -167,7 +170,7 @@
                                                     detail['sub_total'],
                                                     detail['asf_rate']
                                                 ),
-                                                getVAT(detail['peza_ar'])
+                                                getVAT(detail['vat'])
                                             )
                                         "
                                     ></b-input>
@@ -211,7 +214,7 @@ export default {
                     version: null,
                     sub_total: null,
                     asf_rate: null,
-                    peza_ar: null,
+                    vat: "VAT",
                 },
             ],
             peza_ar_options: [
@@ -237,12 +240,12 @@ export default {
         endpoints: Object,
     },
     computed: {
-        colorEquivalent(){
-            return detail => {
-                if(detail.status == 'For Review'){
+        colorEquivalent() {
+            return (detail) => {
+                if (detail.status == "For Review") {
                     return "green";
                 }
-            }
+            };
         },
         getTotalProjectCost() {
             return (sub_total, asf_rate) => {
@@ -254,8 +257,9 @@ export default {
             };
         },
         getVAT() {
-            return (peza_ar) => {
-                if (peza_ar == "VAT") {
+            return (VAT) => {
+                console.log("vat", VAT)
+                if (VAT == "VAT") {
                     return 12;
                 } else {
                     return 0;
@@ -274,9 +278,9 @@ export default {
         },
     },
     methods: {
-         createCostEstimate() {
+        createCostEstimate() {
             var swal_html = this.loadSwalContents(this.steps, this.user);
-                const swal_object = {
+            const swal_object = {
                 title: "Create Cost Estimate",
                 html: swal_html,
                 text: "Please check the details provided.",
@@ -305,13 +309,21 @@ export default {
                 version: null,
                 sub_total: null,
                 asf_rate: null,
-                peza_ar: null,
+                vat: "VAT",
             });
         },
 
         generateCENumber(detail_index) {
             var num = detail_index + 1;
-            return this.ce_code + "." + num;
+            var cost_estimate = this.project.relationships.cost_estimate;
+            if (cost_estimate != null) {
+                var details = this.project.relationships.cost_estimate
+                    .relationships.details;
+                if (details != null) {
+                    num += details.length;
+                }
+            }
+            return "CEPD" + this.project.code + "." + num;
         },
 
         removeRow(index) {
@@ -321,5 +333,3 @@ export default {
     mounted() {},
 };
 </script>
-
-

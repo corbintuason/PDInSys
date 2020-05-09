@@ -29,20 +29,40 @@ class CostEstimateDetail extends Model
                 "responsible" => "cost-estimate-approver"
             ],
             (object) [
-                "names" => ["For Clearance"],
+                "names" => ["For Clearance", "Returned to Clearer"],
                 "responsible" => "cost-estimate-clearer"
             ],
             (object)[
-                "names" => ["For Signing"],
+                "names" => ["For Signing", "Returned to Signer"],
                 "responsible" => "cost-estimate-signer"
             ],
             (object)[
-                "names" => ["Signed"],
+                "names" => ["For Review (Signed)", "Returned to Reviewer (Signed)"],
+                "responsible" => "cost-estimate-reviewer"
+            ],
+            (object)[
+                "names" => ["For Approval (Signed)", "Returned to Approver (Signed)"],
+                "responsible" => "cost-estimate-approver"
+            ],
+            (object)[
+                "names" => ["For Clearance (Signed)", "Returned to Clearer (Signed)"],
+                "responsible" => "cost-estimate-clearer"
+            ],
+            (object)[
+                "names" => ["Cleared (Signed)"],
                 "responsible" => null
             ]
         ]);
         return $stages;
         // return ["For Review", "For Approval", "For Approval", "For Assigning", "Assigned"];
+    }
+
+    public function getAsfSubTotalAttribute(){
+        return $this->sub_total * ($this->asf_rate/100);
+    }
+
+    public function getProjectVatAttribute(){
+        return $this->total_project_cost + ($this->total_project_cost * ($this->tax/100));
     }
 
     public function getIsSignedAttribute(){
@@ -78,7 +98,7 @@ class CostEstimateDetail extends Model
             return $this->sub_total + $sub_percent;
     }
 
-    public function getVatAttribute(){
+    public function getTaxAttribute(){
     /* 
         return (peza_ar) => {
                 if (peza_ar != null) {
@@ -88,7 +108,7 @@ class CostEstimateDetail extends Model
                 }
             };
     **/
-        if($this->peza_ar != null){
+        if($this->vat == 'VAT'){
             return 12;
         }else{
             return 0;

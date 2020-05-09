@@ -11,7 +11,7 @@
                 :steps="steps"
             ></unsigned-ces>
             <!-- Here you can create CEs -->
-            <create-ces :steps="steps" :endpoints="endpoints"></create-ces>
+            <create-ces :steps="steps" :project="project" :endpoints="endpoints"></create-ces>
             <!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
 			<show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate>-->
         </div>

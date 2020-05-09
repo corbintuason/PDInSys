@@ -137,7 +137,7 @@
                                 >
                                     <b-form-input
                                         type="text"
-                                        value="Awit"
+                                        :value="detail.code"
                                         readonly
                                     ></b-form-input>
                                 </b-form-group>
@@ -151,30 +151,30 @@
                                         <tbody>
                                             <tr class="table-primary">
                                                 <th>SUB TOTAL COST</th>
-                                                <td>some total cost</td>
+                                                <td>{{detail.sub_total}}</td>
                                             </tr>
                                             <tr class="table-secondary">
                                                 <th>
-                                                    Agency Service Fee (some%)
+                                                    Agency Service Fee ({{detail.asf_rate}}%)
                                                 </th>
-                                                <td>Sub times asf</td>
+                                                <td>{{detail.asf_sub_total}}</td>
                                             </tr>
                                             <tr class="table-danger">
                                                 <th>
                                                     Total Project Cost (Vat
                                                     Excluded)
                                                 </th>
-                                                <td>Some Money amount</td>
+                                                <td>{{detail.total_project_cost}}</td>
                                             </tr>
                                             <tr class="table-secondary">
-                                                <th>VAT (12%)</th>
-                                                <td>Some amount</td>
+                                                <th>VAT ({{detail.tax}}%)</th>
+                                                <td>{{detail.project_vat}}</td>
                                             </tr>
                                             <tr class="table-danger">
                                                 <th>
                                                     Grand Total (Vat Included)
                                                 </th>
-                                                <td>Some Amount</td>
+                                                <td>{{detail.grand_total}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -185,7 +185,23 @@
                                         <tbody>
                                             <tr>
                                                 <th class="table-secondary"> Internal Budget </th>
-                                                <td class="table-warning"> Some Internal </td>
+                                                <td class="table-warning">
+                                     
+                                            <b-input-group size="sm">
+                                                <template v-slot:prepend>
+                                                    <b-input-group-text
+                                                        ><strong
+                                                            class="text-success"
+                                                            >&#8369;</strong
+                                                        ></b-input-group-text
+                                                    >
+                                                </template>
+                                                <b-input
+                                                    type="number"
+                                                
+                                                ></b-input>
+                                            </b-input-group>
+                                                </td>
                                             </tr>
                                             <tr class="table-secondary">
                                                 <th>Internal Savings</th>
@@ -207,7 +223,19 @@
                                     </table>
                                 </div>
                             </div>
+                                           <div class="row">
+                                        <div class="col-md-12">
+                                            <show-process-buttons
+                                                :mode="mode"
+                                                :item="detail"
+                                                :item_model="item_model"
+                                                :steps="steps"
+                                                :endpoints="detail.endpoints"
+                                            ></show-process-buttons>
+                                        </div>
+                                    </div>
                         </div>
+                   
                     </div>
                     
                                  <div class="row">
@@ -236,7 +264,7 @@ export default {
             mode: "Show",
             item_model: "Cost Estimate Detail",
                    legends: [{
-                status: "Signed",
+                status: "For Review (Signed)",
                 color: "red"
             }, {
                 status: "For Approval (Signed)",

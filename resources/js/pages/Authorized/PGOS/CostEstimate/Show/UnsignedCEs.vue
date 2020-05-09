@@ -265,20 +265,6 @@ export default {
                 }
             };
         },
-        hasCostEstimate() {
-            console.log("????", this.project.relationships.cost_estimate )
-            return this.project.relationships.cost_estimate;
-        },
-        ce_code() {
-            return "CEPD-" + this.project.code;
-        },
-        name() {
-            return this.ce_code + " " + this.project.name;
-        },
-
-        cost_estimate_name() {
-            return "CEPD" + this.project.code + " " + this.project.name;
-        },
     },
     methods: {
     },
