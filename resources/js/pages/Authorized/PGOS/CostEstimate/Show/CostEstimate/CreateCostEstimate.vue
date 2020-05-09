@@ -286,21 +286,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.assign-budget {
-    border: 2px solid #6c757d;
-}
-.cost-estimate-details {
-    background: #e9ecef;
-    border-left: 10px solid #3266a8;
-    border-right: 10px solid #3266a8;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 15px;
-
-    .grand-total {
-        border: 1px solid green;
-       
-    }
-}
-</style>

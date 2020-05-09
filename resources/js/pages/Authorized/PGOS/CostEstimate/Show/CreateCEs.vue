@@ -8,6 +8,7 @@
                 <div class="col-md-12">
                     <div
                         class="cost-estimate-details mb-0"
+                        style='border-left:10px solid gray; border-right:10px solid gray'
                         v-for="(detail,
                         detail_index) in new_cost_estimate_details"
                         :key="detail_index"
@@ -236,6 +237,13 @@ export default {
         endpoints: Object,
     },
     computed: {
+        colorEquivalent(){
+            return detail => {
+                if(detail.status == 'For Review'){
+                    return "green";
+                }
+            }
+        },
         getTotalProjectCost() {
             return (sub_total, asf_rate) => {
                 var asf_rate_percent = asf_rate / 100;
@@ -314,20 +322,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.assign-budget {
-    border: 2px solid #6c757d;
-}
-.cost-estimate-details {
-    background: #e9ecef;
-    border-left: 10px solid #3266a8;
-    border-right: 10px solid #3266a8;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 15px;
 
-    .grand-total {
-        border: 1px solid green;
-    }
-}
-</style>

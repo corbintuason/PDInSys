@@ -7,57 +7,6 @@
     <!-- Main Project Details -->
 
     <show-project v-if="project!=null" :project="project" :steps="steps" :mode="mode" :endpoints="endpoints" :key="show_project_key"></show-project>
-    <!-- Quick Access  -->
-  <!-- COST ESTIMATE: Activate when Main AM has been assigned 
-    - Made through excel
-      - Creator -> Reviewer -> Approver -> Clearance
-      - For Review -> For APproval -> For Clearance -> Cleared
-            - Creator of CE is automatically the Main AM
-      
-      - Fields:
-        - Upload A CE
-          - CE Number (automatic) - CEPD-(Project Code).1
-          - CE Version Number (Dont automate)
-          - Sub Total (Input) 
-          - ASF Rate (Input %)
-          - Total Project Cost (Sub Total *  ASF Rate)
-          - VAT (12% of Total Project Cost)
-          - Radio (Peza, AR Only)
-            - If Ticked, Vat will be set to 0
-          - Grand Total (Total Project Cost + Vat)
-          - NOTE: THIS IS DYNAMIC. ADD A DYNAMIC BUTTON TO ADD ANOTHER CODE
-
-          - CREATE -> Notify Reviewer
-          - Restructure file format uplaoded should be ()
-              *CEPD(PROJECTCODE) PROJECT NAME*
-      
-      WHEN REVIEWED
-        - Name of the download link of renamed CE File
-        - Inputted Details 
-        - When Editing (Reviewer Mode):
-          - Reupload new file (Remove old file)
-          - Change to correct values
-          - Reviewed
-
-      ONCE CLEARED, NOTIFY ALL INVOLVED IN THE ITEM
-        - CEPD.1v1 have been cleared
-      
-
-      
-      // Cost Estimate -> roles ["Reviewer", "Approver", "Clearer"]
-
-      // FIRST PANEL: UPLOAD COST ESTIMATE 
-        - TITLE: CEPD PROJECT CODE PROJECT NAME
-
-      // 2ND PANEL: 
-        - Title: (No signed CES available)
-          - Once available (Signed CEs available)
-      // Who can open budget?
-        - Anyone in the contribution list of ce
-        - Prompt after clear, attach signed ce
-  -->
-  <!-- BUDGET OPENING: Activate when Cost Estimate's Status is Cleared -->
-
 
     <!-- Change Logs  -->
     <change-logs v-if="project!=null" :logs="project.relationships.actions"></change-logs>

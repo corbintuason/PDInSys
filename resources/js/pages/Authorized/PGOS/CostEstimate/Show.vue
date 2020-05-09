@@ -48,6 +48,7 @@ export default {
             steps: this.$store.state.costEstimate.steps,
             project: null,
             endpoints: null,
+            
         };
     },
     components: {
@@ -89,3 +90,16 @@ export default {
     },
 };
 </script>
+
+<style lang="scss">
+.cost-estimate-details {
+    background: #e9ecef;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 15px;
+
+    .grand-total {
+        border: 1px solid green;
+    }
+}
+</style>

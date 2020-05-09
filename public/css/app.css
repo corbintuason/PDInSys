@@ -32224,6 +32224,10 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
   color: orange;
 }
 
+.yellow {
+  color: yellow;
+}
+
 .component-title {
   font-size: 20px;
   font-weight: bold;
