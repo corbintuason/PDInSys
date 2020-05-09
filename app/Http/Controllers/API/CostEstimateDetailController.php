@@ -77,9 +77,20 @@ class CostEstimateDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        $cost_estimate_detail = CostEstimateDetail::findOrFail($id);
+
+        $this->updateItem($cost_estimate_detail, CostEstimateDetail::class, "Cost Estimate Detail");
+        
+        // Notify Process Users
+        // Notification::send($this->notifyApprovers(), new ProjectCreated($project));
+        
+        return [
+            'item_id' => $cost_estimate_detail->id,
+            'success_text' => "Project " . $cost_estimate_detail->code . " has been successfully created"
+        ];
+
     }
 
     /**

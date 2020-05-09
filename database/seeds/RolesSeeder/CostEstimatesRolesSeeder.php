@@ -21,6 +21,8 @@ class CostEstimatesRolesSeeder extends Seeder
             "ability" => "approve"),
             (object) array("name" => "Clearer",
             "ability" => "assign"),
+            (object) array("name" => "Signer",
+            "ability" => "sign")
         ];
         $generic_abilities = ["view-all", "view", "create"];
         foreach($roles as $role){

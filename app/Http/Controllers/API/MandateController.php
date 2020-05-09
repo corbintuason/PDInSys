@@ -89,27 +89,10 @@ class MandateController extends Controller
         $mandate = Mandate::findOrFail($id);
         $auth_user = auth()->user();
 
-        // Update Mandate
-        $status = $this->getNextStage($mandate)->name;
-        activity()->withoutLogs(function () use ($mandate, $status) {
-            $mandate->update([
-                'status' => $status
-            ]);
-        });
-
-        // Create Contributor Object
-        $this->addContributor($mandate);
-
-        // Authorize user to edit this item
-        $auth_user->allow('edit', $mandate);
+        $this->updateItem($mandate, Mandate::class, "Mandate");
 
         // Notify Process Users
         Notification::send($this->notifyApprovers($mandate), new MandateCreated($mandate));
-
-        // Create Activity Log
-        activity('Mandate Status Change')
-            ->on($mandate)
-            ->log($auth_user->full_name . " has changed Mandate " . $mandate->code . "'s status to " . $mandate->status);
 
         return [
             'item_id' => $mandate->id,

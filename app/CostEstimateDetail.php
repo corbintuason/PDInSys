@@ -30,6 +30,14 @@ class CostEstimateDetail extends Model
             (object) [
                 "names" => ["For Clearance"],
                 "responsible" => "cost-estimate-clearer"
+            ],
+            (object)[
+                "names" => ["For Signing"],
+                "responsible" => "cost-estimate-signer"
+            ],
+            (object)[
+                "names" => ["Signed"],
+                "responsible" => null
             ]
         ]);
         return $stages;

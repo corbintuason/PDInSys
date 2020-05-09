@@ -20,6 +20,7 @@
 		<mandate-module
 			v-if="mandate != null"
 			:mandate_code="mandate.code"
+            :endpoints="endpoints"
 			:mandate="mandate"
 			:mode="mode"
 			:key="show_mandate_key"

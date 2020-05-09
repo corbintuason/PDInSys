@@ -122,4 +122,30 @@ trait ControllersTrait {
 
         return $item;
     }
+
+    public function updateItem($item, $class, $model_text){
+        $auth_user = auth()->user();
+        // Generate Status based on Creator
+        $updated_status =  $this->getNextStage($item)->names[0];
+
+        // Create Item
+        activity()->withoutLogs(function () use ($item, $updated_status) {
+            $item->update([
+                'status' => $updated_status
+            ]);
+        });
+
+        // Create Contributor Object
+        $this->addContributor($item);
+
+        // Authorize user to edit this item
+        $auth_user->allow('edit', $item);
+
+        // Create Activity Log
+        activity($model_text . ' Status Change')
+            ->on($item)
+            ->log($auth_user->full_name . " has changed " . $model_text . " " . $item->code . "'s status to " . $item->status);
+
+        return $item;
+    }
 }

@@ -87,6 +87,9 @@ class Mandate extends Model
             (object) [
                 "names" => ["For Approval", "Returned to Approver"],
                 "responsible" => "mandate-approver"
+            ],(object)[
+                "names" => ["Approved"],
+                "responsible" => null
             ]
         ]);
         return $stages;

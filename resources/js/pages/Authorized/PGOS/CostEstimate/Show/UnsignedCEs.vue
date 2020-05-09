@@ -12,7 +12,7 @@
                         </div>
                     </div>
                     <div
-                        v-for="(detail, detail_index) in project.relationships.cost_estimate.relationships.details"
+                        v-for="(detail, detail_index) in details"
                         :key="detail_index"
                     >
                         <div class="row">
@@ -176,7 +176,7 @@
                                                 :item="detail"
                                                 :item_model="item_model"
                                                 :steps="steps"
-                                                :endpoints="endpoints"
+                                                :endpoints="detail.endpoints"
                                             ></show-process-buttons>
                                         </div>
                                     </div>
@@ -196,6 +196,7 @@ import colorLegend from "../Show/components/ColorLegend";
 export default {
     data() {
         return {
+            details:[],
             mode: "Show",
             item_model: "Cost Estimate Detail",
             peza_ar_options: [
@@ -212,11 +213,6 @@ export default {
                     text: "AR Only",
                 },
             ],
-            endpoints: {
-                api:
-                    "/api/project/" + this.project.id + "/cost-estimate-detail",
-                show_route: "cost_estimate_show",
-            },
         };
     },
     props: {
@@ -235,6 +231,10 @@ export default {
                 }else if(detail.status == 'For Approval'){
                     return "orange"
                 }else if(detail.status == 'For Clearance'){
+                    return "yellow"
+                }else if(detail.status == 'For Signing'){
+                    return "blue"
+                }else if(detail.status == 'Signed'){
                     return "green"
                 }
             }
@@ -253,5 +253,20 @@ export default {
             return "CEPD" + this.project.code + " " + this.project.name;
         },
     },
+    methods:{
+        loadDetails(){
+            this.project.relationships.cost_estimate.relationships.details.forEach(detail => {
+                detail.endpoints = {
+                    api: "/api/cost_estimate_detail/"+detail.id,
+                    show_route: "show_cost_estimate"
+                };
+                console.log("sumthin", detail);
+                this.details.push(detail);
+            });
+        }
+    },
+    mounted(){
+        this.loadDetails();
+    }
 };
 </script>

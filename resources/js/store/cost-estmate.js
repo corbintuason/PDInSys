@@ -22,10 +22,15 @@ export default new Vuex.Store({
                 database_equivalent: ["For Approval", "Returned to Approver"],
             },
             {
-                name: "Clearance",
+                name: "Clear",
                 responsible: "Clearer",
                 database_equivalent: ["For Clearance"],
             },
+            {
+                name: "Sign",
+                responsible: "Signer",
+                database_equivalent: ["For Signing"]
+            }
             
         ]
     },

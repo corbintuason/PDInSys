@@ -90,5 +90,25 @@ class CostEstimateUsersSeeder extends Seeder
         ]);
 
         $cost_estimate_clearer->assign('cost-estimate-clearer');
+
+        $cost_estimate_signer = User::create([
+            'last_name' => "Cost Estimate",
+            'first_name' => "Signer",
+            'middle_name' => "Middle",
+            'employment_date' => date("Y/m/d"),
+            'birth_date' => date("Y/m/d"),
+            'pdem_email' => 'costestimatesigner@pdem.com',
+            'pdem_gmail' => 'costestimatesigner@gmail.com',
+            'contact_numbers' => json_encode(["09999999999", "01111111"]),
+            'positions' => array(
+                array(
+                    "name" => 'Some Cost Estimate Signer',
+                    'job_level' => '1A'
+                )
+            ),
+            'password' => Hash::make("password")
+        ]);
+
+        $cost_estimate_clearer->assign('cost-estimate-signer');
     }
 }

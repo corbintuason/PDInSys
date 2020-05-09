@@ -20,7 +20,10 @@ export default {
                 status: "For Clearance",
                 color: "yellow"
             }, {
-                status: "Cleared",
+                status: "For Signing",
+                color: "blue"
+            },{
+                status: "Signed",
                 color: "green"
             }]
         }

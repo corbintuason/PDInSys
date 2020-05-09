@@ -64,14 +64,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $auth_user = auth()->user();
-
-        // Update Project
-        $status = $this->getNextStage($project)->names[0];
-        activity()->withoutLogs(function () use ($project, $status) {
-            $project->update([
-                'status' => $status
-            ]);
-        });
+        $this->updateItem($project, Project::class, "Project");
 
         // Create Contributor Object
         $this->addContributor($project);
