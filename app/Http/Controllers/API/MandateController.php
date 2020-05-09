@@ -92,7 +92,7 @@ class MandateController extends Controller
         $this->updateItem($mandate, Mandate::class, "Mandate");
 
         // Notify Process Users
-        Notification::send($this->notifyApprovers($mandate), new MandateCreated($mandate));
+        Notification::send($this->notifyApprovers($mandate), new MandateStatusChange($mandate));
 
         return [
             'item_id' => $mandate->id,

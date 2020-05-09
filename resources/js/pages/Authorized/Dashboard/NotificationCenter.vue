@@ -32,8 +32,7 @@
                     }"
 									>
 										{{
-										notification.data.notification_table
-										.code
+										notification.data.notification_table.code
 										}}
 										<!-- CEPD20-0009.1v1/.2v1/ LACTUM_FBLIVE -->
 									</router-link>

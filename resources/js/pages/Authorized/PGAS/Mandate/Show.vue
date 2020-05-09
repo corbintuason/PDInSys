@@ -20,15 +20,15 @@
 		<mandate-module
 			v-if="mandate != null"
 			:mandate_code="mandate.code"
-            :endpoints="endpoints"
+			:endpoints="endpoints"
 			:mandate="mandate"
 			:mode="mode"
 			:key="show_mandate_key"
-            :steps="steps"
+			:steps="steps"
 		></mandate-module>
 
-		<!-- Change Logs -->
 		{{mandate.relationships}}
+		<!-- Change Logs -->
 		<change-logs v-if="mandate!=null" :logs="mandate.relationships.actions"></change-logs>
 	</div>
 </template>

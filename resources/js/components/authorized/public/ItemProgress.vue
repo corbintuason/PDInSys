@@ -2,7 +2,17 @@
 	<div>
 		<b-card>
 			<template v-slot:header>
-				<h1 class="component-title">{{progress_bar_header}}</h1>
+				<div class="row">
+					<div class="col-md-6 text-left">
+						<h1 class="component-title mt-2">{{progress_bar_header}}</h1>
+					</div>
+					<div class="col-md-6 text-right">
+						<b-button-group class="float-right" v-if="mode!='Create'">
+							<b-button @click="showRemarksList" variant="outline-secondary">Remarks List</b-button>
+							<b-button variant="outline-secondary" @click="showContributionList">Contribution List</b-button>
+						</b-button-group>
+					</div>
+				</div>
 			</template>
 			<b-card-body>
 				<div class="row">
@@ -18,12 +28,7 @@
 					</div>
 				</div>
 			</b-card-body>
-			<template v-slot:footer>
-				<b-button-group class="float-right" v-if="mode!='Create'">
-					<b-button @click="showRemarksList" variant="outline-secondary">Remarks List</b-button>
-					<b-button variant="outline-secondary" @click="showContributionList">Contribution List</b-button>
-				</b-button-group>
-			</template>
+			<template v-slot:footer></template>
 		</b-card>
 
 		<div v-if="mode != 'Create'">

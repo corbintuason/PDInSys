@@ -43,12 +43,12 @@ class ProjectController extends Controller
             'for_project_bidding' => 'required',
             'departments_needed' => 'required',
         ]);
-                
+
         $project = $this->createItem($request, Project::class, "Project");
-        
+
         // Notify Process Users
         Notification::send($this->notifyApprovers($project), new ProjectCreated($project));
-        
+
         return [
             'item_id' => $project->id,
             'success_text' => "Project " . $project->code . " has been successfully created"
