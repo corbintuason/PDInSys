@@ -71,7 +71,7 @@ class MandateStatusChange extends Notification
                 "id" => $this->mandate->id
             ],
             'notification_table' => [
-                'project_name' => "PMID" . '-' . $this->mandate->code,
+                'code' => "PMID" . '-' . $this->mandate->code,
                 'item' => $this->item_name,
                 'status' => $this->mandate->status,
             ],

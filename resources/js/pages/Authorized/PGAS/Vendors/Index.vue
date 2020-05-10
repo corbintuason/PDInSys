@@ -35,6 +35,7 @@ export default {
         this.vendors = response.data.data;
         vendors.forEach(vendor => {
           this.items.push({
+            code: 'VID' +vendor.code,
             item_name: vendor.vendor_name,
             contact_number: vendor.contact_number,
             status: vendor.status,
@@ -49,7 +50,14 @@ export default {
     loadFields() {
       this.fields = [
         {
-          key: "item_details.name",
+          key: "code",
+          label: "Vendor Code",
+          class: "text-center",
+          sortable: true,
+          sortDirection: "desc"
+        },
+        {
+          key: "item_name",
           label: "Vendor Name",
           sortable: true,
           sortDirection: "desc"

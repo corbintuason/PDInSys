@@ -71,7 +71,7 @@ class VendorCreated extends Notification
                 "id" => $this->vendor->id
             ],
             'notification_table' => [
-                'project_name' => "VID" . '-' . $this->vendor->code,
+                'code' => "VID" . '-' . $this->vendor->code,
                 'item' => $this->item_name,
                 'status' => 'For Approval'
             ],
