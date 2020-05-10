@@ -8,6 +8,7 @@ import tax from "./tax";
 import project from "./project";
 import mandate from "./mandate";
 import costEstimate from "./cost-estmate";
+import signedCostEstimateDetails from "./signed-cost-estimate-details";
 
 export const store = new Vuex.Store({
     modules: {
@@ -16,6 +17,7 @@ export const store = new Vuex.Store({
         project: project,
         mandate: mandate,
         costEstimate: costEstimate,
+        signedCostEstimateDetails: signedCostEstimateDetails
     },
     state: {
         // FOR MODULE LOG IN

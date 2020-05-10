@@ -21,7 +21,7 @@
 			variant="outline-success"
 		>{{ action_name }}</b-button>
 
-		<return-item :item="item" :item_model="item_model" :steps="steps" :endpoints="endpoints"></return-item>
+		<return-item :item="item" :item_model="item_model" :steps="steps" :endpoints="endpoints" :show="open_return_item"></return-item>
 	</b-button-group>
 </template>
 
@@ -32,6 +32,7 @@ import returnItem from "../ReturnItem"
 export default {
     data() {
         return {
+            open_return_item: false,
             user: this.$store.state.user,
             current_step: null,
         };
@@ -96,7 +97,7 @@ export default {
                         title: "Successfully switched to Edit Mode",
                         icon: "success",
                         onClose: () => {
-                            Fire.$emit("switch-mode", 'Edit');
+                            Fire.$emit("switch-mode-"+this.item.id, 'Edit');
                         },
                     });
                 }
@@ -142,7 +143,9 @@ export default {
         },
 
         returnItem() {
-            this.$bvModal.show("return-item");
+            this.open_return_item = true;
+            // this.$bvModal.show("return-item");
+
         },
     },
     mounted() {

@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Contributor as ContributorResource;
 use App\Http\Resources\Remark as RemarkResource;
+use App\Http\Resources\SignedCostEstimateDetail as SignedCostEstimateDetailResource;
 class CostEstimateDetail extends JsonResource
 {
     /**
@@ -24,7 +25,9 @@ class CostEstimateDetail extends JsonResource
         $response['grand_total'] = $this->grand_total;
         $response['current_handler'] = $this->currentHandler;
         $response['is_signed'] = $this->isSigned;
+        $response['incentive'] = $this->incentive;
         $response["relationships"] = [
+            'signed_ce_detail' => new SignedCostEstimateDetailResource($this->signed_cost_estimate_detail),
             'actions' => $this->activities,
             'contributors' => ContributorResource::collection($this->contributors),
             'remarks' => RemarkResource::collection($this->remarks),

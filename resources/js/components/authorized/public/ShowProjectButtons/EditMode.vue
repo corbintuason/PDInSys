@@ -39,7 +39,7 @@ export default{
                 preConfirm: () => {
                     return new Promise((resolve, reject) => {
                         axios
-                            .put(this.endpoints.api + this.item.id, this.item)
+                            .put(this.endpoints.api + "/saveChanges", this.item)
                             .then((response) => {
                                 resolve(response.data);
                             })
@@ -67,7 +67,7 @@ export default{
             });
         },
         discardChanges(){
-            Fire.$emit('switch-mode', 'Show');
+            Fire.$emit("switch-mode-"+this.item.id, 'Show');
         }
     }
 }

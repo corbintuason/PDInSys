@@ -96,10 +96,10 @@ export default {
                                 api: "/api/cost_estimate_detail/" + detail.id,
                                 show_route: "show_cost_estimate",
                             };
-                            if (detail.is_signed == false) {
-                                this.unsigned_ces.push(detail);
-                            } else {
+                            if (detail.relationships.signed_ce_detail) {
                                 this.signed_ces.push(detail);
+                            } else {
+                                this.unsigned_ces.push(detail);
                             }
                         }
                     );

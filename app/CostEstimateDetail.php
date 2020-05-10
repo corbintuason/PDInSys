@@ -37,21 +37,9 @@ class CostEstimateDetail extends Model
                 "responsible" => "cost-estimate-signer"
             ],
             (object)[
-                "names" => ["For Review (Signed)", "Returned to Reviewer (Signed)"],
-                "responsible" => "cost-estimate-reviewer"
-            ],
-            (object)[
-                "names" => ["For Approval (Signed)", "Returned to Approver (Signed)"],
-                "responsible" => "cost-estimate-approver"
-            ],
-            (object)[
-                "names" => ["For Clearance (Signed)", "Returned to Clearer (Signed)"],
-                "responsible" => "cost-estimate-clearer"
-            ],
-            (object)[
-                "names" => ["Cleared (Signed)"],
+                "names" => ["Signed"],
                 "responsible" => null
-            ]
+            ],
         ]);
         return $stages;
         // return ["For Review", "For Approval", "For Approval", "For Assigning", "Assigned"];
@@ -63,6 +51,27 @@ class CostEstimateDetail extends Model
 
     public function getProjectVatAttribute(){
         return $this->total_project_cost + ($this->total_project_cost * ($this->tax/100));
+    }
+
+    public function getIncentiveAttribute(){
+            $project_cost = $this->total_project_cost;
+            if($project_cost <= 1){
+                $incentive = 0;    
+            }elseif($project_cost > 1 && $project_cost <= 100000){
+                $incentive = 3500;
+            }elseif($project_cost > 100000 && $project_cost <= 200000){
+                $incentive = 7000;
+            }elseif($project_cost > 200000 && $project_cost <= 300000){
+                $incentive = 10000;
+            }elseif($project_cost > 300000 && $project_cost <= 500000){
+                $incentive = 15000;
+            }elseif($project_cost > 500000 && $project_cost <= 750000){
+                $incentive = 25000;
+            }elseif($project_cost > 750000 && $project_cost <= 1000000){
+                $incentive = 33000;
+            }elseif($project_cost > 1000000){
+                $incentive = 40000;
+            } return $incentive;
     }
 
     public function getIsSignedAttribute(){
@@ -83,6 +92,7 @@ class CostEstimateDetail extends Model
     return "CEPD". $this->cost_estimate->project->code.".".($co_details->search($co_details->where('id', $this->id)->first())+1);
 
 }
+
     public function getTotalProjectCostAttribute(){
     /* 
             return (sub_total, asf_rate) => {
@@ -137,6 +147,9 @@ class CostEstimateDetail extends Model
         return $this->belongsTo('App\CostEstimate');
     }
 
+    public function signed_cost_estimate_detail(){
+        return $this->hasOne('App\SignedCostEstimateDetail');
+    }
     
     public function contributors(){
         return $this->morphMany("App\Contributor", 'contributable')->with('user');

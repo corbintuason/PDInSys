@@ -1,5 +1,5 @@
 <template>
-    <b-modal id="return-item" @hidden="loadReturnItem" size="lg">
+    <b-modal id="return-item" @hidden="loadReturnItem" v-model="show" size="lg">
         <template v-slot:modal-title> Return {{ item_model }} </template>
         <div class="modal-body" v-if="return_to_user!=null">
             <contribution-list
@@ -64,6 +64,7 @@ export default {
         item_model: String,
         steps: Array,
         endpoints: Object,
+        show: Boolean
     },
     components: {
         "contribution-list": contributionList,

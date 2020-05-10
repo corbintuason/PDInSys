@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Traits\ControllersTrait;
 use App\Project;
 use App\CostEstimateDetail;
+use App\SignedCostEstimateDetail;
+
 class CostEstimateDetailController extends Controller
 {
     use ControllersTrait;
@@ -79,8 +81,15 @@ class CostEstimateDetailController extends Controller
     public function update($id)
     {
         $cost_estimate_detail = CostEstimateDetail::findOrFail($id);
+            $this->updateItem($cost_estimate_detail, CostEstimateDetail::class, "Cost Estimate Detail", "cost_estimate_show");
 
-        $this->updateItem($cost_estimate_detail, CostEstimateDetail::class, "Cost Estimate Detail", "cost_estimate_show");
+            if($cost_estimate_detail->status =='Signed'){
+                SignedCostEstimateDetail::create([
+                    'cost_estimate_detail_id' => $cost_estimate_detail->id,
+                    'status' => "For Creation"
+                ]); 
+            }
+        
         
         return [
             'item_id' => $cost_estimate_detail->id,
