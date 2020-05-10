@@ -165,8 +165,7 @@ export default {
             });
             this.fireCreateSwal(swal_object);
         },
-
-  },
+  	},
 	// mounted(){
 	// 	this.getUserRole();
 	// }
