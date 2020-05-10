@@ -29,7 +29,6 @@ class CreateVendorsTable extends Migration
             $table->json('ewt_details');
             $table->string('status');
 
-            $table->integer('creator_id');
             $table->timestamps();
         });
     }

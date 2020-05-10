@@ -100,7 +100,6 @@ class Mandate extends Model
         return $this->belongsTo("App\User", "creator_id");
     }
 
-
     public function contributors()
     {
         return $this->morphMany("App\Contributor", 'contributable')->with('user');

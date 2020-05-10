@@ -15,8 +15,6 @@ export default new Vuex.Store({
                 name: "Approve",
                 responsible: "Approver",
                 database_equivalent: ["For Approval", "Returned to Approver"],
-                action: "For Assigning",
-                ability_visibility: "approve-all-vendors",
             },
         ],
     },

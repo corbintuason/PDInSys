@@ -26,7 +26,7 @@ class MandateUsersSeeder extends Seeder
             'contact_numbers' => json_encode(["09999999999", "01111111"]),
             'positions' => array(
                 array(
-                    "name" => 'mandate Creator',
+                    "name" => 'Mandate Creator',
                     'job_level' => '1A'
                 )
             ),
@@ -45,7 +45,7 @@ class MandateUsersSeeder extends Seeder
             'contact_numbers' => json_encode(["09999999999", "01111111"]),
             'positions' => array(
                 array(
-                    "name" => 'mandate Approver',
+                    "name" => 'Mandate Approver',
                     'job_level' => '1A'
                 )
             ),

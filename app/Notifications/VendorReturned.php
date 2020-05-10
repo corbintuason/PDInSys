@@ -7,9 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Vendor;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class VendorCreated extends Notification
+class VendorReturned extends Notification
 {
     use Queueable;
 
@@ -20,14 +19,11 @@ class VendorCreated extends Notification
      */
 
     public $vendor;
-    public $project_name;
-    public $item_name;
-
+    public $vendor_name;
     public function __construct(Vendor $vendor)
     {
         $this->vendor = $vendor;
-        $this->project_name = "VID";
-        $this->item_name = "Vendor Accreditation";
+        $this->vendor_name = "Vendor Returned";
     }
 
     /**
@@ -38,7 +34,7 @@ class VendorCreated extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'broadcast'];
+        return ['mail'];
     }
 
     /**
@@ -64,28 +60,21 @@ class VendorCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'created_vendor' => $this->vendor,
+            'item' => $this->vendor,
             'approver' => $notifiable,
             'link' => [
                 "name" => 'vendor_show',
                 "id" => $this->vendor->id
             ],
             'notification_table' => [
-                'code' => "VID" . '-' . $this->vendor->code,
-                'item' => $this->item_name,
-                'status' => 'For Approval'
+                'code' => $this->vendor->code,
+                'item' => $this->vendor_name,
+                'status' => $this->vendor->status
             ],
             'notification_bell' => [
-                'header' => $this->project_name . '-' . $this->vendor->code . " " . "Created",
+                'header' => 'Vendor ' . $this->vendor->code . ": " . $this->vendor_name,
                 'date' => $this->vendor->created_at
             ]
         ];
-    }
-
-    public function toBroadcast($notifiable)
-    {
-        return new BroadcastMessage([
-            'notification' => $notifiable->notifications()->latest()->first()
-        ]);
     }
 }

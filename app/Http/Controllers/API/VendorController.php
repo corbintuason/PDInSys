@@ -13,15 +13,15 @@ use \stdclass;
 use Notification;
 use App\Notifications\VendorCreated;
 use App\Notifications\VendorStatusChange;
+use App\Remark;
+use App\Contributor;
+use App\Traits\ControllersTrait;
 
 class VendorController extends Controller
 {
-    //
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    use ControllersTrait;
+
     public function index()
     {
         return VendorResource::collection(Vendor::all());
@@ -29,77 +29,88 @@ class VendorController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'vendor_name' => 'required',
-            'trade_name' => 'required',
-            'registered_address' => 'required',
-            'type_business' => 'required',
-            'line_business' => 'required',
-            'contact_person' => 'required',
-            'contact_number' => 'required',
-            'email_address' => 'required',
-            'bank_details' => 'required',
-            'tin_number' => 'required',
-            'type_vat' => 'required',
-            'ewt_details' => 'required',
-        ]);
 
-        $user_id = auth()->user()->id;
-        $auth_user = new UserResource(User::findOrFail($user_id));
-        $status = "For Approval";
+        // STATUS IS SET TO FOR APPROVAL
+        $auth_user = auth()->user();
+        $vendor = $this->createItem($request, Vendor::class, "Vendor");
+        // Notify Process Users
+        Notification::send($this->notifyApprovers($vendor), new VendorCreated($vendor));
 
-        $new_details = array();
-        foreach ($validatedData["ewt_details"] as $detail) {
-            $detail_object = new stdClass();
+        return [
+            'item_id' => $vendor->id,
+            'success_text' => "Vendor " . $vendor->code . " has been successfully created"
+        ];
+        // $validatedData = $request->validate([
+        //     'vendor_name' => 'required',
+        //     'trade_name' => 'required',
+        //     'registered_address' => 'required',
+        //     'type_business' => 'required',
+        //     'line_business' => 'required',
+        //     'contact_person' => 'required',
+        //     'contact_number' => 'required',
+        //     'email_address' => 'required',
+        //     'bank_details' => 'required',
+        //     'tin_number' => 'required',
+        //     'type_vat' => 'required',
+        //     'ewt_details' => 'required',
+        // ]);
 
-            $detail_object->ewt_detail = $detail["ewt_detail"];
-            $detail_object->ewt_description = $detail["ewt_description"];
-            $detail_object->ewt_percent = $detail["ewt_percent"];
+        // $user_id = auth()->user()->id;
+        // $auth_user = new UserResource(User::findOrFail($user_id));
+        // $status = "For Approval";
 
-            var_dump($detail_object);
-            array_push($new_details, $detail_object);
-        }
+        // $new_details = array();
+        // foreach ($validatedData["ewt_details"] as $detail) {
+        //     $detail_object = new stdClass();
 
-        $vendor = activity()->withoutLogs(function () use ($request, $status, $user_id, $new_details) {
+        //     $detail_object->ewt_detail = $detail["ewt_detail"];
+        //     $detail_object->ewt_description = $detail["ewt_description"];
+        //     $detail_object->ewt_percent = $detail["ewt_percent"];
+
+        //     var_dump($detail_object);
+        //     array_push($new_details, $detail_object);
+        // }
+
+        // $vendor = activity()->withoutLogs(function () use ($request, $status, $user_id, $new_details) {
 
 
-            return Vendor::create([
-                'vendor_name' => $request['vendor_name'],
-                'trade_name' => $request['trade_name'],
-                'registered_address' => $request['registered_address'],
-                'type_business' => $request['type_business'],
-                'line_business' => $request['line_business'],
-                'contact_person' => $request['contact_person'],
-                'contact_number' => $request['contact_number'],
-                'email_address' => $request['email_address'],
-                'bank_details' => $request['bank_details'],
-                'tin_number' => $request['tin_number'],
-                'type_vat' => $request['type_vat'],
-                'ewt_details' => $new_details,
-                'status' => $status,
-                'creator_id' => $user_id,
-            ]);
-        });
+        //     return Vendor::create([
+        //         'vendor_name' => $request['vendor_name'],
+        //         'trade_name' => $request['trade_name'],
+        //         'registered_address' => $request['registered_address'],
+        //         'type_business' => $request['type_business'],
+        //         'line_business' => $request['line_business'],
+        //         'contact_person' => $request['contact_person'],
+        //         'contact_number' => $request['contact_number'],
+        //         'email_address' => $request['email_address'],
+        //         'bank_details' => $request['bank_details'],
+        //         'tin_number' => $request['tin_number'],
+        //         'type_vat' => $request['type_vat'],
+        //         'ewt_details' => $new_details,
+        //         'status' => $status,
+        //         'creator_id' => $user_id,
+        //     ]);
+        // });
 
-        $vendor_contributor = VendorContributor::create([
-            'vendor_id' => $vendor->id,
-            'contributor_id' => $auth_user->id,
-            'responsibility' => "Creator"
-        ]);
+        // $vendor_contributor = VendorContributor::create([
+        //     'vendor_id' => $vendor->id,
+        //     'contributor_id' => $auth_user->id,
+        //     'responsibility' => "Creator"
+        // ]);
 
-        // Notify User that can Approve this Vendor
+        // // Notify User that can Approve this Vendor
 
-        $approvers = User::whereIs('vendor-approver')->get();
+        // $approvers = User::whereIs('vendor-approver')->get();
 
-        Notification::send($approvers, new VendorCreated($vendor));
+        // Notification::send($approvers, new VendorCreated($vendor));
 
-        // Create Activity Log
-        activity('Vendor Created')
-            ->on($vendor)
-            ->withProperties(["link_name" => "vendor_show", "link_id" => $vendor->id])
-            ->log("User " . $auth_user->last_name . ", " . $auth_user->first_name  . " has created Vendor " . $vendor->registered_name . ' ' . $vendor->code);
+        // // Create Activity Log
+        // activity('Vendor Created')
+        //     ->on($vendor)
+        //     ->withProperties(["link_name" => "vendor_show", "link_id" => $vendor->id])
+        //     ->log("User " . $auth_user->last_name . ", " . $auth_user->first_name  . " has created Vendor " . $vendor->registered_name . ' ' . $vendor->code);
 
-        return new VendorResource($vendor);
+        // return new VendorResource($vendor);
     }
 
     /**

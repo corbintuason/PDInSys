@@ -3,7 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\VendorContributor as VendorContributorResource;
+use App\Http\Resources\Contributor as ContributorResource;
+use App\Http\Resources\Remark as RemarkResource;
 
 class Vendor extends JsonResource
 {
@@ -15,20 +16,15 @@ class Vendor extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
-    }
-
-    public function with($request)
-    {
-        return [
-            'relationships' => [
-                'user' => $this->user,
-                'contributors' => VendorContributorResource::collection($this->contributors),
-            ],
+        $response = parent::toArray($request);
+        $response["code"] = $this->code;
+        $response['current_handler'] = $this->currentHandler;
+        $response["relationships"] = [
             'actions' => $this->activities,
-            'meta' => [
-                'code' => $this->code,
-            ],
+            'user' => $this->user,
+            'contributors' => ContributorResource::collection($this->contributors),
+            'remarks' => RemarkResource::collection($this->remarks),
         ];
+        return $response;
     }
 }

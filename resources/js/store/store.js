@@ -7,6 +7,7 @@ import globals from "./globals";
 import tax from "./tax";
 import project from "./project";
 import mandate from "./mandate";
+import vendor from "./vendor";
 import costEstimate from "./cost-estmate";
 
 export const store = new Vuex.Store({
@@ -15,6 +16,7 @@ export const store = new Vuex.Store({
         tax: tax,
         project: project,
         mandate: mandate,
+        vendor: vendor,
         costEstimate: costEstimate,
     },
     state: {
@@ -33,15 +35,17 @@ export const store = new Vuex.Store({
                     return item.name === keyword;
                 });
         },
-        hasRole(state){
-            return role => state.user.roles.some(user_role => {
-                   return user_role.name == role;  
-            });
+        hasRole(state) {
+            return (role) =>
+                state.user.roles.some((user_role) => {
+                    return user_role.name == role;
+                });
         },
 
-        isCurrentHandler(state){
-            return current_handler => state.user.roles.includes(current_handler);
-        }
+        isCurrentHandler(state) {
+            return (current_handler) =>
+                state.user.roles.includes(current_handler);
+        },
     },
     mutations: {
         pushNotification(state, notification) {
