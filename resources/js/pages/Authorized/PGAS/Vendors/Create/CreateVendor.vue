@@ -86,13 +86,7 @@ export default {
 				tin_number: "",
 				type_vat: "",
 				ewt_details: [{
-					ewt_detail: null,
-					ewt_description: null,
-					ewt_percent: null,
-					dropdowns:{
-						ewt_descriptions:[],
-						ewt_percent:[],
-					}
+					detail: null
 				}],
 				bank_details: [{
 					bank_name: "",
