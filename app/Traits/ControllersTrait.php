@@ -6,7 +6,8 @@ use App\Project;
 use Illuminate\Http\Request;
 use App\User;
 use App\Contributor;
-
+use Notification;
+use App\Notifications\ItemNotification;
 trait ControllersTrait {
     
     public function getCreateStatus($request, $class)
@@ -99,7 +100,7 @@ trait ControllersTrait {
      * OTHERWISE: 
      *  - You may copy each action, and put it in your Controller@store instead.
      */
-    public function createItem($request, $class, $model_text){
+    public function createItem($request, $class, $model_text, $show_route){
         $auth_user = auth()->user();
         // Generate Status based on Creator
         $request['status'] = $this->getCreateStatus($request, $class);
@@ -115,6 +116,8 @@ trait ControllersTrait {
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
 
+        Notification::send($this->notifyApprovers($item), new ItemNotification($item, $item::$module, $show_route));
+
         // Create Activity Log
         activity($model_text . ' Created')
         ->on($item)
@@ -123,7 +126,7 @@ trait ControllersTrait {
         return $item;
     }
 
-    public function updateItem($item, $class, $model_text){
+    public function updateItem($item, $class, $model_text, $show_route){
         $auth_user = auth()->user();
         // Generate Status based on Creator
         $updated_status =  $this->getNextStage($item)->names[0];
@@ -140,6 +143,10 @@ trait ControllersTrait {
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
+
+        // Notify Next Users
+        $module_name = $model_text . " Module";
+        Notification::send($this->notifyApprovers($item), new ItemNotification($item, $item::$module, $show_route));
 
         // Create Activity Log
         activity($model_text . ' Status Change')

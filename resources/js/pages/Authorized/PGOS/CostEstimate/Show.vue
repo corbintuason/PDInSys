@@ -1,20 +1,23 @@
 <template>
-	<div>
-		<div v-if="mode!=null">
-			<!-- Here you can upload the cost estimate  -->
-			<cost-estimate-file :project="project"></cost-estimate-file>
-			<!-- Here you can see the signed CEs -->
-			<signed-ces :project="project"></signed-ces>
-			<!-- Here you can see unsigned CEs -->
-			<unsigned-ces :project="project" :steps="steps"></unsigned-ces>
+    <div>
+        <div v-if="mode != null">
+            <!-- Here you can upload the cost estimate  -->
+            <cost-estimate-file :project="project"></cost-estimate-file>
+            <!-- Here you can see the signed CEs -->
+            <signed-ces :signed_ces="signed_ces" :steps="steps"></signed-ces>
+            <!-- Here you can see unsigned CEs -->
+            <unsigned-ces
+                :unsigned_ces="unsigned_ces"
+                :steps="steps"
+            ></unsigned-ces>
             <!-- Here you can create CEs -->
-			<create-ces :steps="steps" :endpoints="endpoints"></create-ces>
-			<!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
+            <create-ces :steps="steps" :project="project" :endpoints="endpoints"></create-ces>
+            <!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
 			<show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate>-->
-		</div>
-		<clip-loader v-else color="orange"></clip-loader>
+        </div>
+        <clip-loader v-else color="orange"></clip-loader>
 
-		<!-- 
+        <!-- 
             May 3 2020 Revisions:
                 - Progress bar header should be : Project Code -- {code}
                 - Only show code when project is finished to assigning
@@ -33,11 +36,11 @@
                     - Add a progress bar for EACH detail
                     - Remove progress bar from entire cost estimate
 		-->
-	</div>
+    </div>
 </template>
 
 <script>
-import costEstimateFile from "./Show/CostEstimateFile"
+import costEstimateFile from "./Show/CostEstimateFile";
 import signedCEs from "./Show/SignedCEs";
 import unsignedCEs from "./Show/UnsignedCEs";
 import createCEs from "./Show/CreateCEs";
@@ -48,17 +51,17 @@ export default {
             steps: this.$store.state.costEstimate.steps,
             project: null,
             endpoints: null,
-            
+            signed_ces: [],
+            unsigned_ces: [],
         };
     },
     components: {
         "signed-ces": signedCEs,
         "cost-estimate-file": costEstimateFile,
         "unsigned-ces": unsignedCEs,
-        "create-ces": createCEs
+        "create-ces": createCEs,
     },
-    computed:{
-    },
+    computed: {},
     methods: {
         loadProject() {
             var project_id = this.$route.params.id;
@@ -66,27 +69,53 @@ export default {
                 this.project = response.data.data;
                 this.getMode();
                 this.loadEndpoints();
+                this.loadDetails();
             });
         },
-        loadEndpoints(){
+        loadEndpoints() {
             this.endpoints = {
-                api: '/api/project/'+this.project.id+'/cost-estimate',
-                show_route: 'cost_estimate_show'
+                api: "/api/project/" + this.project.id + "/cost-estimate",
+                show_route: "cost_estimate_show",
+            };
+        },
+        getMode() {
+            this.mode = this.project.relationships.cost_estimate
+                ? "Show"
+                : "Create";
+        },
+
+        loadDetails() {
+            if (this.project.relationships.cost_estimate != null) {
+                if (
+                    this.project.relationships.cost_estimate.relationships
+                        .details != null
+                ) {
+                    this.project.relationships.cost_estimate.relationships.details.forEach(
+                        (detail) => {
+                            detail.endpoints = {
+                                api: "/api/cost_estimate_detail/" + detail.id,
+                                show_route: "show_cost_estimate",
+                            };
+                            if (detail.is_signed == false) {
+                                this.unsigned_ces.push(detail);
+                            } else {
+                                this.signed_ces.push(detail);
+                            }
+                        }
+                    );
+                }
             }
         },
-        getMode(){
-            this.mode = this.project.relationships.cost_estimate ? "Show" : "Create";
-        }
     },
 
     mounted() {
         this.loadProject();
-             Fire.$on('switch-mode', mode => {
-                if(mode == 'Show'){
-                    this.loadProject();
-                    }
-                this.mode = mode;
-      });
+        Fire.$on("switch-mode", (mode) => {
+            if (mode == "Show") {
+                this.loadProject();
+            }
+            this.mode = mode;
+        });
     },
 };
 </script>

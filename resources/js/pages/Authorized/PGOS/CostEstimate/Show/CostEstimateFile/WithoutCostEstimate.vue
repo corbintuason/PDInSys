@@ -6,24 +6,8 @@
             </h1>
         </template>
         <b-card-body>
-            <b-form-file
-                @change="onFileChange"
-                v-model="cost_estimate.file"
-                placeholder="Choose a file or drop it here..."
-                drop-placeholder="Drop file here..."
-                accept=".xlsx"
-            ></b-form-file>
-            {{ cost_estimate }}
+         <b-alert show variant="danger"><strong>No Cost Estimate has been uploaded to this project</strong></b-alert>
         </b-card-body>
-        <template v-slot:footer>
-            <b-button
-                @click="uploadCostEstimate"
-                :disabled="disableCostEstimate"
-                class="float-right"
-                variant="outline-success"
-                >Upload Cost Estimate</b-button
-            >
-        </template>
     </b-card>
 </template>
 

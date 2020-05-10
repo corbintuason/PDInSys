@@ -32,7 +32,6 @@ class ProjectCoreEmployeeController extends Controller
 
         Notification::send($employee, new ProjectCoreEmployeeAssigned($employee, $project));
             // Create Activity Log
-        
 
             activity('Employee Assigned to Project')
             ->on($project)

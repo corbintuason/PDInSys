@@ -20,7 +20,7 @@ class CreateCostEstimateDetailsTable extends Migration
             $table->integer('sub_total');
             $table->integer('version');
             $table->float('asf_rate');
-            $table->string('peza_ar')->nullable();
+            $table->string('vat');
             $table->timestamps();
         });
     }
