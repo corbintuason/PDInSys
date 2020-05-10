@@ -24,7 +24,6 @@ class Mandate extends JsonResource
             'user' => $this->user,
             'contributors' => ContributorResource::collection($this->contributors),
             'remarks' => RemarkResource::collection($this->remarks),
-            'actions' => $this->actions
         ];
         return $response;
     }

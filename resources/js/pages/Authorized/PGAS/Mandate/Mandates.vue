@@ -2,7 +2,12 @@
 	<div>
 		<b-card class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">Mandate PMID-{{ mandate.code }} {{mandate.status}}</h1>
+				<div class="row">
+					<div class="col-md-6 text-left">
+						<h1 class="component-title">Mandate PMID-{{ mandate.code }} - {{mandate.status}}</h1>
+					</div>
+					<div class="col-md-6 text-right"></div>
+				</div>
 			</template>
 			<b-card-body v-if="mandate!=null">
 				<b-card-text>
