@@ -68,7 +68,7 @@ export default {
 		user: this.$store.state.user,
     };
   },
-    props: {
+	props: {
 		steps: Array,
 		mandate: Object,
 		mandate_code: String,

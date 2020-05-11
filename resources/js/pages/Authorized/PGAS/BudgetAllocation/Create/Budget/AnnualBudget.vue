@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="annual">
-			<b-card bg-variant="dark">
+			<b-card>
 				<div class="row mt-2">
 					<div class="col-md-12 text-center">
 						<h4>

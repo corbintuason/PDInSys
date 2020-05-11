@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="afg">
-			<b-card bg-variant="warning">
+			<b-card>
 				<div class="row mt-2">
 					<div class="col-md-12 text-center">
 						<h6>

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="adm">
-			<b-card bg-variant="primary">
+			<b-card>
 				<div class="row mt-2">
 					<div class="col-md-12 text-center">
 						<h6>
@@ -23,9 +23,7 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
