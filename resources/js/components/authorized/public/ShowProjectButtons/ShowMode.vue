@@ -34,7 +34,6 @@ export default {
         return {
             open_return_item: false,
             user: this.$store.state.user,
-            current_step: null,
         };
     },
     props: {
@@ -43,17 +42,15 @@ export default {
         steps: Array,
         mode: String,
         endpoints: Object,
+        current_step: Object,
+        action_name: String
     },
     mixins: [form, steps],
     components:{
         "return-item": returnItem
     },
     computed: {
-        action_name() {
-            return this.current_step
-                ? this.current_step.name + " " + this.item_model
-                : "awit";
-        },
+
 
         showUpdateButton(){
            return this.$store.getters.hasRole(this.item.current_handler);
@@ -149,10 +146,6 @@ export default {
         },
     },
     mounted() {
-        console.log("item?", this.item);
-        console.log("steps?", this.steps);
-        this.current_step = this.getCurrentStep(this.item, this.steps);
-        console.log("current step is ", this.current_step);
     },
 };
 </script>

@@ -25,7 +25,7 @@ class CostEstimateDetail extends JsonResource
         $response['grand_total'] = $this->grand_total;
         $response['current_handler'] = $this->currentHandler;
         $response['is_signed'] = $this->isSigned;
-        $response['incentive'] = $this->incentive;
+        $response['initial_incentive'] = $this->initial_incentive;
         $response["relationships"] = [
             'signed_ce_detail' => new SignedCostEstimateDetailResource($this->signed_cost_estimate_detail),
             'actions' => $this->activities,

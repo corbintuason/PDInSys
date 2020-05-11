@@ -7,185 +7,19 @@
             <b-card-body>
                 <div v-if="unsigned_ces.length > 0">
            
-                    <div
+                      <div
                         v-for="(detail, detail_index) in unsigned_ces"
                         :key="detail_index"
+                        class="cost-estimate-details mb-0"
+                        :style="{
+                            'border-left':
+                                '10px solid ' + colorEquivalent(detail),
+                            'border-right':
+                                '10px solid ' + colorEquivalent(detail),
+                        }"
                     >
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div
-                                    class="cost-estimate-details mb-0"
-                                    :style="{
-                                        'border-left':
-                                            '10px solid ' +
-                                            colorEquivalent(detail),
-                                        'border-right':
-                                            '10px solid ' +
-                                            colorEquivalent(detail),
-                                    }"
-                                >
-                                    <!-- CE Number Version, Peza / AR -->
-                                    <div class="row ml-1 mt-1 mb-3">
-                                        <b-form-group
-                                            label="CE Number"
-                                            label-class="font-weight-bold"
-                                            class="col-md-4"
-                                        >
-                                            <b-form-input
-                                                type="text"
-                                                :value="detail.code"
-                                                readonly
-                                            ></b-form-input>
-                                        </b-form-group>
-                                        <b-form-group
-                                            label="Version"
-                                            label-class="font-weight-bold"
-                                            class="col-md-2"
-                                        >
-                                            <b-form-input
-                                                readonly
-                                                type="number"
-                                                v-model="detail.version"
-                                            ></b-form-input>
-                                        </b-form-group>
-                                        <b-form-group
-                                            label="VAT"
-                                            class="col-md-4"
-                                            label-class="font-weight-bold"
-                                        >
-                                            <b-form-radio-group
-                                                disabled
-                                                v-model="detail.peza_ar"
-                                                :options="peza_ar_options"
-                                            >
-                                            </b-form-radio-group>
-                                        </b-form-group>
-                                    </div>
-                                    <!-- Sub Total, ASF Rate, Total Project Cost -->
-                                    <div class="row ml-1 mt-1 mb-3">
-                                        <b-form-group
-                                            label="Sub-Total"
-                                            label-class="font-weight-bold"
-                                            class="col-md-2"
-                                        >
-                                            <b-input-group>
-                                                <template v-slot:prepend>
-                                                    <b-input-group-text
-                                                        ><strong
-                                                            class="text-success"
-                                                            >&#8369;</strong
-                                                        ></b-input-group-text
-                                                    >
-                                                </template>
-                                                <b-form-input
-                                                    readonly
-                                                    type="number"
-                                                    v-model="detail.sub_total"
-                                                ></b-form-input>
-                                            </b-input-group>
-                                        </b-form-group>
-                                        <b-form-group
-                                            label="ASF Rate"
-                                            label-class="font-weight-bold"
-                                            class="col-md-2"
-                                        >
-                                            <b-input-group>
-                                                <template v-slot:append>
-                                                    <b-input-group-text
-                                                        ><strong
-                                                            class="text-success"
-                                                            >%</strong
-                                                        ></b-input-group-text
-                                                    >
-                                                </template>
-                                                <b-input
-                                                    readonly
-                                                    type="number"
-                                                    v-model="detail.asf_rate"
-                                                ></b-input>
-                                            </b-input-group>
-                                        </b-form-group>
-                                        <b-form-group
-                                            label="Total Project Cost"
-                                            label-class="font-weight-bold"
-                                            class="col-md-2"
-                                        >
-                                            <b-input-group>
-                                                <template v-slot:prepend>
-                                                    <b-input-group-text
-                                                        ><strong
-                                                            class="text-success"
-                                                            >&#8369;</strong
-                                                        ></b-input-group-text
-                                                    >
-                                                </template>
-                                                <b-input
-                                                    readonly
-                                                    type="number"
-                                                    :value="
-                                                        detail.total_project_cost
-                                                    "
-                                                ></b-input>
-                                            </b-input-group>
-                                        </b-form-group>
-                                        <b-form-group
-                                            label="VAT"
-                                            label-class="font-weight-bold"
-                                            class="col-md-1"
-                                        >
-                                            <b-input-group>
-                                                <template v-slot:append>
-                                                    <b-input-group-text
-                                                        ><strong
-                                                            class="text-success"
-                                                            >%</strong
-                                                        ></b-input-group-text
-                                                    >
-                                                </template>
-                                                <b-form-input
-                                                    readonly
-                                                    :value="detail.vat"
-                                                ></b-form-input>
-                                            </b-input-group>
-                                        </b-form-group>
-                                        <b-form-group
-                                            label="Grand Total"
-                                            label-class="font-weight-bold green"
-                                            class="col-md-4"
-                                        >
-                                            <b-input-group>
-                                                <template v-slot:prepend>
-                                                    <b-input-group-text
-                                                        class="grand-total"
-                                                        ><strong
-                                                            class="text-success"
-                                                            >&#8369;</strong
-                                                        ></b-input-group-text
-                                                    >
-                                                </template>
-                                                <b-input
-                                                    class="grand-total"
-                                                    readonly
-                                                    type="number"
-                                                    :value="detail.grand_total"
-                                                ></b-input>
-                                            </b-input-group>
-                                        </b-form-group>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <show-process-buttons
-                                                :mode="mode"
-                                                :item="detail"
-                                                :item_model="item_model"
-                                                :steps="steps"
-                                                :endpoints="detail.endpoints"
-                                            ></show-process-buttons>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <unsigned-ce :detail="detail" :steps="steps"></unsigned-ce>
+
                     </div>
                              <div class="row">
                         <div class="col-md-12">
@@ -196,16 +30,40 @@
                 <b-alert show v-else variant="danger"> <strong>No Cost Estimate Details have been made yet.</strong></b-alert>
             </b-card-body>
         </b-card>
+
+        <!-- 
+            - Remove for signing, replace with Cleared. Color is orange
+            - For Clearance: Change color to blue
+            - For Approval: Change color to yellow
+            - Remove Signed
+
+            - If status is cleared, remove reject button
+            - If status is cleared, remove return button
+
+            - When signing a ce, show swal to upload a
+
+            // SIgned CEs:
+            - Budget For Review.. so on and so for
+            - Return, next proces step
+
+            // Ce Creation:
+            - SUB TOTAL 1, ASF RATE 1, PROJECT COST 1 
+            - SUB TOTAL 2, ASF RATE 2, PROJECT COST 2
+            - SUB TOTAL COST: Total of Sub 1 and Sub 2
+            - 
+            - TOTAL PROJECT COST, VAT, GRAND TOTAL 
+         -->
     </div>
 </template>
 
 <script>
 import showProcessButtons from "../../../../../components/authorized/public/ShowProcessButtons";
 import colorLegend from "../Show/components/ColorLegend";
+import unsigneddCE from "./UnsignedCEs/UnsignedCE"
 export default {
     data() {
         return {
-            hasCostEstimateDetails: false,
+            steps: this.$store.state.costEstimate.steps,
             mode: "Show",
             item_model: "Cost Estimate Detail",
             peza_ar_options: [
@@ -242,12 +100,12 @@ export default {
     },
     props: {
         project: Object,
-        steps: Array,
         unsigned_ces: Array,
     },
     components: {
         "color-legend": colorLegend,
         showProcessButtons: showProcessButtons,
+        "unsigned-ce": unsigneddCE
     },
     computed: {
         colorEquivalent() {

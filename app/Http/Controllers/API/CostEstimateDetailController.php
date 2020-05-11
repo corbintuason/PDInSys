@@ -8,7 +8,7 @@ use App\Traits\ControllersTrait;
 use App\Project;
 use App\CostEstimateDetail;
 use App\SignedCostEstimateDetail;
-
+use Storage;
 class CostEstimateDetailController extends Controller
 {
     use ControllersTrait;
@@ -86,7 +86,8 @@ class CostEstimateDetailController extends Controller
             if($cost_estimate_detail->status =='Signed'){
                 SignedCostEstimateDetail::create([
                     'cost_estimate_detail_id' => $cost_estimate_detail->id,
-                    'status' => "For Creation"
+                    'status' => "For Creation",
+                    "incentive"=> $cost_estimate_detail->initial_incentive
                 ]); 
             }
         
@@ -98,6 +99,36 @@ class CostEstimateDetailController extends Controller
 
     }
 
+    public function saveChanges(Request $request, $id){
+        // Update First the Cost Estimate Detail
+        $cost_estimate_detail = CostEstimateDetail::findOrFail($id);
+        $new_cost_estimate_detail = json_decode($request->input('item'));
+        $update_fields = $this->filterForUpdating($cost_estimate_detail, $new_cost_estimate_detail);
+        
+        $cost_estimate_detail->update($update_fields);
+        
+        // Upload new file to database
+        $extension = $request->file('file')->extension();
+        $file_name = $cost_estimate_detail->cost_estimate->code .".". $extension;
+        $path = Storage::putFileAs(
+            'cost-estimates', $request->file('file'), $file_name
+        );
+
+        // Update status of Cost Estimate Detail
+        $this->updateItem($cost_estimate_detail, CostEstimateDetail::class, "Cost Estimate Detail", "cost_estimate_show");
+
+
+        // activity("Cost Estimate Uploaded")
+        // ->on($cost_estimate)
+        // ->log($auth_user->full_name . " has uploaded " . $file_name . " for Project " . $cost_estimate->project->code);
+
+        return [
+            'refresh' => true,
+            'success_text' => $cost_estimate_detail->code . " has been successfully updated.",
+            'file_name' => $file_name
+        ];
+        
+    }
     /**
      * Remove the specified resource from storage.
      *

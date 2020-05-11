@@ -39,6 +39,9 @@ class SignedCostEstimateDetail extends Model
         return $stages;
     }
 
+    public function getCodeAttribute(){
+        return $this->cost_estimate_detail->code;
+    }
     public function getInternalSavingsAttribute(){
         return $this->cost_estimate_detail->sub_total - $this->internal_budget;
 

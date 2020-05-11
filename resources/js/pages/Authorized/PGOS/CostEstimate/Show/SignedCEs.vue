@@ -54,7 +54,7 @@
                                         <b-form-input
                                         readonly
                                         :value="project_pl"
-                                            type="number"
+                                         
                                         ></b-form-input>
                                     </b-input-group>
                                 </b-form-group>
@@ -198,12 +198,13 @@ export default {
             var all_savings = 0;
             var all_sub_total = 0
             this.signed_ces.forEach(ce => {
-                all_savings+=Number(ce.relationships.signed_ce_detail.total_savings);
+                var internal_savings = ce.sub_total - ce.relationships.signed_ce_detail.internal_budget;
+                var savings = internal_savings - ce.relationships.signed_ce_detail.incentive;
+                all_savings+=Number(savings);
                 all_sub_total+=Number(ce.sub_total);
             })
-            console.log("all_savings", all_savings);
-            console.log("sub_total", all_sub_total);
-            return Number(all_savings/all_sub_total)*100+"%";
+            var project_pl = Number(all_savings/all_sub_total)*100+"%";
+            return project_pl ;
         },
         colorEquivalent() {
             return (detail) => {

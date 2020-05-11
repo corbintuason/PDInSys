@@ -49,10 +49,9 @@ trait ControllersTrait {
         return User::whereIs($this->getCurrentStage($item)->responsible)->get();
     }
 
-    public function addContributor($item)
+    public function addContributor($item, $class)
     {
         $auth_user = auth()->user();
-        $class = get_class($item);
         $responsibility = $this->getRoleIn($class);
         Contributor::create([
             'contributable_type' => $class,
@@ -111,7 +110,7 @@ trait ControllersTrait {
         });
 
         // Create Contributor Object
-        $this->addContributor($item);
+        $this->addContributor($item, $class);
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
@@ -139,7 +138,7 @@ trait ControllersTrait {
         });
 
         // Create Contributor Object
-        $this->addContributor($item);
+        $this->addContributor($item, $class);
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
@@ -154,5 +153,22 @@ trait ControllersTrait {
             ->log($auth_user->full_name . " has changed " . $model_text . " " . $item->code . "'s status to " . $item->status);
 
         return $item;
+    }
+
+    public function filterForUpdating($old_item, $new_item){
+        $attributes = $old_item->getAttributes();
+        $attribute_keys = array_keys($attributes);
+        $arr = json_decode(json_encode($new_item), TRUE);
+        $filtered = array_filter(
+            $arr,
+            function ($key) use ($attribute_keys) {
+                return in_array($key, $attribute_keys);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+
+        $result = array_diff_assoc($filtered, $attributes);
+        return $result;
+
     }
 }

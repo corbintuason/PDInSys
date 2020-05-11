@@ -155,18 +155,150 @@ export default {
                         title: result.value.success_text,
                         icon: "success",
                         onClose: () => {
-                            // if(result.value.refresh){
-                            //     this.$router.go();
-                            // }else{
-                            // this.$router.push({
-                            //     name: swal_object.endpoints.show_route,
-                            //     params: { id: result.value.item_id },
-                            // });
-                            // }
+                            if(result.value.refresh){
+                                this.$router.go();
+                            }else{
+                            this.$router.push({
+                                name: swal_object.endpoints.show_route,
+                                params: { id: result.value.item_id },
+                            });
+                            }
                         },
                     });
                 }
             });
+        },
+        
+        async fireSaveChangesWithFileSwal(swal_object){
+            const { value: file } = await swal.fire({
+                title: swal_object.title,
+                icon: "question",
+                text: swal_object.text,
+                confirmButtonText: swal_object.confirmButtonText,
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                allowOutsideClick: false,
+                input: "file",
+                inputAttributes: {
+                    accept: ".xlsx",
+                },
+                preConfirm:(file) => {
+                              return new Promise((resolve, reject) => {
+                                const object = {
+                                    file: file,
+                                    item: swal_object.item
+                                };
+                                console.log("object", object);
+                                const formData = new FormData();
+                    
+                                Object.keys(object).forEach((key) => {
+                                    if(key == 'item'){
+                                        formData.append(key, JSON.stringify(object[key]));
+                                    }else{
+                                        formData.append(key, object[key])
+
+                                    }
+                                    
+                                    
+                                });
+                                console.log("file?from preconfirm hek", formData);
+                                axios
+                                .post(swal_object.endpoints.api+"/saveChanges", formData)
+                                .then((response) => {
+                                    resolve(response.data);
+                                })
+                                .catch((e) => {
+                                    //(e);
+                                    swal.showValidationMessage(
+                                        `Unable to process item`
+                                    );
+                                    swal.hideLoading();
+                                    reject(e);
+                                });
+                         
+                                
+                    });
+                },
+        
+                
+            }).then((result) => {
+                if (result.value) {
+                    console.log(result);
+                    swal.fire({
+                        title: result.value.success_text,
+                        icon: "success",
+                        onClose: () => {
+                            if(result.value.refresh){
+                                this.$router.go();
+                            }else{
+                                this.$router.push({
+                                    name: swal_object.endpoints.show_route,
+                                    params: { id: result.value.item_id },
+                                });
+                            }
+                       
+                        },
+                    });
+                }
+            }).catch(e => {
+                console.log("error tym", e);
+            })
+        },
+
+        fireSaveChangesSwal(swal_object){
+             swal.fire({
+                title: swal_object.title,
+                icon: "question",
+                text: swal_object.text,
+                confirmButtonText: swal_object.confirmButtonText,
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                allowOutsideClick: false,
+                preConfirm:() => {
+                              return new Promise((resolve, reject) => {
+                                axios
+                                .put(swal_object.endpoints.api+"/saveChanges", swal_object.item)
+                                .then((response) => {
+                                    resolve(response.data);
+                                })
+                                .catch((e) => {
+                                    //(e);
+                                    swal.showValidationMessage(
+                                        `Unable to process item`
+                                    );
+                                    swal.hideLoading();
+                                    reject(e);
+                                });
+                         
+                                
+                    });
+                },
+        
+                
+            }).then((result) => {
+                if (result.value) {
+                    console.log(result);
+                    swal.fire({
+                        title: result.value.success_text,
+                        icon: "success",
+                        onClose: () => {
+                            if(result.value.refresh){
+                                this.$router.go();
+                            }else{
+                                this.$router.push({
+                                    name: swal_object.endpoints.show_route,
+                                    params: { id: result.value.item_id },
+                                });
+                            }
+                       
+                        },
+                    });
+                }
+            }).catch(e => {
+                console.log("error tym", e);
+            })
         },
 
         async fireUploadSwal(swal_object) {
@@ -239,52 +371,7 @@ export default {
                     });
                 }
             });
-            // swal.fire({
-            //     title: swal_object.title,
-            //     icon: "question",
-            //     html: swal_object.html,
-            //     confirmButtonText: swal_object.confirmButtonText,
-            //     showLoaderOnConfirm: true,
-            //     showCancelButton: true,
-            //     cancelButtonColor: "#d33",
-            //     allowOutsideClick: false,
-            //     preConfirm: () => {
-            //         return new Promise((resolve, reject) => {
-            //             axios
-            //                 .post(swal_object.endpoints.api, swal_object.item)
-            //                 .then((response) => {
-            //                     resolve(response.data);
-            //                 })
-            //                 .catch((e) => {
-            //                     //(e);
-            //                     swal.showValidationMessage(
-            //                         `Unable to process item`
-            //                     );
-            //                     swal.hideLoading();
-            //                     reject(e);
-            //                 });
-            //         });
-            //     },
-            // }).then((result) => {
-            //     if (result.value) {
-            //         console.log(result);
-            //         swal.fire({
-            //             title: result.value.success_text,
-            //             icon: "success",
-            //             onClose: () => {
-            //                 if(result.value.refresh){
-            //                     this.$router.go();
-            //                 }else{
-            //                     this.$router.push({
-            //                         name: swal_object.endpoints.show_route,
-            //                         params: { id: result.value.item_id },
-            //                     });
-            //                 }
-                       
-            //             },
-            //         });
-            //     }
-            // });
+
         },
 
         fireUpdateSwal(swal_object, item){

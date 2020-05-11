@@ -53,7 +53,7 @@ class CostEstimateDetail extends Model
         return $this->total_project_cost + ($this->total_project_cost * ($this->tax/100));
     }
 
-    public function getIncentiveAttribute(){
+    public function getInitialIncentiveAttribute(){
             $project_cost = $this->total_project_cost;
             if($project_cost <= 1){
                 $incentive = 0;    

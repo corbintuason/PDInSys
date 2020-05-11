@@ -15,6 +15,7 @@ class SignedCostEstimateDetail extends JsonResource
     public function toArray($request)
     {
         $response =  parent::toArray($request);
+        $response['code'] = $this->code;
         $response['current_handler'] = $this->currentHandler;
         $response['total_savings'] = $this->totalSavings;
         $response['relationships'] = [

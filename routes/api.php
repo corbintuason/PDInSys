@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/project/{id}/cost-estimate', 'API\CostEstimateController@store');
     Route::put('/project/{id}/cost-estimate', 'API\CostEstimateController@update');
     // Cost Estimate Detail Routes
+    Route::post('/cost_estimate_detail/{id}/saveChanges', 'API\CostEstimateDetailController@saveChanges');
     Route::put('/signed_cost_estimate_detail/{id}/saveChanges', 'API\SignedCostEstimateDetailController@saveChanges');
     Route::post("/project/{id}/cost-estimate-detail", "API\CostEstimateDetailController@store");
     // Additional Routes

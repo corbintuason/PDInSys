@@ -78,7 +78,17 @@
                         </tr>
                         <tr class="table-danger">
                             <th>Incentive</th>
-                            <td>{{ detail.incentive }}</td>
+                            <td>    <b-input-group size="sm">
+                                    <template v-slot:prepend>
+                                        <b-input-group-text
+
+                                            ><strong class="text-success"
+                                                >&#8369;</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <b-input readonly :value="signed_ce_detail.incentive" type="number"></b-input>
+                                </b-input-group></td>
                         </tr>
                         <tr class="table-secondary">
                             <th>Total Savings</th>

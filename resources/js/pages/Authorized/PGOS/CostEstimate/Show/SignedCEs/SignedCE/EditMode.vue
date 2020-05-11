@@ -78,7 +78,8 @@
                         </tr>
                         <tr class="table-danger">
                             <th>Incentive</th>
-                            <td>{{ detail.incentive }}</td>
+                            <td>                                    <b-input v-model="signed_ce_detail.incentive" type="number"></b-input>
+</td>
                         </tr>
                         <tr class="table-secondary">
                             <th>Total Savings</th>
