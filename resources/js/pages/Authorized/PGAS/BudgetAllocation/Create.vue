@@ -24,7 +24,7 @@
 						</div>
 						<!-- All Cost Center -->
 						<div>
-							<all-cost-center></all-cost-center>
+							<all-cost-center :tabIndex="tabIndex"></all-cost-center>
 						</div>
 					</b-card-text>
 					<template v-slot:footer>
@@ -55,8 +55,13 @@
 import allBudget from "./Create/AllBudget";
 import allCostCenter from "./Create/AllCostCenter";
 export default {
+	props: {
+		budget: Object
+	},
 	data() {
-		return {};
+		return {
+			tabIndex: 0
+		};
 	},
 	components: {
 		"all-budget": allBudget,

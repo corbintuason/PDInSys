@@ -46,15 +46,15 @@ export default {
 			budget: {
 				cost_centers: [
 					{
-						cost_code: "",
-						cost_description: "",
-						cost_total: 0,
-						budget_details: [
+						adm_cost_code: "",
+						adm_cost_description: "",
+						adm_cost_total: "",
+						adm_budget_details: [
 							{
-								budget_code: "",
-								budget_description: "",
-								budget_year: 0,
-								budget_month: 0
+								adm_budget_code: "",
+								adm_budget_description: "",
+								adm_budget_year: "",
+								adm_budget_month: ""
 							}
 						]
 					}

@@ -8,8 +8,8 @@
 				<div class="col-md-4">
 					<b-form-input
 						readonly
-						placeholder="Alma Vida Gerado"
-						class="text-center assign-budget"
+						value="Head of Admin"
+						class="text-center assign-budget text-dark"
 						type="text"
 					></b-form-input>
 				</div>
@@ -34,7 +34,7 @@
 					<b-button
 						v-if="value_index != 0"
 						:disabled="value_index==0"
-						@click="removeRow(budget.cost_centers, value_index)"
+						@click="removeCostCenter(budget.cost_centers, value_index)"
 						variant="danger"
 						pill
 					>
@@ -54,19 +54,18 @@
 					<label>Total Amount:</label>
 				</div>
 				<div class="col-md-3">
-					<b-form-input v-model="budget.cost_centers[value_index].cost_code" type="text"></b-form-input>
+					<b-form-input v-model="budget.cost_centers[value_index].adm_cost_code" type="text"></b-form-input>
 				</div>
 				<div class="col-md-5">
-					<b-form-input v-model="budget.cost_centers[value_index].cost_description" type="text"></b-form-input>
+					<b-form-input v-model="budget.cost_centers[value_index].adm_cost_description" type="text"></b-form-input>
 				</div>
 				<div class="col-md-3">
 					<b-input-group prepend="₱" class="font-weight-bold">
 						<b-form-input
-							v-model="budget.cost_centers[value_index].cost_total"
+							:value="getCostTotal(value['adm_cost_total'], value['adm_budget_year'])"
 							class="total-amount"
 							placeholder="000,000.00"
 							type="text"
-							disabled
 						></b-form-input>
 					</b-input-group>
 				</div>
@@ -90,43 +89,39 @@
 			</div>
 			<div
 				class="row ml-1 mb-3"
-				v-for="(value, value_index) in budget.cost_centers[value_index].budget_details"
+				v-for="(value, value_index) in budget.cost_centers[value_index].adm_budget_details"
 				:key="value_index"
 			>
 				<div class="col-md-3 ml-md-auto">
-					<b-form-input
-						v-model="budget.cost_centers[value_index].budget_details.budget_code"
-						type="text"
-					></b-form-input>
+					<b-form-input v-model="value.adm_budget_code" type="text"></b-form-input>
 				</div>
 				<div class="col-md-3">
-					<b-form-input
-						v-model="budget.cost_centers[value_index].budget_details.budget_description"
-						type="text"
-					></b-form-input>
+					<b-form-input v-model="value.adm_budget_description" type="text"></b-form-input>
 				</div>
 				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ yr" class="font-weight-bold">
-						<b-form-input
-							v-model="budget.cost_centers[value_index].budget_details.budget_year"
-							placeholder="000,000.00"
-						></b-form-input>
+						<b-form-input v-model="value.adm_budget_year" placeholder="000,000.00"></b-form-input>
 					</b-input-group>
 				</div>
 				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ mo." class="font-weight-bold">
 						<b-form-input
-							v-model="budget.cost_centers[value_index].budget_details.budget_month"
+							:value="
+                                            getTotalBudgetMonth(
+                                                value['adm_budget_month'], value['adm_budget_year']
+                                            )
+                                        "
 							class="total-amount"
 							placeholder="000,000.00"
 							disabled
 						></b-form-input>
 					</b-input-group>
 				</div>
+
 				<div class="col-md-1">
 					<b-button
 						:disabled="value_index==0"
-						@click="removeRow(budget.cost_centers.budget_details, value_index)"
+						@click="removeRow(budget.cost_centers[value_index].adm_budget_details[value_index], value_index)"
 						variant="outline-danger"
 					>
 						<i class="fas fa-trash"></i>
@@ -134,8 +129,9 @@
 				</div>
 			</div>
 			<!-- Budget Code Add button -->
+
 			<div class="row ml-5 mr-5 mt-4 mb-4">
-				<b-button @click="addRow(budget.cost_centers[value_index].budget_details[value_index])" block>
+				<b-button @click="addRow(budget.cost_centers[value_index].adm_budget_details)" block>
 					<i class="text-white fas fa-plus"></i>
 				</b-button>
 			</div>
@@ -150,15 +146,19 @@ export default {
 	},
 	data() {
 		return {
-			cost_code: "",
-			cost_description: "",
-			cost_total: 0,
-			budget_details: [
+			cost_centers: [
 				{
-					budget_code: "",
-					budget_description: "",
-					budget_year: "",
-					budget_month: ""
+					adm_cost_code: "",
+					adm_cost_description: "",
+					adm_cost_total: "",
+					adm_budget_details: [
+						{
+							adm_budget_code: "",
+							adm_budget_description: "",
+							adm_budget_year: "",
+							adm_budget_month: ""
+						}
+					]
 				}
 			]
 		};
@@ -167,15 +167,15 @@ export default {
 		addCostCenter(model) {
 			model.push({
 				// cost_centers: [{
-				cost_code: "",
-				cost_description: "",
-				cost_total: 0,
-				budget_details: [
+				adm_cost_code: "",
+				adm_cost_description: "",
+				adm_cost_total: "",
+				adm_budget_details: [
 					{
-						budget_code: "",
-						budget_description: "",
-						budget_year: 0,
-						budget_month: 0
+						adm_budget_code: "",
+						adm_budget_description: "",
+						adm_budget_year: "",
+						adm_budget_month: ""
 					}
 				]
 				// }]
@@ -183,27 +183,33 @@ export default {
 		},
 		addRow(model) {
 			model.push({
-				budget_details: [
-					{
-						budget_code: "",
-						budget_description: "",
-						budget_year: 0,
-						budget_month: 0
-					}
-				]
+				adm_budget_code: "",
+				adm_budget_description: "",
+				adm_budget_year: "",
+				adm_budget_month: ""
 			});
+		},
+		removeCostCenter(model, index) {
+			model.splice(index, 1);
 		},
 		removeRow(model, index) {
 			model.splice(index, 1);
 		}
 	},
 	computed: {
-		monthlyBudget() {
-			calculatedMonthly =
-				this.budget.cost_centers.budget_details.budget_year / 12;
-			this.budget.cost_centers.budget_details = calculatedMonthly;
+		getTotalBudgetMonth() {
+			return (adm_budget_month, adm_budget_year) => {
+				var adm_budget_month = adm_budget_year / 12;
 
-			return calculatedMonthly;
+				return adm_budget_month;
+			};
+		},
+		getCostTotal() {
+			return (adm_cost_total, adm_budget_year) => {
+				var adm_cost_total = adm_budget_year;
+				console.log(adm_cost_total);
+				return adm_cost_total;
+			};
 		}
 	}
 };
