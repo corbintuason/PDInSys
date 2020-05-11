@@ -2,5 +2,6 @@
     "prettier.useTabs": true,
     "prettier.tabWidth": 4,
     "vetur.format.options.tabSize": 4,
-    "vetur.format.options.useTabs": true
+    "vetur.format.options.useTabs": true,
+    "vetur.format.defaultFormatter.js": "prettier-eslint"
 }

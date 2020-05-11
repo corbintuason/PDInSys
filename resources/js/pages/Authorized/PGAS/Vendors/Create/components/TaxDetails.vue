@@ -1,98 +1,80 @@
 <template>
-    <div>
-        <div class="text-center">
-            <vue-step :now-step="nowStep" :step-list="stepList"></vue-step>
-        </div>
-        <hr />
-        <div class="component-sub-content mt-4 mb-4">
-            <div class="row">
-                <!-- TIN Number -->
-                <div class="col-md-6">
-                    <label>
-                        TIN Number:
-                        <strong class="red">*</strong>
-                    </label>
-                    <b-input-group>
-                        <b-input
-                            v-model="vendor.tin_number"
-                            placeholder="000-000-000-00000"
-                            required
-                        ></b-input>
-                    </b-input-group>
-                </div>
+	<div>
+		<div class="text-center">
+			<vue-step :now-step="nowStep" :step-list="stepList"></vue-step>
+		</div>
+		<hr />
+		<div class="component-sub-content mt-4 mb-4">
+			<div class="row">
+				<!-- TIN Number -->
+				<div class="col-md-6">
+					<label>
+						TIN Number:
+						<strong class="red">*</strong>
+					</label>
+					<b-input-group>
+						<b-input v-model="vendor.tin_number" placeholder="000-000-000-00000" required></b-input>
+					</b-input-group>
+				</div>
 
-                <!-- VAT / NV / NR -->
-                <div class="col-md-6">
-                    <label>VAT / NV / NR</label>
-                    <b-input-group>
-                        <b-form-select v-model="vendor.type_vat" required>
-                            <option disabled>Please select an option</option>
-                            <option>VAT</option>
-                            <option>Non-VAT</option>
-                            <option>Not Registered</option>
-                        </b-form-select>
-                    </b-input-group>
-                </div>
-            </div>
+				<!-- VAT / NV / NR -->
+				<div class="col-md-6">
+					<label>VAT / NV / NR</label>
+					<b-input-group>
+						<b-form-select v-model="vendor.type_vat" required>
+							<option disabled>Please select an option</option>
+							<option>VAT</option>
+							<option>Non-VAT</option>
+							<option>Not Registered</option>
+						</b-form-select>
+					</b-input-group>
+				</div>
+			</div>
 
-            <div
-                class="row mt-2"
-                v-for="(value, value_index) in vendor.ewt_details"
-                :key="value_index"
-            >
-                <!-- EWT Details -->
-                <b-form-group
-                    class="col-md-2"
-                    label="EWT Code"
-                    label-class="font-weight-bold"
-                >
-                    <b-form-select v-model="value.detail">
-                        <b-form-select-option :value="null" disabled> -- Please select an EWT Code -- </b-form-select-option>
-						<b-form-select-option v-for="(ewt, ewt_index) in ewts" :key="ewt_index" :value="ewt">{{ewt.name}}</b-form-select-option>
+			<div class="row mt-3" v-for="(value, value_index) in vendor.ewt_details" :key="value_index">
+				<!-- EWT Details -->
+				<b-form-group class="col-md-2" label="EWT Code" label-class="font-weight-bold">
+					<b-form-select v-model="value.detail">
+						<b-form-select-option :value="null" disabled>-- Please select an EWT Code --</b-form-select-option>
+						<b-form-select-option
+							v-for="(ewt, ewt_index) in ewts"
+							:key="ewt_index"
+							:value="ewt"
+						>{{ewt.name}}</b-form-select-option>
 					</b-form-select>
-                </b-form-group>
+				</b-form-group>
 				<!-- EWT Description -->
-                <b-form-group
-                    class="col-md-7"
-                    label="EWT Detail"
-                    label-class="font-weight-bold"
-                >
-                    <b-input readonly v-if="value.detail==null"></b-input>
+				<b-form-group class="col-md-8" label="EWT Detail" label-class="font-weight-bold">
+					<b-input readonly v-if="value.detail==null"></b-input>
 					<b-input readonly v-else :value="value.detail.description"></b-input>
-                </b-form-group>
+				</b-form-group>
 
 				<!-- EWT Description -->
-                <b-form-group
-                    class="col-md-1"
-                    label="EWT Percent"
-                    label-class="font-weight-bold"
-                >
-                    <b-input readonly v-if="value.detail==null"></b-input>
+				<b-form-group class="col-md-1" label="EWT Percent" label-class="font-weight-bold">
+					<b-input readonly v-if="value.detail==null"></b-input>
 					<b-input readonly v-else :value="value.detail.percent"></b-input>
-                </b-form-group>
-                <div class="col-md-1">
-                    <b-button
-                        :disabled="value_index == 0"
-                        @click="removeRow(vendor.ewt_details, value_index)"
-                        variant="outline-danger"
-                    >
-                        <i class="fas fa-trash"></i>
-                    </b-button>
-                </div>
-            </div>
+				</b-form-group>
+				<div class="col-md-1">
+					<b-form-group label="." label-class="font-weight-bold">
+						<b-button
+							:disabled="value_index == 0"
+							@click="removeRow(vendor.ewt_details, value_index)"
+							variant="outline-danger"
+						>
+							<i class="fas fa-trash"></i>
+						</b-button>
+					</b-form-group>
+				</div>
+			</div>
 
-            <div class="mt-4">
-                <b-button
-                    @click="addRow(vendor.ewt_details)"
-                    variant="success"
-                    block
-                >
-                    <i class="fas fa-plus"></i>
-                    <strong>Add EWT</strong>
-                </b-button>
-            </div>
-        </div>
-    </div>
+			<div class="mt-2">
+				<b-button @click="addRow(vendor.ewt_details)" variant="success" block>
+					<i class="fas fa-plus"></i>
+					<strong>Add EWT</strong>
+				</b-button>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>

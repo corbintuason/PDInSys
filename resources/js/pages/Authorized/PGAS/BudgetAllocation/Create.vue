@@ -22,30 +22,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="mt-3">
-							<b-tabs
-								active-nav-item-class="font-weight-bold text-uppercase"
-								v-model="tabIndex"
-								content-class="mt-3"
-								justified
-							>
-								<b-tab title="Administration" active>
-									<!-- ADM -->
-									<budget-allocation :form="form"></budget-allocation>
-								</b-tab>
-								<b-tab title="Accounting and Finance Group">
-									<!-- AFG -->
-								</b-tab>
-								<b-tab title="Board of Directors">
-									<!-- BOD -->
-								</b-tab>
-								<b-tab title="Human Resource">
-									<!-- HR -->
-								</b-tab>
-								<b-tab title="Operations">
-									<!-- OPS -->
-								</b-tab>
-							</b-tabs>
+						<!-- All Cost Center -->
+						<div>
+							<all-cost-center></all-cost-center>
 						</div>
 					</b-card-text>
 					<template v-slot:footer>
@@ -65,60 +44,25 @@
 				</b-card>
 			</div>
 			<div class="col-md-2 mt-3">
-				<!-- Admin -->
-				<adm-budget></adm-budget>
-				<!-- AFG -->
-				<afg-budget></afg-budget>
-				<!-- BOD -->
-				<bod-budget></bod-budget>
-				<!-- Human Resources -->
-				<hr-budget></hr-budget>
-				<!-- OPS  -->
-				<ops-budget></ops-budget>
-				<!-- Annual Budget  -->
-				<annual-budget></annual-budget>
+				<!-- All Budget -->
+				<all-budget></all-budget>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import budgetAllocation from "./Create/BudgetAllocation";
-import annualBudget from "./Create/Budget/AnnualBudget";
-import admBudget from "./Create/Budget/ADM";
-import afgBudget from "./Create/Budget/AFG";
-import bodBudget from "./Create/Budget/BOD";
-import hrBudget from "./Create/Budget/HR";
-import opsBudget from "./Create/Budget/OPS";
+import allBudget from "./Create/AllBudget";
+import allCostCenter from "./Create/AllCostCenter";
 export default {
 	data() {
-		return {
-			tabIndex: 0,
-			form: {
-				cost_centers: [{
-					cost_code: "",
-					cost_description: "",
-					cost_total: 0,
-					budget_details: [{
-						budget_code: "",
-						budget_description: "",
-						budget_year: 0,
-						budget_month: 0
-					}]
-				}]
-			}
-		}
+		return {};
 	},
 	components: {
-		"budget-allocation": budgetAllocation,
-		"annual-budget": annualBudget,
-		"adm-budget": admBudget,
-		"bod-budget": bodBudget,
-		"afg-budget": afgBudget,
-		"hr-budget": hrBudget,
-		"ops-budget": opsBudget
+		"all-budget": allBudget,
+		"all-cost-center": allCostCenter
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,41 +1,27 @@
 <template>
-	<div>
+	<div v-if="vendor!=null">
 		<b-breadcrumb class="mt-4">
 			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
-			<b-breadcrumb-item href="/vendors">List of Vendors</b-breadcrumb-item>
-			<b-breadcrumb-item active>VID-{{vendor_code}}</b-breadcrumb-item>
+			<b-breadcrumb-item href="/vendors">List of Vendor</b-breadcrumb-item>
+			<b-breadcrumb-item active>VID-{{ vendor.code }}</b-breadcrumb-item>
 		</b-breadcrumb>
-		<div v-if="vendor.status != 'Rejected'">
-			<item-progress
-				class="mt-3"
-				:front_steps="front_steps"
-				v-if="vendor!=null"
-				:db_steps="db_steps"
-				:item="vendor"
-				:contributors="contributors"
-				:mode="mode"
-				:api_link="api_link"
-				:remarks="remarks"
-			></item-progress>
+		<div>
+			<item-progress class="mt-3" v-if="vendor!=null" :steps="steps" :item="vendor" :mode="mode"></item-progress>
 		</div>
-		<b-alert v-else show variant="danger" class="mt-3">
-			This vendor has been
-			<strong>Rejected</strong>
-		</b-alert>
 
-		<!-- Vendor -->
+		<!-- Mandate -->
 		<vendor-module
 			v-if="vendor != null"
-			:user="user"
+			:vendor_code="vendor.code"
+			:endpoints="endpoints"
 			:vendor="vendor"
-			:vendor_code="vendor_code"
 			:mode="mode"
-			:user_role="user_role"
-			@update-mode="updateMode"
+			:key="show_vendor_key"
+			:steps="steps"
 		></vendor-module>
-
+		{{vendor.relationships}}
 		<!-- Change Logs -->
-		<change-logs :logs="change_logs"></change-logs>
+		<change-logs v-if="vendor!=null" :logs="vendor.relationships.actions"></change-logs>
 	</div>
 </template>
 
@@ -46,117 +32,42 @@ export default {
     data() {
         return {
             mode: "Show",
-            api_link: "/api/mandate",
-            user: this.$store.state.user,
-            change_logs: null,
-            user_role: null,
+      	    show_vendor_key: 0,
+            steps: this.$store.state.vendor.steps,
+            endpoints: {
+                api: "/api/vendor/",
+                show_route: "vendor_show",
+            },
             vendor: null,
-            vendor_code: null,
-            contributors: null,
-            remarks: null,
-
-            front_steps: this.$store.state.globals.statuses.vendor.front_steps,
-            db_steps: this.$store.state.globals.statuses.vendor.db_steps,
-            current_step: null,
-        } 
+        };
     },
     components: {
         "vendor-module": vendorModule,
         "change-logs": changeLogs,
     },
-    watch: {
-        mode() {
-            this.fireToast();
-        },
+    watch:{
+        mode(){
+        this.show_vendor_key++;
+        }
     },
-    methods: {
-            getUserRole() {
-                //("start");
-                this.user_role = this.user.data.module_access[0]["modules"][0][
-                    "features"
-                ][1]["role"];
-            },
-            getVendor() {
-                var vendor_id = this.$route.params.id;
-                axios.get("/api/vendor/" + vendor_id).then((response) => {
-                    this.vendor = response.data.data;
-                    this.vendor_code = response.data.meta.code;
-                    this.change_logs = response.data.actions;
-                    this.contributors = response.data.relationships.contributors
-                    this.remarks = response.data.relationships.remarks
-                    this.getCurrentStep();
-                    this.fireToast();
-                }).catch(e => {
-                    console.log("dito palang mali na");
-                });
-            },
-            getCurrentStep() {
-                console.log(this.vendor);
-                var status = this.vendor.status;
-                var status_index = this.db_steps.indexOf(status) + 1;
-                this.current_step = status_index;
-            },
-            updateMode(new_mode) {
-                this.mode = new_mode;
-            },
-             switchMode(mode) {
-                swal.fire({
-                    title: mode + " Mode",
-                    text: "Proceeding will grant you access to " + mode + " mode",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Proceed!",
-                    onDestroy: () => {
-                        this.fireToast();
-                    },
-                }).then((result) => {
-                    if (result.value) {
-                        this.mode = mode;
-                        swal.fire(
-                            mode + " Mode!",
-                            "You are now in" + mode + " Mode.",
-                            "success"
-                        );
-                    }
-                });
-            },
+    methods:{
+        loadVendor(){
+            var vendor_id = this.$route.params.id
+            axios.get("/api/vendor/" + vendor_id).then(response => {
+                this.vendor = response.data.data;
+            })
+        }
     },
-    mounted() {
-        // this.getUserRole();
-        this.getVendor();
+    mounted(){
+        this.loadVendor();
+        Fire.$on('switch-mode', mode => {
+            if(mode == 'Show'){
+            this.loadVendor();
+            }
+            this.mode = mode;
+        });
     },
-}
+};
 </script>
 
-<style>
-</style>
-
-		<!-- Import Item Progress Here:
-				Props needed:
-					- front_steps: Array from globals store vuex. Gawa ka muna ng array of statuses na nakikita sa progress bar (Create, Review, etc). See globals vuex for an example
-					- db_steps: Array from globals store vuex. Gawa ka muna ng array of statuses na sinasave sa database (For Approval, For Review, etc.)
-					- item: Prop na kinukuha mo sa axios. In this case yung makukuha mo sa axios.get("/api/vendor/{id}")
-					- contributors: Create ka ng relationship table for vendors and contributors. A vendor hasMany contributors through sa contribution list. See Project Model and Project Contributor (I'll make this a polymorphic soon. for now, iapply mo nalang muna yung Vendor and VendorContributor relationship. Tignan mo nalang yung database structure ng project contributor, gayahin mo)
-					- api_link: Hindi ko to inapply so ignore mo muna
-					- remarks: May polymorphic relationship na ang remarks. Apply mo lang to sa Vendor Model mo:
-							  public function remarks(){
-								return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
-							  }
-					- mode: Use "Show" by default as a prop
-					
-		 -->
-
-		 <!-- Import ShowProject Here 
-		 		Props needed:
-				 	- vendor: Vendor na makukuha mo sa api response callback
-					- vendor_code: Add this sa Vendor model mo para magka code ka:
-						  public function getCodeAttribute(){
-							$year = date("y");
-							return $year . "-".sprintf('%04d', $this->attributes['id']);
-						}
-						^^ Sample getter is for project. Change the code as needed depende sa format na binigay ni sir von sa Vendor Code
-					- front_steps: As described earlier
-					- contributors: As described earlier
-		 -->
+<style></style>

@@ -2,7 +2,7 @@
 	<div>
 		<b-card class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">Vendor VID-{{vendor_code}}</h1>
+				<h1 class="component-title">Vendor VID-{{vendor_code}} - {{vendor.status}}</h1>
 			</template>
 			<b-card-text>
 				<b-tabs v-model="tabIndex" content-class="mt-3" fill>
@@ -30,21 +30,13 @@
 						</b-button-group>
 					</div>
 					<div class="col-md-6 text-right">
-						<template v-if="vendor.status=='For Approval'">
-							<b-button v-if="user.roles=='vendor-approver' " class="mr-1" variant="primary">Return Vendor</b-button>
-							<b-button
-								v-if="user.roles=='vendor-approver'"
-								variant="danger"
-								class="mr-1"
-								@click="rejectVendor"
-							>Reject Vendor</b-button>
-							<b-button
-								v-if="user.roles=='vendor-approver' "
-								variant="success"
-								class="ml-1"
-								@click="approveVendor"
-							>Approve Vendor</b-button>
-						</template>
+						<show-process-buttons
+							:mode="mode"
+							:item="vendor"
+							:item_model="item_model"
+							:steps="steps"
+							:endpoints="endpoints"
+						></show-process-buttons>
 					</div>
 				</div>
 			</template>
@@ -58,63 +50,68 @@ import vendorDetails from "./Show/VendorDetails";
 import bankDetails from "./Show/BankDetails";
 import taxDetails from "./Show/TaxDetails";
 import accreditationDetails from "./Show/AccreditationDetails";
+import showProcessButtons from "../../../../components/authorized/public/ShowProcessButtons";
 export default {
   data() {
     return {
 		 tabIndex: 0,
+		 name: "Show Vendor",
+		item_model: "Vendor",
+		user: this.$store.state.user,
 	};
+  },
+   props: {
+    steps: Array,
+	vendor: Object,
+	vendor_code: String,
+	mode: String,
+	endpoints: Object
   },
   mixins: [form],
   components: {
 	"vendor-details": vendorDetails,
 	"bank-details": bankDetails,
 	"tax-details": taxDetails,
-	"accreditation-details": accreditationDetails
+	"accreditation-details": accreditationDetails,
+	"show-process-buttons": showProcessButtons,
   },
-  props: {
-    user: Object,
-	vendor: Object,
-	vendor_code: String,
-    mode: String,
-    user_role: String
-  },
-  methods: {
-    approveVendor() {
-      // activate sweet alert
-      const swal_object = {
-        title: "Approve Vendor",
-        icon: "question",
-        confirmButtonText: "Are you sure?",
-        text: "Vendor's status will be updated to Approved"
-      };
+//   methods: {
+//     approveVendor() {
+//       // activate sweet alert
+//       const swal_object = {
+//         title: "Approve Vendor",
+//         icon: "question",
+//         confirmButtonText: "Are you sure?",
+//         text: "Vendor's status will be updated to Approved"
+//       };
 
-      const axios_form = {
-        api_link: "/api/vendor/" + this.vendor.id,
-        status: "Approved",
-      };
+//       const axios_form = {
+//         api_link: "/api/vendor/" + this.vendor.id,
+//         status: "Approved",
+//       };
 
-      this.updateItem(swal_object, axios_form);
-    },
-    rejectVendor(){
-       // activate sweet alert
-      const swal_object = {
-        title: "Reject Vendor",
-        icon: "warning",
-        confirmButtonText: "Reject",
-        text: "Vendor's status will be updated to Rejected"
-      };
+//       this.updateItem(swal_object, axios_form);
+//     },
+//     rejectVendor(){
+//        // activate sweet alert
+//       const swal_object = {
+//         title: "Reject Vendor",
+//         icon: "warning",
+//         confirmButtonText: "Reject",
+//         text: "Vendor's status will be updated to Rejected"
+//       };
 
-      const axios_form = {
-        api_link: "/api/vendor/" + this.vendor.id,
-        status: "Rejected",
-      };
+//       const axios_form = {
+//         api_link: "/api/vendor/" + this.vendor.id,
+//         status: "Rejected",
+//       };
 
-      this.updateItem(swal_object, axios_form);
-	},
-	returnProject() {
-		this.$bvModal.show("return-item");
-	},
-  },
+//       this.updateItem(swal_object, axios_form);
+// 	},
+// 	returnProject() {
+// 		this.$bvModal.show("return-item");
+// 	},
+//   },
   mounted() {
   }
 };

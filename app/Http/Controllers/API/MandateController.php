@@ -45,7 +45,7 @@ class MandateController extends Controller
 
         // STATUS IS SET TO FOR APPROVAL
         $auth_user = auth()->user();
-        $mandate = $this->createItem($request, Mandate::class, "Mandate");
+        $mandate = $this->createItem($request, Mandate::class, "Mandate", "mandate_show");
         // Notify Process Users
         Notification::send($this->notifyApprovers($mandate), new MandateCreated($mandate));
 
@@ -89,7 +89,7 @@ class MandateController extends Controller
         $mandate = Mandate::findOrFail($id);
         $auth_user = auth()->user();
 
-        $this->updateItem($mandate, Mandate::class, "Mandate");
+        $this->updateItem($mandate, Mandate::class, "Mandate", "mandate_show");
 
         // Notify Process Users
         Notification::send($this->notifyApprovers($mandate), new MandateStatusChange($mandate));
