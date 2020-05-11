@@ -62,7 +62,7 @@
 				<div class="col-md-3">
 					<b-input-group prepend="₱" class="font-weight-bold">
 						<b-form-input
-							:value="total_budget_year(center)"
+							:value="total_budget_year(value)"
 							class="total-amount"
 							placeholder="000,000.00"
 							type="text"
@@ -208,7 +208,7 @@ export default {
 			return center => {
 				var sum = 0;
 				center.adm_budget_details.forEach(value => {
-					sum += value.adm_budget_year;
+					sum += Number(value.adm_budget_year);
 				});
 				return sum;
 			};
