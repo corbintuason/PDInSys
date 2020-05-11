@@ -62,7 +62,7 @@
 				<div class="col-md-3">
 					<b-input-group prepend="₱" class="font-weight-bold">
 						<b-form-input
-							:value="getCostTotal(value['adm_cost_total'], value['adm_budget_year'])"
+							:value="total_budget_year(cost_centers)"
 							class="total-amount"
 							placeholder="000,000.00"
 							type="text"
@@ -204,11 +204,13 @@ export default {
 				return adm_budget_month;
 			};
 		},
-		getCostTotal() {
-			return (adm_cost_total, adm_budget_year) => {
-				var adm_cost_total = adm_budget_year;
-				console.log(adm_cost_total);
-				return adm_cost_total;
+		total_budget_year() {
+			return cost_centers => {
+				var sum = 0;
+				cost_centers.adm_budget_details.forEach(value => {
+					sum += value.adm_budget_year;
+				});
+				return sum;
 			};
 		}
 	}
