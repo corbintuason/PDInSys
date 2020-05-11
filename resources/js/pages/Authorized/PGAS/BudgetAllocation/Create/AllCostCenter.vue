@@ -28,6 +28,7 @@
 					<ops-cost-center :budget="budget"></ops-cost-center>
 				</b-tab>
 			</b-tabs>
+			{{budget}}
 		</div>
 	</div>
 </template>

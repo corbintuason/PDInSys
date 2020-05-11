@@ -135,7 +135,7 @@
 			</div>
 			<!-- Budget Code Add button -->
 			<div class="row ml-5 mr-5 mt-4 mb-4">
-				<b-button @click="addRow(budget.budget_details)" block>
+				<b-button @click="addRow(budget.cost_centers[value_index].budget_details[value_index])" block>
 					<i class="text-white fas fa-plus"></i>
 				</b-button>
 			</div>
@@ -183,12 +183,14 @@ export default {
 		},
 		addRow(model) {
 			model.push({
-				// budget_details: [{
-				budget_code: "",
-				budget_description: "",
-				budget_year: 0,
-				budget_month: 0
-				// }]
+				budget_details: [
+					{
+						budget_code: "",
+						budget_description: "",
+						budget_year: 0,
+						budget_month: 0
+					}
+				]
 			});
 		},
 		removeRow(model, index) {
