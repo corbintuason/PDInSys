@@ -14,6 +14,9 @@ class BudgetAllocation extends JsonResource
      */
     public function toArray($request)
     {
-        $request['adm_grand_total'] = $this->adm_grand_total;
+        $response = parent::toArray($request);
+        $response['adm_grand_total'] = $this->adm_grand_total;
+
+        return $response;
     }
 }
