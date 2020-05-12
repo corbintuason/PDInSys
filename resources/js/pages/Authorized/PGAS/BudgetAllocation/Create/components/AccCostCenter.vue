@@ -1,9 +1,16 @@
 <template>
 	<div>
+		<div class="row mt-2">
+			<div class="col-md-9"></div>
+			<div class="col-md-3">
+				<label>AFG Grand Total:</label>
+				<b-input-group prepend="₱" class="font-weight-bold">
+					<money readonly :value="budget_grand_total" class="total-amount form-control" type="text"></money>
+				</b-input-group>
+			</div>
+		</div>
+		<hr />
 		<div class="row mt-2 mb-4">
-			<b-input-group prepend="₱" class="font-weight-bold">
-				<b-form-input readonly :value="budget_grand_total" class="total-amount" type="text"></b-form-input>
-			</b-input-group>
 			<div class="col-md-10">
 				<div class="col-md-4 mt-2 text-center">
 					<label>ASSIGN BUDGET TO:</label>
@@ -64,13 +71,12 @@
 				</div>
 				<div class="col-md-3">
 					<b-input-group prepend="₱" class="font-weight-bold">
-						<b-form-input
+						<money
 							readonly
 							:value="total_budget_year(value)"
-							class="total-amount"
-							placeholder="000,000.00"
+							class="total-amount form-control"
 							type="text"
-						></b-form-input>
+						></money>
 					</b-input-group>
 				</div>
 			</div>
@@ -104,21 +110,20 @@
 				</div>
 				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ yr" class="font-weight-bold">
-						<b-form-input v-model="value.acc_budget_year" placeholder="000,000.00"></b-form-input>
+						<money v-model="value.acc_budget_year" class="form-control"></money>
 					</b-input-group>
 				</div>
 				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ mo." class="font-weight-bold">
-						<b-form-input
+						<money
 							:value="
                                             getTotalBudgetMonth(
                                                 value['acc_budget_month'], value['acc_budget_year']
                                             )
                                         "
-							class="total-amount"
-							placeholder="000,000.00"
+							class="total-amount form-control"
 							disabled
-						></b-form-input>
+						></money>
 					</b-input-group>
 				</div>
 

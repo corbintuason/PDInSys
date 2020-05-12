@@ -3,13 +3,13 @@
 		<!-- Admin -->
 		<adm-budget :budget="budget.adm_cost_centers"></adm-budget>
 		<!-- AFG -->
-		<afg-budget></afg-budget>
+		<afg-budget :budget="budget.acc_cost_centers"></afg-budget>
 		<!-- BOD -->
-		<bod-budget></bod-budget>
+		<bod-budget :budget="budget.bod_cost_centers"></bod-budget>
 		<!-- Human Resources -->
-		<hr-budget></hr-budget>
+		<hr-budget :budget="budget.hum_cost_centers"></hr-budget>
 		<!-- OPS  -->
-		<ops-budget></ops-budget>
+		<ops-budget :budget="budget.ops_cost_centers"></ops-budget>
 		<!-- Annual Budget  -->
 		<annual-budget></annual-budget>
 	</div>
@@ -24,11 +24,9 @@ import hrBudget from "./Budget/HR";
 import opsBudget from "./Budget/OPS";
 export default {
 	data() {
-		return {
-
-		};
+		return {};
 	},
-	props:{
+	props: {
 		budget: Object
 	},
 	components: {
