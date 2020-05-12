@@ -16,11 +16,11 @@ class BudgetAllocation extends Model
     ];
 
     protected $casts = [
-        'adm_cost_centers' => 'object',
-        'acc_cost_centers' => 'object',
-        'bod_cost_centers' => 'object',
-        'hum_cost_centers' => 'object',
-        'ops_cost_centers' => 'object',
+        'adm_cost_centers' => 'array',
+        'acc_cost_centers' => 'array',
+        'bod_cost_centers' => 'array',
+        'hum_cost_centers' => 'array',
+        'ops_cost_centers' => 'array',
     ];
 
     public function getAdmGrandTotalAttribute()
@@ -30,7 +30,6 @@ class BudgetAllocation extends Model
             foreach($adm_cost_center->adm_budget_details as $detail){
                 $sum+=$detail->adm_budget_year;
             }
-
         }
         return $sum;
 		
