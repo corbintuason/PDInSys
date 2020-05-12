@@ -1,6 +1,9 @@
 <template>
 	<div>
 		<div class="row mt-2 mb-4">
+			<b-input-group prepend="₱" class="font-weight-bold">
+				<b-form-input readonly :value="budget_grand_total" class="total-amount" type="text"></b-form-input>
+			</b-input-group>
 			<div class="col-md-10">
 				<div class="col-md-4 mt-2 text-center">
 					<label>ASSIGN BUDGET TO:</label>
@@ -62,6 +65,7 @@
 				<div class="col-md-3">
 					<b-input-group prepend="₱" class="font-weight-bold">
 						<b-form-input
+							readonly
 							:value="total_budget_year(value)"
 							class="total-amount"
 							placeholder="000,000.00"
@@ -106,6 +110,7 @@
 				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ mo." class="font-weight-bold">
 						<b-form-input
+							v-model="value['adm_cost_total']"
 							:value="
                                             getTotalBudgetMonth(
                                                 value['adm_budget_month'], value['adm_budget_year']
@@ -146,17 +151,18 @@ export default {
 	},
 	data() {
 		return {
+			adm_grand_total: null,
 			cost_centers: [
 				{
 					adm_cost_code: "",
 					adm_cost_description: "",
-					adm_cost_total: "",
+					adm_cost_total: null,
 					adm_budget_details: [
 						{
 							adm_budget_code: "",
 							adm_budget_description: "",
-							adm_budget_year: "",
-							adm_budget_month: ""
+							adm_budget_year: null,
+							adm_budget_month: null
 						}
 					]
 				}
@@ -169,13 +175,13 @@ export default {
 				// cost_centers: [{
 				adm_cost_code: "",
 				adm_cost_description: "",
-				adm_cost_total: "",
+				adm_cost_total: null,
 				adm_budget_details: [
 					{
 						adm_budget_code: "",
 						adm_budget_description: "",
-						adm_budget_year: "",
-						adm_budget_month: ""
+						adm_budget_year: null,
+						adm_budget_month: null
 					}
 				]
 				// }]
@@ -185,8 +191,8 @@ export default {
 			model.push({
 				adm_budget_code: "",
 				adm_budget_description: "",
-				adm_budget_year: "",
-				adm_budget_month: ""
+				adm_budget_year: null,
+				adm_budget_month: null
 			});
 		},
 		removeCostCenter(model, index) {
@@ -212,6 +218,13 @@ export default {
 				});
 				return sum;
 			};
+		},
+		budget_grand_total() {
+			var sum = 0;
+			this.cost_centers.forEach(value => {
+				sum += Number(value.adm_cost_total);
+			});
+			return sum;
 		}
 	}
 };

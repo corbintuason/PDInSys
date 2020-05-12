@@ -44,17 +44,18 @@ export default {
 		return {
 			tabIndex: 0,
 			budget: {
+				adm_grand_total: null,
 				cost_centers: [
 					{
 						adm_cost_code: "",
 						adm_cost_description: "",
-						adm_cost_total: "",
+						adm_cost_total: null,
 						adm_budget_details: [
 							{
 								adm_budget_code: "",
 								adm_budget_description: "",
-								adm_budget_year: "",
-								adm_budget_month: ""
+								adm_budget_year: null,
+								adm_budget_month: null
 							}
 						]
 					}
