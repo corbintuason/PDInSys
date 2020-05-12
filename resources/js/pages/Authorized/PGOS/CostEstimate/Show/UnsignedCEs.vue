@@ -85,16 +85,13 @@ export default {
                 color: "red"
             }, {
                 status: "For Approval",
-                color: "orange"
-            }, {
-                status: "For Clearance",
                 color: "yellow"
             }, {
-                status: "For Signing",
+                status: "For Clearance",
                 color: "blue"
-            },{
-                status: "Signed",
-                color: "green"
+            }, {
+                status: "Cleared",
+                color: "orange"
             }]
         };
     },
@@ -110,17 +107,8 @@ export default {
     computed: {
         colorEquivalent() {
             return (detail) => {
-                if (detail.status == "For Review") {
-                    return "red";
-                } else if (detail.status == "For Approval") {
-                    return "orange";
-                } else if (detail.status == "For Clearance") {
-                    return "yellow";
-                } else if (detail.status == "For Signing") {
-                    return "blue";
-                } else if (detail.status == "Signed") {
-                    return "green";
-                }
+                var specific_legend = this.legends.find(legend => legend.status == detail.status)
+                return specific_legend.color;
             };
         },
     },

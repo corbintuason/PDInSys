@@ -156,19 +156,44 @@ trait ControllersTrait {
     }
 
     public function filterForUpdating($old_item, $new_item){
+        // $attributes = $old_item->getAttributes();
+        // $attribute_keys = array_keys($attributes);
+        // $arr = json_decode(json_encode($new_item), TRUE);
+        // $filtered = array_filter(
+        //     $arr,
+        //     function ($key) use ($attribute_keys) {
+        //         return in_array($key, $attribute_keys);
+        //     },
+        //     ARRAY_FILTER_USE_KEY
+        // );
+
+        // $result = array_diff_assoc($filtered, $attributes);
+        // return $result;
+        
         $attributes = $old_item->getAttributes();
         $attribute_keys = array_keys($attributes);
         $arr = json_decode(json_encode($new_item), TRUE);
-        $filtered = array_filter(
-            $arr,
-            function ($key) use ($attribute_keys) {
+        $filtered = array_filter($arr, function ($key) use ($attribute_keys) {
                 return in_array($key, $attribute_keys);
-            },
-            ARRAY_FILTER_USE_KEY
-        );
-
+            }, ARRAY_FILTER_USE_KEY);
+        
+            // DONT DELETE, THIS ACTUALLY WORKS FOR COMPARING JSON OBJECTS
+            // $result = [];
+            // foreach($filtered as $key => $value){
+            //     if(is_array($filtered[$key])){
+            //         $array_key = [];
+            //         $test = json_decode($attributes[$key]);
+            //         foreach($value as $new_key => $new_value){
+            //             $result = array_diff_assoc($new_value, (array) $test[$new_key]);
+            //             if(!empty($result)){
+            //                 array_push($array_key, $result);
+            //             }
+            //         } $result[$key] = $array_key;
+            //         dd($result);
+            //         // $result = array_diff_assoc($value, $attributes[$key]);
+            //     }
+            // }
         $result = array_diff_assoc($filtered, $attributes);
-        return $result;
-
+        dd($result);
     }
 }

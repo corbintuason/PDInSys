@@ -11,7 +11,12 @@
                 :steps="steps"
             ></unsigned-ces>
             <!-- Here you can create CEs -->
-            <create-ces :steps="steps" :project="project" :endpoints="endpoints"></create-ces>
+            <create-ces
+                :steps="steps"
+                :new_cost_estimate_details="new_cost_estimate_details"
+                :project="project"
+                :endpoints="endpoints"
+            ></create-ces>
             <!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
 			<show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate>-->
         </div>
@@ -48,6 +53,18 @@ export default {
     data() {
         return {
             mode: null,
+            new_cost_estimate_details: [
+                {
+                    version: null,
+                    vat: "VAT",
+                    sub_fields: [
+                        {
+                            sub_total: 0,
+                            asf_rate: null,
+                        },
+                    ],
+                },
+            ],
             steps: this.$store.state.costEstimate.steps,
             project: null,
             endpoints: null,

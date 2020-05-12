@@ -62,6 +62,11 @@ Vue.component("step-progress", StepProgress);
 import itemProgress from "./components/authorized/public/ItemProgress.vue";
 Vue.component("item-progress", itemProgress);
 
+import money from 'v-money'
+ 
+// register directive v-money and component <money>
+Vue.use(money, {precision: 2})
+
 const router = new VueRouter({
     mode: "history",
     routes,

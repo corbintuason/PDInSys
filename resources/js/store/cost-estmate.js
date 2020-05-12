@@ -26,11 +26,6 @@ export default new Vuex.Store({
                 responsible: "Clearer",
                 database_equivalent: ["For Clearance"],
             },
-            {
-                name: "Sign",
-                responsible: "Signer",
-                database_equivalent: ["For Signing"]
-            },       
         ]
     },
     getters: {},

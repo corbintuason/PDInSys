@@ -17,9 +17,8 @@ class CreateCostEstimateDetailsTable extends Migration
             $table->bigIncrements('id');
             $table->string('status');
             $table->integer('cost_estimate_id');
-            $table->integer('sub_total');
+            $table->json('sub_fields');
             $table->integer('version');
-            $table->float('asf_rate');
             $table->string('vat');
             $table->timestamps();
         });

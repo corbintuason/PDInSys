@@ -102,10 +102,10 @@ class CostEstimateDetailController extends Controller
     public function saveChanges(Request $request, $id){
         // Update First the Cost Estimate Detail
         $cost_estimate_detail = CostEstimateDetail::findOrFail($id);
-        $new_cost_estimate_detail = json_decode($request->input('item'));
-        $update_fields = $this->filterForUpdating($cost_estimate_detail, $new_cost_estimate_detail);
+        $new_cost_estimate_detail = (array) json_decode($request->input('item'));
+        // $update_fields = $this->filterForUpdating($cost_estimate_detail, $new_cost_estimate_detail);
         
-        $cost_estimate_detail->update($update_fields);
+        $cost_estimate_detail->update($new_cost_estimate_detail);
         
         // Upload new file to database
         $extension = $request->file('file')->extension();

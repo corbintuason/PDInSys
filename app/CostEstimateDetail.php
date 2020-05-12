@@ -9,9 +9,14 @@ class CostEstimateDetail extends Model
 {
     use ModelsTrait;
     protected $fillable=[
-        'cost_estimate_id', 'sub_total', 'version', 'asf_rate', 'vat', 'status'
+        'cost_estimate_id', 'sub_fields', 'version', 'vat', 'status'
     ];
-    public static $module = 'CE & Budget Opening Module';
+    
+    protected $casts = [
+        'sub_fields' => 'Array', 
+    ];
+
+    public static $module = 'Cost Estimate Module';
 
 
     protected function getStagesAttribute(){
@@ -33,13 +38,9 @@ class CostEstimateDetail extends Model
                 "responsible" => "cost-estimate-clearer"
             ],
             (object)[
-                "names" => ["For Signing", "Returned to Signer"],
-                "responsible" => "cost-estimate-signer"
-            ],
-            (object)[
-                "names" => ["Signed"],
-                "responsible" => null
-            ],
+                "names" => ["Cleared"],
+                "responsible" => "cost-estimate-creator"
+            ]
         ]);
         return $stages;
         // return ["For Review", "For Approval", "For Approval", "For Assigning", "Assigned"];
@@ -47,6 +48,7 @@ class CostEstimateDetail extends Model
 
     public function getAsfSubTotalAttribute(){
         return $this->sub_total * ($this->asf_rate/100);
+		
     }
 
     public function getProjectVatAttribute(){
@@ -93,7 +95,7 @@ class CostEstimateDetail extends Model
 
 }
 
-    public function getTotalProjectCostAttribute(){
+    public function getProjectCostAttribute(){
     /* 
             return (sub_total, asf_rate) => {
                 var asf_rate_percent = asf_rate / 100;

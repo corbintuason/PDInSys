@@ -106,59 +106,6 @@ class CostEstimateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $project = Project::findOrFail($id);
-        $cost_estimate = $project->cost_estimate;
-
-        $auth_user = new UserResource(User::findOrFail(auth()->user()->id));
-
-        activity()->withoutLogs(function() use($cost_estimate, $request){
-             $cost_estimate->update($request->all());
-        });
-        
-        if($cost_estimate->status == "For Review"){
-            $responsibility = "Creator";
-            $notify = "cost-estimate-reviewer";
-            $log = $auth_user->full_name . " has changed Cost Estimate's status to ". $cost_estimate->status;
-        }else if($cost_estimate->status == "For Approval"){
-            $responsibility = "Reviewer";
-            $notify = "cost-estimate-approver";
-            $log = $auth_user->full_name . " has changed Cost Estimate's status to ". $cost_estimate->status;
-        }else if ($cost_estimate->status == "For Clearance"){
-            $responsibility = "Approver";
-            $notify = "cost-estimate-clearer"; 
-            $log = $auth_user->full_name . " has changed Cost Estimate's status to ". $cost_estimate->status;
-        }else if ($cost_estimate->status == "Cleared"){
-            $responsibility = "Clearer";
-            $notify = "cost-estimate-clearer"; 
-            $log = $auth_user->full_name . " has changed Cost Estimate's status to ". $cost_estimate->status;
-        }
-
-          // Create Activity Log
-          activity('Cost Estimate Status Change')
-          ->on($cost_estimate)
-          ->log($log);
-
-          $contributor_exists = Contributor::where('contributable_type', "App\\CostEstimate")
-          ->where('contributable_id', $cost_estimate->id)
-          ->where('responsibility', $responsibility)
-          ->get()->isEmpty();
-
-          if($contributor_exists){
-            $cost_estimate_contributor = Contributor::create([
-                'contributable_type' => "App\\CostEstimate",
-                'contributable_id' => $cost_estimate->id,
-                'contributor_id' => $auth_user->id,
-                'responsibility' => $responsibility
-            ]);
-        }
-        
-        $notify_users = User::whereIs($notify)->get();
-        Notification::send($notify_users, new CostEstimateStatusChange($cost_estimate));
-        
-        return [
-            'item_id' => $cost_estimate->project->id,
-            'success_text' => "Project " . $cost_estimate->project->code . "'s CE has been successfully updated"
-        ];
 
     }
 

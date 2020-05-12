@@ -13,7 +13,7 @@
             :mode="mode"
             :steps="steps"
         ></edit-mode>
-        <div class="row">
+        <div class="row" v-if="forProcessing">
             <div class="col-md-12">
                 <show-process-buttons
                     :mode="mode"
@@ -24,6 +24,17 @@
                     :uploadable='true'
                 ></show-process-buttons>
             </div>
+        </div>
+        <div v-else>
+            <div class = "row">
+                <div class="col-md-12">
+     <b-button-group class="float-right">
+            <b-button variant="outline-success">Sign Cost Estimate</b-button>
+
+            </b-button-group>
+                </div>
+            </div>
+       
         </div>
     </div>
 </template>
@@ -43,6 +54,9 @@ export default {
         };
     },
     computed: {
+        forProcessing(){
+            return this.detail.status != 'Cleared'
+        }
     },
     components: {
         "show-mode": showMode,

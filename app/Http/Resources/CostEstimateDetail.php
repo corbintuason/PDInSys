@@ -19,7 +19,7 @@ class CostEstimateDetail extends JsonResource
         $response =  parent::toArray($request);
         $response['code'] = $this->code;
         $response['asf_sub_total'] = $this->asf_sub_total;
-        $response['total_project_cost'] = $this->total_project_cost;
+        $response['project_cost'] = $this->project_cost;
         $response['tax'] = $this->tax;
         $response['project_vat'] = $this->project_vat;
         $response['grand_total'] = $this->grand_total;

@@ -53,7 +53,7 @@
                             </b-form-group>
                             <b-form-group
                                 label="VAT"
-                                class="col-md-4"
+                                class="col-md-3"
                                 label-class="font-weight-bold"
                             >
                                 <b-form-radio-group
@@ -62,13 +62,33 @@
                                 >
                                 </b-form-radio-group>
                             </b-form-group>
+                            <b-form-group
+                                label="VAT%"
+                                label-class="font-weight-bold"
+                                class="col-md-3"
+                            >
+                                <b-input-group>
+                                    <template v-slot:append>
+                                        <b-input-group-text
+                                            ><strong class="text-success"
+                                                >%</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <b-form-input
+                                        readonly
+                                        :value="getVAT(detail['vat'])"
+                                    ></b-form-input>
+                                </b-input-group>
+                            </b-form-group>
+                            
                         </div>
                         <!-- Sub Total, ASF Rate, Total Project Cost -->
-                        <div class="row ml-1 mt-1 mb-3">
+                        <div class="row ml-1" v-for="(field, field_index) in detail.sub_fields" :key="field_index">
                             <b-form-group
                                 label="Sub-Total"
                                 label-class="font-weight-bold"
-                                class="col-md-2"
+                                class="col-md-4"
                             >
                                 <b-input-group>
                                     <template v-slot:prepend>
@@ -78,10 +98,8 @@
                                             ></b-input-group-text
                                         >
                                     </template>
-                                    <b-form-input
-                                        type="number"
-                                        v-model="detail['sub_total']"
-                                    ></b-form-input>
+                                    <money class="form-control" v-model="field.sub_total"></money>
+                            
                                 </b-input-group>
                             </b-form-group>
                             <b-form-group
@@ -99,14 +117,14 @@
                                     </template>
                                     <b-input
                                         type="number"
-                                        v-model="detail['asf_rate']"
+                                        v-model="field.asf_rate"
                                     ></b-input>
                                 </b-input-group>
                             </b-form-group>
                             <b-form-group
-                                label="Total Project Cost"
+                                label="Project Cost"
                                 label-class="font-weight-bold"
-                                class="col-md-2"
+                                class="col-md-4"
                             >
                                 <b-input-group>
                                     <template v-slot:prepend>
@@ -116,41 +134,26 @@
                                             ></b-input-group-text
                                         >
                                     </template>
-                                    <b-input
-                                        readonly
-                                        type="number"
-                                        :value="
+                                    <money disabled class="form-control"    :value="
                                             getTotalProjectCost(
-                                                detail['sub_total'],
-                                                detail['asf_rate']
+                                               field.sub_total,
+                                                field.asf_rate
                                             )
-                                        "
-                                    ></b-input>
+                                        "></money>
                                 </b-input-group>
                             </b-form-group>
-                            <b-form-group
-                                label="VAT"
-                                label-class="font-weight-bold"
-                                class="col-md-1"
-                            >
-                                <b-input-group>
-                                    <template v-slot:append>
-                                        <b-input-group-text
-                                            ><strong class="text-success"
-                                                >%</strong
-                                            ></b-input-group-text
-                                        >
-                                    </template>
-                                    <b-form-input
-                                        readonly
-                                        :value="getVAT(detail['vat'])"
-                                    ></b-form-input>
-                                </b-input-group>
-                            </b-form-group>
+                                <b-button-group class="col-md-2">
+                                    <b-button style="height:50%; weight:50%; margin-top:30px" variant="outline-success" @click="addSubField(detail)">Add Sub Field</b-button>
+                                    <b-button style="height:50%; weight:50%; margin-top:30px" variant="outline-danger" v-if="field_index > 0" @click="deleteSubField(detail, field_index)">Delete</b-button>
+                                </b-button-group>
+                        </div>
+                        <div class="row ml-1 mb-3">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-2"></div>
                             <b-form-group
                                 label="Grand Total"
                                 label-class="font-weight-bold green"
-                                class="col-md-4"
+                                class="col-md-6"
                             >
                                 <b-input-group>
                                     <template v-slot:prepend>
@@ -160,24 +163,15 @@
                                             ></b-input-group-text
                                         >
                                     </template>
-                                    <b-input
-                                        class="grand-total"
-                                        readonly
-                                        type="number"
-                                        :value="
+                                     <money class="form-control grand-total" disabled    :value="
                                             getGrandTotal(
-                                                getTotalProjectCost(
-                                                    detail['sub_total'],
-                                                    detail['asf_rate']
-                                                ),
-                                                getVAT(detail['vat'])
-                                            )
-                                        "
-                                    ></b-input>
+                                                 detail
+                                                ,
+                                                getVAT(detail.vat))
+                                        "></money>
                                 </b-input-group>
                             </b-form-group>
                         </div>
-                        <div class="row ml-1 mb-3"></div>
                     </div>
                     <b-button
                         @click="addRow"
@@ -209,14 +203,7 @@ export default {
     data() {
         return {
             user: this.$store.state.user,
-            new_cost_estimate_details: [
-                {
-                    version: null,
-                    sub_total: null,
-                    asf_rate: null,
-                    vat: "VAT",
-                },
-            ],
+  
             peza_ar_options: [
                 {
                     value: "VAT",
@@ -235,18 +222,12 @@ export default {
     },
     mixins: [form],
     props: {
+        new_cost_estimate_details: Array,
         project: Object,
         steps: Array,
         endpoints: Object,
     },
     computed: {
-        colorEquivalent() {
-            return (detail) => {
-                if (detail.status == "For Review") {
-                    return "green";
-                }
-            };
-        },
         getTotalProjectCost() {
             return (sub_total, asf_rate) => {
                 var asf_rate_percent = asf_rate / 100;
@@ -267,17 +248,32 @@ export default {
             };
         },
         getGrandTotal() {
-            return (total_project_cost, vat) => {
+            return (detail, vat) => {
+                var grand_total = 0;
+                detail.sub_fields.forEach(sub_field => {
+                    grand_total += this.getTotalProjectCost(sub_field.sub_total, sub_field.asf_rate);
+                });
                 if (vat == 0) {
-                    return total_project_cost;
+                    return grand_total;
                 } else {
-                    var cost_tax = total_project_cost * (vat / 100);
-                    return total_project_cost + cost_tax;
+                    var cost_tax = grand_total * (vat / 100);
+                    return grand_total + cost_tax;
                 }
             };
         },
     },
     methods: {
+        addSubField(detail){
+            detail.sub_fields.push(      {
+                        sub_total: 0,
+                        asf_rate: null,
+                        });
+        },
+        deleteSubField(detail, field_index){
+            detail.sub_fields.splice(field_index, 1);
+
+        },
+
         createCostEstimate() {
             var swal_html = this.loadSwalContents(this.steps, this.user);
             const swal_object = {
@@ -289,28 +285,19 @@ export default {
                 endpoints: this.endpoints,
             };
             this.fireUploadSwal(swal_object);
-            // console.log("hello");
-            // var swal_html = this.loadSwalContents(this.steps, this.user);
-            // var upload_test = "<p>Tanginagn yan hahahaha</p>"
-            // swal_html+=upload_test;
-            // const swal_object = {
-            //     title: "Create Cost Estimate",
-            //     html: swal_html,
-            //     text: "Please check the details provided.",
-            //     confirmButtonText: "Create Cost Estimate",
-
-            //     item: this.new_cost_estimate_details,
-            //     endpoints: this.endpoints,
-            // };
-            // this.fireCreateSwal(swal_object);
         },
         addRow() {
-            this.new_cost_estimate_details.push({
-                version: null,
-                sub_total: null,
-                asf_rate: null,
-                vat: "VAT",
-            });
+            this.new_cost_estimate_details.push(        {
+                    version: null,
+                    vat: "VAT",
+                    sub_fields:[
+                        {
+                        sub_total: 0,
+                        asf_rate: null,
+                        }
+                    ],
+              
+                },);
         },
 
         generateCENumber(detail_index) {

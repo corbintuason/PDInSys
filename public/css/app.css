@@ -32265,6 +32265,10 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
   cursor: pointer;
 }
 
+.disabled {
+  background-color: #ccc;
+}
+
 /*!
  * Bootstrap v4.4.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
