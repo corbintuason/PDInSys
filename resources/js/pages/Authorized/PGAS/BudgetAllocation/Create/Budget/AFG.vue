@@ -17,7 +17,7 @@
 				<div class="row mt-2">
 					<div class="col-md-12 text-center">
 						<h6>
-							<strong>Accounting and Finance Group</strong>
+							<strong>Accounting and Finance</strong>
 						</h6>
 					</div>
 				</div>

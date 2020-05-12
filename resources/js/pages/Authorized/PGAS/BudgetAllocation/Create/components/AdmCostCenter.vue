@@ -1,32 +1,40 @@
 <template>
 	<div>
-		<div class="row mt-2">
-			<div class="col-md-9"></div>
-			<div class="col-md-3">
-				<label>ADM Grand Total:</label>
-				<b-input-group prepend="₱" class="font-weight-bold">
-					<money readonly :value="budget_grand_total" class="total-amount form-control" type="text"></money>
-				</b-input-group>
+		<div class="row mt-4">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-4 mt-2 text-center">
+						<label>ASSIGN BUDGET TO:</label>
+					</div>
+					<div class="col-md-4">
+						<b-form-input
+							readonly
+							value="Admin Head"
+							class="text-center assign-budget text-dark"
+							type="text"
+						></b-form-input>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-4 mt-2 text-center">
+						<label>ADM GRAND TOTAL:</label>
+					</div>
+					<div class="col-md-8">
+						<b-input-group prepend="₱" class="font-weight-bold">
+							<money readonly :value="budget_grand_total" class="total-amount form-control" type="text"></money>
+						</b-input-group>
+					</div>
+				</div>
 			</div>
 		</div>
 		<hr />
-		<div class="row mt-2 mb-4">
-			<div class="col-md-10">
-				<div class="col-md-4 mt-2 text-center">
-					<label>ASSIGN BUDGET TO:</label>
-				</div>
-				<div class="col-md-4">
-					<b-form-input
-						readonly
-						value="Admin Head"
-						class="text-center assign-budget text-dark"
-						type="text"
-					></b-form-input>
-				</div>
-			</div>
+		<div class="row mb-4">
+			<div class="col-md-10"></div>
 			<div class="col-md-2 text-center">
-				<div class="mt-5 mr-3">
-					<b-button class="mt-1" @click="addCostCenter(budget.adm_cost_centers)" variant="success" block>
+				<div class="mr-3">
+					<b-button @click="addCostCenter(budget.adm_cost_centers)" variant="success" block>
 						<i class="fas fa-plus"></i>
 						<strong>Add Cost Center</strong>
 					</b-button>

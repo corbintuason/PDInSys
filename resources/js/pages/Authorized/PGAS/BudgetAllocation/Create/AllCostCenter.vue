@@ -11,7 +11,7 @@
 					<!-- ADM -->
 					<adm-cost-center :budget="budget"></adm-cost-center>
 				</b-tab>
-				<b-tab title="Accounting and Finance Group">
+				<b-tab title="Accounting and Finance">
 					<!-- AFG -->
 					<acc-cost-center :budget="budget"></acc-cost-center>
 				</b-tab>
@@ -42,7 +42,7 @@ import opsCostCenter from "./components/OpsCostCenter";
 export default {
 	data() {
 		return {
-			tabIndex: 0,
+			tabIndex: 0
 		};
 	},
 	components: {
@@ -52,7 +52,7 @@ export default {
 		"hum-cost-center": humCostCenter,
 		"ops-cost-center": opsCostCenter
 	},
-	props:{
+	props: {
 		budget: Object
 	}
 };
