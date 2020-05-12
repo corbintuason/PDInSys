@@ -45,7 +45,7 @@
 			</div>
 			<div class="col-md-2 mt-3">
 				<!-- All Budget -->
-				<all-budget></all-budget>
+				<all-budget :budget="budget"></all-budget>
 			</div>
 		</div>
 	</div>
