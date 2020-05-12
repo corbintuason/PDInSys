@@ -2,7 +2,7 @@
 	<div>
 		<div class="row mt-2 mb-4">
 			<b-input-group prepend="₱" class="font-weight-bold">
-				<b-form-input readonly :value="budget_grand_total" class="total-amount" type="text"></b-form-input>
+				<b-form-input readonly :value="budget_grand_total" :key="cost_center_key" class="total-amount" type="text"></b-form-input>
 			</b-input-group>
 			<div class="col-md-10">
 				<div class="col-md-4 mt-2 text-center">
@@ -151,12 +151,12 @@ export default {
 	},
 	data() {
 		return {
-			adm_grand_total: null,
+			cost_center_key: 0,
 			cost_centers: [
 				{
 					adm_cost_code: "",
 					adm_cost_description: "",
-					adm_cost_total: null,
+					adm_cost_total: 0,
 					adm_budget_details: [
 						{
 							adm_budget_code: "",
@@ -175,7 +175,7 @@ export default {
 				// cost_centers: [{
 				adm_cost_code: "",
 				adm_cost_description: "",
-				adm_cost_total: null,
+				adm_cost_total: 0,
 				adm_budget_details: [
 					{
 						adm_budget_code: "",
@@ -202,6 +202,12 @@ export default {
 			model.splice(index, 1);
 		}
 	},
+	watch:{
+		cost_centers(){
+			console.log("som echanges");
+			this.cost_center_key++;
+		}
+	},
 	computed: {
 		getTotalBudgetMonth() {
 			return (adm_budget_month, adm_budget_year) => {
@@ -220,9 +226,12 @@ export default {
 			};
 		},
 		budget_grand_total() {
+			console.log("hi im computing");
 			var sum = 0;
-			this.cost_centers.forEach(value => {
-				sum += Number(value.adm_cost_total);
+			this.budget.cost_centers.forEach(value => {	
+			console.log("checking val", value);
+			var budget_year = this.total_budget_year(value);
+				sum += budget_year;
 			});
 			return sum;
 		}
