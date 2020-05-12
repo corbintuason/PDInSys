@@ -49,7 +49,6 @@ export default {
 					{
 						adm_cost_code: "",
 						adm_cost_description: "",
-						adm_cost_total: null,
 						adm_budget_details: [
 							{
 								adm_budget_code: "",

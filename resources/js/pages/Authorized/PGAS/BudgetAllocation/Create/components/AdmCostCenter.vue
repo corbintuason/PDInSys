@@ -151,22 +151,7 @@ export default {
 	},
 	data() {
 		return {
-			cost_center_key: 0,
-			cost_centers: [
-				{
-					adm_cost_code: "",
-					adm_cost_description: "",
-					adm_cost_total: 0,
-					adm_budget_details: [
-						{
-							adm_budget_code: "",
-							adm_budget_description: "",
-							adm_budget_year: null,
-							adm_budget_month: null
-						}
-					]
-				}
-			]
+			
 		};
 	},
 	methods: {
