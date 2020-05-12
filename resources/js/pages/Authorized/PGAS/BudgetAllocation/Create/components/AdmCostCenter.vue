@@ -2,7 +2,7 @@
 	<div>
 		<div class="row mt-2 mb-4">
 			<b-input-group prepend="₱" class="font-weight-bold">
-				<b-form-input readonly :value="budget_grand_total" :key="cost_center_key" class="total-amount" type="text"></b-form-input>
+				<b-form-input readonly :value="budget_grand_total" class="total-amount" type="text"></b-form-input>
 			</b-input-group>
 			<div class="col-md-10">
 				<div class="col-md-4 mt-2 text-center">
@@ -151,7 +151,7 @@ export default {
 	},
 	data() {
 		return {
-			
+
 		};
 	},
 	methods: {
@@ -188,10 +188,6 @@ export default {
 		}
 	},
 	watch:{
-		cost_centers(){
-			console.log("som echanges");
-			this.cost_center_key++;
-		}
 	},
 	computed: {
 		getTotalBudgetMonth() {
