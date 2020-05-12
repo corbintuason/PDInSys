@@ -6,6 +6,7 @@
 					<div class="col-md-12 text-center">
 						<h6>
 							<strong>₱</strong>
+							{{budget.adm_grand_total}}
 						</h6>
 					</div>
 				</div>
@@ -23,7 +24,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+	props: {
+		budget: Object
+	},
+	data() {
+		return {};
+	}
+};
 </script>
 
 <style>
