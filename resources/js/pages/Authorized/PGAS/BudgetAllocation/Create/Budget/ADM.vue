@@ -5,8 +5,9 @@
 				<div class="row mt-2">
 					<div class="col-md-12 text-center">
 						<h6>
+							<!-- {{budget}} -->
 							<strong>₱</strong>
-							{{budget.adm_grand_total}}
+							{{adm_grand_total}}
 						</h6>
 					</div>
 				</div>
@@ -26,7 +27,21 @@
 <script>
 export default {
 	props: {
-		budget: Object
+		budget: Array
+	},
+	computed:{
+		adm_grand_total(){
+			var total_amount = 0;
+			this.budget.forEach(center => {
+				console.log("is there a center", center);
+				center.adm_budget_details.forEach(detail => {
+					console.log("budget year is", detail.adm_budget_year);
+					total_amount+= Number(detail.adm_budget_year);
+				});
+			console.log("total amount is", total_amount);
+		});			return total_amount;
+
+		}
 	},
 	data() {
 		return {};

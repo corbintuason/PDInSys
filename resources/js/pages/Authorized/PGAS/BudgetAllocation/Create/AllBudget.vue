@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<!-- Admin -->
-		<adm-budget :budget="budget"></adm-budget>
+		<adm-budget :budget="budget.adm_cost_centers"></adm-budget>
 		<!-- AFG -->
 		<afg-budget></afg-budget>
 		<!-- BOD -->
@@ -25,24 +25,11 @@ import opsBudget from "./Budget/OPS";
 export default {
 	data() {
 		return {
-			budget: {
-				adm_grand_total: null,
-				cost_centers: [
-					{
-						adm_cost_code: "",
-						adm_cost_description: "",
-						adm_budget_details: [
-							{
-								adm_budget_code: "",
-								adm_budget_description: "",
-								adm_budget_year: null,
-								adm_budget_month: null
-							}
-						]
-					}
-				]
-			}
+
 		};
+	},
+	props:{
+		budget: Object
 	},
 	components: {
 		"annual-budget": annualBudget,
