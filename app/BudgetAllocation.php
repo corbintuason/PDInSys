@@ -25,6 +25,15 @@ class BudgetAllocation extends Model
 
     public function getAdmGrandTotalAttribute()
     {
+        $sum = 0;
+        foreach($this->adm_cost_centers as $adm_cost_center){
+            foreach($adm_cost_center->adm_budget_details as $detail){
+                $sum+=$detail->adm_budget_year;
+            }
+
+        }
+        return $sum;
+		
     }
 
 
