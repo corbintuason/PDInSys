@@ -1,25 +1,40 @@
 <template>
 	<div>
-		<div class="row mt-2 mb-4">
-			<b-input-group prepend="₱" class="font-weight-bold">
-				<b-form-input readonly :value="budget_grand_total" class="total-amount" type="text"></b-form-input>
-			</b-input-group>
-			<div class="col-md-10">
-				<div class="col-md-4 mt-2 text-center">
-					<label>ASSIGN BUDGET TO:</label>
-				</div>
-				<div class="col-md-4">
-					<b-form-input
-						readonly
-						value="Admin Head"
-						class="text-center assign-budget text-dark"
-						type="text"
-					></b-form-input>
+		<div class="row mt-4">
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-4 mt-2 text-center">
+						<label>ASSIGN BUDGET TO:</label>
+					</div>
+					<div class="col-md-4">
+						<b-form-input
+							readonly
+							value="Admin Head"
+							class="text-center assign-budget text-dark"
+							type="text"
+						></b-form-input>
+					</div>
 				</div>
 			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-4 mt-2 text-center">
+						<label>ADM GRAND TOTAL:</label>
+					</div>
+					<div class="col-md-8">
+						<b-input-group prepend="₱" class="font-weight-bold">
+							<money readonly :value="budget_grand_total" class="total-amount form-control" type="text"></money>
+						</b-input-group>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr />
+		<div class="row mb-4">
+			<div class="col-md-10"></div>
 			<div class="col-md-2 text-center">
-				<div class="mt-5 mr-3">
-					<b-button class="mt-1" @click="addCostCenter(budget.adm_cost_centers)" variant="success" block>
+				<div class="mr-3">
+					<b-button @click="addCostCenter(budget.adm_cost_centers)" variant="success" block>
 						<i class="fas fa-plus"></i>
 						<strong>Add Cost Center</strong>
 					</b-button>
@@ -64,13 +79,7 @@
 				</div>
 				<div class="col-md-3">
 					<b-input-group prepend="₱" class="font-weight-bold">
-						<b-form-input
-							readonly
-							:value="total_budget_year(value)"
-							class="total-amount"
-							placeholder="000,000.00"
-							type="text"
-						></b-form-input>
+						<money readonly :value="total_budget_year(value)" class="total-amount" type="text"></money>
 					</b-input-group>
 				</div>
 			</div>
@@ -104,21 +113,21 @@
 				</div>
 				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ yr" class="font-weight-bold">
-						<b-form-input v-model="value.adm_budget_year" placeholder="000,000.00"></b-form-input>
+						<money class="form-control" v-model="value.adm_budget_year"></money>
 					</b-input-group>
 				</div>
 				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ mo." class="font-weight-bold">
-						<b-form-input
+						<money
 							:value="
                                             getTotalBudgetMonth(
                                                 value['adm_budget_month'], value['adm_budget_year']
                                             )
                                         "
-							class="total-amount"
+							class="total-amount form-control"
 							placeholder="000,000.00"
 							disabled
-						></b-form-input>
+						></money>
 					</b-input-group>
 				</div>
 

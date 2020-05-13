@@ -5,9 +5,11 @@
 				<div class="row mt-2">
 					<div class="col-md-12 text-center">
 						<h6>
-							<!-- {{budget}} -->
-							<strong>₱</strong>
-							{{adm_grand_total}}
+							<strong>
+								<b-input-group prepend="₱" class="font-weight-bold">
+									<money readonly class="form-control" :value="adm_grand_total"></money>
+								</b-input-group>
+							</strong>
 						</h6>
 					</div>
 				</div>
@@ -29,18 +31,16 @@ export default {
 	props: {
 		budget: Array
 	},
-	computed:{
-		adm_grand_total(){
+	computed: {
+		adm_grand_total() {
 			var total_amount = 0;
 			this.budget.forEach(center => {
-				console.log("is there a center", center);
 				center.adm_budget_details.forEach(detail => {
-					console.log("budget year is", detail.adm_budget_year);
-					total_amount+= Number(detail.adm_budget_year);
+					total_amount += Number(detail.adm_budget_year);
 				});
-			console.log("total amount is", total_amount);
-		});			return total_amount;
-
+				console.log("total amount is", total_amount);
+			});
+			return total_amount;
 		}
 	},
 	data() {
