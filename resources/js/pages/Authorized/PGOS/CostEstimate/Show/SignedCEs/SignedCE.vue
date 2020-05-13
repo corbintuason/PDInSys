@@ -1,6 +1,6 @@
 <template>
     <div>
-        <create-mode :create_signed_ce_detail="create_signed_ce_detail" v-if="isSignedCENull" :detail="detail">
+        <create-mode :signed_ce_detail="signed_ce_detail" v-if="isSignedCEForCreate" :detail="detail">
         </create-mode>
         <!-- <show-mode
             v-if="mode == 'Show'"
@@ -43,8 +43,8 @@ export default {
         };
     },
     computed: {
-        isSignedCENull(){
-            return this.signed_ce_detail == null ? true: false;
+        isSignedCEForCreate(){
+            return this.signed_ce_detail.status == 'For Creation'; 
         },
         signed_ce_detail(){
             return this.detail.relationships.signed_ce_detail;
@@ -58,10 +58,8 @@ export default {
     props: {
         detail: Object,
         steps: Array,
-        create_signed_ce_detail: Object
     },
     mounted() {
-        console.log(this.isSignedCENull, "??");
         // Fire.$on("switch-mode-"+this.signed_ce_detail.id, (mode) => {
         //     this.mode = mode;
         // });

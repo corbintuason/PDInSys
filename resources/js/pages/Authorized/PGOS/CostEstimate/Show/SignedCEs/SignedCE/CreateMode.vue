@@ -188,7 +188,7 @@
                                     <money
                                         class="form-control"
                                         style="text-align: right;"
-                                        v-model="create_signed_ce_detail.internal_budget"
+                                        v-model="signed_ce_detail.internal_budget"
                                     ></money>
                                 </b-input-group>
                             </td>
@@ -233,7 +233,7 @@
                                     <money
                                         class="form-control"
                                         style="text-align: right;"
-                                        v-model="create_signed_ce_detail.incentive"
+                                        v-model="signed_ce_detail.incentive"
                                     ></money>
                                 </b-input-group>
                           
@@ -286,7 +286,7 @@ export default {
     computed: {
         initial_savings: {
             get: function(){
-               return this.detail.sub_total_cost - this.create_signed_ce_detail.internal_budget
+               return this.detail.sub_total_cost - this.signed_ce_detail.internal_budget
             },
             setter: function(newVal){
             }
@@ -295,7 +295,7 @@ export default {
         total_savings: {
 
                   get: function(){
-            return this.initial_savings - this.create_signed_ce_detail.incentive;
+            return this.initial_savings - this.signed_ce_detail.incentive;
             },
             setter: function(newVal){
                 console.log("whut", newVal);
@@ -314,11 +314,11 @@ export default {
     components: {},
     props: {
         detail: Object,
-        create_signed_ce_detail: Object
+        signed_ce_detail: Object
     },
     methods: {
         createSignedCE(){
-            this.create_signed_ce_detail.cost_estimate_detail_id = this.detail.id;
+            // this.signed_ce_detail.cost_estimate_detail_id = this.detail.id;
               swal.fire({
                 title: "Create Signed CE",
                 icon: "question",
@@ -331,7 +331,7 @@ export default {
                 preConfirm: () => {
                     return new Promise((resolve, reject) => {
                         axios
-                            .post("/api/signed_cost_estimate_detail", this.create_signed_ce_detail)
+                            .put("/api/signed_cost_estimate_detail/" +this.signed_ce_detail.id, this.signed_ce_detail)
                             .then((response) => {
                                 resolve(response.data);
                             })
@@ -352,14 +352,7 @@ export default {
                         title: result.value.success_text,
                         icon: "success",
                         onClose: () => {
-                            if(result.value.refresh){
-                                this.$router.go();
-                            }else{
-                            this.$router.push({
-                                name: swal_object.endpoints.show_route,
-                                params: { id: result.value.item_id },
-                            });
-                            }
+                      this.$router.go();
                         },
                     });
                 }
@@ -367,7 +360,7 @@ export default {
         },
         restoreIncentive(){
             console.log("assing thru");
-          this.create_signed_ce_detail.incentive = this.detail.initial_incentive  
+          this.signed_ce_detail.incentive = this.detail.initial_incentive  
         },
         downloadSignedCostEstimate() {
             axios({

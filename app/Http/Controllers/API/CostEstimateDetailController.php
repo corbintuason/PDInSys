@@ -154,6 +154,16 @@ class CostEstimateDetailController extends Controller
              'status' => 'Signed'
          ]);
 
+         // Create a Signed Cost Estimate Detail For Creation
+        //  $signed_cost_estimate_detail = $this->createItem($request_detail, SignedCostEstimateDetail::class, "Signed Cost Estimate Detail", "cost_estimate_show");
+            $signed_cost_estimate_detail = SignedCostEstimateDetail::create([
+                'file_name' => $file_name,
+                'cost_estimate_detail_id' => $cost_estimate_detail->id,
+                'internal_budget' => 0,
+                'incentive' => $cost_estimate_detail->initial_incentive,
+                'status' => "For Creation"
+            ]);
+
         return [
             'refresh' => true,
             'success_text' => $cost_estimate_detail->code . " has been successfully Signed"
