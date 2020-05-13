@@ -11,7 +11,7 @@
 		<!-- OPS  -->
 		<ops-budget :budget="budget.ops_cost_centers"></ops-budget>
 		<!-- Annual Budget  -->
-		<annual-budget :budget="budget.annual_budget"></annual-budget>
+		<annual-budget :budget="budget"></annual-budget>
 	</div>
 </template>
 
