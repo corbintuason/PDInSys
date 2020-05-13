@@ -15,6 +15,7 @@ class CreateSignedCostEstimateDetails extends Migration
     {
         Schema::create('signed_cost_estimate_details', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('file_name');
             $table->integer('cost_estimate_detail_id');
             $table->integer('internal_budget')->nullable();
             $table->integer('incentive')->nullable();

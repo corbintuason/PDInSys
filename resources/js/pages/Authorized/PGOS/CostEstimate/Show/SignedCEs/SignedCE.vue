@@ -1,20 +1,20 @@
 <template>
     <div>
-        <show-mode
+        <create-mode :create_signed_ce_detail="create_signed_ce_detail" v-if="isSignedCENull" :detail="detail">
+        </create-mode>
+        <!-- <show-mode
             v-if="mode == 'Show'"
             :mode="mode"
             :detail="detail"
             :signed_ce_detail="detail.relationships.signed_ce_detail"
             :steps="steps"
-        ></show-mode>
+        ></show-mode> -->
         <edit-mode
-            v-else-if="mode == 'Edit'"
+            v-else
             :detail="detail"
-            :mode="mode"
             :signed_ce_detail="detail.relationships.signed_ce_detail"
-            :steps="steps"
         ></edit-mode>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-12">
                 <show-process-buttons
                     :mode="mode"
@@ -24,12 +24,12 @@
                     :endpoints="endpoints"
                 ></show-process-buttons>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script>
-import showMode from "./SignedCE/ShowMode";
+import createMode from "./SignedCE/CreateMode";
 import editMode from "./SignedCE/EditMode";
 import showProcessButtons from "../../../../../../components/authorized/public/ShowProcessButtons";
 export default {
@@ -38,28 +38,33 @@ export default {
             mode: "Show",
             item_model: "Signed Cost Estimate Detail",
             endpoints: {
-                 api: "/api/signed_cost_estimate_detail/" + this.detail.relationships.signed_ce_detail.id,
+                 api: "/api/signed_cost_estimate_detail/"
             }
         };
     },
     computed: {
+        isSignedCENull(){
+            return this.signed_ce_detail == null ? true: false;
+        },
         signed_ce_detail(){
             return this.detail.relationships.signed_ce_detail;
         }
     },
     components: {
-        "show-mode": showMode,
         "edit-mode": editMode,
+        "create-mode": createMode,
         "show-process-buttons": showProcessButtons,
     },
     props: {
         detail: Object,
         steps: Array,
+        create_signed_ce_detail: Object
     },
     mounted() {
-        Fire.$on("switch-mode-"+this.signed_ce_detail.id, (mode) => {
-            this.mode = mode;
-        });
+        console.log(this.isSignedCENull, "??");
+        // Fire.$on("switch-mode-"+this.signed_ce_detail.id, (mode) => {
+        //     this.mode = mode;
+        // });
     },
 };
 </script>

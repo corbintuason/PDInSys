@@ -30,7 +30,8 @@ class CostEstimateUsersSeeder extends Seeder
         ]);
 
         $cost_estimate_creator->assign('cost-estimate-creator');
-        
+        $cost_estimate_creator->assign('signed-cost-estimate-creator');
+
         $cost_estimate_reviewer = User::create([
             'last_name' => "Cost Estimate",
             'first_name' => "Reviewer",
@@ -50,6 +51,7 @@ class CostEstimateUsersSeeder extends Seeder
         ]);
 
         $cost_estimate_reviewer->assign('cost-estimate-reviewer');
+        $cost_estimate_reviewer->assign('signed-cost-estimate-reviewer');
 
         $cost_estimate_approver = User::create([
             'last_name' => "Cost Estimate",
@@ -70,6 +72,7 @@ class CostEstimateUsersSeeder extends Seeder
         ]);
 
         $cost_estimate_approver->assign('cost-estimate-approver');
+        $cost_estimate_approver->assign('signed-cost-estimate-approver');
 
         $cost_estimate_clearer = User::create([
             'last_name' => "Cost Estimate",
@@ -90,25 +93,6 @@ class CostEstimateUsersSeeder extends Seeder
         ]);
 
         $cost_estimate_clearer->assign('cost-estimate-clearer');
-
-        $cost_estimate_signer = User::create([
-            'last_name' => "Cost Estimate",
-            'first_name' => "Signer",
-            'middle_name' => "Middle",
-            'employment_date' => date("Y/m/d"),
-            'birth_date' => date("Y/m/d"),
-            'pdem_email' => 'costestimatesigner@pdem.com',
-            'pdem_gmail' => 'costestimatesigner@gmail.com',
-            'contact_numbers' => json_encode(["09999999999", "01111111"]),
-            'positions' => array(
-                array(
-                    "name" => 'Some Cost Estimate Signer',
-                    'job_level' => '1A'
-                )
-            ),
-            'password' => Hash::make("password")
-        ]);
-
-        $cost_estimate_signer->assign('cost-estimate-signer');
+        $cost_estimate_clearer->assign('signed-cost-estimate-clearer');
     }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\CostEstimateDetail;
+use App\SignedCostEstimateDetail;
 class CostEstimatesRolesSeeder extends Seeder
 {
     /**
@@ -21,8 +22,6 @@ class CostEstimatesRolesSeeder extends Seeder
             "ability" => "approve"),
             (object) array("name" => "Clearer",
             "ability" => "assign"),
-            (object) array("name" => "Signer",
-            "ability" => "sign")
         ];
         $generic_abilities = ["view-all", "view", "create"];
         foreach($roles as $role){
@@ -36,6 +35,18 @@ class CostEstimatesRolesSeeder extends Seeder
                 array_push($user_abilities, $role->ability);
             }
             Bouncer::allow($user_role)->to($user_abilities, CostEstimateDetail::class);
+        }
+        foreach($roles as $role){
+            $user_role = Bouncer::role()->firstOrCreate([
+                'name' => "signed-cost-estimate-".strtolower($role->name),
+                'title' => $role->name,
+                'entity' => SignedCostEstimateDetail::class
+            ]);
+            $user_abilities = $generic_abilities;
+            if($role->ability!=null){
+                array_push($user_abilities, $role->ability);
+            }
+            Bouncer::allow($user_role)->to($user_abilities, SignedCostEstimateDetail::class);
         }
     }
 }
