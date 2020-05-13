@@ -6,11 +6,11 @@
 			<b-breadcrumb-item active>{{ budget.code }}</b-breadcrumb-item>
 		</b-breadcrumb>
 		<!-- <div>
-			<item-progress class="mt-3" v-if="mandate!=null" :steps="steps" :item="mandate" :mode="mode"></item-progress>
+			<item-progress class="mt-3" v-if="budget!=null" :steps="steps" :item="budget" :mode="mode"></item-progress>
 		</div>-->
 
 		<!-- Mandate -->
-		<!-- <budget-allocation
+		<budget-allocation
 			v-if="budget != null"
 			:budget_code="budget.code"
 			:endpoints="endpoints"
@@ -18,8 +18,8 @@
 			:mode="mode"
 			:key="show_budget_key"
 			:steps="steps"
-		></budget-allocation>-->
-		{{budget.relationships}}
+		></budget-allocation>
+		<!-- {{budget}} -->
 		<!-- Change Logs -->
 		<change-logs v-if="budget!=null" :logs="budget.relationships.actions"></change-logs>
 	</div>
