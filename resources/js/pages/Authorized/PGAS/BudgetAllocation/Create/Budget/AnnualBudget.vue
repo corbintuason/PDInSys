@@ -5,7 +5,11 @@
 				<div class="row mt-2">
 					<div class="col-md-12 text-center">
 						<h4>
-							<strong>₱</strong>
+							<strong>
+								<b-input-group prepend="₱" class="font-weight-bold">
+									<money readonly class="form-control" :value="annual_grand_total"></money>
+								</b-input-group>
+							</strong>
 						</h4>
 					</div>
 				</div>
@@ -24,8 +28,48 @@
 
 <script>
 export default {
+	props: {
+		budget: Object
+	},
+	computed: {
+		annual_grand_total() {
+			var total_amount = 0;
+			this.budget.forEach(center => {
+				center.adm_budget_details.forEach(detail => {
+					total_amount += Number(detail.adm_budget_year);
+				});
+				console.log("total amount is", total_amount);
+			});
+			return total_amount;
+		}
+		// annual_grand_total() {
+		// 	var total_amount = 0;
+		// 	var adm_total = 0;
+		// 	var acc_total = 0;
 
-}
+		// 	this.budget.forEach(center => {
+		// 		center.adm_budget_details.forEach(detail => {
+		// 			adm_total += Number(detail.adm_budget_year);
+		// 		});
+		// 		console.log("total amount is", adm_total);
+
+		// 		center.acc_budget_details.forEach(detail => {
+		// 			acc_total += Number(detail.acc_budget_year);
+		// 		});
+		// 		console.log("total amount is", acc_total);
+		// 	});
+
+		// 	this.total_amount = this.adm_total + this.acc_total;
+
+		// 	console.log("ayaw gumana?", this.total_amount);
+
+		// 	return total_amount;
+		// }
+	},
+	data() {
+		return {};
+	}
+};
 </script>
 
 <style>

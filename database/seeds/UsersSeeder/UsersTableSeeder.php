@@ -19,6 +19,7 @@ class UsersTableSeeder extends Seeder
         $this->call(CostEstimateUsersSeeder::class);
         $this->call(VendorUsersSeeder::class);
         $this->call(MandateUsersSeeder::class);
+        $this->call(BudgetAllocationUsersSeeder::class);
 
         $super_admin = User::create([
             'last_name' => "Super",
