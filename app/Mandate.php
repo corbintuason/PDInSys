@@ -76,6 +76,8 @@ class Mandate extends Model
 
     protected static $logFillable = true;
     protected static $logName = 'Mandate';
+    public static $module = 'Mandate Module';
+
 
     protected function getStagesAttribute()
     {
