@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Remark as RemarkResource;
 use App\Http\Resources\Contributor as ContributorResource;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
@@ -25,6 +26,7 @@ class BudgetAllocation extends JsonResource
         $response["relationships"] = [
             'actions' => $this->activities,
             'user' => $this->user,
+            'remarks' => RemarkResource::collection($this->remarks),
             'contributors' => ContributorResource::collection($this->contributors),
         ];
         return $response;

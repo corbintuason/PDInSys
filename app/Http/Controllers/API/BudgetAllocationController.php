@@ -33,4 +33,9 @@ class BudgetAllocationController extends Controller
             'success_text' => "Budget Allocation " . $budget->code . " has been successfully opened"
         ];
     }
+
+    public function show($id)
+    {
+        return new BudgetAllocationResource(BudgetAllocation::findorFail($id));
+    }
 }

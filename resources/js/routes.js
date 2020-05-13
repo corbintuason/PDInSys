@@ -17,7 +17,7 @@ import IndexProject from "./pages/Authorized/PGOS/Projects/Index.vue";
 import CreateProject from "./pages/Authorized/PGOS/Projects/Create.vue";
 import ShowProject from "./pages/Authorized/PGOS/Projects/Show.vue";
 
-import ShowCostEstimate from "./pages/Authorized/PGOS/CostEstimate/Show.vue"
+import ShowCostEstimate from "./pages/Authorized/PGOS/CostEstimate/Show.vue";
 // PGAS
 
 // Mandate Creation Module
@@ -33,6 +33,7 @@ import ShowVendor from "./pages/Authorized/PGAS/Vendors/Show.vue";
 //  Budget Allocation Module
 import IndexBudgetAllocation from "./pages/Authorized/PGAS/BudgetAllocation/Index.vue";
 import CreateBudgetAllocation from "./pages/Authorized/PGAS/BudgetAllocation/Create.vue";
+import ShowBudgetAllocation from "./pages/Authorized/PGAS/BudgetAllocation/Show.vue";
 
 // User Profile Settings
 import EditUserProfile from "./pages/Authorized/PD/UserProfile/Edit.vue";
@@ -111,12 +112,12 @@ export default [
                 name: "project_show",
                 props: true,
             },
-                // PROJECT SPECIFIC ITEMS PATHS
-                {
-                    path: "/projects/:id/cost-estimate",
-                    component: ShowCostEstimate,
-                    name: "cost_estimate_show"
-                },
+            // PROJECT SPECIFIC ITEMS PATHS
+            {
+                path: "/projects/:id/cost-estimate",
+                component: ShowCostEstimate,
+                name: "cost_estimate_show",
+            },
             // MANDATE PATHS
             {
                 path: "/mandates",
@@ -159,6 +160,11 @@ export default [
                 path: "/budget-allocation/create",
                 component: CreateBudgetAllocation,
                 name: "budget_allocation_create",
+            },
+            {
+                path: "/budget-allocation/:id",
+                component: ShowBudgetAllocation,
+                name: "budget_allocation_show",
             },
             // USER PROFILE PATH
             {
