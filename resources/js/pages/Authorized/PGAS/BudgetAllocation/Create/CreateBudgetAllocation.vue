@@ -145,6 +145,7 @@ export default {
 	methods: {
 		createBudget() {
 			var swal_html = this.loadSwalContents(this.steps, this.user);
+			console.log(this.budget);
 			const swal_object = {
 				title: "Create Budget",
 				html: swal_html,
