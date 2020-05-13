@@ -16,6 +16,7 @@ export default {
 	data() {
 		return {
 			mode: "Create",
+			steps: this.$store.state.budget.steps,
 			endpoints: {
 				api: "/api/budget-allocation",
 				show_route: "budget_allocation_show"

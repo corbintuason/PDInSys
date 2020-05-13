@@ -50,16 +50,16 @@ import otherInformation from "./components/OtherInformation";
 import educationWork from "./components/EducationWork";
 import form from "../../../../../mixins/form";
 export default {
-    props: {
-        steps: Array,
-        endpoints: Object,
+	props: {
+		steps: Array,
+		endpoints: Object
 	},
 	mixins: [form],
 	data() {
 		return {
 			name: "Create Mandate",
-            user: this.$store.state.user,
-            tabIndex: 0,
+			user: this.$store.state.user,
+			tabIndex: 0,
 			mandate: {
 				date: "",
 				position: "",
@@ -95,12 +95,14 @@ export default {
 					primary_name: "",
 					primary_date: ""
 				},
-				work_details: [{
-					work_position: "",
-					job_description: "",
-					start_date: "",
-					end_date: ""
-				}],
+				work_details: [
+					{
+						work_position: "",
+						job_description: "",
+						start_date: "",
+						end_date: ""
+					}
+				],
 				father_details: {
 					father_name: "",
 					father_occupation: ""
@@ -113,59 +115,72 @@ export default {
 					spouse_name: "",
 					spouse_occupation: ""
 				},
-				emergency_details: [{
-					contact_person: "",
-					contact_number: "",
-				}],
-			},
+				emergency_details: [
+					{
+						contact_person: "",
+						contact_number: ""
+					}
+				]
+			}
 		};
 	},
 	components: {
 		"general-info": generalInfo,
 		"government-details": governmentDetails,
 		"other-information": otherInformation,
-		"education-work": educationWork,
+		"education-work": educationWork
 	},
-	computed:{
-        get_status(){
-            if(this.$store.getters.hasAbility("approve-all-mandates")){
-                return "For Approval";
-            }
-        },
+	computed: {
+		get_status() {
+			if (this.$store.getters.hasAbility("approve-all-mandates")) {
+				return "For Approval";
+			}
+		},
 		isDisabled() {
 			if (this.mandate.position == "" || this.mandate.full_name == "") {
 				return true;
 			}
-			if (this.mandate.present_address == "" || this.mandate.permanent_address == "") {
+			if (
+				this.mandate.present_address == "" ||
+				this.mandate.permanent_address == ""
+			) {
 				return true;
 			}
-			if (this.mandate.mobile_number == "" || this.mandate.telephone_number == "") {
+			if (
+				this.mandate.mobile_number == "" ||
+				this.mandate.telephone_number == ""
+			) {
 				return true;
 			}
-			if (this.mandate.tin_number == "" || this.mandate.sss_number == "") {
+			if (
+				this.mandate.tin_number == "" ||
+				this.mandate.sss_number == ""
+			) {
 				return true;
 			}
-			if (this.mandate.pagibig_number == "" || this.mandate.philhealth_number == "") {
+			if (
+				this.mandate.pagibig_number == "" ||
+				this.mandate.philhealth_number == ""
+			) {
 				return true;
 			}
 		}
 	},
-	methods:{
-	   createMandate() {
-            this.mandate.status = this.get_status;
-            var swal_html = this.loadSwalContents(this.steps, this.user);
-            const swal_object = ({
-                title: "Create Mandate",
-                html: swal_html,
-                text: "Please check the details provided.",
-                confirmButtonText: "Create Mandate",
-                item: this.mandate,
-				endpoints: this.endpoints,
-				
-            });
-            this.fireCreateSwal(swal_object);
-        },
-  	},
+	methods: {
+		createMandate() {
+			this.mandate.status = this.get_status;
+			var swal_html = this.loadSwalContents(this.steps, this.user);
+			const swal_object = {
+				title: "Create Mandate",
+				html: swal_html,
+				text: "Please check the details provided.",
+				confirmButtonText: "Create Mandate",
+				item: this.mandate,
+				endpoints: this.endpoints
+			};
+			this.fireCreateSwal(swal_object);
+		}
+	}
 	// mounted(){
 	// 	this.getUserRole();
 	// }

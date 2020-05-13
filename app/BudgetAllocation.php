@@ -31,29 +31,29 @@ class BudgetAllocation extends Model
     {
         $stages = collect([
             (object) [
-                "names" => ["BA Update"],
+                "names" => ["Updated"],
                 "responsible" => "budget-allocation-creator"
             ],
             (object) [
-                "names" => ["ADM-BA Opened"],
-                "responsible" => "budget-allocation-adm"
+                "names" => ["Opened"],
+                "responsible" => "budget-allocation-receiver"
             ],
-            (object) [
-                "names" => ["AFG-BA Opened"],
-                "responsible" => "budget-allocation-afg"
-            ],
-            (object) [
-                "names" => ["BOD-BA Opened"],
-                "responsible" => "budget-allocation-creator"
-            ],
-            (object) [
-                "names" => ["HR-BA Opened"],
-                "responsible" => "budget-allocation-hr"
-            ],
-            (object) [
-                "names" => ["OPS-BA Opened"],
-                "responsible" => "budget-allocation-ops"
-            ],
+            // (object) [
+            //     "names" => ["AFG-BA Opened"],
+            //     "responsible" => "budget-allocation-afg"
+            // ],
+            // (object) [
+            //     "names" => ["BOD-BA Opened"],
+            //     "responsible" => "budget-allocation-creator"
+            // ],
+            // (object) [
+            //     "names" => ["HR-BA Opened"],
+            //     "responsible" => "budget-allocation-hr"
+            // ],
+            // (object) [
+            //     "names" => ["OPS-BA Opened"],
+            //     "responsible" => "budget-allocation-ops"
+            // ],
         ]);
         return $stages;
     }

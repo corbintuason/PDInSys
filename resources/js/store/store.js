@@ -8,6 +8,7 @@ import tax from "./tax";
 import project from "./project";
 import mandate from "./mandate";
 import vendor from "./vendor";
+import budget from "./budget-allocation";
 import costEstimate from "./cost-estmate";
 import signedCostEstimateDetails from "./signed-cost-estimate-details";
 
@@ -18,8 +19,9 @@ export const store = new Vuex.Store({
         project: project,
         mandate: mandate,
         vendor: vendor,
+        budget: budget,
         costEstimate: costEstimate,
-        signedCostEstimateDetails: signedCostEstimateDetails
+        signedCostEstimateDetails: signedCostEstimateDetails,
     },
     state: {
         // FOR MODULE LOG IN

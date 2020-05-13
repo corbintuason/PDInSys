@@ -33,7 +33,7 @@ class BudgetAllocationUsersSeeder extends Seeder
         ]);
         $budget_allocation_creator->assign('budget-allocation-creator');
 
-        $budget_allocation_adm = User::create([
+        $budget_allocation_receiver = User::create([
             'last_name' => "Head",
             'first_name' => "Admin",
             'middle_name' => "Middle",
@@ -50,9 +50,9 @@ class BudgetAllocationUsersSeeder extends Seeder
             ),
             'password' => Hash::make("password")
         ]);
-        $budget_allocation_adm->assign('budget_allocation_adm ');
+        $budget_allocation_receiver->assign('budget_allocation_receiver ');
 
-        $budget_allocation_afg = User::create([
+        $budget_allocation_receiver = User::create([
             'last_name' => "Head",
             'first_name' => "Accounting",
             'middle_name' => "Middle",
@@ -69,9 +69,9 @@ class BudgetAllocationUsersSeeder extends Seeder
             ),
             'password' => Hash::make("password")
         ]);
-        $budget_allocation_afg->assign('budget_allocation_afg ');
+        $budget_allocation_receiver->assign('budget_allocation_receiver ');
 
-        $budget_allocation_hr = User::create([
+        $budget_allocation_receiver = User::create([
             'last_name' => "Head",
             'first_name' => "HR",
             'middle_name' => "Middle",
@@ -88,9 +88,9 @@ class BudgetAllocationUsersSeeder extends Seeder
             ),
             'password' => Hash::make("password")
         ]);
-        $budget_allocation_hr->assign('budget_allocation_hr ');
+        $budget_allocation_receiver->assign('budget_allocation_receiver ');
 
-        $budget_allocation_ops = User::create([
+        $budget_allocation_receiver = User::create([
             'last_name' => " Gen Ops",
             'first_name' => "VP",
             'middle_name' => "for",
@@ -107,6 +107,6 @@ class BudgetAllocationUsersSeeder extends Seeder
             ),
             'password' => Hash::make("password")
         ]);
-        $budget_allocation_ops->assign('budget_allocation_ops ');
+        $budget_allocation_receiver->assign('budget_allocation_receiver ');
     }
 }

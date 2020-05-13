@@ -50,12 +50,18 @@
 <script>
 import allBudget from "./AllBudget";
 import allCostCenter from "./AllCostCenter";
+import form from "../../../../../mixins/form";
 export default {
+	props: {
+		steps: Array,
+		endpoints: Object
+	},
 	data() {
 		return {
 			tabIndex: 0,
+			user: this.$store.state.user,
 			budget: {
-				annual_budget: null,
+				annual_budget: 0,
 				adm_cost_centers: [
 					{
 						adm_cost_code: "",
@@ -64,7 +70,7 @@ export default {
 							{
 								adm_budget_code: "",
 								adm_budget_description: "",
-								adm_budget_year: null
+								adm_budget_year: 0
 							}
 						]
 					}
@@ -77,7 +83,7 @@ export default {
 							{
 								acc_budget_code: "",
 								acc_budget_description: "",
-								acc_budget_year: null
+								acc_budget_year: 0
 							}
 						]
 					}
@@ -90,7 +96,7 @@ export default {
 							{
 								bod_budget_code: "",
 								bod_budget_description: "",
-								bod_budget_year: null
+								bod_budget_year: 0
 							}
 						]
 					}
@@ -103,7 +109,7 @@ export default {
 							{
 								hum_budget_code: "",
 								hum_budget_description: "",
-								hum_budget_year: null
+								hum_budget_year: 0
 							}
 						]
 					}
@@ -116,7 +122,7 @@ export default {
 							{
 								ops_budget_code: "",
 								ops_budget_description: "",
-								ops_budget_year: null
+								ops_budget_year: 0
 							}
 						]
 					}
@@ -124,13 +130,20 @@ export default {
 			}
 		};
 	},
+	mixins: [form],
 	components: {
 		"all-budget": allBudget,
 		"all-cost-center": allCostCenter
 	},
+	computed: {
+		get_status() {
+			if (this.$store.getters.hasAbility("open-all-budget")) {
+				return "Opened";
+			}
+		}
+	},
 	methods: {
 		createBudget() {
-			this.budget.status = this.get_status;
 			var swal_html = this.loadSwalContents(this.steps, this.user);
 			const swal_object = {
 				title: "Create Budget",
