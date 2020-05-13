@@ -3,9 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Traits\CausesActivity;
+use App\Traits\ModelsTrait;
 
 class BudgetAllocation extends Model
 {
+
+    use LogsActivity, CausesActivity, ModelsTrait;
 
     protected $fillable = [
         'annual_budget',

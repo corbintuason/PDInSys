@@ -29,7 +29,11 @@
 <script>
 export default {
 	props: {
-		adm_cost_centers: Array
+		adm_cost_centers: Array,
+		acc_cost_centers: Array,
+		bod_cost_centers: Array,
+		hum_cost_centers: Array,
+		ops_cost_centers: Array
 	},
 	computed: {
 		// annual_grand_total() {
@@ -44,12 +48,37 @@ export default {
 		// }
 		annual_grand_total() {
 			var total_amount = 0;
+
 			this.adm_cost_centers.forEach(center => {
 				center.adm_budget_details.forEach(detail => {
 					total_amount += Number(detail.adm_budget_year);
 				});
-				console.log("total amount is", total_amount);
 			});
+
+			this.acc_cost_centers.forEach(center => {
+				center.acc_budget_details.forEach(detail => {
+					total_amount += Number(detail.acc_budget_year);
+				});
+			});
+
+			this.bod_cost_centers.forEach(center => {
+				center.bod_budget_details.forEach(detail => {
+					total_amount += Number(detail.bod_budget_year);
+				});
+			});
+
+			this.hum_cost_centers.forEach(center => {
+				center.hum_budget_details.forEach(detail => {
+					total_amount += Number(detail.hum_budget_year);
+				});
+			});
+
+			this.ops_cost_centers.forEach(center => {
+				center.ops_budget_details.forEach(detail => {
+					total_amount += Number(detail.ops_budget_year);
+				});
+			});
+
 			return total_amount;
 		}
 	},

@@ -24,7 +24,7 @@ class BudgetAllocationController extends Controller
 
         // STATUS IS SET TO FOR APPROVAL
         $auth_user = auth()->user();
-        $budget = $this->createItem($request, BudgetAllocation::class, "Budget Allocation", "budget_show");
+        $budget = $this->createItem($request, BudgetAllocation::class, "Budget Allocation", "budget_allocation_show");
         // Notify Process Users
         Notification::send($this->notifyApprovers($budget), new BudgetAllocationCreated($budget));
 
