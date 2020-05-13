@@ -9,7 +9,7 @@ class SignedCostEstimateDetail extends Model
     use ModelsTrait;
 
     protected $fillable=[
-        'cost_estimate_detail_id', 'status', 'internal_budget', "incentive"
+        'cost_estimate_detail_id', 'status', 'internal_budget', "incentive", 'file_name'
     ];
     public static $module = 'CE & Budget Opening Module';
 
@@ -17,19 +17,19 @@ class SignedCostEstimateDetail extends Model
         $stages = collect([
             (object)[
                 "names" => ["For Creation", "Returned to Creator"],
-                'responsible' => "cost-estimate-creator"
+                'responsible' => "signed-cost-estimate-creator"
             ],
             (object)[
                 "names" => ["For Review", "Returned to Reviewer"],
-                "responsible" => "cost-estimate-reviewer"
+                "responsible" => "signed-cost-estimate-reviewer"
             ],
             (object)[
                 "names" => ["For Approval", "Returned to Approver "],
-                "responsible" => "cost-estimate-approver"
+                "responsible" => "signed-cost-estimate-approver"
             ],
             (object)[
                 "names" => ["For Clearance", "Returned to Clearer"],
-                "responsible" => "cost-estimate-clearer"
+                "responsible" => "signed-cost-estimate-clearer"
             ],
             (object)[
                 "names" => ["Cleared"],

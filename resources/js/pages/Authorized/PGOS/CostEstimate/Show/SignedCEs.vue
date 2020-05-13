@@ -5,7 +5,8 @@
                 <h1 class="component-title">Signed CEs</h1>
             </template>
             <b-card-body>
-                <div v-if="signed_ces.length > 0">
+                <div v-if="signed_ces.length > 0"
+                    >
                     <div id="upper_fields">
                         <!-- Total Budget -->
                         <div class="row mt-2">
@@ -17,19 +18,21 @@
                                     label="Total Budget"
                                     label-class="font-weight-bold"
                                 >
-                                    <b-input-group>
-                                        <template v-slot:prepend>
-                                            <b-input-group-text 
-                                                ><strong class="text-success"
-                                                    >&#8369;</strong
-                                                ></b-input-group-text
-                                            >
-                                        </template>
-                                        <b-form-input readonly
+                                      <b-input-group>
+                                    <template v-slot:prepend>
+                                        <b-input-group-text
+                                            ><strong class="text-success"
+                                                >&#8369;</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <money
+                                        class="form-control"
+                                        style="text-align: right;"
                                         :value="total_budget"
-                                            type="number"
-                                        ></b-form-input>
-                                    </b-input-group>
+                                        disabled
+                                    ></money>
+                                </b-input-group>
                                 </b-form-group>
                             </div>
                         </div>
@@ -43,20 +46,21 @@
                                     label="Project PL"
                                     label-class="font-weight-bold"
                                 >
-                                    <b-input-group>
-                                        <template v-slot:prepend>
-                                            <b-input-group-text
-                                                ><strong class="text-success"
-                                                    >&#8369;</strong
-                                                ></b-input-group-text
-                                            >
-                                        </template>
-                                        <b-form-input
-                                        readonly
+                                         <b-input-group>
+                                    <template v-slot:prepend>
+                                        <b-input-group-text
+                                            ><strong class="text-success"
+                                                >&#8369;</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <money
+                                        class="form-control"
+                                        style="text-align: right;"
                                         :value="project_pl"
-                                         
-                                        ></b-form-input>
-                                    </b-input-group>
+                                        disabled
+                                    ></money>
+                                </b-input-group>
                                 </b-form-group>
                             </div>
                         </div>
@@ -70,19 +74,20 @@
                                     label="Disbursed Budget"
                                     label-class="font-weight-bold"
                                 >
-                                    <b-input-group>
-                                        <template v-slot:prepend>
-                                            <b-input-group-text
-                                                ><strong class="text-success"
-                                                    >&#8369;</strong
-                                                ></b-input-group-text
-                                            >
-                                        </template>
-                                        <b-form-input
-                                        readonly
-                                            type="number"
-                                        ></b-form-input>
-                                    </b-input-group>
+                                      <b-input-group>
+                                    <template v-slot:prepend>
+                                        <b-input-group-text
+                                            ><strong class="text-success"
+                                                >&#8369;</strong
+                                            ></b-input-group-text
+                                        >
+                                    </template>
+                                    <money
+                                        class="form-control"
+                                        style="text-align: right;"
+                                        disabled
+                                    ></money>
+                                </b-input-group>
                                 </b-form-group>
                             </div>
                         </div>
@@ -118,14 +123,14 @@
                         v-for="(detail, detail_index) in signed_ces"
                         :key="detail_index"
                         class="cost-estimate-details mb-0"
-                        :style="{
+                     :style="{
                             'border-left':
-                                '10px solid ' + colorEquivalent(detail.relationships.signed_ce_detail),
+                                '10px solid ' + colorEquivalent(detail),
                             'border-right':
-                                '10px solid ' + colorEquivalent(detail.relationships.signed_ce_detail),
+                                '10px solid ' + colorEquivalent(detail),
                         }"
                     >
-                             <signed-ce :detail="detail" :steps="steps"></signed-ce>
+                             <signed-ce :detail="detail" :create_signed_ce_detail="create_signed_ce_detail" :steps="steps"></signed-ce>
 
                     </div>
 
@@ -153,6 +158,12 @@ export default {
     data() {
         return {
             steps: this.$store.state.signedCostEstimateDetails.steps,
+                  create_signed_ce_detail: {
+                internal_budget: 0,
+                incentive: 0,
+                // cost_estimate_detail_id: this.detail.id,
+                internal_budget: 0,
+            },
             legends: [
                 {
                     status: "For Creation",
@@ -187,30 +198,40 @@ export default {
         "signed-ce": signedCE
     },
     computed: {
+        actual_signed_ces(){
+            return this.signed_ces.filter(ce => ce.relationships.signed_ce_detail!=null);
+        },
         total_budget(){
             var sum = 0;
-            this.signed_ces.forEach(ce => {
+            this.actual_signed_ces.forEach(ce => {
                 sum+= Number(ce.relationships.signed_ce_detail.internal_budget);
             });
+            sum+= Number(this.create_signed_ce_detail.internal_budget);
             return sum;
         },
         project_pl(){
             var all_savings = 0;
             var all_sub_total = 0
-            this.signed_ces.forEach(ce => {
-                var internal_savings = ce.sub_total - ce.relationships.signed_ce_detail.internal_budget;
+            this.actual_signed_ces.forEach(ce => {
+                var internal_savings = ce.sub_total_cost - ce.relationships.signed_ce_detail.internal_budget;
                 var savings = internal_savings - ce.relationships.signed_ce_detail.incentive;
                 all_savings+=Number(savings);
                 all_sub_total+=Number(ce.sub_total);
             })
+            // For the newly created
+            
             var project_pl = Number(all_savings/all_sub_total)*100+"%";
             return project_pl ;
         },
         colorEquivalent() {
             return (detail) => {
-                var legend = this.legends.find(
-                    (legend) => legend.status == detail.status
+                if(detail.relationships.signed_ce_detail!=null){
+   var legend = this.legends.find(
+                    (legend) => legend.status == detail.relationships.signed_ce_detail.status
                 );
+                }
+             
+                else return "gray";
                 return legend.color;
             };
         },

@@ -139,4 +139,24 @@ class CostEstimateDetailController extends Controller
     {
         //
     }
+
+    public function sign(Request $request, $id){
+        $cost_estimate_detail = CostEstimateDetail::findOrFail($id);
+         // Upload new file to database
+         $extension = $request->file('file')->extension();
+         $file_name = $cost_estimate_detail->cost_estimate->code .".". $extension;
+         $path = Storage::putFileAs(
+             'signed-cost-estimates', $request->file('file'), $file_name
+         );
+
+         // Update status of cost estimate detail to signed
+         $cost_estimate_detail->update([
+             'status' => 'Signed'
+         ]);
+
+        return [
+            'refresh' => true,
+            'success_text' => $cost_estimate_detail->code . " has been successfully Signed"
+        ];
+    }
 }

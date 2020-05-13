@@ -40,23 +40,46 @@ class CostEstimateDetail extends Model
             (object)[
                 "names" => ["Cleared"],
                 "responsible" => "cost-estimate-creator"
+            ],
+            (object)[
+                "names" => ["Signed"],
+                "responsible" => null
             ]
         ]);
         return $stages;
         // return ["For Review", "For Approval", "For Approval", "For Assigning", "Assigned"];
     }
 
-    public function getAsfSubTotalAttribute(){
-        return $this->sub_total * ($this->asf_rate/100);
+    public function getAsfSubTotal($field){
+        return $field['sub_total'] * ($field['asf_rate']/100);
 		
     }
 
+    public function getSubTotalCostAttribute(){
+        $sum=0;
+        foreach($this->sub_fields as $field){
+            $sum+= $this->getProjectCost($field);
+        } return $sum;
+    }
+
     public function getProjectVatAttribute(){
-        return $this->total_project_cost + ($this->total_project_cost * ($this->tax/100));
+        return ($this->sub_total_cost * ($this->tax/100));
+    }
+
+    public function getDetailedSubFieldsAttribute(){
+        $detailed_fields =[];
+        foreach($this->sub_fields as $field){
+            $detail = new \stdClass;
+            $detail->sub_total = $field["sub_total"];
+            $detail->asf_rate = $field["asf_rate"];
+            $detail->asf_sub_total = $this->getAsfSubTotal($field);
+            $detail->project_cost = $this->getProjectCost($field);
+            array_push($detailed_fields, $detail);
+        } return $detailed_fields;
     }
 
     public function getInitialIncentiveAttribute(){
-            $project_cost = $this->total_project_cost;
+            $project_cost = $this->sub_total_cost;
             if($project_cost <= 1){
                 $incentive = 0;    
             }elseif($project_cost > 1 && $project_cost <= 100000){
@@ -95,7 +118,7 @@ class CostEstimateDetail extends Model
 
 }
 
-    public function getProjectCostAttribute(){
+    public function getProjectCost($field){
     /* 
             return (sub_total, asf_rate) => {
                 var asf_rate_percent = asf_rate / 100;
@@ -105,9 +128,9 @@ class CostEstimateDetail extends Model
                 return total_project_cost;
             };
     **/ 
-            $asf_rate_percent = $this->asf_rate/100;
-            $sub_percent = $this->sub_total * $asf_rate_percent;
-            return $this->sub_total + $sub_percent;
+            $asf_rate_percent = $field['asf_rate']/100;
+            $sub_percent = $field['sub_total'] * $asf_rate_percent;
+            return $field['sub_total'] + $sub_percent;
     }
 
     public function getTaxAttribute(){
@@ -137,13 +160,12 @@ class CostEstimateDetail extends Model
                     return total_project_cost + cost_tax;
                 }
             };**/
-            if($this->vat==0){
-                return $this->total_project_cost;
+            if($this->tax==0){
+                return $this->sub_total_cost;
             }else{
-                $cost_tax = $this->total_project_cost * ($this->vat/100);
-                return $this->total_project_cost + $cost_tax;
+                $cost_tax = $this->sub_total_cost * ($this->tax/100);
+                return $this->sub_total_cost + $cost_tax;
             }
-        return 12345;
     }
     public function cost_estimate(){
         return $this->belongsTo('App\CostEstimate');

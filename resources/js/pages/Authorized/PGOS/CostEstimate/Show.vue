@@ -17,30 +17,10 @@
                 :project="project"
                 :endpoints="endpoints"
             ></create-ces>
-            <!-- <create-cost-estimate v-if="mode=='Create'" :steps="steps" :project='project' :endpoints="endpoints"></create-cost-estimate>
-			<show-cost-estimate v-else-if="mode=='Show'" :steps="steps" :project='project' :endpoints="endpoints"></show-cost-estimate>-->
+         
         </div>
         <clip-loader v-else color="orange"></clip-loader>
 
-        <!-- 
-            May 3 2020 Revisions:
-                - Progress bar header should be : Project Code -- {code}
-                - Only show code when project is finished to assigning
-                - show "project code {code}" when not finsihed assigning
-                -CEPD (Remove dash in code)
-                - change Peza/AR to Vat Registration
-                    - VAT (with 12%)
-                    - Peza (without 12)
-                    - AR Only (without 12)
-                - Reviewer 
-                - Approver 
-                - Clearer
-                - Cost Estiamte Created -> CE Development
-
-                CE Development:
-                    - Add a progress bar for EACH detail
-                    - Remove progress bar from entire cost estimate
-		-->
     </div>
 </template>
 
@@ -113,7 +93,7 @@ export default {
                                 api: "/api/cost_estimate_detail/" + detail.id,
                                 show_route: "show_cost_estimate",
                             };
-                            if (detail.relationships.signed_ce_detail) {
+                            if (detail.status=='Signed') {
                                 this.signed_ces.push(detail);
                             } else {
                                 this.unsigned_ces.push(detail);

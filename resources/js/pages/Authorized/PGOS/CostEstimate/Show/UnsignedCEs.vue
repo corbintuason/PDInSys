@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import showProcessButtons from "../../../../../components/authorized/public/ShowProcessButtons";
 import colorLegend from "../Show/components/ColorLegend";
 import unsigneddCE from "./UnsignedCEs/UnsignedCE"
 export default {
@@ -101,7 +100,6 @@ export default {
     },
     components: {
         "color-legend": colorLegend,
-        showProcessButtons: showProcessButtons,
         "unsigned-ce": unsigneddCE
     },
     computed: {

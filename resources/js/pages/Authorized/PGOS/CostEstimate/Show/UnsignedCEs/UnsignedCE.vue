@@ -21,20 +21,12 @@
                     :item_model="item_model"
                     :steps="steps"
                     :endpoints="endpoints"
-                    :uploadable='true'
+                    :uploadable="true"
                 ></show-process-buttons>
             </div>
         </div>
         <div v-else>
-            <div class = "row">
-                <div class="col-md-12">
-     <b-button-group class="float-right">
-            <b-button variant="outline-success">Sign Cost Estimate</b-button>
-
-            </b-button-group>
-                </div>
-            </div>
-       
+            <process-signing :detail="detail"></process-signing>
         </div>
     </div>
 </template>
@@ -42,6 +34,7 @@
 <script>
 import showMode from "./UnsignedCE/ShowMode";
 import editMode from "./UnsignedCE/EditMode";
+import processSigning from "./UnsignedCE/ProcessSigning";
 import showProcessButtons from "../../../../../../components/authorized/public/ShowProcessButtons";
 export default {
     data() {
@@ -49,26 +42,27 @@ export default {
             mode: "Show",
             item_model: "Cost Estimate Detail",
             endpoints: {
-                 api: "/api/cost_estimate_detail/" + this.detail.id,
-            }
+                api: "/api/cost_estimate_detail/" + this.detail.id,
+            },
         };
     },
     computed: {
-        forProcessing(){
-            return this.detail.status != 'Cleared'
-        }
+        forProcessing() {
+            return this.detail.status != "Cleared";
+        },
     },
     components: {
         "show-mode": showMode,
         "edit-mode": editMode,
         "show-process-buttons": showProcessButtons,
+        "process-signing": processSigning
     },
     props: {
         detail: Object,
         steps: Array,
     },
     mounted() {
-        Fire.$on("switch-mode-"+this.detail.id, (mode) => {
+        Fire.$on("switch-mode-" + this.detail.id, (mode) => {
             this.mode = mode;
         });
     },
