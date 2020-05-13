@@ -15,6 +15,7 @@ class CreateBudgetAllocationsTable extends Migration
     {
         Schema::create('budget_allocations', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->date('annual_budget');
             $table->json('adm_cost_centers')->nullable();
             $table->json('acc_cost_centers')->nullable();
             $table->json('bod_cost_centers')->nullable();

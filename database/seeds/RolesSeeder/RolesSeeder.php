@@ -12,16 +12,11 @@ class RolesSeeder extends Seeder
          */
         public function run()
         {
-                // Accounts and Clients
                 $this->call(AccountsAndClientsRolesSeeder::class);
-                // Project Development 
                 $this->call(ProjectDevelopmentRolesSeeder::class);
-                // Mandate Seeder
                 $this->call(MandateRolesSeeder::class);
-                // Project List - Create Project (CRUD)
-                // Vendor Accreditation
                 $this->call(VendorAccreditationRolesSeeder::class);
-
+                $this->call(BudgetAllocationRolesSeeder::class);
                 $this->call(CostEstimatesRolesSeeder::class);
 
                 Bouncer::allow('super-admin')->everything();
