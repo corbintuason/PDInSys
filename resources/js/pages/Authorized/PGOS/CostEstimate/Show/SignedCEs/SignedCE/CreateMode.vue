@@ -101,9 +101,12 @@
                             </td>
                         </tr>
                     </tbody>
+                    </table>
+                    <table class="table table-bordered">
+                        <thead></thead>
                     <tbody>
                         <tr class="table-primary">
-                            <th style="text-align: center;">SUB TOTAL COST</th>
+                            <th style="text-align: center;">TOTAL PROJECT COST (VAT Excluded)</th>
                             <td>
                                 <b-input-group>
                                     <template v-slot:prepend>
@@ -268,8 +271,8 @@
         <div class="row">
             <div class="col-md-12">
                 <b-button-group class="float-right">
-                    <b-button variant="outline-danger"> Reject Signed CE </b-button>
-                    <b-button variant="outline-success" @click="createSignedCE"> Create Signed CE </b-button>
+                    <!-- <b-button variant="outline-danger"> Reject Signed CE </b-button> -->
+                    <b-button variant="outline-success" @click="createSignedCE"> Create Budget </b-button>
                 </b-button-group>
             </div>
         </div>
@@ -283,32 +286,45 @@ export default {
       
         };
     },
-    computed: {
+   computed: {
+        canProcess() {
+            return this.$store.getters.hasRole(
+                this.signed_ce_detail.current_handler
+            );
+        },
         initial_savings: {
-            get: function(){
-               return this.detail.sub_total_cost - this.signed_ce_detail.internal_budget
+            get: function () {
+                 var sum_sub_total = 0;
+                console.log("the detail", this.detail);
+                this.detail.sub_fields.forEach(field => {
+                    sum_sub_total+=field.sub_total;
+                });
+                var initial_savings = sum_sub_total - this.signed_ce_detail.internal_budget;
+                return initial_savings;
             },
-            setter: function(newVal){
-            }
-            
+            setter: function (newVal) {},
         },
         total_savings: {
-
-                  get: function(){
-            return this.initial_savings - this.signed_ce_detail.incentive;
+            get: function () {
+                return this.initial_savings - this.signed_ce_detail.incentive;
             },
-            setter: function(newVal){
+            setter: function (newVal) {
                 console.log("whut", newVal);
-            }
+            },
         },
         p_and_l: {
-            get: function(){
-                var pl = (this.total_savings / this.detail.sub_total_cost) * 100;
-            return  Math.round(pl * 100) / 100+ "%";
+            get: function () {
+                            var sum_sub_total = 0;
+                console.log("the detail", this.detail);
+                this.detail.sub_fields.forEach(field => {
+                    sum_sub_total+=field.sub_total;
+                });
+
+            return  Math.round(this.total_savings/sum_sub_total * 100)+ "%";
             },
-            setter: function(newVal){
+            setter: function (newVal) {
                 console.log("whut", newVal);
-            }
+            },
         },
     },
     components: {},
@@ -320,10 +336,10 @@ export default {
         createSignedCE(){
             // this.signed_ce_detail.cost_estimate_detail_id = this.detail.id;
               swal.fire({
-                title: "Create Signed CE",
+                title: "Budget Opening",
                 icon: "question",
-                text: "Please check your inputs",
-                confirmButtonText: "Create",
+                text: "Are you sure you want to submit?",
+                confirmButtonText: "Yes",
                 showLoaderOnConfirm: true,
                 showCancelButton: true,
                 cancelButtonColor: "#d33",

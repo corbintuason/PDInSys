@@ -101,9 +101,13 @@
                             </td>
                         </tr>
                     </tbody>
+                    </table>
+                    
+                         <table class="table table-bordered">
+                        <thead></thead>
                     <tbody>
                         <tr class="table-primary">
-                            <th style="text-align: center;">SUB TOTAL COST</th>
+                            <th style="text-align: center;">TOTAL PROJECT COST (VAT Excluded)</th>
                             <td>
                                 <b-input-group>
                                     <template v-slot:prepend>
@@ -273,14 +277,14 @@
                 </table>
             </div>
         </div>
-        <div class="row" v-if="canProcess">
+        <div class="row" v-if="canProcess && current_step!=null">
             <div class="col-md-12">
                 <b-button-group class="float-right">
                     <b-button variant="outline-danger">
-                        Return Signed CE Detail
+                        Return To
                     </b-button>
-                    <b-button variant="outline-success">
-                        Process Signed CE Detail
+                    <b-button variant="outline-success" @click="updateSignedCE">
+                        {{current_step.name}} Budget
                     </b-button>
                 </b-button-group>
             </div>
@@ -289,10 +293,15 @@
 </template>
 
 <script>
+import steps from "../../../../../../../mixins/steps"
 export default {
     data() {
-        return {};
+        return {
+            steps: this.$store.state.signedCostEstimateDetails.steps,
+            current_step: null
+        }
     },
+    mixins:[steps],
     computed: {
         canProcess() {
             return this.$store.getters.hasRole(
@@ -301,10 +310,13 @@ export default {
         },
         initial_savings: {
             get: function () {
-                return (
-                    this.detail.sub_total_cost -
-                    this.signed_ce_detail.internal_budget
-                );
+                 var sum_sub_total = 0;
+                console.log("the detail", this.detail);
+                this.detail.sub_fields.forEach(field => {
+                    sum_sub_total+=field.sub_total;
+                });
+                var initial_savings = sum_sub_total - this.signed_ce_detail.internal_budget;
+                return initial_savings;
             },
             setter: function (newVal) {},
         },
@@ -318,9 +330,13 @@ export default {
         },
         p_and_l: {
             get: function () {
-                var pl =
-                    (this.total_savings / this.detail.sub_total_cost) * 100;
-                return Math.round(pl * 100) / 100 + "%";
+                            var sum_sub_total = 0;
+                console.log("the detail", this.detail);
+                this.detail.sub_fields.forEach(field => {
+                    sum_sub_total+=field.sub_total;
+                });
+
+            return  Math.round(this.total_savings/sum_sub_total * 100)+ "%";
             },
             setter: function (newVal) {
                 console.log("whut", newVal);
@@ -333,6 +349,49 @@ export default {
         signed_ce_detail: Object,
     },
     methods: {
+        updateSignedCE(){
+        swal.fire({
+                title: "Budget Opening",
+                icon: "question",
+                text: "Are you sure you want to submit?",
+                confirmButtonText: this.current_step.name,
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                allowOutsideClick: false,
+                preConfirm: () => {
+                    return new Promise((resolve, reject) => {
+                        axios
+                            .put(
+                                "/api/signed_cost_estimate_detail/" + this.signed_ce_detail.id,
+                                this.signed_ce_detail
+                            )
+                            .then((response) => {
+                                resolve(response.data);
+                            })
+                            .catch((e) => {
+                                //(e);
+                                swal.showValidationMessage(
+                                    `Unable to process item`
+                                );
+                                swal.hideLoading();
+                                reject(e);
+                            });
+                    });
+                },
+            }).then((result) => {
+                if (result.value) {
+                    console.log(result);
+                    swal.fire({
+                        title: result.value.success_text,
+                        icon: "success",
+                        onClose: () => {
+                          this.$router.go();
+                        },
+                    });
+                }
+            });     
+        },
         createSignedCE() {
             this.signed_ce_detail.cost_estimate_detail_id = this.detail.id;
             swal.fire({
@@ -406,6 +465,8 @@ export default {
             });
         },
     },
-    mounted() {},
+    mounted() {
+        this.current_step = this.getCurrentStep(this.signed_ce_detail, this.steps);
+    },
 };
 </script>

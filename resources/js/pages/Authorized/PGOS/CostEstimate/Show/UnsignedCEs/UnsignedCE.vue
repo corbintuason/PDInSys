@@ -26,7 +26,7 @@
             </div>
         </div>
         <div v-else>
-            <process-signing :detail="detail"></process-signing>
+            <process-signing :mode="mode" :detail="detail"></process-signing>
         </div>
     </div>
 </template>

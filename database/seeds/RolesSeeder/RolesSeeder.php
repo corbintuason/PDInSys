@@ -16,7 +16,7 @@ class RolesSeeder extends Seeder
                 $this->call(ProjectDevelopmentRolesSeeder::class);
                 $this->call(MandateRolesSeeder::class);
                 $this->call(VendorAccreditationRolesSeeder::class);
-                $this->call(BudgetAllocationRolesSeeder::class);
+                // $this->call(BudgetAllocationRolesSeeder::class);
                 $this->call(CostEstimatesRolesSeeder::class);
 
                 Bouncer::allow('super-admin')->everything();

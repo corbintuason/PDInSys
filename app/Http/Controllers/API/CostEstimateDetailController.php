@@ -116,7 +116,9 @@ class CostEstimateDetailController extends Controller
 
         // Update status of Cost Estimate Detail
         $this->updateItem($cost_estimate_detail, CostEstimateDetail::class, "Cost Estimate Detail", "cost_estimate_show");
-
+        $cost_estimate_detail->update([
+            'status' => $this->getCreateStatus($request, CostEstimateDetail::class)
+        ]);
 
         // activity("Cost Estimate Uploaded")
         // ->on($cost_estimate)

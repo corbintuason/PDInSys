@@ -60,6 +60,7 @@ export default {
 		return {
 			tabIndex: 0,
 			user: this.$store.state.user,
+			
 			budget: {
 				annual_budget: 0,
 				adm_cost_centers: [

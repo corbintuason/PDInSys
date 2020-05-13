@@ -69,16 +69,22 @@ class SignedCostEstimateDetailController extends Controller
     public function update(Request $request, $id)
     {
         $signed_cost_estimate_detail = SignedCostEstimateDetail::findOrFail($id);
+        
         $signed_cost_estimate_detail->update([
             "internal_budget" => $request->internal_budget,
             "incentive" => $request->incentive,
-            "status" => $this->getCreateStatus($request, SignedCostEstimateDetail::class)
         ]);
+        $this->updateItem($signed_cost_estimate_detail, SignedCostEstimateDetail::class, "Signed Cost Estimate Detail", "cost_estimate_show");
+        // $signed_cost_estimate_detail->update([
+        //     "internal_budget" => $request->internal_budget,
+        //     "incentive" => $request->incentive,
+        //     "status" => $this->getCreateStatus($request, SignedCostEstimateDetail::class)
+        // ]);
        
         // Change Values
     return [
         'item_id' => $signed_cost_estimate_detail->id,
-        'success_text' => $signed_cost_estimate_detail->code . " has been successfully updated"
+        'success_text' => "Budget For " . $signed_cost_estimate_detail->code . "v".$signed_cost_estimate_detail->cost_estimate_detail->version. " is " . $signed_cost_estimate_detail->status
     ];
     }
 

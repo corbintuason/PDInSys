@@ -47,13 +47,7 @@
                                     label-class="font-weight-bold"
                                 >
                                          <b-input-group>
-                                    <template v-slot:prepend>
-                                        <b-input-group-text
-                                            ><strong class="text-success"
-                                                >&#8369;</strong
-                                            ></b-input-group-text
-                                        >
-                                    </template>
+                     
                                     <b-form-input :value="project_pl" disabled style="text-align:right"></b-form-input>
                                     <!-- <money
                                         class="form-control"
@@ -169,7 +163,7 @@ export default {
                 },
                 {
                     status: "For Review",
-                    color: "orange",
+                    color: "red",
                 },
                 {
                     status: "For Approval",
@@ -181,7 +175,7 @@ export default {
                 },
                 {
                     status: "Cleared",
-                    color: "green",
+                    color: "orange",
                 },
             ],
         };
@@ -207,17 +201,21 @@ export default {
             return sum;
         },
         project_pl(){
-            var all_savings = 0;
-            var all_sub_total = 0
+            var total_savings = 0;
+            var sum_sub_total = 0
             this.signed_ces.forEach(ce => {
-                var internal_savings = ce.sub_total_cost - ce.relationships.signed_ce_detail.internal_budget;
-                var savings = internal_savings - ce.relationships.signed_ce_detail.incentive;
-                console.log("internal savings??", internal_savings);
-                all_savings+=Number(savings);
-                all_sub_total+=Number(ce.sub_total_cost);
-            })
-            var project_pl = all_savings/all_sub_total;
-            return (project_pl * 100).toFixed(2) + "%";
+                var sub_total = 0;
+                ce.sub_fields.forEach(field => {
+                    console.log("field", field);
+                    sum_sub_total += field.sub_total;
+                    sub_total+= field.sub_total;
+                    console.log("current sub total", sum_sub_total);
+                });
+                var initial_savings = sub_total - ce.relationships.signed_ce_detail.internal_budget;
+                total_savings += initial_savings - ce.relationships.signed_ce_detail.incentive;
+            });
+
+            return Math.round((total_savings/sum_sub_total)*100)+"%";
         },
         colorEquivalent() {
             return (detail) => {
