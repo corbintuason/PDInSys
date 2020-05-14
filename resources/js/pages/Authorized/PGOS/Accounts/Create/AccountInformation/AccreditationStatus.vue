@@ -1,10 +1,9 @@
 <template>
   <div>
     <div id="account_details">
-      <h1 class="component-sub-header">Accreditation Status</h1>
-      <div class="component-sub-content">
+      <b-form-group label-class="font-weight-bold" label="Accreditation Status">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <b-input-group
               v-for="(value, value_index) in form.accreditation_status"
               :key="value_index"
@@ -27,7 +26,7 @@
             >Add Accreditation Status</b-button>
           </div>
         </div>
-      </div>
+      </b-form-group>
     </div>
   </div>
 </template>

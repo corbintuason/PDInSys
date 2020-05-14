@@ -1,13 +1,12 @@
 <template>
   <div>
     <div id="brand_department">
-      <h1 class="component-sub-header">Brands and Departments</h1>
-      <div class="component-sub-content">
+      <b-form-group label-class="font-weight-bold" label="Brands and Departments">
         <div class = "row">
              <brands :form="form"></brands>
              <departments :form="form"></departments>
         </div>
-      </div>
+      </b-form-group>
     </div>
   </div>
 </template>

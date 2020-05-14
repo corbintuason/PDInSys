@@ -1,10 +1,9 @@
 <template>
   <div>
     <div id="account_details">
-      <h1 class="component-sub-header">Company Telephone Number</h1>
-      <div class="component-sub-content">
+      <b-form-group label-class="font-weight-bold" label="Company Telephone Number">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <b-input-group
               v-for="(value, value_index) in form.company_tel_number"
               :key="value_index"
@@ -27,7 +26,7 @@
             >Add Telephone Number</b-button>
           </div>
         </div>
-      </div>
+      </b-form-group>
     </div>
   </div>
 </template>

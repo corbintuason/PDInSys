@@ -3,22 +3,12 @@
     <!-- Account Details Section -->
     <account-details :form="form"></account-details>
     <hr />
-    <!-- Terms of Payment -->
-    <terms-of-payment :form="form"></terms-of-payment>
-    <hr>
-    <!-- Payment Milestone -->
-    <payment-milestone :form="form"></payment-milestone>
-    <hr>
-    <!-- Company Tel Number -->
-  
-    <hr>
-    <!-- Company Email Address -->
-  
-    <hr>
-    <!-- Accrediation Status -->
-    
-    <hr />
-    <!-- Brands Departments -->
+
+    <div class="row">
+    <terms-of-payment class="col-md-6" :form="form"></terms-of-payment>
+    <payment-milestone class="col-md-6" :form="form"></payment-milestone>
+    </div>
+
   </div>
 </template>
 

@@ -3,8 +3,8 @@
     <div id="account_details">
       <h1 class="component-sub-header">Terms of Payment</h1>
       <div class="component-sub-content">
-        <div class="row">
-          <div class="col-md-6">
+        <div>
+          <div>
             <b-input-group
               v-for="(value, value_index) in form.terms_of_payment"
               :key="value_index"

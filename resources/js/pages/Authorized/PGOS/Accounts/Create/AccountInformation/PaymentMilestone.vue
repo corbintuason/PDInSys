@@ -3,8 +3,8 @@
     <div id="account_details">
       <h1 class="component-sub-header">Payment Milestone</h1>
       <div class="component-sub-content">
-        <div class="row">
-          <div class="col-md-6">
+        <div>
+          <div>
             <b-input-group
               v-for="(value, value_index) in form.payment_milestone"
               :key="value_index"
