@@ -12,6 +12,7 @@
 				<basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
 			</b-card-body>
 		</b-card>
+		{{budgets}}
 	</div>
 </template>
 
@@ -22,7 +23,7 @@ export default {
 		return {
 			items: [],
 			fields: null,
-			mandates: null
+			budgets: null
 		};
 	},
 	components: {
@@ -32,13 +33,16 @@ export default {
 		loadItems() {
 			axios.get("/api/budget-allocation").then(response => {
 				const budgets = response.data.data;
+				console.log($this.budgets);
+
 				this.budgets = response.data.data;
 				budgets.forEach(mandate => {
 					this.items.push({
 						id: budget.id,
+						item_name: annual_budget,
 						status: budget.status,
 						item_params: {
-							link: "budget_show",
+							link: "budget_allocation_show",
 							id: budget.id
 						}
 					});
@@ -48,7 +52,7 @@ export default {
 		loadFields() {
 			this.fields = [
 				{
-					key: "id",
+					key: "item_name",
 					label: "Budget Year",
 					class: "text-center",
 					sortable: true,

@@ -50,7 +50,7 @@ class BudgetAllocationUsersSeeder extends Seeder
             ),
             'password' => Hash::make("password")
         ]);
-        $budget_allocation_receiver->assign('budget_allocation_receiver ');
+        $budget_allocation_receiver->assign('budget-allocation-receiver');
 
         $budget_allocation_receiver = User::create([
             'last_name' => "Head",
@@ -69,7 +69,7 @@ class BudgetAllocationUsersSeeder extends Seeder
             ),
             'password' => Hash::make("password")
         ]);
-        $budget_allocation_receiver->assign('budget_allocation_receiver ');
+        $budget_allocation_receiver->assign('budget-allocation-receiver');
 
         $budget_allocation_receiver = User::create([
             'last_name' => "Head",
@@ -88,7 +88,7 @@ class BudgetAllocationUsersSeeder extends Seeder
             ),
             'password' => Hash::make("password")
         ]);
-        $budget_allocation_receiver->assign('budget_allocation_receiver ');
+        $budget_allocation_receiver->assign('budget-allocation-receiver');
 
         $budget_allocation_receiver = User::create([
             'last_name' => " Gen Ops",
@@ -107,6 +107,6 @@ class BudgetAllocationUsersSeeder extends Seeder
             ),
             'password' => Hash::make("password")
         ]);
-        $budget_allocation_receiver->assign('budget_allocation_receiver ');
+        $budget_allocation_receiver->assign('budget-allocation-receiver');
     }
 }

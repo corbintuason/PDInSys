@@ -60,6 +60,8 @@ class Vendor extends Model
 
     protected static $logFillable = true;
     protected static $logName = 'Vendor';
+    public static $module = 'Vendor Module';
+
 
     protected function getStagesAttribute()
     {

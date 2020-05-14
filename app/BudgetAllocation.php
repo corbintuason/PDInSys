@@ -32,6 +32,7 @@ class BudgetAllocation extends Model
 
     protected static $logFillable = true;
     protected static $logName = 'Budget Allocation';
+    public static $module = 'Budget Allocation';
 
     protected function getStagesAttribute()
     {
@@ -41,9 +42,10 @@ class BudgetAllocation extends Model
                 "responsible" => "budget-allocation-creator"
             ],
             (object) [
-                "names" => ["Opened"],
+                "names" => ["Opened", "Updated"],
                 "responsible" => "budget-allocation-receiver"
             ],
+
             // (object) [
             //     "names" => ["AFG-BA Opened"],
             //     "responsible" => "budget-allocation-afg"
@@ -64,20 +66,36 @@ class BudgetAllocation extends Model
         return $stages;
     }
 
-    public function getAdmGrandTotalAttribute()
-    {
-        $sum = 0;
-        foreach ($this->adm_cost_centers as $adm_cost_center) {
-            foreach ($adm_cost_center->adm_budget_details as $detail) {
-                $sum += $detail->adm_budget_year;
-            }
-        }
-        return $sum;
-    }
-
+    // public function getAdmGrandTotalAttribute()
+    // {
+    //     $sum = 0;
+    //     foreach ($this->adm_cost_centers as $adm_cost_center) {
+    //         foreach ($adm_cost_center->adm_budget_details as $detail) {
+    //             $sum += $detail->adm_budget_year;
+    //         }
+    //     }
+    //     return $sum;
+    // }
 
     public function user()
     {
         return $this->belongsTo("App\User", "creator_id");
+    }
+
+    public function contributors()
+    {
+        return $this->morphMany("App\Contributor", 'contributable')->with('user');
+    }
+
+    public function remarks()
+    {
+        return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
+    }
+
+    // Mandate Code
+    public function getCodeAttribute()
+    {
+        $year = $this->attributes['annual_budget'];
+        return  "Budget for year" . " " . $year;
     }
 }

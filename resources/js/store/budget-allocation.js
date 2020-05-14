@@ -13,12 +13,7 @@ export default new Vuex.Store({
             },
             {
                 name: "Open",
-                responsible: "ADM",
-                database_equivalent: ["Opened", "Updated"],
-            },
-            {
-                name: "Open",
-                responsible: "AFG",
+                responsible: "Receivers",
                 database_equivalent: ["Opened", "Updated"],
             },
         ],

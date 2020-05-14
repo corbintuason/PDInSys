@@ -21,6 +21,7 @@ class CreateBudgetAllocationsTable extends Migration
             $table->json('bod_cost_centers')->nullable();
             $table->json('hum_cost_centers')->nullable();
             $table->json('ops_cost_centers')->nullable();
+            $table->string('status');
             $table->timestamps();
         });
     }
