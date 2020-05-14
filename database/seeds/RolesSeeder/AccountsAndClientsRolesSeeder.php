@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\Traits\SeedsTrait;
+use App\Account;
 class AccountsAndClientsRolesSeeder extends Seeder
 {
+    use SeedsTrait;
     /**
      * Run the database seeds.
      *
@@ -11,60 +13,15 @@ class AccountsAndClientsRolesSeeder extends Seeder
      */
     public function run()
     {
-        $view_accounts = Bouncer::ability()->firstOrCreate([
-            'name' => 'view-all-accounts',
-            'title' => 'View All accounts',
-        ]);
+        $roles = [
+            (object) array("name" => "Creator",
+            "ability" => null),
+            (object) array("name" => "Approver",
+            "ability" => "approve"),
+        ];
+        $generic_abilities = ["view-all", "view", "create"];
 
-        $create_accounts = Bouncer::ability()->firstOrCreate([
-            'name' => 'create-accounts',
-            'title' => 'Create accounts',
-        ]);
-
-        $edit_accounts = Bouncer::ability()->firstOrCreate([
-            'name' => 'edit-all-accounts',
-            'title' => 'Edit All accounts',
-        ]);
-
-        $delete_accounts = Bouncer::ability()->firstOrCreate([
-            'name' => 'delete-all-accounts',
-            'title' => 'Delete All accounts',
-        ]);
-
-                
-        // Vie Accounts - Account and Client Acc. (PROCESS FLOW - CREATE, RETURN, REJECT, APPROVE)
-
-        $approve_accounts = Bouncer::ability()->firstOrCreate([
-            'name' => 'approve-all-accounts',
-            'title' => 'Approve All accounts',
-        ]);
-
-        $reject_accounts = Bouncer::ability()->firstOrCreate([
-            'name' => 'reject-all-accounts',
-            'title' => 'Reject All accounts'
-        ]);
+        $this->createRoles($roles, $generic_abilities, Account::class, "account");
         
-        $return_accounts = Bouncer::ability()->firstOrCreate([
-            'name' => 'return-all-accounts',
-            'title' => 'Return all accounts'
-        ]);
-
-
-        
-        // Role Creation
-        $account_creator = Bouncer::role()->firstOrCreate([
-            'name' => 'account-creator',
-            'title' => 'Account Creator',
-        ]);
-
-        $account_approver = Bouncer::role()->firstOrCreate([
-            'name' => 'account-approver',
-            'title' => 'Account Approver'
-        ]);
-
-        // Assign
-        Bouncer::allow($account_creator)->to([$view_accounts, $create_accounts]);
-        Bouncer::allow($account_approver)->to([$view_accounts, $create_accounts, $edit_accounts, $delete_accounts, $return_accounts, $approve_accounts]);
-    
-    }
+    } 
 }

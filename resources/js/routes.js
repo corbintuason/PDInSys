@@ -1,3 +1,5 @@
+import { store } from "./store/store";
+
 import Welcome from "./pages/Welcome";
 import Authorized from "./pages/Authorized.vue";
 import Dashboard from "./pages/Authorized/Dashboard.vue";
@@ -84,11 +86,29 @@ export default [
                 path: "/accounts",
                 component: IndexAccount,
                 name: "account_index",
+                beforeEnter(to, from, next){
+                    if (!store.getters.hasAbility("view-all", "App\\Account")) {
+                        next({
+                            name: "Welcome",
+                        });
+                    } else {
+                        next();
+                    }
+                }
             },
             {
                 path: "/accounts/create",
                 component: CreateAccount,
                 name: "account_create",
+                beforeEnter(to, from, next){
+                    if (!store.getters.hasAbility("create", "App\\Account")) {
+                        next({
+                            name: "Welcome",
+                        });
+                    } else {
+                        next();
+                    }
+                }
             },
             {
                 path: "/accounts/:id",

@@ -76,6 +76,30 @@ export default {
         loadPGOS() {
             this.pgos.push(
                 {
+                    section: "Accounts & Clients",
+                    render: this.renderSection([
+                        {
+                            ability: "view-all",
+                            model: "App\\Account"
+                        }
+                    ]),
+                    features:[{
+                        name: "Accounts List",
+                        link: "account_index",
+                        render: this.renderFeature({
+                            ability: "view-all",
+                            model: "App\\Account"
+                        }),
+                    },{
+                        name: "Acc. & Client Accred.",
+                        link: "account_create",
+                        render: this.renderFeature({
+                            ability: "create",
+                            model: "App\\Account"
+                        })
+                    }]
+                },
+                {
                     section: "Project Development",
                       render: this.renderSection([
                         {
@@ -88,7 +112,7 @@ export default {
                         },
                     ]),
                     features: [
-                                   {
+                        {
                             name: "Project List & Status",
                             link: "project_index",
                             render: this.renderFeature({

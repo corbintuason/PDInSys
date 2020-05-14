@@ -33,10 +33,15 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate
         $validatedData = $request->validate([
             'registered_name' => 'required',
             'registered_address' => 'required',
         ]);
+        
+        // Create
+
+        // Return to view
         $user_id = auth()->user()->id;
         $auth_user = new UserResource(User::findOrFail($user_id));
         $status = "For Approval";

@@ -34,7 +34,18 @@
 						</b-form-group>
 						<!-- Double Layer -->
 					</div>
+          <div class="col-md-6">
+                <brands-departments :form="form"></brands-departments>
+
+          </div>        
+          <div class="col-md-6">
+              <company-tel-number :form="form"></company-tel-number>
+  <company-email-address :form="form"></company-email-address>
+<accreditation-status :form="form"></accreditation-status>
+          </div>
 				</div>
+        
+
 			</div>
 		</div>
 	</div>
@@ -42,6 +53,10 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import brandsDepartments from "./BrandsDepartment"
+import companyTelNumber from "./CompanyTelNumber"
+import companyEmailAddress from "./CompanyEmailAddress"
+import accreditationStatus from "./AccreditationStatus"
 export default{
   data(){
     return{
@@ -91,6 +106,12 @@ export default{
         }
       ]
     }
+  },
+  components:{
+    "brands-departments": brandsDepartments,
+          "company-tel-number": companyTelNumber,
+                        "company-email-address": companyEmailAddress,
+      "accreditation-status": accreditationStatus,
   },
     validations: {
     name: {

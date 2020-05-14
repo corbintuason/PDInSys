@@ -2,8 +2,10 @@
 
 use Illuminate\Database\Seeder;
 use App\Project;
+use App\Traits\SeedsTrait;
 class ProjectDevelopmentRolesSeeder extends Seeder
 {
+    use SeedsTrait;
     /**
      * Run the database seeds.
      *
@@ -18,21 +20,8 @@ class ProjectDevelopmentRolesSeeder extends Seeder
             "ability" => "review"),
             (object) array("name" => "Approver",
             "ability" => "approve"),
-            (object) array("name" => "Assigner",
-            "ability" => "assign"),
         ];
         $generic_abilities = ["view-all", "view", "create"];
-        foreach($roles as $role){
-            $user_role = Bouncer::role()->firstOrCreate([
-                'name' => "project-".strtolower($role->name),
-                'title' => $role->name,
-                'entity' => Project::class
-            ]);
-            $user_abilities = $generic_abilities;
-            if($role->ability!=null){
-                array_push($user_abilities, $role->ability);
-            }
-            Bouncer::allow($user_role)->to($user_abilities, Project::class);
-        }
+        $this->createRoles($roles, $generic_abilities, Project::class, "project");
     }
 }

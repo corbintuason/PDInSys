@@ -19,6 +19,7 @@ class BudgetAllocation extends Model
         'bod_cost_centers',
         'hum_cost_centers',
         'ops_cost_centers',
+        'status'
     ];
 
     protected $casts = [

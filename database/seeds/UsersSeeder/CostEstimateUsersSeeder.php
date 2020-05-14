@@ -2,8 +2,10 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Traits\SeedsTrait;
 class CostEstimateUsersSeeder extends Seeder
 {
+    use SeedsTrait;
     /**
      * Run the database seeds.
      *

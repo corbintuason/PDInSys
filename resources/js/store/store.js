@@ -34,9 +34,9 @@ export const store = new Vuex.Store({
             return state.token != null;
         },
         hasAbility(state) {
-            return (keyword) =>
+            return (name, entity_type) =>
                 state.user.abilities.some((item) => {
-                    return item.name === keyword;
+                    return item.name === name && item.entity_type == entity_type
                 });
         },
         hasRole(state) {

@@ -3,8 +3,10 @@
 use Illuminate\Database\Seeder;
 use App\CostEstimateDetail;
 use App\SignedCostEstimateDetail;
+use App\Traits\SeedsTrait;
 class CostEstimatesRolesSeeder extends Seeder
 {
+    use SeedsTrait;
     /**
      * Run the database seeds.
      *
@@ -24,29 +26,21 @@ class CostEstimatesRolesSeeder extends Seeder
             "ability" => "assign"),
         ];
         $generic_abilities = ["view-all", "view", "create"];
-        foreach($roles as $role){
-            $user_role = Bouncer::role()->firstOrCreate([
-                'name' => "cost-estimate-".strtolower($role->name),
-                'title' => $role->name,
-                'entity' => CostEstimateDetail::class
-            ]);
-            $user_abilities = $generic_abilities;
-            if($role->ability!=null){
-                array_push($user_abilities, $role->ability);
-            }
-            Bouncer::allow($user_role)->to($user_abilities, CostEstimateDetail::class);
-        }
-        foreach($roles as $role){
-            $user_role = Bouncer::role()->firstOrCreate([
-                'name' => "signed-cost-estimate-".strtolower($role->name),
-                'title' => $role->name,
-                'entity' => SignedCostEstimateDetail::class
-            ]);
-            $user_abilities = $generic_abilities;
-            if($role->ability!=null){
-                array_push($user_abilities, $role->ability);
-            }
-            Bouncer::allow($user_role)->to($user_abilities, SignedCostEstimateDetail::class);
-        }
+
+        $this->createRoles($roles, $generic_abilities, CostEstimateDetail::class, "cost-estimate");
+        $this->createRoles($roles, $generic_abilities, SignedCostEstimateDetail::class, "signed-cost-estimate");
+        
+        // foreach($roles as $role){
+        //     $user_role = Bouncer::role()->firstOrCreate([
+        //         'name' => "signed-cost-estimate-".strtolower($role->name),
+        //         'title' => $role->name,
+        //         'entity' => SignedCostEstimateDetail::class
+        //     ]);
+        //     $user_abilities = $generic_abilities;
+        //     if($role->ability!=null){
+        //         array_push($user_abilities, $role->ability);
+        //     }
+        //     Bouncer::allow($user_role)->to($user_abilities, SignedCostEstimateDetail::class);
+        // }
     }
 }
