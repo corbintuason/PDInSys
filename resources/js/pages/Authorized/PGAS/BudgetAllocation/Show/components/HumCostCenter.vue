@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<hr />
-		<!-- <div class="row mb-4">
+		<div class="row mb-4">
 			<div class="col-md-10"></div>
 			<div class="col-md-2 text-center">
 				<div class="mr-3">
@@ -40,7 +40,7 @@
 					</b-button>
 				</div>
 			</div>
-		</div>-->
+		</div>
 		<!-- Cost Center -->
 		<div
 			class="cost-center mb-3"
@@ -72,18 +72,10 @@
 					<label>Total Amount:</label>
 				</div>
 				<div class="col-md-3">
-					<b-form-input
-						readonly
-						v-model="budget.hum_cost_centers[value_index].hum_cost_code"
-						type="text"
-					></b-form-input>
+					<b-form-input v-model="budget.hum_cost_centers[value_index].hum_cost_code" type="text"></b-form-input>
 				</div>
 				<div class="col-md-5">
-					<b-form-input
-						readonly
-						v-model="budget.hum_cost_centers[value_index].hum_cost_description"
-						type="text"
-					></b-form-input>
+					<b-form-input v-model="budget.hum_cost_centers[value_index].hum_cost_description" type="text"></b-form-input>
 				</div>
 				<div class="col-md-3">
 					<b-input-group prepend="₱" class="font-weight-bold">
@@ -119,14 +111,14 @@
 				:key="value_index"
 			>
 				<div class="col-md-3 ml-md-auto">
-					<b-form-input readonly v-model="value.hum_budget_code" type="text"></b-form-input>
+					<b-form-input v-model="value.hum_budget_code" type="text"></b-form-input>
 				</div>
 				<div class="col-md-3">
-					<b-form-input readonly v-model="value.hum_budget_description" type="text"></b-form-input>
+					<b-form-input v-model="value.hum_budget_description" type="text"></b-form-input>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-2">
 					<b-input-group prepend="₱" append="/ yr" class="font-weight-bold">
-						<money readonly v-model="value.hum_budget_year" class="form-control"></money>
+						<money v-model="value.hum_budget_year" class="form-control"></money>
 					</b-input-group>
 				</div>
 				<div class="col-md-2">
@@ -143,7 +135,7 @@
 					</b-input-group>
 				</div>
 
-				<!-- <div class="col-md-1">
+				<div class="col-md-1">
 					<b-button
 						:disabled="value_index==0"
 						@click="removeRow(budget.hum_cost_centers[value_index].hum_budget_details, value_index)"
@@ -151,15 +143,15 @@
 					>
 						<i class="fas fa-trash"></i>
 					</b-button>
-				</div>-->
+				</div>
 			</div>
 			<!-- Budget Code Add button -->
 
-			<!-- <div class="row ml-5 mr-5 mt-4 mb-4">
+			<div class="row ml-5 mr-5 mt-4 mb-4">
 				<b-button @click="addRow(budget.hum_cost_centers[value_index].hum_budget_details)" block>
 					<i class="text-white fas fa-plus"></i>
 				</b-button>
-			</div>-->
+			</div>
 		</div>
 	</div>
 </template>

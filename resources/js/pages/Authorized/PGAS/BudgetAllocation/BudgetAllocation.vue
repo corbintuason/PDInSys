@@ -23,7 +23,20 @@
 						<template v-slot:header>
 							<h1 class="component-title">Budget Allocation</h1>
 						</template>
-						<template v-slot:footer></template>
+						<template v-slot:footer>
+							<div class="row">
+								<div class="col-md-6">
+									<b-button-group class="mt-1">
+										<b-button @click="tabIndex--">Previous Tab</b-button>
+										<b-button @click="tabIndex++">Next Tab</b-button>
+									</b-button-group>
+								</div>
+								<div class="col-md-6">
+									<b-button variant="success" class="float-right">Create Budget - Notify Department Heads</b-button>
+									<b-button variant="dark" class="float-right mr-2">Save Update</b-button>
+								</div>
+							</div>
+						</template>
 						<b-card-text>
 							<!-- <div class="row">
 								<div class="col-md-12">

@@ -30,12 +30,38 @@ class BudgetAllocationController extends Controller
 
         return [
             'item_id' => $budget->id,
-            'success_text' => "Budget Allocation " . $budget->code . " has been successfully opened"
+            'success_text' => " " . $budget->code . " has been successfully opened"
         ];
     }
+
+    // public function save(Request $request)
+    // {
+    //     // STATUS IS SET TO FOR APPROVAL
+    //     $auth_user = auth()->user();
+    //     $budget = $this->saveItem($request, BudgetAllocation::class, "Budget Allocation", "budget_allocation_show");
+
+    //     return [
+    //         'item_id' => $budget->id,
+    //         'success_text' => "Budget Allocation " . $budget->code . " has been successfully saved"
+    //     ];
+    // }
 
     public function show($id)
     {
         return new BudgetAllocationResource(BudgetAllocation::findorFail($id));
+    }
+
+    public function update($id)
+    {
+        $budget = BudgetAllocation::findOrFail($id);
+        $auth_user = auth()->user();
+
+        $this->updateItem($budget, BudgetAllocation::class, "Budget Allocation", "budget_allocation_show");
+
+
+        return [
+            'item_id' => $budget->id,
+            'success_text' => "Budget Allocation " . $budget->code . " has been successfully updated"
+        ];
     }
 }

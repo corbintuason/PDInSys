@@ -73,8 +73,9 @@ class ItemNotification extends Notification
                 'item' => $this->module,
                 'status' => $this->item->status
             ],
-            'notification_bell'=> [
-                'header' => $this->item->code .": " . $this->module,
+            'notification_bell' => [
+                'header' => $this->item->code,
+                'body' => $this->module,
                 'date' => $this->item->created_at
             ]
         ];

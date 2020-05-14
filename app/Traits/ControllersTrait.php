@@ -201,4 +201,26 @@ trait ControllersTrait
         $result = array_diff_assoc($filtered, $attributes);
         dd($result);
     }
+
+    public function saveItem($request, $class, $model_text, $show_route)
+    {
+        $auth_user = auth()->user();
+        // Generate Status based on Creator
+        $request['status'] = $this->getCreateStatus($request, $class);
+
+        // Create Item
+        $item = activity()->withoutLogs(function () use ($request, $class) {
+            return $class::create($request->all());
+        });
+
+        // Authorize user to edit this item
+        $auth_user->allow('edit', $item);
+
+        // Create Activity Log
+        activity($model_text . ' Saved')
+            ->on($item)
+            ->log($auth_user->full_name . " has created " . $model_text . " " . $item->code);
+
+        return $item;
+    }
 }

@@ -32,7 +32,7 @@ class BudgetAllocation extends Model
 
     protected static $logFillable = true;
     protected static $logName = 'Budget Allocation';
-    public static $module = 'Budget Allocation Module';
+    public static $module = 'Budget Allocation';
 
     protected function getStagesAttribute()
     {
@@ -42,9 +42,10 @@ class BudgetAllocation extends Model
                 "responsible" => "budget-allocation-creator"
             ],
             (object) [
-                "names" => ["Opened"],
+                "names" => ["Opened", "Updated"],
                 "responsible" => "budget-allocation-receiver"
             ],
+
             // (object) [
             //     "names" => ["AFG-BA Opened"],
             //     "responsible" => "budget-allocation-afg"
@@ -94,7 +95,7 @@ class BudgetAllocation extends Model
     // Mandate Code
     public function getCodeAttribute()
     {
-        $year = date("y");
-        return "BA20" . $year . "-" . sprintf('%04d', $this->attributes['id']);
+        $year = $this->attributes['annual_budget'];
+        return  "Budget for year" . " " . $year;
     }
 }
