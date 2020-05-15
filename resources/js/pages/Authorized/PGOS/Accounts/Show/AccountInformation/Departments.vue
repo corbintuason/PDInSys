@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-6">
     <b-input-group v-for="(value, value_index) in account.departments" :key="value_index">
-      <b-input :disabled="mode=='Show'" type="text" v-model="account.departments[value_index]"></b-input>
+      <b-input :disabled="mode=='Show'" type="text" v-model="value.name"></b-input>
     </b-input-group>
   </div>
 </template>

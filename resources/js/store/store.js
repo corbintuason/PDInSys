@@ -3,17 +3,20 @@ import Vuex from "vuex";
 
 import axios from "axios";
 Vue.use(Vuex);
-import globals from "./globals";
-import tax from "./tax";
-import project from "./project";
-import mandate from "./mandate";
-import vendor from "./vendor";
-import budget from "./budget-allocation";
-import costEstimate from "./cost-estmate";
-import signedCostEstimateDetails from "./signed-cost-estimate-details";
+
+import account from "./modules/account";
+import globals from "./modules/globals";
+import tax from "./modules/tax";
+import project from "./modules/project";
+import mandate from "./modules/mandate";
+import vendor from "./modules/vendor";
+import budget from "./modules/budget-allocation";
+import costEstimate from "./modules/cost-estmate";
+import signedCostEstimateDetails from "./modules/signed-cost-estimate-details";
 
 export const store = new Vuex.Store({
     modules: {
+        // account: account,
         globals: globals,
         tax: tax,
         project: project,

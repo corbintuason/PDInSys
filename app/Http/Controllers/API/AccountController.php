@@ -4,17 +4,15 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Resources\Account as AccountResource;
-use App\Http\Resources\User as UserResource;
+use App\Traits\ControllersTrait;
 use App\Account;
-use App\User;
-use DB;
-use Notification;
-use App\Notifications\AccountCreated;
-use App\Notifications\AccountStatusChange;
-
+use App\AccountBrand;
+use App\AccountDepartment;
+use App\Client;
+use App\Http\Resources\Account as AccountResource;
 class AccountController extends Controller
 {
+    use ControllersTrait;
     /**
      * Display a listing of the resource.
      *
@@ -39,46 +37,35 @@ class AccountController extends Controller
             'registered_address' => 'required',
         ]);
         
-        // Create
-
-        // Return to view
-        $user_id = auth()->user()->id;
-        $auth_user = new UserResource(User::findOrFail($user_id));
-        $status = "For Approval";
-
-        $account = activity()->withoutLogs(function() use($request, $status, $user_id){
-                return Account::create([
-                'registered_name' => $request['registered_name'],
-                'registered_address' => $request['registered_address'],
-                'registered_tin' => $request['registered_tin'],
-                'status' => $status,
-                'terms_of_payment' => $request['terms_of_payment'],
-                'payment_milestone' => $request['payment_milestone'],
-                'company_tel_number' => $request['company_tel_number'],
-                'company_email_address' => $request['company_email_address'],
-                'accreditation_status' => $request['accreditation_status'],
-                "brands" => $request["brands"],
-                "departments" => $request["departments"],
-                'clients' => $request['clients'],
-                'creator_id' => $user_id,
+        // Create Account 
+        $account = $this->createItem($request, Account::class, "Account", "account_show");
+        
+        // Create Brands
+        foreach($request->brands as $brand){
+            AccountBrand::create([
+                "account_id" => $account->id,
+                "name" => $brand
             ]);
-        });
-    
-        
-        // Notify all Accounts that can Approve this Account
+        }
 
-        $approvers = User::whereIs('account-approver')->get();
+        // Create Departments
+        foreach($request->departments as $department){
+            AccountDepartment::create([
+                "account_id" => $account->id,
+                "name" => $department
+            ]);        
+        }
 
-        Notification::send($approvers, new AccountCreated($account));
+        // Create Clients
+        foreach($request->clients as $client){
+            $client['account_id'] = $account->id;
+            Client::create($client);
+        }
 
-        // Create Activity Log
-        
-        activity('Account Created')
-        ->on($account)
-        ->withProperties(["link_name" => "account_show", "link_id" => $account->id])
-        ->log("User " . $auth_user->last_name .", " . $auth_user->first_name  . " has created Account " . $account->registered_name);
-
-        return new AccountResource($account);
+        return [
+            'item_id' => $account->id,
+            'success_text' => " " . $account->code . " has been successfully created."
+        ];
     }
 
     /**

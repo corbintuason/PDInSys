@@ -39,7 +39,6 @@ const toast = swal.mixin({
 window.toast = toast;
 import routes from "./routes";
 import { store } from "./store/store";
-import { globals } from "./store/globals";
 import VueProgressBar from "vue-progressbar";
 
 Vue.use(VueProgressBar, {
@@ -61,6 +60,12 @@ Vue.component("step-progress", StepProgress);
 
 import itemProgress from "./components/authorized/public/ItemProgress.vue";
 Vue.component("item-progress", itemProgress);
+
+import changeLogs from "./components/public/ChangeLogs";
+Vue.component("change-logs", changeLogs);
+
+import processButtons from "./components/authorized/public/ShowProcessButtons.vue"
+Vue.component("show-process-buttons", processButtons);
 
 import money from 'v-money'
  

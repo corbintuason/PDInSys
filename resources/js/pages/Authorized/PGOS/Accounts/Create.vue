@@ -1,14 +1,6 @@
 <template>
   <div>
-    <b-card class = "mt-3">
-       <template v-slot:header>
-        <h1 class="component-title">Progress Bar</h1>
-      </template>
-      <b-card-text>
-  <step-progress :steps="my_steps" :current-step="0" icon-class="fa fa-check"></step-progress>
-  <br>
-      </b-card-text>
-    </b-card>
+      <item-progress class="mt-3" :steps="steps" :mode="'Create'"></item-progress>
     <b-card class="mt-3">
       <template v-slot:header>
         <h1 class="component-title">Create Account & Client </h1>
@@ -31,14 +23,20 @@
 </template>
 
 <script>
+
+import form from "../../../../mixins/form"
 import accountInformation from "./Create/AccountInformation";
 import clientsInformation from "./Create/ClientsInformation";
 
 export default {
   data() {
     return {
-      user: this.$store.state.user,
-      my_steps: ["Create", "Approve"],
+           mode: "Create",
+      steps: this.$store.state.project.steps,
+      endpoints:{
+        api: "/api/account",
+        show_route: "account_show"
+      },
       form: {
         registered_name: "",
         registered_address: {
@@ -56,61 +54,55 @@ export default {
         brands: [""],
         departments: [""],
         clients: [],
-
-        creator_id: this.$store.state.user.data.id
       }
     };
   },
-
+  mixins:[form],
   components: {
     "account-information": accountInformation,
     "clients-information": clientsInformation
   },
+
+  watch:{
+    brands(){
+      console.log("Something changed sa brands");
+          this.form.clients.forEach(client => {
+        client.brands = [];
+      });
+    },
+    departments(){
+      console.log("somethin changed sa departments");
+          this.form.clients.forEach(client => {
+        client.departments = [];
+      });
+    }
+  },
+  computed:{
+    brands(){
+      return this.form.brands;
+    },
+    departments(){
+      return this.form.departments;
+    }
+  },
   methods:{
-       createAccount() {
-         //("rak");
-      swal
-        .fire({
+    resetClientsBrandsDepartments(){
+  
+    },
+    createAccount() {
+      var swal_object = {
           title: "Create Account",
           icon: "question",
           confirmButtonText: "Create Account",
           text: "Please check the details provided.",
-          showLoaderOnConfirm: true,
-          preConfirm: () => {
-            this.$Progress.start();
-            return new Promise((resolve, reject) => {
-              axios
-                .post("/api/account", this.form)
-                .then(response => {
-                  const user = response.data;
-                  resolve(user);
-                })
-                .catch(e => {
-                  this.$Progress.fail();
-                  //(e);
-                  swal.showValidationMessage(`Unable to create account`);
-                  swal.hideLoading();
-                  reject(e);
-                });
-            });
+          item: this.form,
+          endpoints:{
+            api: "/api/account",
+            show_route: "account_show"
           }
-        })
-        .then(result => {
-          if (result.value) {
-            this.$Progress.finish();
-            //(result);
-            swal.fire({
-              title: "Account Succesfully Created",
-              icon: "success",
-              timer: "2500",
-              onClose: () => {
-                this.$router.push({ name : "account_index"});
-              }
-            });
-          }
-        });
+      };
+      this.fireCreateSwal(swal_object);
     }
-
   },
   mounted(){
   }

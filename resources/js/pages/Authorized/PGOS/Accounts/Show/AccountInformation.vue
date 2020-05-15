@@ -1,25 +1,14 @@
 <template>
-  <div v-if="account!=null">
+    <div>
     <!-- Account Details Section -->
-    <account-details :mode="mode" :account="account"></account-details>
+    <account-details :account="account" :mode="mode"></account-details>
     <hr />
-    <!-- Terms of Payment -->
-    <terms-of-payment :mode="mode" :account="account"></terms-of-payment>
-    <hr>
-    <!-- Payment Milestone -->
-    <payment-milestone :mode="mode" :account="account"></payment-milestone>
-    <hr>
-    <!-- Company Tel Number -->
-    <company-tel-number :mode="mode" :account="account"></company-tel-number>
-    <hr>
-    <!-- Company Email Address -->
-    <company-email-address :mode="mode" :account="account"></company-email-address>
-    <hr>
-    <!-- Accrediation Status -->
-    <accreditation-status :mode="mode" :account="account"></accreditation-status>
-    <hr />
-    <!-- Brands Departments -->
-    <brands-departments :mode="mode" :account="account"></brands-departments>
+
+    <div class="row">
+    <terms-of-payment class="col-md-6" :account="account"></terms-of-payment>
+    <payment-milestone class="col-md-6" :account="account"></payment-milestone>
+    </div>
+
   </div>
 </template>
 

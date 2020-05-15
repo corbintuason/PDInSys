@@ -24,11 +24,7 @@ class CreateAccountsTable extends Migration
             $table->json('company_tel_number')->nullable();
             $table->json('company_email_address')->nullable();
             $table->json('accreditation_status')->nullable();
-            $table->json("brands");
-            $table->json("departments");
-            $table->json('clients');
-
-            $table->integer('creator_id');
+            $table->boolean('isActive')->default(1);
             $table->timestamps();
         });
     }

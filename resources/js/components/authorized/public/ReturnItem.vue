@@ -4,7 +4,7 @@
         <div class="modal-body" v-if="return_to_user!=null">
             <contribution-list
                 :steps="steps"
-                :contributors="item.relationships.contributors"
+                :contributors="item.contributors"
                 @return-item="returnItem"
             ></contribution-list>
             <!-- Remarks -->

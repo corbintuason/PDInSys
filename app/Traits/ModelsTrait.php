@@ -20,4 +20,13 @@ trait ModelsTrait {
         $handler = $current_stage->responsible;
         return $handler;
     }
+
+    // Generic Relationships
+    public function contributors(){
+        return $this->morphMany("App\Contributor", 'contributable')->with('user');
+    }
+
+    public function remarks(){
+        return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
+    }
 }

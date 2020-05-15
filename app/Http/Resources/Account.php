@@ -3,7 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Http\Resources\Contributor as ContributorResource;
+use App\Http\Resources\Remark as RemarkResource;
 class Account extends JsonResource
 {
 
@@ -15,15 +16,22 @@ class Account extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
-    }
+        $response = parent::toArray($request);
+        
+        // ATTRIBUTES
+        $response["code"] = $this->code;
+        $response['current_handler'] = $this->currentHandler;
 
-    public function with($request){
-        return [
-            'relationships' => [
-                'user' => $this->user
-            ],
-            'actions'=> $this->activities
-        ];
+        // RELATIONSHIPS 
+        $response['brands'] = $this->brands;
+        $response['departments'] = $this->departments;
+        $response['clients'] = $this->clients;
+        
+        // GENERIC RELATIONSHIPS
+        $response['actions'] = $this->activities;
+        $response['contributors'] = ContributorResource::collection($this->contributors);
+        $response['remarks'] = RemarkResource::collection($this->remarks);
+
+        return $response;
     }
 }

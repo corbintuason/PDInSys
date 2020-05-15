@@ -3,68 +3,71 @@
         <div id="account_details">
             <h1 class="component-sub-header">Account Details</h1>
             <div class="component-sub-content">
-              <!-- Registered Name - Brands & Departments -->
+                <!-- Registered Name - Brands & Departments -->
                 <div class="row">
-                  <div class="col-md-6">
-                    <div class="row">
-                    <b-form-group
-                        class="col"
-                        label="Registered Name"
-                        label-class="font-weight-bold"
-                    >
-                        <b-form-input
-                            type="text"
-                            v-model="form.registered_name"
-                        ></b-form-input>
-                    </b-form-group>
-                    </div>
-                     <div class="row">
-                    <b-form-group
-                        class="col"
-                        label="Registered Address"
-                        label-class="font-weight-bold"
-                    >
+                    <div class="col-md-6">
+                        <div class="row">
+                            <b-form-group
+                                class="col"
+                                label="Registered Name"
+                                label-class="font-weight-bold"
+                            >
+                                <b-form-input
+                                    type="text"
+                                    v-model="form.registered_name"
+                                ></b-form-input>
+                            </b-form-group>
+                        </div>
+                        <div class="row">
+                            <b-form-group
+                                class="col"
+                                label="Registered Address"
+                                label-class="font-weight-bold"
+                            >
+                                <b-form-input
+                                    placeholder="No./Street/Bldg"
+                                    type="text"
+                                    v-model="form.registered_address.no_st_bldg"
+                                ></b-form-input>
 
-                        <b-form-input
-                            placeholder="No./Street/Bldg"
-                            type="text"
-                            v-model="form.registered_address.no_st_bldg"
-                        ></b-form-input>
+                                <b-form-input
+                                    placeholder="Barangay"
+                                    type="text"
+                                    v-model="form.registered_address.barangay"
+                                ></b-form-input>
+
+                                <b-form-input
+                                    placeholder="City"
+                                    type="text"
+                                    v-model="form.registered_address.city"
+                                ></b-form-input>
+
+                                <b-form-input
+                                    placeholder="ZIP Code"
+                                    type="text"
+                                    v-model="form.registered_address.zip_code"
+                                ></b-form-input>
+                            </b-form-group>
+                        </div>
                         
-                        <b-form-input
-                            placeholder="Barangay"
-                            type="text"
-                            v-model="form.registered_address.barangay"
-                        ></b-form-input>
-                        
-                        <b-form-input
-                            placeholder="City"
-                            type="text"
-                            v-model="form.registered_address.city"
-                        ></b-form-input>
-                        
-                        <b-form-input
-                            placeholder="ZIP Code"
-                            type="text"
-                            v-model="form.registered_address.zip_code"
-                        ></b-form-input>
-                    </b-form-group>
+                        <div class="row">
+                            <b-form-group class="col" label="TIN Number" label-class="font-weight-bold">
+                                <b-form-input type ="text" v-model="form.registered_tin" placeholder="XXX-XXX-XXX-XXXX"></b-form-input>
+                            </b-form-group>
+                        </div>
                     </div>
-        
-                  </div>
-               
-              <div class="col-md-6">
-            <brands-departments
-                        :form="form"
-                    ></brands-departments>
-              <company-tel-number :form="form"></company-tel-number>
-  <company-email-address :form="form"></company-email-address>
-<accreditation-status :form="form"></accreditation-status>
-       
-              </div>
-        
+
+                    <div class="col-md-6">
+                        <brands-departments :form="form"></brands-departments>
+                        <company-tel-number :form="form"></company-tel-number>
+                        <company-email-address
+                            :form="form"
+                        ></company-email-address>
+                        <accreditation-status
+                            :form="form"
+                        ></accreditation-status>
+                    </div>
                 </div>
-  
             </div>
         </div>
     </div>
@@ -82,48 +85,6 @@ export default {
             name: "",
             age: 0,
             submitStatus: null,
-            account_builder: [
-                {
-                    model: "registered_name",
-                    label: "Registered Name",
-                    form: "input",
-                    type: "text",
-                },
-                {
-                    label: "Registered Address",
-                    model: "registered_address",
-                    sections: [
-                        {
-                            type: "text",
-                            model: "no_st_bldg",
-                            placeholder: "No. / Street / Bldg",
-                        },
-                        {
-                            type: "text",
-                            model: "barangay",
-                            placeholder: "Barangay",
-                        },
-                        {
-                            type: "text",
-                            model: "city",
-                            placeholder: "City",
-                        },
-                        {
-                            type: "text",
-                            model: "zip_code",
-                            placeholder: "Zip Code",
-                        },
-                    ],
-                },
-
-                {
-                    model: "registered_tin",
-                    label: "Registered TIN",
-                    form: "input",
-                    type: "text",
-                    placeholder: "XXX-XXX-XXX-XXXXX",
-                },
-            ],
         };
     },
     components: {

@@ -38,6 +38,8 @@ export default {
     },
     created(){
       this.getUser();
+      console.log("Im trying to get the url??");
+      console.log(BASE_URL);
     },
 };
 </script>

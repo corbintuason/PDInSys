@@ -125,7 +125,7 @@ export default {
             swal.fire({
                 title: swal_object.title,
                 icon: "question",
-                html: swal_object.html,
+                text: "Please check the details provided",
                 confirmButtonText: swal_object.confirmButtonText,
                 showLoaderOnConfirm: true,
                 showCancelButton: true,

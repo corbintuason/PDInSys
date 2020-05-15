@@ -5,12 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
+use App\Traits\AccountsTrait;
 
 class Account extends Model
 {
 
-    use LogsActivity, CausesActivity;
+    use AccountsTrait, LogsActivity, CausesActivity;
 
+    public static $module = 'Account Module';
+    protected static $logFillable = true; 
+    protected static $logName = 'Account';
     
     /**
      * The attributes that are mass assignable.
@@ -26,16 +30,9 @@ class Account extends Model
         'payment_milestone',
         'company_tel_number',
         'company_email_address',
-        'accrediation_status',
-        "brands",
-        "departments",
-        'clients',
-        'creator_id',
-        'change_logs'
+        'accreditation_status',
     ];
 
-    protected static $logFillable = true; 
-    protected static $logName = 'Account';
 
 
     /**
@@ -56,16 +53,23 @@ class Account extends Model
         'payment_milestone' => 'array',
         'company_tel_number' => 'array',
         'company_email_address' => 'array',
-        'accrediation_status' => 'array',
-        'brands' => 'array',
-        'departments' => 'array',
-        'clients' => 'array',
-        'change_logs' => 'array'
+        'accreditation_status' => 'array',
     ];
-
 
     public function user()
     {
         return $this->belongsTo("App\User", "creator_id");
+    }
+
+    public function brands(){
+        return $this->hasMany('App\AccountBrand');
+    }
+
+    public function departments(){
+        return $this->hasMany('App\AccountDepartment');
+    }
+
+    public function clients(){
+        return $this->hasMany("App\Client");
     }
 }

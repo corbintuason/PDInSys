@@ -34,9 +34,9 @@
 		<div v-if="mode != 'Create'">
 			<b-modal id="contribution-list" size="xl" hide-footer>
 				<template v-slot:modal-header>Contribution List</template>
-				<contribution-list :steps="steps" :contributors="item.relationships.contributors"></contribution-list>
+				<contribution-list :steps="steps" :contributors="item.contributors"></contribution-list>
 			</b-modal>
-			<remarks-list :remarks="item.relationships.remarks"></remarks-list>
+			<remarks-list :remarks="item.remarks"></remarks-list>
 		</div>
 	</div>
 </template>

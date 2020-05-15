@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="add-client" size="xl" hide-footer>
+  <b-modal id="add-client" @hidden="reloadNewClient" size="xl" hide-footer>
     <template v-slot:modal-title>Add Client</template>
     <h1 class="component-sub-header">Client Details</h1>
           <b-form @submit.stop.prevent="addClient">
@@ -59,10 +59,9 @@
           <b-form-group v-else v-for="(brand, brand_index) in form.brands" :key="brand_index">
             <b-form-checkbox
               v-model="new_client.brands"
-              :value="brand"
+              :value="brand_index"
               switch
               size="lg"
-              @change="selectBrand($event, brand)"
             >{{brand}}</b-form-checkbox>
           </b-form-group>
         </div>
@@ -81,10 +80,9 @@
           >
             <b-form-checkbox
               v-model="new_client.departments"
-              :value="department"
+              :value="department_index"
               switch
               size="lg"
-              @change="selectDepartment($event, department)"
             >{{department}}</b-form-checkbox>
           </b-form-group>
         </div>
@@ -254,6 +252,21 @@ export default {
           form_department => department == form_department
         );
         this.new_client.departments.splice(splice_department, 1);
+      }
+    },
+    reloadNewClient(){
+          this.new_client =  {
+        salutation: null,
+        last_name: null,
+        first_name: null,
+        designation: null,
+        brand: null,
+        mobile_number: null,
+        local_number: null,
+        email_address: null,
+        birthday: null,
+        brands: [],
+        departments: []
       }
     },
     addClient() {

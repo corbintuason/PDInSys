@@ -53,10 +53,9 @@
           <b-form-group v-else v-for="(brand, brand_index) in form.brands" :key="brand_index">
             <b-form-checkbox
               v-model="selected_client.brands"
-              :value="brand"
+              :value="brand_index"
               switch
               size="lg"
-              @change="selectBrand($event, brand)"
             >{{brand}}</b-form-checkbox>
           </b-form-group>
         </div>
@@ -75,10 +74,9 @@
           >
             <b-form-checkbox
               v-model="selected_client.departments"
-              :value="department"
+              :value="department_index"
               switch
               size="lg"
-              @change="selectDepartment($event, department)"
             >{{department}}</b-form-checkbox>
           </b-form-group>
         </div>
