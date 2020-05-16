@@ -25,14 +25,17 @@
 <script>
 
 import form from "../../../../mixins/form"
+import states from "../../../../mixins/states"
+import accountModule from "../../../../store/modules/account";
 import accountInformation from "./Create/AccountInformation";
 import clientsInformation from "./Create/ClientsInformation";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   data() {
     return {
-           mode: "Create",
-      steps: this.$store.state.project.steps,
+      mode: "Create",
+      namespace: "account-create",
       endpoints:{
         api: "/api/account",
         show_route: "account_show"
@@ -57,7 +60,7 @@ export default {
       }
     };
   },
-  mixins:[form],
+  mixins:[form, states],
   components: {
     "account-information": accountInformation,
     "clients-information": clientsInformation
@@ -83,12 +86,16 @@ export default {
     },
     departments(){
       return this.form.departments;
-    }
+    },
+         ...mapState({
+             steps(state) {
+               console.log(state);
+                return state["account-create"].steps;
+            },
+
+        }),
   },
   methods:{
-    resetClientsBrandsDepartments(){
-  
-    },
     createAccount() {
       var swal_object = {
           title: "Create Account",
@@ -104,7 +111,12 @@ export default {
       this.fireCreateSwal(swal_object);
     }
   },
-  mounted(){
-  }
+  beforeCreate(){
+    this.$store.registerModule("account-create", accountModule);
+        // this.registerStoreModule("account-create", accountModule);
+
+  },
+    mounted() {
+    },
 };
 </script>

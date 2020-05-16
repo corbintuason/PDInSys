@@ -81,8 +81,6 @@ export const store = new Vuex.Store({
                     .get("/api/init")
                     .then((response) => {
                         const user = response.data;
-                        console.log("testing");
-                        console.log(response);
                         localStorage.setItem("user", JSON.stringify(user));
                         context.commit("storeUser", user);
                         context.commit(

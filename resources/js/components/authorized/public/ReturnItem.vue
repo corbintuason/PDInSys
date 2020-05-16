@@ -1,6 +1,6 @@
 <template>
-    <b-modal id="return-item" @hidden="loadReturnItem" v-model="show" size="lg">
-        <template v-slot:modal-title> Return {{ item_model }} </template>
+    <b-modal id="return-item" @hidden="loadReturnItem" v-model="show_return_modal" size="lg">
+        <template v-slot:modal-title> Return {{ model }} </template>
         <div class="modal-body" v-if="return_to_user!=null">
             <contribution-list
                 :steps="steps"
@@ -40,7 +40,7 @@
                 variant="outline-success"
                 :disabled="return_to_user.user == null"
                 @click="returnProject"
-                >Return {{ item_model }}</b-button
+                >Return {{ name }}</b-button
             >
         </template>
     </b-modal>
@@ -49,6 +49,7 @@
 <script>
 import contributionList from "./ContributionList";
 import form from "../../../mixins/form";
+import {mapState, mapMutations} from "vuex";
 
 export default {
     data() {
@@ -60,29 +61,54 @@ export default {
     },
     mixins: [form],
     props: {
-        item: Object,
-        item_model: String,
-        steps: Array,
-        endpoints: Object,
-        show: Boolean
+          namespace: String
     },
     components: {
         "contribution-list": contributionList,
     },
     computed: {
+        ...mapState({
+            show_return_modal(state){
+                return state[this.namespace].show_return_modal;
+            },
+            item(state) {
+                return state[this.namespace].item;
+            },
+            name(state){
+                return state[this.namespace].name;
+            },
+            model(state){
+                return state[this.namespace].model;
+            },
+            steps(state) {
+                 return state[this.namespace].steps;
+            },
+            endpoints(state, getters){
+                return getters[this.namespace + "/getEndpoints"]
+            }
+        }),
+      
     },
     methods: {
+              ...mapMutations({
+            changeMode(commit, payload) {
+                return commit(this.namespace + '/changeMode', "Edit")
+            },
+            changeShowReturnModal(commit, payload){
+                return commit(this.namespace + "/changeShowReturnModal", false)
+            }
+        }),
         returnItem(item) {
             this.return_to_user.user = item;
         },
         returnProject() {
             swal.fire({
-                title: "Return " + this.item_model,
+                title: "Return " + this.name,
                 icon: "question",
                 confirmButtonText: "Return",
                 text:
-                    this.item_model +
-                    "will be returned to " +
+                    this.name + " " + this.item.code +
+                    " will be returned to " +
                     this.return_to_user.user.name,
                        showCancelButton: true,
                 cancelButtonColor: "#d33",
@@ -127,13 +153,15 @@ export default {
         loadReturnItem() {
             this.return_to_user = {
                 user: null,
-                remarkable_type: this.item_model,
                 remarkable_id: this.item.id,
                 remarks: [""],
             };
+            this.changeShowReturnModal();
         },
     },
     mounted() {
+        console.log(this.namespace);
+        console.log("name space is ", this.namespace);
         this.loadReturnItem();
     },
 };

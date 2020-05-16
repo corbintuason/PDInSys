@@ -21,9 +21,11 @@
 <script>
 import addClient from "./AddClient"
 import selectedClient from "./SelectedClient";
+import {mapState} from "vuex";
 export default {
   data() {
     return {
+        namespace: "account-" + this.$route.params.id,
       selected_client: null,
       add_client_key: 0,
       clients_fields:[
@@ -36,12 +38,21 @@ export default {
     "add-client": addClient
   },
   props: {
-    clients: Array,
+    
   },
   watch:{
     clients(){
       this.add_client_key++;
     }
+  },
+  computed:{
+        ...mapState({
+            clients(state, getters) {
+                return getters[this.namespace + "/getClients"];
+            },
+
+
+        }),
   },
   methods: {
     selectClient(client) {

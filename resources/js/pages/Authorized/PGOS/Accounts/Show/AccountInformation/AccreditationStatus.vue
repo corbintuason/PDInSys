@@ -21,13 +21,25 @@
 
 <script>
 import form from "../../../../../../mixins/form";
+
+import {mapState} from "vuex";
 export default {
   data() {
-    return {};
+    return {
+                  namespace: "account-" + this.$route.params.id,
+
+    };
   },
   mixins: [form],
-  props: {
-    account: Object
+  computed:{
+               ...mapState({
+            account(state, getters) {
+                return getters[this.namespace + "/getItem"];
+            },
+            mode(state, getters) {
+                return getters[this.namespace + "/getMode"];
+            },
+        }),
   }
 };
 </script>

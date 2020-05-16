@@ -8,6 +8,7 @@
 <script>
 import form from "../../../../mixins/form";
 import steps from "../../../../mixins/steps";
+import {mapMutations, mapActions} from "vuex";
 export default{
     data(){
         return{
@@ -21,7 +22,8 @@ export default{
         endpoints: Object,
         action_name: String,
         uploadable: Boolean,
-        current_step: Object
+        current_step: Object,
+        namespace: String,
     },
     action_name() {
             return this.current_step
@@ -30,6 +32,11 @@ export default{
     },
     mixins:[form, steps],
     methods:{
+            ...mapActions({
+      changeMode (dispatch, payload) {
+        return dispatch(this.namespace + '/changeMode', "Show")
+      }
+    }),
         saveChanges(){
             var swal_object = {
                 title: "Save Changes to " + this.item.code + "?",
@@ -45,7 +52,21 @@ export default{
             }
         },
         discardChanges(){
-            Fire.$emit("switch-mode-"+this.item.id, 'Show');
+                swal.fire({
+                title: "Would you like to switch to Show Mode?",
+                text: "All changes will not be saved.",
+                icon: "question",
+                confirmButtonText: "Discard",
+            }).then((result) => {
+                if (result.value) {
+                                                this.changeMode();
+                    //(result);
+                    swal.fire({
+                        title: "Successfully switched to Edit Mode",
+                        icon: "success",
+                    });
+                }
+            });
         }
     }
 }

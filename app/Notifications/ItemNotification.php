@@ -21,11 +21,13 @@ class ItemNotification extends Notification
     public $item;
     public $module;
     public $show_route;
-    public function __construct($item, $module, $show_route)
+    public $route_id;
+    public function __construct($item, $module, $show_route, $route_id)
     {
         $this->item = $item;
         $this->module = $module;
         $this->show_route = $show_route;
+        $this->route_id = $route_id;
     }
 
     /**
@@ -66,7 +68,7 @@ class ItemNotification extends Notification
             'approver' => $notifiable,
             'link' => [
                 "name" => $this->show_route,
-                "id" => $this->item->id
+                "id" => $this->route_id
             ],
             'notification_table' => [
                 'code' => $this->item->code,

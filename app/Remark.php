@@ -19,4 +19,8 @@ class Remark extends Model
     public function returned_by(){
         return $this->belongsTo("App\User", "returned_by_id");
     }
+    
+    public function returned_to(){
+        return $this->belongsTo("App\User", "returned_to_id");
+    }
 }

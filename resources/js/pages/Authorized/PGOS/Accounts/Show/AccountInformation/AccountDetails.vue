@@ -6,20 +6,21 @@
                 <!-- Registered Name - Brands & Departments -->
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="row">
+                        <div class="row form-test">
                             <b-form-group
                                 class="col"
                                 label="Registered Name"
                                 label-class="font-weight-bold"
                             >
                                 <b-form-input
+                                    :disabled="mode=='Show'"
                                     type="text"
                                     v-model="account.registered_name"
                                 ></b-form-input>
                             </b-form-group>
                         </div>
                         <div class="row">
-                            <b-form-group
+                            <b-form-group  
                                 class="col"
                                 label="Registered Address"
                                 label-class="font-weight-bold"
@@ -79,12 +80,16 @@ import brandsDepartments from "./BrandsDepartment";
 import companyTelNumber from "./CompanyTelNumber";
 import companyEmailAddress from "./CompanyEmailAddress";
 import accreditationStatus from "./AccreditationStatus";
+
+import {mapState} from 'vuex';
 export default {
     data() {
         return {
+            namespace: "account-" + this.$route.params.id,
             name: "",
             age: 0,
             submitStatus: null,
+            
         };
     },
     components: {
@@ -98,6 +103,16 @@ export default {
             required,
             minLength: minLength(4),
         },
+    },
+    computed:{
+            ...mapState({
+            account(state, getters) {
+                return getters[this.namespace + "/getItem"];
+            },
+            mode(state, getters) {
+                return getters[this.namespace + "/getMode"];
+            },
+        }),
     },
     methods: {
         status(validation) {
@@ -121,19 +136,12 @@ export default {
         },
     },
     props: {
-        account: Object,
-        mode: String
     },
 };
 </script>
 
 <style>
-input {
-    border: 1px solid silver;
-    border-radius: 4px;
-    background: white;
-    padding: 5px 10px;
-}
+
 
 .dirty {
     border-color: #5a5;

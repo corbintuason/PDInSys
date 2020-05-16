@@ -18,13 +18,17 @@ trait AccountsTrait
     protected function getStagesAttribute(){
         $stages = collect([
             (object) [
-                "names" => ["Returned to Creator"],
+                "names" => ["", "Returned to Creator"],
                 "responsible" => "account-creator"
             ],
             (object) [
                 "names" => ["For Approval", "Returned to Approver"],
                 "responsible" => "account-approver"
             ],
+            (object)[
+                "names" => ["Approved"],
+                "responsible" => null
+            ]
         ]);
         return $stages;
     }

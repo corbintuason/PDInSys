@@ -15,15 +15,16 @@ export default {
             model.splice(index, 1);
         },
 
-        // For POSTING an item
-        createItem(item) {},
-
         getResponsibilities(item_steps, item) {
             var users = [];
             item_steps.forEach((step) => {
-                var same_responsibility = item.relationships.contributors.find(
-                    (user) => user.responsibility == step.responsible
-                );
+                if(step.responsible!=null){
+                    var same_responsibility = item.contributors.find(
+                        (user) => user.responsibility == step.responsible
+                    );
+                }
+             
+                console.log("same resposnbility?");
                 if (same_responsibility != null) {
                     users.push({
                         id: same_responsibility.contributor_id,
@@ -38,15 +39,14 @@ export default {
                     });
                 }
             });
+            console.log("checkign for users!", users);
             return users;
         },
 
         loadSwalContentsWithContributors(item_steps, user, item) {
             var current_step = this.getCurrentStep(item, item_steps);
-
             var contents = "";
             var contributors = this.getResponsibilities(item_steps, item);
-            console.log("the contributors", contributors);
             contributors.forEach((contributor) => {
                 console.log(
                     current_step.responsible + " " + contributor.responsibility
@@ -78,41 +78,16 @@ export default {
             return contents;
         },
 
-        loadSwalContentsWithoutContributors(item_steps, user) {
-            console.log("did i pass through here");
-            var contents = "";
-            item_steps.forEach((step) => {
-                if (step.name == "Create") {
-                    contents +=
-                        '<div class="list-group-item d-flex align-items-center"><span class="b-avatar mr-3 badge-secondary rounded-circle" style="width: 2.5em; height: 2.5em;"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" alt="avatar" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-person-fill b-icon bi"><g><path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></g></svg></span> <span class="mr-auto"><strong>' +
-                        step.responsible +
-                        ": " +
-                        user.data.full_name +
-                        "</strong></span></div>";
-                } else {
-                    contents +=
-                        '<div class="list-group-item d-flex align-items-center"><span class="b-avatar mr-3 badge-secondary rounded-circle" style="width: 2.5em; height: 2.5em;"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" alt="avatar" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-person-fill b-icon bi"><g><path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></g></svg></span> <span class="mr-auto"><strong>' +
-                        step.responsible +
-                        ": </strong></span></div>";
-                }
-            });
-            return contents;
-        },
         loadSwalContents(item_steps, user, item) {
             var contents = "";
+            console.log("checking.....~~~");
             // // Load Contents first
-            if (item != null) {
-                contents += this.loadSwalContentsWithContributors(
-                    item_steps,
-                    user,
-                    item
-                );
-            } else {
-                contents += this.loadSwalContentsWithoutContributors(
-                    item_steps,
-                    user
-                );
-            }
+            contents += this.loadSwalContentsWithContributors(
+                item_steps,
+                user,
+                item
+            );
+
             var swal_html =
                 '<span>Contribution List will be Updated</span><div class="list-group">' +
                 contents +

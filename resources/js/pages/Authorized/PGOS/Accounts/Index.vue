@@ -31,7 +31,7 @@ export default {
         this.accounts = response.data.data;
         accounts.forEach(account => {
           this.items.push({
-            item_name: account.registered_name,
+            code: account.code,
             status: account.status,
             item_params: {
               link: "account_show",
@@ -44,8 +44,9 @@ export default {
     loadFields() {
       this.fields = [
         {
-          key: "item_details.name",
-          label: "Account Name",
+          key: "code",
+          label: "Account Code",
+                    class: "text-center",
           sortable: true,
           sortDirection: "desc"
         },
@@ -59,6 +60,7 @@ export default {
     },
 },
     mounted() {
+      console.log("hmmm??", this.$store);
         this.loadItems();
         this.loadFields();
     }

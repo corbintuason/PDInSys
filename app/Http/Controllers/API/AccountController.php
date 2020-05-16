@@ -10,6 +10,9 @@ use App\AccountBrand;
 use App\AccountDepartment;
 use App\Client;
 use App\Http\Resources\Account as AccountResource;
+use App\Notifications\ItemNotification;
+use App\User;
+use Notification;   
 class AccountController extends Controller
 {
     use ControllersTrait;
@@ -61,6 +64,8 @@ class AccountController extends Controller
             $client['account_id'] = $account->id;
             Client::create($client);
         }
+         // Notify Contributors
+         Notification::send($this->notifyApprovers($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
 
         return [
             'item_id' => $account->id,
@@ -87,39 +92,23 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         $this->validate($request, [
             'status' => 'required|string|max:191',
         ]);
+
         $account = Account::findOrFail($id);
-        $user_id = auth()->user()->id;
-        $user = new UserResource(User::findOrFail($user_id));
+        $this->updateItem($account, Account::class, "Account");
 
-        $old_status = $account->status;
-        activity()->withoutLogs(function() use($account, $request){
-            $account->update([
-                'status' => $request['status'],
-            ]);
-        });
-        
-        
-        // Notify the creator that the account has been approved
-        $update_user = User::findOrFail($account->creator_id);
-        $update_users = collect([]);
-        $update_users->push($update_user);
-        Notification::send($update_users, new AccountStatusChange($account));
+        // Notify Contributors
+        Notification::send($acount->contributors, new ItemNotification($account, $account::$module, "account_show", $account->id));
 
-         // Create Activity Log
-        
-         activity('Account Status Change')
-         ->on($account)
-         ->withProperties(["link_name" => "account_show", "link_id" => $account->id])
-         ->log("User " . $user->last_name .", " . $user->first_name  . " has changed Account " . $account->registered_name . "'s status from ". $old_status . " to ". $account->status);
- 
+        return [
+            'item_id' => $account->id,
+            'success_text' => "Account " . $account->code . " has been successfully updated."
+        ];
 
-        return new AccountResource($account);
-        //
     }
 
     /**
@@ -131,5 +120,36 @@ class AccountController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // NON CRUD METHODS:
+
+    public function returnToUser(Request $request){    
+
+        // Return Account  
+        $remark = $this->return($request, Account::class, "Account");
+        
+        // Send Notification
+        $returned_to = User::findOrFail($remark->returned_to_id);
+
+        Notification::send($remark->returned_to, new ItemNotification($remark->remarkable, $remark->remarkable::$module, "account_show", $remark->remarkable->id));
+
+        return [
+            'item_id' => $remark->remarkable->id,
+            'success_text' => "Account " . $remark->remarkable->code . " has been successfully Returned"
+        ];
+    }
+
+    public function reject($id){
+        $account = Account::findOrFail($id);
+        
+        $rejected_account = $this->rejectItem($account, "Account");
+    
+
+        // Send Notification to Contribution List 
+        $returned_to = User::findOrFail($remark->returned_to_id);
+
+        Notification::send($rejected_account->contributors, new ItemNotification($rejected_account, $rejected_account::$module, "account_show"));
+
     }
 }

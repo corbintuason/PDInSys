@@ -24,8 +24,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::apiResources([
         'user' => 'API\UserController',
-        'account' => 'API\AccountController',
-        'project' => 'API\ProjectController',
         'vendor' => 'API\VendorController',
         'mandate' => 'API\MandateController',
         'budget-allocation' => 'API\BudgetAllocationController',
@@ -36,6 +34,15 @@ Route::group(['middleware' => 'auth:api'], function () {
     ]);
 
     // // Route::post('/budget-allocation/', 'API\BudgetAllocation@save');
+    
+    // Account Routes
+    Route::get('/account', 'API\AccountController@index');
+    Route::post('/account/', 'API\AccountController@store');
+    Route::get('/account/{id}', 'API\AccountController@show');
+    Route::put('/account/{id}', 'API\ProjecAccountController@update');
+    Route::put('/account/{id}/saveChanges', 'API\AccountController@saveChanges');
+    Route::put('/account/{id}/returnToUser', 'API\AccountController@returnToUser');
+    Route::put('/account/{id}/reject', 'API\AccountController@reject');
 
     // Project Routes
     Route::get('/project', 'API\ProjectController@index');
@@ -43,6 +50,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/project/{id}', 'API\ProjectController@show');
     Route::put('/project/{id}', 'API\ProjectController@update');
     Route::put('/project/{id}/saveChanges', 'API\ProjectController@saveChanges');
+
     // Cost Estimate Routes
     Route::get('/download_cost_estimate/{id}', 'API\CostEstimateController@download');
     Route::get('/download_signed_cost_estimate/{id}', 'API\SignedCostEstimateDetailController@download');

@@ -28,7 +28,7 @@ class Account extends JsonResource
         $response['clients'] = $this->clients;
         
         // GENERIC RELATIONSHIPS
-        $response['actions'] = $this->activities;
+        $response['actions'] = $this->activities->sortBy('created_at');
         $response['contributors'] = ContributorResource::collection($this->contributors);
         $response['remarks'] = RemarkResource::collection($this->remarks);
 

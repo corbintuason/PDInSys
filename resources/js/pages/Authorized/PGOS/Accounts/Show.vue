@@ -7,7 +7,7 @@
                 :item="account"
                 :mode="'Show'"
             ></item-progress>
-            <account :account="account"></account>
+            <account></account>
             <change-logs :logs="account.actions"></change-logs>
         </div>
         <clip-loader v-else color="orange"></clip-loader>
@@ -17,40 +17,46 @@
 <script>
 import account from "./Show/Account";
 import accountModule from "../../../../store/modules/account";
+import states from "../../../../mixins/states";
+
+import { mapGetters, mapState } from "vuex";
 export default {
     data() {
         return {
-            mode: "Show",
-            steps: this.$store.state.account.steps,
-            endpoints: {
-                api: "/api/account/",
-                show_route: "account_show",
-            },
-            account: null,
+            account_id: this.$route.params.id,
+            namespace: "account-" + this.$route.params.id
         };
     },
     components: {
-        "account": account,
+        account: account,
     },
+    mixins: [states],
+    computed: {
+        ...mapState({
+            account(state, getters) {
+                return getters[this.namespace + "/getItem"];
+            },
+            steps(state, getters) {
+                return getters[this.namespace + "/getSteps"];
+            },
 
+        }),
+    },
     watch: {},
-    methods: {
-        loadAccount() {
-            var account_id = this.$route.params.id;
-            axios.get("/api/account/" + account_id).then((response) => {
-                this.account = response.data.data;
-            });
-        },
+    methods: {},
+    beforeDestroy() {        
+        console.log("look at me, account should be here", this.$store);
+    this.$store.unregisterModule(this.namespace);
     },
     mounted() {
-        this.loadAccount();
-
-        Fire.$on("switch-mode", (mode) => {
-            if (mode == "Show") {
-                this.loadAccount();
+        this.registerStoreModule(this.namespace, accountModule).then(
+            (response) => {
+                this.$store.dispatch(
+                    this.namespace + "/storeItem",
+                    this.account_id
+                );
             }
-            this.mode = mode;
-        });
+        );
     },
 };
 </script>

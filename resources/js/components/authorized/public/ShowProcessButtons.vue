@@ -8,6 +8,7 @@
                 :steps="steps"
                 :endpoints="endpoints"
                 :current_step="current_step"
+                :namespace="namespace"
             ></show-mode>
         </template>
         <template v-else-if="mode == 'Edit'">
@@ -19,6 +20,7 @@
                 :action_name="action_name"
                 :endpoints="endpoints"
                 :uploadable="uploadable"
+                :namespace="namespace"
             ></edit-mode>
         </template>
     </div>
@@ -44,6 +46,7 @@ export default {
         mode: String,
         endpoints: Object,
         uploadable: Boolean,
+        namespace: String
     },
     components: {
         "show-mode": showMode,
@@ -57,5 +60,8 @@ export default {
         },
     },
     methods: {},
+    mounted(){
+        console.log("the namespace is", this.namespace);
+    }
 };
 </script>

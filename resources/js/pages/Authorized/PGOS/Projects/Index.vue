@@ -8,7 +8,6 @@
 				<basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
 			</b-card-body>
 		</b-card>
-		{{items}}
 	</div>
 </template>
 

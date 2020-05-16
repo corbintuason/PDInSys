@@ -62,16 +62,14 @@ class ProjectController extends Controller
 
     public function update($id)
     {
+
         $project = Project::findOrFail($id);
-        $auth_user = auth()->user();
-
         $this->updateItem($project, Project::class, "Project", "project_show");
-
-
         return [
             'item_id' => $project->id,
             'success_text' => "Project " . $project->code . " has been successfully updated"
         ];
+        
     }
 
     public function returnToUser(Request $request, $id)

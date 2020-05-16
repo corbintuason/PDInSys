@@ -8,7 +8,7 @@ use App\User;
 use App\Contributor;
 use Notification;
 use App\Notifications\ItemNotification;
-
+use App\Remark;
 trait ControllersTrait
 {
 
@@ -117,9 +117,7 @@ trait ControllersTrait
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
-
-        Notification::send($this->notifyApprovers($item), new ItemNotification($item, $item::$module, $show_route));
-
+        
         // Create Activity Log
         activity($model_text . ' Created')
             ->on($item)
@@ -128,7 +126,7 @@ trait ControllersTrait
         return $item;
     }
 
-    public function updateItem($item, $class, $model_text, $show_route)
+    public function updateItem($item, $class, $model_text)
     {
         $auth_user = auth()->user();
         // Generate Status based on Creator
@@ -146,11 +144,7 @@ trait ControllersTrait
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
-
-        // Notify Next Users
-        $module_name = $model_text . " Module";
-        Notification::send($this->notifyApprovers($item), new ItemNotification($item, $item::$module, $show_route));
-
+        
         // Create Activity Log
         activity($model_text . ' Status Change')
             ->on($item)
@@ -221,6 +215,62 @@ trait ControllersTrait
             ->on($item)
             ->log($auth_user->full_name . " has created " . $model_text . " " . $item->code);
 
+        return $item;
+    }
+
+    public function getReturnStatus($remark, $class){
+        // Get stages of Remarkable
+        $stages = $remark->remarkable->stages;
+        $returned_to = User::findOrFail($remark->returned_to_id);
+        $role = $returned_to->roles->where('entity', $class)->first();
+        $stage = $stages->where('responsible', $role->name)->first();
+        return $stage->names[1];
+    }
+
+    public function return($request, $class, $model_text){
+        $auth_user = auth()->user();
+
+        // Create Remark
+        $item = $class::findOrFail($request['remarkable_id']);
+        $remark = Remark::create([
+            'remarkable_type' => $class,
+            'remarkable_id' => $item->id,
+            'returned_to_id' => $request->user["id"],
+            'returned_by_id' => $auth_user->id,
+            'remarks' => $request['remarks']
+        ]);
+        
+        // Update Item
+        $remarkable = $remark->remarkable;
+
+        $return_status = $this->getReturnStatus($remark, $class);
+        activity()->withoutLogs(function () use ($remarkable, $return_status) {
+            $remarkable->update([
+                'status' => $return_status
+            ]);
+        });
+
+
+        activity($model_text . " " . $remarkable->code. " Returned")
+            ->on($remarkable)
+            ->log($auth_user->full_name . " has returned " . $model_text . " " . $remarkable->code. " to " . $remark->returned_to->full_name);
+
+        return $remark;
+    }
+
+    public function rejectItem($item, $model_text){
+        
+        // Change Status of Item to Rejected
+        activity()->withoutLogs(function () use ($item) {
+            $item->update([
+                'status' => 'Rejected'
+            ]);
+        });
+
+        // Create Activity
+        activity($model_text . " " . $item->code. " has been set to Rejected")
+            ->on($item)
+            ->log($auth_user->full_name . " has Rejected " . $model_text . " " . $item->code);
         return $item;
     }
 }

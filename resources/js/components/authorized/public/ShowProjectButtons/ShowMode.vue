@@ -14,14 +14,14 @@
 			class="float-right"
 			variant="outline-dark"
 		>Edit {{item_model}}</b-button>
-		<b-button @click="returnItem" v-if="showReturnButton" variant="outline-dark">Return {{item_model}}</b-button>
+		<b-button @click="changeShowReturnModal" v-if="showReturnButton" variant="outline-dark">Return {{item_model}}</b-button>
 		<b-button
 			v-if="showUpdateButton"
 			@click="updateStatus"
 			variant="outline-success"
 		>{{ action_name }}</b-button>
 
-		<return-item :item="item" :item_model="item_model" :steps="steps" :endpoints="endpoints" :show="open_return_item"></return-item>
+		<return-item :namespace="namespace"></return-item>
 	</b-button-group>
 </template>
 
@@ -29,10 +29,10 @@
 import form from "../../../../mixins/form";
 import steps from "../../../../mixins/steps";
 import returnItem from "../ReturnItem"
+import {mapMutations} from "vuex";
 export default {
     data() {
         return {
-            open_return_item: false,
             user: this.$store.state.user,
         };
     },
@@ -43,15 +43,14 @@ export default {
         mode: String,
         endpoints: Object,
         current_step: Object,
-        action_name: String
+        action_name: String,
+        namespace: String
     },
     mixins: [form, steps],
     components:{
         "return-item": returnItem
     },
     computed: {
-
-
         showUpdateButton(){
            return this.$store.getters.hasRole(this.item.current_handler);
         },
@@ -68,12 +67,21 @@ export default {
         },
     },
     methods: {
+        ...mapMutations({
+            changeMode(commit, payload) {
+                return commit(this.namespace + '/changeMode', "Edit")
+            },
+            changeShowReturnModal(commit, payload){
+                return commit(this.namespace + "/changeShowReturnModal", true)
+            }
+        }),
         updateStatus() {
             var swal_html = this.loadSwalContents(
                 this.steps,
                 this.user,
                 this.item
             );
+            console.log(swal_html + " ??");
             const swal_object = {
                 title: this.action_name + " " + this.item.code,
                 html: swal_html,
@@ -82,6 +90,7 @@ export default {
             };
             this.fireUpdateSwal(swal_object, this.item);
         },
+
         editButton() {
                  swal.fire({
                 title: "Would you like to switch to Edit Mode?",
@@ -94,7 +103,7 @@ export default {
                         title: "Successfully switched to Edit Mode",
                         icon: "success",
                         onClose: () => {
-                            Fire.$emit("switch-mode-"+this.item.id, 'Edit');
+                            this.changeMode();
                         },
                     });
                 }
@@ -102,16 +111,14 @@ export default {
         },
         rejectButton() {
             swal.fire({
-                title: "Reject " + this.item_model,
+                title: "Reject " + this.item_model + " " + this.item.code + "?",
                 icon: "question",
                 confirmButtonText: "Reject " + this.item_model,
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
                     return new Promise((resolve, reject) => {
                         axios
-                            .put("/api/mandate/" + this.item.id, {
-                                status: "Rejected",
-                            })
+                            .put(this.endpoints.api + this.item.id +"/reject")
                             .then((response) => {
                                 const item = response.data;
                                 resolve(item);
@@ -140,12 +147,11 @@ export default {
         },
 
         returnItem() {
-            this.open_return_item = true;
-            // this.$bvModal.show("return-item");
 
         },
     },
     mounted() {
+        console.log("what did i receive", this.namespace);
     },
 };
 </script>
