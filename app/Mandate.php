@@ -5,12 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
-use App\Traits\ModelsTrait;
+use App\Traits\MandatesTrait;
 
 class Mandate extends Model
 {
 
-    use LogsActivity, CausesActivity, ModelsTrait;
+    use MandatesTrait, LogsActivity, CausesActivity;
+
+    public static $module = 'Mandate Module';
+    protected static $logFillable = true;
+    protected static $logName = 'Mandate';
 
     /**
      * The attributes that are mass assignable.
@@ -74,48 +78,8 @@ class Mandate extends Model
         'change_logs' => 'array'
     ];
 
-    protected static $logFillable = true;
-    protected static $logName = 'Mandate';
-    public static $module = 'Mandate Module';
-
-
-    protected function getStagesAttribute()
-    {
-        $stages = collect([
-            (object) [
-                "names" => ["Returned to Creator"],
-                "responsible" => "mandate-creator"
-            ],
-            (object) [
-                "names" => ["For Approval", "Returned to Approver"],
-                "responsible" => "mandate-approver"
-            ], (object) [
-                "names" => ["Approved"],
-                "responsible" => "mandate-creator"
-            ]
-        ]);
-        return $stages;
-    }
-
     public function user()
     {
         return $this->belongsTo("App\User", "creator_id");
-    }
-
-    public function contributors()
-    {
-        return $this->morphMany("App\Contributor", 'contributable')->with('user');
-    }
-
-    public function remarks()
-    {
-        return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
-    }
-
-    // Mandate Code
-    public function getCodeAttribute()
-    {
-        $year = date("y");
-        return $year . "-" . sprintf('%04d', $this->attributes['id']);
     }
 }

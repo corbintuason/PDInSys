@@ -39,7 +39,9 @@ export const store = new Vuex.Store({
         hasAbility(state) {
             return (name, entity_type) =>
                 state.user.abilities.some((item) => {
-                    return item.name === name && item.entity_type == entity_type
+                    return (
+                        item.name === name && item.entity_type == entity_type
+                    );
                 });
         },
         hasRole(state) {
@@ -99,7 +101,7 @@ export const store = new Vuex.Store({
             return new Promise((resolve, reject) => {
                 axios
                     .post("/api/login", {
-                        pdem_email: credentials.pdem_email,
+                        pd_email: credentials.pd_email,
                         password: credentials.password,
                     })
                     .then((response) => {

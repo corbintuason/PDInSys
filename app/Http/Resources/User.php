@@ -21,17 +21,18 @@ class User extends JsonResource
             'middle_name' => $this->middle_name,
             'official_photo' => $this->official_photo,
             'birth_date' => $this->birth_date,
-            'pdem_email' => $this->pdem_email,
-            'pdem_gmail' => $this->pdem_gmail,
+            'pd_email' => $this->pd_email,
+            'pd_gmail' => $this->pd_gmail,
             'contact_numbers' => $this->contact_numbers,
             'employment_date' => $this->employment_date,
             'positions' => $this->positions,
             'scores' => $this->scores,
-            'full_name' => $this->last_name. ", ". $this->first_name . " " . $this->middle_name
+            'full_name' => $this->last_name . ", " . $this->first_name . " " . $this->middle_name
         ];
     }
 
-    public function with($request){
+    public function with($request)
+    {
         return [
             'notifications' => $this->notifications,
             'roles' => $this->roles,

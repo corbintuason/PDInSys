@@ -32,7 +32,7 @@ class NewUserCreated extends Mailable
      */
     public function build()
     {
-        return $this->from('pdem@projectduoevents.com')
-        ->view('emails.new_user');    
+        return $this->from('pd@projectduoevents.com')
+            ->view('emails.new_user');
     }
 }

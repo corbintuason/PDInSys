@@ -11,7 +11,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
 use App\Builders\UserBuilder;
 use App\Collections\UserCollection;
-use App\Vendor;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 use \stdclass;
 
@@ -40,7 +39,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'last_name', 'first_name', 'middle_name', 'official_photo', 'birth_date', 'pdem_email', 'pdem_gmail', 'contact_numbers', 'employment_date', 'positions', 'password',
+        'last_name', 'first_name', 'middle_name', 'official_photo', 'birth_date', 'pd_email', 'pd_gmail', 'contact_numbers', 'employment_date', 'positions', 'password',
     ];
 
     /**

@@ -52,10 +52,10 @@ export default {
                 employment_date: null,
                 birth_date: null,
                 official_photo: null,
-                pdem_email: "",
-                pdem_gmail: "",
+                pd_email: "",
+                pd_gmail: "",
                 contact_numbers: [""],
-                positions:[],
+                positions: [],
                 job_details: {
                     position: null,
                     job_level: null,
@@ -108,7 +108,7 @@ export default {
                         icon: "success",
                         timer: "2500",
                         text:
-                            "The default password has been sent to the user's PDEM Email",
+                            "The default password has been sent to the user's PD Email",
                         onClose: () => {
                             // this.$router.push({ name : "Dashboard"});
                         },
