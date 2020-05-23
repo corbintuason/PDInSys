@@ -111,7 +111,6 @@ class MandateController extends Controller
 
         $rejected_mandate = $this->rejectItem($mandate, "Mandate");
 
-
         // Send Notification to Contribution List 
         $returned_to = User::findOrFail($remark->returned_to_id);
 

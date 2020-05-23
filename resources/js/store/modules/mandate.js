@@ -18,17 +18,12 @@ export default {
             {
                 name: "Create",
                 responsible: "Creator",
-                database_equivalent: ["Returned to Creator"],
+                database_equivalent: ["Returned to Creator", "Approved"],
             },
             {
                 name: "Approve",
                 responsible: "Approver",
                 database_equivalent: ["For Approval", "Returned to Approver"],
-            },
-            {
-                name: "Approve",
-                responsible: null,
-                database_equivalent: ["Approved"],
             },
         ],
     },
