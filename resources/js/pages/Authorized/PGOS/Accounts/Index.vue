@@ -5,7 +5,8 @@
         <h1 class="component-title">Accounts and Clients</h1>
       </template>
       <b-card-body>
-        <basic-table v-if="items!=null" :fields="fields" :items="items"></basic-table>
+        <basic-table v-if="loading!=true" :fields="fields" :items="items"></basic-table>
+        <clip-loader color="orange" v-else></clip-loader>
       </b-card-body>
     </b-card>
   </div>
@@ -17,6 +18,7 @@ export default {
   data() {
     return {
       items: [],
+      loading: true,
       fields: null,
       accounts: null,
     };
@@ -38,7 +40,7 @@ export default {
               id: account.id
             }
           });
-        })
+        }); this.loading = false;
       });
     },
     loadFields() {

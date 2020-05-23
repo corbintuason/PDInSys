@@ -16,7 +16,7 @@ use Notification;
 use \stdclass;
 use Bouncer;
 use App\Remark;
-use App\Notifications\ProjectReturned;
+use App\Notifications\ItemNotification;
 use App\Traits\ProjectsTrait;
 
 class ProjectController extends Controller
@@ -46,8 +46,7 @@ class ProjectController extends Controller
 
         $project = $this->createItem($request, Project::class, "Project", "project_show");
 
-        // Notify Process Users
-        // Notification::send($this->notifyApprovers($project), new ProjectCreated($project));
+        Notification::send($this->notifyApprovers($project), new ItemNotification($project, $project::$module, "project_show", $project->id));
 
         return [
             'item_id' => $project->id,
@@ -60,11 +59,15 @@ class ProjectController extends Controller
         return new ProjectResource(Project::findorFail($id));
     }
 
-    public function update($id)
+    public function update(Request $request, $id)
     {
-
         $project = Project::findOrFail($id);
         $this->updateItem($project, Project::class, "Project", "project_show");
+
+        if($request->get("skipped")){
+            $this->skipRemark($project, Project::class);
+        }
+
         return [
             'item_id' => $project->id,
             'success_text' => "Project " . $project->code . " has been successfully updated"
@@ -74,31 +77,30 @@ class ProjectController extends Controller
 
     public function returnToUser(Request $request, $id)
     {
-        $auth_user = auth()->user();
-        $remark = Remark::create([
-            'remarkable_type' => "App\\" . $request['remarkable_type'],
-            'remarkable_id' => $request['remarkable_id'],
-            'returned_to_id' => $request['user']['id'],
-            'returned_by_id' => $auth_user->id,
-            'remarks' => $request['remarks']
-        ]);
-        $project = $remark->remarkable;
-        activity()->withoutLogs(function () use ($project, $request) {
-            $project->update([
-                'status' => 'Returned to ' . $request['user']['responsibility']
-            ]);
-        });
+         // Return Account  
+         $remark = $this->return($request, Project::class, "Project");
+        
+         // Send Notification
+         $returned_to = User::findOrFail($remark->returned_to_id);
+ 
+         Notification::send($remark->returned_to, new ItemNotification($remark->remarkable, $remark->remarkable::$module, "project_show", $remark->remarkable->id));
+ 
+         return [
+             'item_id' => $remark->remarkable->id,
+             'success_text' => "Project " . $remark->remarkable->code . " has been successfully Returned"
+         ];
+    }
 
-        $returned_to = User::findOrFail($remark->returned_to_id);
-        Notification::send($returned_to, new ProjectReturned($project));
+    public function saveChanges(Request $request, $id){
+        // Update First the Cost Estimate Detail
+        $project = Project::findOrFail($id);
+        $updated_project = $this->saveChangesToItem($request, Project::class, $project, "Project");
+        
+        Notification::send($this->notifyApprovers($updated_project), new ItemNotification($updated_project, $updated_project::$module, "project_show", $updated_project->id));
 
-        activity('Project Returned')
-            ->on($project)
-            ->log($auth_user->full_name . " has returned Project Code " . $project->code . " to " . $returned_to->full_name);
-
-        return [
-            'item_id' => $project->id,
-            'success_text' => "Project " . $project->code . " has been successfully Returned"
+        return [    
+            'refresh' => true,
+            'success_text' => $project->code . " has been successfully edited.",
         ];
     }
 }

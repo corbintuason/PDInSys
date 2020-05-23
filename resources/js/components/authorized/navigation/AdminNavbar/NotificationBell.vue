@@ -13,7 +13,7 @@
 		<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 			<span class="dropdown-item dropdown-header">Notifications</span>
 
-			<div v-for="(notification, notification_index) in all_notifications" :key="notification_index">
+			<div v-for="(notification, notification_index) in notifications" :key="notification_index">
 				<router-link
 					:to="{
                         name: notification.data.link.name,
@@ -48,35 +48,39 @@
 </template>
 
 <script>
+import {mapState, mapMutations, mapActions} from "vuex";
 export default {
 	data() {
 		return {
-			user: this.$store.state.user,
-			all_notifications: []
 		};
 	},
 	computed: {
-		unread_notifications() {
-			return this.all_notifications.filter(notification => {
-				return notification.read_at == null;
-			});
-		}
+		...mapState("auth",{
+			user(state){
+				console.log("Checkign for the state", state);
+				return state.user;
+			},
+			notifications(state){
+				return state.user.notifications
+			},
+			unread_notifications(state, getters){
+				return getters.unread_notifications;
+			}
+		}),
 	},
 	methods: {
-		markAsRead() {
-			console.log("ilang beses to lalabas");
-			axios.get("/mark-all-read/").then(response => {
-				this.all_notifications = response.data.notifications;
-			});
-		},
-		activateNotification(notification) {
-			this.$notify({
-				group: "PDIS",
-				title: notification.notification.data.notification_bell.header,
-				text: "123",
-				type: "warn"
-			});
-		},
+		    ...mapActions("auth", {
+            markAsRead(dispatch, payload) {
+                return dispatch("markAsRead");
+            },
+        }),
+		// markAsRead() {
+		// 	console.log("ilang beses to lalabas");
+		// 	axios.get("/mark-all-read/").then(response => {
+		// 		this.all_notifications = response.data.notifications;
+		// 	});
+		// },
+
 
 		activateNotificationSound() {
 			var audio = new Audio(
@@ -103,8 +107,8 @@ export default {
 		}
 	},
 	created() {
-		this.all_notifications = this.user.notifications;
-		this.echoNotifications();
+		// this.all_notifications = this.user.notifications;
+		// this.echoNotifications();
 	}
 };
 </script>

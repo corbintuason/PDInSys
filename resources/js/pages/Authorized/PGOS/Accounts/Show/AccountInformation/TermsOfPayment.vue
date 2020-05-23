@@ -32,10 +32,10 @@ export default {
   computed:{
                ...mapState({
             account(state, getters) {
-                return getters[this.namespace + "/getItem"];
+                return state[this.namespace].item;
             },
             mode(state, getters) {
-                return getters[this.namespace + "/getMode"];
+                return state[this.namespace].mode;
             },
         }),
   }

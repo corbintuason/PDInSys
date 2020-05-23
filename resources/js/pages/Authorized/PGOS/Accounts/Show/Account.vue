@@ -22,11 +22,6 @@
             </b-card-body>
             <template v-slot:footer>
                 <show-process-buttons
-                    :mode="mode"
-                    :item="account"
-                    :item_model="'Account'"
-                    :steps="steps"
-                    :endpoints="endpoints"
                     :namespace="namespace"
                 ></show-process-buttons>
                 <!-- For Approval Status -->
@@ -44,7 +39,7 @@ import { mapGetters, mapState } from "vuex";
 export default {
     data() {
         return {
-            namespace: "account-" + this.$route.params.id,
+           
         };
     },
     mixins: [form],
@@ -52,17 +47,19 @@ export default {
         "account-information": accountInformation,
         "clients-information": clientsInformation,
     },
-    props: {},
+    props: {
+        namespace: String
+    },
     computed: {
         ...mapState({
-            account(state, getters) {
-                return getters[this.namespace + "/getItem"];
+            account(state) {
+                return state[this.namespace].item;
             },
             steps(state, getters) {
-                return getters[this.namespace + "/getSteps"];
+                return state[this.namespace].steps;
             },
             mode(state, getters) {
-                return getters[this.namespace + "/getMode"];
+                return state[this.namespace].mode;
             },
             endpoints(state, getters) {
                 return getters[this.namespace + "/getEndpoints"];

@@ -22,13 +22,13 @@ class Project extends JsonResource
         $response["isCompletelyAssigned"] = $this->isAssignmentComplete;
         $response['current_handler'] = $this->currentHandler;
         // $response["access"] = auth()->user()->getAbilities()->where('entity_type', get_class($this->resource));
-        $response["relationships"] = [
-            'actions' => $this->activities,
-            'core_team' => $this->core_team,
-            'contributors' => ContributorResource::collection($this->contributors),
-            'remarks' => RemarkResource::collection($this->remarks),
-            'cost_estimate' => new CostEstimateResource($this->cost_estimate)
-        ];
+        $response['actions'] = $this->activities;
+        $response['core_team'] = $this->core_team;   
+        $response['contributors'] = ContributorResource::collection($this->contributors);
+        $response['remarks'] = RemarkResource::collection($this->remarks);
+        $response['cost_estimate'] =  new CostEstimateResource($this->cost_estimate);
+
+        
         return $response;
     }
 }

@@ -2,24 +2,11 @@
     <div>
         <template v-if="mode == 'Show'">
             <show-mode
-                :item="item"
-                :item_model="item_model"
-                :action_name="action_name"
-                :steps="steps"
-                :endpoints="endpoints"
-                :current_step="current_step"
                 :namespace="namespace"
             ></show-mode>
         </template>
         <template v-else-if="mode == 'Edit'">
             <edit-mode
-                :item="item"
-                :item_model="item_model"
-                :current_step="current_step"
-                :steps="steps"
-                :action_name="action_name"
-                :endpoints="endpoints"
-                :uploadable="uploadable"
                 :namespace="namespace"
             ></edit-mode>
         </template>
@@ -31,21 +18,15 @@ import showMode from "./ShowProjectButtons/ShowMode";
 import editMode from "./ShowProjectButtons/EditMode";
 import form from "../../../mixins/form";
 import steps from "../../../mixins/steps";
+import {mapState, mapGetters} from "vuex";
+
 export default {
     data() {
         return {
-            user: this.$store.state.user,
-            current_step: this.getCurrentStep(this.item, this.steps),
         };
     },
     mixins: [form, steps],
     props: {
-        item: Object,
-        item_model: String,
-        steps: Array,
-        mode: String,
-        endpoints: Object,
-        uploadable: Boolean,
         namespace: String
     },
     components: {
@@ -53,6 +34,20 @@ export default {
         "edit-mode": editMode,
     },
     computed: {
+        ...mapState({
+            user(state){
+                return state["auth"].user;
+            },
+            mode(state){
+                return state[this.namespace].mode;
+            },
+        }),
+        ...mapGetters({
+                current_step(state, getters){
+                    console.log("hmmm", this.namespace);
+                return getters[this.namespace +"/getCurrentStep"];
+            }
+        }),
         action_name() {
                 return this.current_step
                     ? this.current_step.name + " " + this.item_model

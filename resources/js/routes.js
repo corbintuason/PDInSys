@@ -87,7 +87,8 @@ export default [
                 component: IndexAccount,
                 name: "account_index",
                 beforeEnter(to, from, next){
-                    if (!store.getters.hasAbility("view-all", "App\\Account")) {
+                    // if (!store.getters["auth"].hasAbility("view-all", "App\\Account")) {
+                        if(!store.getters["auth/hasAbility"]("view-all", "App\\Account")){
                         next({
                             name: "Welcome",
                         });
@@ -101,7 +102,7 @@ export default [
                 component: CreateAccount,
                 name: "account_create",
                 beforeEnter(to, from, next){
-                    if (!store.getters.hasAbility("create", "App\\Account")) {
+                    if(!store.getters["auth/hasAbility"]("create", "App\\Account")){
                         next({
                             name: "Welcome",
                         });

@@ -20,16 +20,23 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
 export default {
     data() {
         return {
-            user: this.$store.state.user,
         };
+    },
+    computed:{
+            ...mapState("auth", {
+            user(state){
+                return state.user;
+            }
+        })
     },
     methods: {
         logOut() {
             this.$Progress.start();
-            this.$store.dispatch("destroyToken").then((response) => {
+            this.$store.dispatch("auth/destroyToken").then((response) => {
                 this.$Progress.finish();
                 this.$router.push({ name: "Welcome" });
             });

@@ -129,13 +129,13 @@
                 </b-list-group>
             </template>
         </div>
-        {{ project }}
     </div>
 </template>
 
 <script>
 import accountSelector from "./ProjectDetails/AccountSelector";
 import locations from "./ProjectDetails/Locations";
+import {mapState} from "vuex";
 export default {
     data() {
         return {
@@ -162,15 +162,22 @@ export default {
             ],
         };
     },
+    props:{
+        namespace: String
+    },
     components: {
         "account-selector": accountSelector,
         locations: locations,
     },
-    props: {
-        project: Object,
-        mode: String,
-    },
     computed: {
+        ...mapState({
+            project(state){
+                return state[this.namespace].item;
+            },
+            mode(state){
+                return state[this.namespace].mode;
+            }
+        }),
         account() {
             return this.project.account;
         },

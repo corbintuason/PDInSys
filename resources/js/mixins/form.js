@@ -22,37 +22,32 @@ export default {
                     var same_responsibility = item.contributors.find(
                         (user) => user.responsibility == step.responsible
                     );
+                    if (same_responsibility != null) {
+                        users.push({
+                            id: same_responsibility.contributor_id,
+                            responsibility: same_responsibility.responsibility,
+                            name: same_responsibility.full_name,
+                        });
+                    } else {
+                        users.push({
+                            id: null,
+                            responsibility: step.responsible,
+                            name: null,
+                        });
+                    }
                 }
-             
-                console.log("same resposnbility?");
-                if (same_responsibility != null) {
-                    users.push({
-                        id: same_responsibility.contributor_id,
-                        responsibility: same_responsibility.responsibility,
-                        name: same_responsibility.full_name,
-                    });
-                } else {
-                    users.push({
-                        id: null,
-                        responsibility: step.responsible,
-                        name: null,
-                    });
-                }
+
             });
-            console.log("checkign for users!", users);
             return users;
         },
 
-        loadSwalContentsWithContributors(item_steps, user, item) {
-            var current_step = this.getCurrentStep(item, item_steps);
+        loadSwalContents(item_steps, user, item) {
             var contents = "";
+            var current_step = this.getCurrentStep(item, item_steps);
             var contributors = this.getResponsibilities(item_steps, item);
+            // // Load Contents first
             contributors.forEach((contributor) => {
-                console.log(
-                    current_step.responsible + " " + contributor.responsibility
-                );
                 if (current_step.responsible == contributor.responsibility) {
-                    console.log("pumasok ka dapat dito chong");
                     contents +=
                         '<div class="list-group-item d-flex align-items-center"><span class="b-avatar mr-3 badge-secondary rounded-circle" style="width: 2.5em; height: 2.5em;"><svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" alt="avatar" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-person-fill b-icon bi"><g><path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></g></svg></span> <span class="mr-auto"><strong>' +
                         contributor.responsibility +
@@ -75,19 +70,6 @@ export default {
                     }
                 }
             });
-            return contents;
-        },
-
-        loadSwalContents(item_steps, user, item) {
-            var contents = "";
-            console.log("checking.....~~~");
-            // // Load Contents first
-            contents += this.loadSwalContentsWithContributors(
-                item_steps,
-                user,
-                item
-            );
-
             var swal_html =
                 '<span>Contribution List will be Updated</span><div class="list-group">' +
                 contents +
@@ -365,12 +347,15 @@ export default {
                 showCancelButton: true,
                 cancelButtonColor: "#d33",
                 allowOutsideClick: false,
-                preConfirm: () => {
+                input: 'checkbox',
+                inputPlaceholder: 'Skipped',
+                preConfirm: (checkbox) => {
                     return new Promise((resolve, reject) => {
+                        var skipped = {
+                            skipped: checkbox
+                        };
                         axios
-                            .put(api_link, {
-                                status: swal_object.new_status,
-                            })
+                            .put(api_link, skipped)
                             .then((response) => {
                                 resolve(response.data);
                             })

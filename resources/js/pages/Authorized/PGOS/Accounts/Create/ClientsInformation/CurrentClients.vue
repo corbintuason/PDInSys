@@ -27,11 +27,10 @@
                 >
             </div>
         </div>
-        {{ selected_client }}
         <add-client :form="form" :key="add_client_key"></add-client>
         <selected-client
             v-if="selected_client != null"
-            :selected_client="selected_client"
+            :new_client="selected_client"
             :form="form"
         ></selected-client>
     </div>

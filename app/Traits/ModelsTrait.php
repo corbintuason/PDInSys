@@ -27,6 +27,6 @@ trait ModelsTrait {
     }
 
     public function remarks(){
-        return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
+        return $this->morphMany("App\Remark", 'remarkable')->with('remarked_by');
     }
 }

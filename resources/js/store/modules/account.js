@@ -1,47 +1,50 @@
-import Vue from "vue";
-import Vuex from "vuex";
-
 import axios from "axios";
 
-Vue.use(Vuex);
-export default{
+export const accountModule = {
     namespaced: true,
-    state: {
-        name: "Account",
-        model: "App\\Account",
-        mode: "Show",
-        item: null,
-        
-        loading: true,
-        show_return_modal: false,
-        steps: [
-            {
-                name: "Create",
-                responsible: "Creator",
-                database_equivalent: ["Returned to Creator"],
-            },
-            {
-                name: "Approve",
-                responsible: "Approver",
-                database_equivalent: ["For Approval", "Returned to Approver"],
-            },
-            {
-                name: "Approve",
-                responsible: null,
-                database_equivalent: ["Approved"],
-            },
-        ]
+    state(){
+        return{
+            name: "Account",
+            model: "App\\Account",
+            mode: null,
+            item: null,
+            
+            loading: true,
+            show_return_modal: false,
+            show_reject_modal: false,
+            show_remarks_modal: true,
+            steps: [
+                {
+                    name: "Create",
+                    responsible: "Creator",
+                    visible: true,
+                    database_equivalent: ["Returned to Creator"],
+                },
+                {
+                    name: "Approve",
+                    responsible: "Approver",
+                    database_equivalent: ["For Approval", "Returned to Approver"],
+                },
+            ]
+        }
+
     },
     getters: {
-        getItem(state){
-            console.log("i wonder why", state.item);
-            return state.item;
+        getActionName(state, getters){
+            return getters.getCurrentStep.name + " " + state.name;
         },
-        getSteps(state){
-            return state.steps;
+        getCurrentStep(state) {
+            var status = state.item.status;
+            var current_step = state.steps.find((step) => {
+                return step.database_equivalent.includes(status);
+            });
+            return current_step;
         },
-        getMode(state){
-            return state.mode;
+        getNextStep(state, getters) {
+            console.log(state.steps, "the steps (?)");
+            var next_step_index = state.steps.findIndex(object =>  object.name == getters.getCurrentStep.name)+1;
+            var next_step = state.steps.find((val, index) => index == next_step_index);
+            return next_step;
         },
         getEndpoints(state){
             var endpoints = {
@@ -53,8 +56,9 @@ export default{
         getClients(state){
             return state.item.clients;
         },
-        getShowReturnModal(state){
-            return state.show_return_modal;
+        getRemarks(state)
+        {
+            return state.item.remarks.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1)
         }
     },
     mutations: {
@@ -62,41 +66,42 @@ export default{
             state.item = account;
         },
         changeMode(state, mode){
-            console.log("pumasok ba");
             state.mode = mode;
         },
         changeShowReturnModal(state, status){
             console.log("is something happening");
             state.show_return_modal = status;
             console.log(state.show_return_modal);
+        },
+        changeShowRejectModal(state, status){
+            state.show_reject_modal = status;
+        },
+        changeShowRemarksModal(state, status){
+            console.log("remarks modal", state.show_remarks_modal);
+            state.show_remarks_modal = status;
+            console.log("should change", state.show_remarks_modal);
+        },
+        changeLoading(state, value){
+            state.loading = value;
         }
     },
     actions: {
         changeMode(context, mode) {
-            // return new Promise((resolve, reject) => {
-            //     console.log('aitttttttttttttt');
-            //     console.log(id);
-            //     axios.get("/api/account/"+id).then(response => {
-            //         var account = response.data.data;
-            //         context.commit("storeAccount", account);
-            //         resolve(account);
-            //     }).catch(e => {
-            //         reject(e);
-            //     });
-            // });
             context.commit("changeMode", mode);
             if(mode == 'Show'){
-                context.dispatch('storeAccount', context.state.account.id);
+                context.dispatch('storeAccount', context.state.item.id);
             }
         },
         storeItem(context, id) {
+            context.commit("changeLoading", true);
             return new Promise((resolve, reject) => {
                 console.log('aitttttttttttttt');
                 console.log(id);
                 axios.get("/api/account/"+id).then(response => {
                     var account = response.data.data;
-                    console.log("am i being changed?", id);
                     context.commit("storeItem", account);
+                    context.commit("changeLoading", false);
+                    context.commit("changeMode", "Show");
                     resolve(account);
                 }).catch(e => {
                     reject(e);

@@ -10,6 +10,10 @@ class Project extends Model
 {
     use LogsActivity, CausesActivity, ModelsTrait;
 
+    public static $module = 'Project Creation Module';
+    protected static $logFillable = true; 
+    protected static $logName = 'Project';
+
     protected $fillable = [
     'name',
     'account',
@@ -25,11 +29,6 @@ class Project extends Model
     "involved_users"
 ];
 
-
-protected static $logFillable = true; 
-protected static $logName = 'Project';
-public static $module = 'Project Creation Module';
-
     protected $casts = [
         'account' => 'Object', 
         'locations' => 'Array',
@@ -41,7 +40,7 @@ public static $module = 'Project Creation Module';
     protected function getStagesAttribute(){
         $stages = collect([
             (object) [
-                "names" => ["Returned to Creator"],
+                "names" => ["", "Returned to Creator"],
                 "responsible" => "project-creator"
             ],
             (object) [
@@ -58,7 +57,6 @@ public static $module = 'Project Creation Module';
             ]
         ]);
         return $stages;
-        // return ["For Review", "For Approval", "For Approval", "For Assigning", "Assigned"];
     }
 
     public function getCodeAttribute()
@@ -89,10 +87,6 @@ public static $module = 'Project Creation Module';
 
     public function contributors(){
         return $this->morphMany("App\Contributor", 'contributable')->with('user');
-    }
-
-    public function remarks(){
-        return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
     }
 
     public function cost_estimate(){

@@ -12,6 +12,9 @@ use App\Client;
 use App\Http\Resources\Account as AccountResource;
 use App\Notifications\ItemNotification;
 use App\User;
+use App\ClientBrand;
+use App\ClientDepartment;
+
 use Notification;
 
 class AccountController extends Controller
@@ -63,7 +66,21 @@ class AccountController extends Controller
         // Create Clients
         foreach ($request->clients as $client) {
             $client['account_id'] = $account->id;
-            Client::create($client);
+            $new_client = Client::create($client);
+            // foreach($client['brands'] as $brand){
+            //     $target_brand = AccountBrand::where('name', $request->brands[$brand])->where('account_id', $account->id)->first();
+            //     ClientBrand::create([
+            //         'client_id' => $new_client->id,
+            //         'brand_id' => $target_brand->id
+            //     ]);
+            // }
+            // foreach($client['departments'] as $department){
+            //     $target_department = AccountDepartment::where('name', $request->departments[$department])->where('account_id', $account->id)->first();
+            //     ClientDepartment::create([
+            //         'client_id' => $new_client->id,
+            //         'department_id' => $target_department->id
+            //     ]);
+            // }
         }
         // Notify Contributors
         Notification::send($this->notifyApprovers($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
@@ -93,17 +110,17 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update($id, $skipped)
     {
-        $this->validate($request, [
-            'status' => 'required|string|max:191',
-        ]);
-
         $account = Account::findOrFail($id);
         $this->updateItem($account, Account::class, "Account");
 
-        // Notify Contributors
-        Notification::send($acount->contributors, new ItemNotification($account, $account::$module, "account_show", $account->id));
+        if ($skipped) {
+            $this->skipRemark($account, Account::class);
+        }
+
+        // Notify Approvers
+        Notification::send($this->notifyApprovers($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
 
         return [
             'item_id' => $account->id,
@@ -124,6 +141,20 @@ class AccountController extends Controller
 
     // NON CRUD METHODS:
 
+    public function saveChanges(Request $request, $id)
+    {
+        // Update First the Cost Estimate Detail
+        $account = Account::findOrFail($id);
+        $updated_account = $this->saveChangesToItem($request, Account::class, $account, "Account");
+
+        Notification::send($this->notifyApprovers($updated_account), new ItemNotification($updated_account, $updated_account::$module, "account_show", $updated_account->id));
+
+        return [
+            'refresh' => true,
+            'success_text' => $account->code . " has been successfully edited.",
+        ];
+    }
+
     public function returnToUser(Request $request)
     {
 
@@ -141,16 +172,16 @@ class AccountController extends Controller
         ];
     }
 
-    public function reject($id)
+    public function reject(Request $request, $id)
     {
         $account = Account::findOrFail($id);
 
-        $rejected_account = $this->rejectItem($account, "Account");
+        $this->rejectItem($request, Account::class, $account, "Account");
 
+        Notification::send($this->getContributors($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
 
-        // Send Notification to Contribution List 
-        $returned_to = User::findOrFail($remark->returned_to_id);
-
-        Notification::send($rejected_account->contributors, new ItemNotification($rejected_account, $rejected_account::$module, "account_show"));
+        return [
+            'success_text' => $account->code . " has been successfully Rejected",
+        ];
     }
 }

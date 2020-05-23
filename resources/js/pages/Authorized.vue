@@ -13,33 +13,61 @@
 
 <script>
 import adminNav from "../components/authorized/navigation/AdminNav";
+import {mapState, mapActions, mapMutations} from "vuex"
 export default {
     data() {
         return {
-            user: this.$store.state.user,
         };
     },
-    methods: {
-        getUser() {
-            this.$store
-                .dispatch("storeUser")
-                .then((response) => {
-                  console.log("hi!!");
-                  console.log(response);
-                })
-                .catch((e) => {
-                    this.$Progress.fail();
-                    //(e);
-                });
-        },
+    computed:{
+        ...mapState("auth", {
+            user(state){
+                return state.user;
+            }
+        })
     },
     components: {
         "admin-nav": adminNav,
     },
-    created(){
-      this.getUser();
-      console.log("Im trying to get the url??");
-      console.log(BASE_URL);
+    methods: {
+        ...mapMutations("auth", {
+            pushNotification(commit, payload){
+                return commit("pushNotification", payload);
+            }
+        }),
+        ...mapActions("auth", {
+            storeUser(dispatch, payload){
+                return dispatch("storeUser");
+            }
+        }),
+        	activateNotification(notification) {
+			this.$notify({
+				group: "PDIS",
+				title: notification.notification.data.notification_bell.header,
+				text: "123",
+				type: "warn"
+			});
+		},
+		echoNotifications() {
+			// Call Echo to listen to notifications
+			Echo.private("users." + this.user.data.id).notification(
+				notification => {
+                    // Push New Notification
+                    // this.pushNotification(notification.notification);
+                    this.storeUser();
+					// this.all_notifications.unshift(notification.notification);
+
+					// Activate Notification
+					this.activateNotification(notification);
+
+					// Activate Sound
+					// this.activateNotificationSound();
+				}
+			);
+		}
+    },
+    mounted() {
+        this.echoNotifications();
     },
 };
 </script>

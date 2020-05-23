@@ -1,14 +1,13 @@
 <template>
     <b-card class="mt-3">
         <template v-slot:header>
-            <h1 class="component-title" ref="lmfao">Project Code {{ project_code }} {{project.status}}</h1>
+            <h1 class="component-title" ref="lmfao"> {{ project.code }} {{project.status}} </h1>
         </template>
         <b-card-body>
             <b-tabs fill>
                 <b-tab title="Project Details">
                     <project-details
-                        :mode="mode"
-                        :project="project"
+                        :namespace="namespace"
                     ></project-details>
                 </b-tab>
                 <b-tab
@@ -31,11 +30,7 @@
         </b-card-body>
         <template v-slot:footer>
             <show-process-buttons
-                :mode="mode"
-                :item="project"
-                :item_model="item_model"
-                :steps="steps"
-                :endpoints="endpoints"
+                :namespace="namespace"
             ></show-process-buttons>
         </template>
     </b-card>
@@ -46,20 +41,15 @@ import quickAccess from "./ShowProject/QuickAccess"
 import projectDetails from "./ShowProject/ProjectDetails";
 import projectCoreTeam from "./ShowProject/ProjectCoreTeam";
 import showProcessButtons from "../../../../../components/authorized/public/ShowProcessButtons";
+import {mapState} from "vuex"
 export default {
     data() {
         return {
-            name: "Show Project",
-            item_model: "Project",
-            user: this.$store.state.user,
+
         };
     },
     props: {
-        steps: Array,
-        project: Object,
-        mode: String,
-        project_code: String,
-        endpoints: Object
+        namespace: String,
     },
     components: {
         "show-process-buttons": showProcessButtons,
@@ -68,6 +58,20 @@ export default {
         "quick-access": quickAccess
     },
     computed: {
+        ...mapState({
+            endpoints(state, getters){
+                return getters[this.namespace +"/getEndpoints"];
+            },
+            steps(state){
+                return state[this.namespace].steps
+            },
+            mode(state){
+                return state[this.namespace].mode
+            },
+            project(state){
+                return state[this.namespace].item;
+            }
+        }),
         core_team_title(){
             return this.allowProjectCoreTeam ? "Project Core Team (Available once project has been Approved)": "Project Core Team" ;
         },
