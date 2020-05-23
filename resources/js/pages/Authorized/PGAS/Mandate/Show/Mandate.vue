@@ -3,7 +3,7 @@
         <b-card class="mt-3">
             <template v-slot:header>
                 <h1 class="component-title">
-                    <!-- {{ mandate.code }} -->
+                    {{ mandate.code }}
                 </h1>
             </template>
             <b-card-body>
@@ -75,14 +75,14 @@ export default {
     },
     computed: {
         ...mapState({
-            mandate(state, getters) {
-                return getters[this.namespace + "/getItem"];
+            mandate(state) {
+                return state[this.namespace].item;
             },
             steps(state, getters) {
-                return getters[this.namespace + "/getSteps"];
+                return state[this.namespace].steps;
             },
             mode(state, getters) {
-                return getters[this.namespace + "/getMode"];
+                return state[this.namespace].mode;
             },
             endpoints(state, getters) {
                 return getters[this.namespace + "/getEndpoints"];
