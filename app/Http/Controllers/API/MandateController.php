@@ -86,7 +86,6 @@ class MandateController extends Controller
 
     public function saveChanges(Request $request, $id)
     {
-        // Update First the Cost Estimate Detail
         $mandate = Mandate::findOrFail($id);
         $updated_mandate = $this->saveChangesToItem($request, Mandate::class, $mandate, "Mandate");
 

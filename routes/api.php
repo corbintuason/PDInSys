@@ -66,21 +66,23 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put("/project/{id}/returnToUser", 'API\ProjectController@returnToUser');
     Route::get('/activities', "API\ActivityController@index");
 
-    // Mandate Routes
-    // Route::get('/mandate', 'API\MandateController@index');
-    // Route::post('/mandate', 'API\MandateController@store');
-    // Route::get('/mandate/{id}', 'API\MandateController@show');
-    // Route::put('/mandate/{id}', 'API\MandateController@update');
-    // Route::put('/mandate/{id}/saveChanges', 'API\MandateController@saveChanges');
-    // Route::put("/mandate/{id}/returnToUser", 'API\MandateController@returnToUser');
-
+    // Mandate
     Route::get('/mandate', 'API\MandateController@index');
     Route::post('/mandate/', 'API\MandateController@store');
     Route::get('/mandate/{id}', 'API\MandateController@show');
-    Route::put('/mandate/{id}', 'API\ProjecMandateController@update');
+    Route::put('/mandate/{id}', 'API\MandateController@update');
     Route::put('/mandate/{id}/saveChanges', 'API\MandateController@saveChanges');
     Route::put('/mandate/{id}/returnToUser', 'API\MandateController@returnToUser');
     Route::put('/mandate/{id}/reject', 'API\MandateController@reject');
+
+    // Vendor
+    Route::get('/vendor', 'API\VendorController@index');
+    Route::post('/vendor/', 'API\VendorController@store');
+    Route::get('/vendor/{id}', 'API\VendorController@show');
+    Route::put('/vendor/{id}', 'API\VendorController@update');
+    Route::put('/vendor/{id}/saveChanges', 'API\VendorController@saveChanges');
+    Route::put('/vendor/{id}/returnToUser', 'API\VendorController@returnToUser');
+    Route::put('/vendor/{id}/reject', 'API\VendorController@reject');
 });
 
 

@@ -13,8 +13,6 @@ use \stdclass;
 use Notification;
 use App\Notifications\VendorCreated;
 use App\Notifications\VendorStatusChange;
-use App\Remark;
-use App\Contributor;
 use App\Traits\ControllersTrait;
 
 class VendorController extends Controller
@@ -29,31 +27,17 @@ class VendorController extends Controller
 
     public function store(Request $request)
     {
+        // $auth_user = auth()->user();
 
-        // STATUS IS SET TO FOR APPROVAL
-        $auth_user = auth()->user();
         $vendor = $this->createItem($request, Vendor::class, "Vendor", "vendor_show");
-        // Notify Process Users
-        Notification::send($this->notifyApprovers($vendor), new VendorCreated($vendor));
+
+        Notification::send($this->notifyApprovers($vendor), new ItemNotification($vendor, $vendor::$module, "vendor_show", $vendor->id));
 
         return [
             'item_id' => $vendor->id,
             'success_text' => "Vendor " . $vendor->code . " has been successfully created"
         ];
-        // $validatedData = $request->validate([
-        //     'vendor_name' => 'required',
-        //     'trade_name' => 'required',
-        //     'registered_address' => 'required',
-        //     'type_business' => 'required',
-        //     'line_business' => 'required',
-        //     'contact_person' => 'required',
-        //     'contact_number' => 'required',
-        //     'email_address' => 'required',
-        //     'bank_details' => 'required',
-        //     'tin_number' => 'required',
-        //     'type_vat' => 'required',
-        //     'ewt_details' => 'required',
-        // ]);
+
 
         // $user_id = auth()->user()->id;
         // $auth_user = new UserResource(User::findOrFail($user_id));
@@ -127,16 +111,62 @@ class VendorController extends Controller
     public function update(Request $request, $id)
     {
         $vendor = Vendor::findOrFail($id);
-        $auth_user = auth()->user();
+        $this->updateItem($vendor, Vendor::class, "Vendor");
 
-        $this->updateItem($vendor, Vendor::class, "Vendor", "vendor_show");
+        if ($skipped) {
+            $this->skipRemark($vendor, Vendor::class);
+        }
 
-        // Notify Process Users
-        Notification::send($this->notifyApprovers($vendor), new VendorStatusChange($vendor));
+        Notification::send($vendor->contributors, new ItemNotification($vendor, $vendor::$module, "vendor_show", $vendor->id));
 
         return [
             'item_id' => $vendor->id,
             'success_text' => "Vendor " . $vendor->code . " has been successfully updated"
+        ];
+    }
+
+    // NON CRUD METHODS:
+
+    public function saveChanges(Request $request, $id)
+    {
+        $vendor = Vendor::findOrFail($id);
+        $updated_vendor = $this->saveChangesToItem($request, Vendor::class, $vendor, "vendor");
+
+        Notification::send($this->notifyApprovers($updated_vendor), new ItemNotification($updated_vendor, $updated_vendor::$module, "vendor_show", $updated_vendor->id));
+
+        return [
+            'refresh' => true,
+            'success_text' => $vendor->code . " has been successfully edited.",
+        ];
+    }
+
+    public function returnToUser(Request $request)
+    {
+
+        // Return Vendor  
+        $remark = $this->return($request, Vendor::class, "Vendor");
+
+        // Send Notification
+        $returned_to = User::findOrFail($remark->returned_to_id);
+
+        Notification::send($remark->returned_to, new ItemNotification($remark->remarkable, $remark->remarkable::$module, "vendor_show", $remark->remarkable->id));
+
+        return [
+            'item_id' => $remark->remarkable->id,
+            'success_text' => "Vendor " . $remark->remarkable->code . " has been successfully Returned"
+        ];
+    }
+
+    public function reject(Request $request, $id)
+    {
+        $vendor = Vendor::findOrFail($id);
+
+        $this->rejectItem($request, Vendor::class, $vendor, "Vendor");
+
+        Notification::send($this->getContributors($vendor), new ItemNotification($vendor, $vendor::$module, "vendor_show", $vendor->id));
+
+        return [
+            'success_text' => $vendor->code . " has been successfully Rejected",
         ];
     }
 }
