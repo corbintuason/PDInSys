@@ -3,7 +3,7 @@
         <b-card class="mt-3">
             <template v-slot:header>
                 <h1 class="component-title">
-                    {{ mandate.code }}
+                    <!-- {{ mandate.code }} -->
                 </h1>
             </template>
             <b-card-body>
@@ -41,17 +41,10 @@
             </b-card-body>
             <template v-slot:footer>
                 <show-process-buttons
-                    v-if="mandate.status == 'For Approval'"
-                    :mode="mode"
-                    :item="mandate"
-                    :item_model="'Mandate'"
-                    :steps="steps"
-                    :endpoints="endpoints"
                     :namespace="namespace"
                 ></show-process-buttons>
                 <!-- For Approval Status -->
             </template>
-            {{ mandate.status }}
         </b-card>
     </div>
 </template>
@@ -66,12 +59,12 @@ import showProcessButtons from "../../../../../components/authorized/public/Show
 import { mapGetters, mapState } from "vuex";
 export default {
     data() {
-        return {
-            namespace: "mandate-" + this.$route.params.id,
-        };
+        return {};
     },
     mixins: [form],
-    props: {},
+    props: {
+        namespace: String,
+    },
     components: {
         "show-process-buttons": showProcessButtons,
         "education-work": educationWork,

@@ -9,10 +9,10 @@
         </b-breadcrumb>
         <!-- Progress Bar -->
 
-        <item-progress class="mt-3" :steps="steps" :mode="mode"></item-progress>
+        <!-- <item-progress class="mt-3" :namespace="namespace"></item-progress> -->
         <!-- Main Mandate Form -->
 
-        <create-mandate :steps="steps" :endpoints="endpoints"></create-mandate>
+        <create-mandate :namespace="namespace"></create-mandate>
     </div>
 </template>
 
@@ -20,6 +20,7 @@
 import form from "../../../../mixins/form";
 import states from "../../../../mixins/states";
 import createMandate from "./Create/CreateMandate";
+import { mandateModule } from "../../../../store/modules/mandate";
 import { mapGetters, mapState } from "vuex";
 
 export default {

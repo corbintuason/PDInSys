@@ -65,16 +65,16 @@ class MandateController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update($id, $skipped)
     {
         $mandate = Mandate::findOrFail($id);
-
         $this->updateItem($mandate, Mandate::class, "Mandate");
-        // $this->updateItem($mandate, Mandate::class, "Mandate", "mandate_show");
+
+        if ($skipped) {
+            $this->skipRemark($mandate, Mandate::class);
+        }
 
         Notification::send($mandate->contributors, new ItemNotification($mandate, $mandate::$module, "mandate_show", $mandate->id));
-        // Notification::send($this->notifyApprovers($mandate), new MandateStatusChange($mandate));
-
 
         return [
             'item_id' => $mandate->id,
@@ -83,6 +83,20 @@ class MandateController extends Controller
     }
 
     // NON CRUD METHODS:
+
+    public function saveChanges(Request $request, $id)
+    {
+        // Update First the Cost Estimate Detail
+        $mandate = Mandate::findOrFail($id);
+        $updated_mandate = $this->saveChangesToItem($request, Mandate::class, $mandate, "Mandate");
+
+        Notification::send($this->notifyApprovers($updated_mandate), new ItemNotification($updated_mandate, $updated_mandate::$module, "mandate_show", $updated_mandate->id));
+
+        return [
+            'refresh' => true,
+            'success_text' => $mandate->code . " has been successfully edited.",
+        ];
+    }
 
     public function returnToUser(Request $request)
     {
@@ -101,19 +115,16 @@ class MandateController extends Controller
         ];
     }
 
-    public function saveChanges(Request $request, $id)
-    {
-    }
-
-    public function reject($id)
+    public function reject(Request $request, $id)
     {
         $mandate = Mandate::findOrFail($id);
 
-        $rejected_mandate = $this->rejectItem($mandate, "Mandate");
+        $this->rejectItem($request, Mandate::class, $mandate, "Mandate");
 
-        // Send Notification to Contribution List 
-        $returned_to = User::findOrFail($remark->returned_to_id);
+        Notification::send($this->getContributors($mandate), new ItemNotification($mandate, $mandate::$module, "mandate_show", $mandate->id));
 
-        Notification::send($rejected_mandate->contributors, new ItemNotification($rejected_mandate, $rejected_mandate::$module, "mandate_show"));
+        return [
+            'success_text' => $mandate->code . " has been successfully Rejected",
+        ];
     }
 }

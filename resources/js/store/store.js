@@ -19,7 +19,7 @@ export const store = new Vuex.Store({
         globals: globals,
         tax: tax,
         // project: project,
-        mandate: mandate,
+        // mandate: mandate,
         vendor: vendor,
         budget: budget,
         costEstimate: costEstimate,

@@ -1,14 +1,9 @@
 <template>
     <div>
-        <div v-if="mandate != null">
-            <item-progress
-                class="mt-3"
-                :steps="steps"
-                :item="mandate"
-                :mode="'Show'"
-            ></item-progress>
-            <mandate></mandate>
-            <change-logs :logs="mandate.actions"></change-logs>
+        <div v-if="!loading">
+            <item-progress class="mt-3" :namespace="namespace"></item-progress>
+            <mandate :namespace="namespace"></mandate>
+            <change-logs :namespace="namespace"></change-logs>
         </div>
         <clip-loader v-else color="orange"></clip-loader>
     </div>
@@ -16,7 +11,7 @@
 
 <script>
 import mandate from "./Show/Mandate";
-import mandateModule from "../../../../store/modules/mandate";
+import { mandateModule } from "../../../../store/modules/mandate";
 import states from "../../../../mixins/states";
 
 import { mapGetters, mapState } from "vuex";
@@ -33,29 +28,34 @@ export default {
     mixins: [states],
     computed: {
         ...mapState({
-            mandate(state, getters) {
-                return getters[this.namespace + "/getItem"];
-            },
-            steps(state, getters) {
-                return getters[this.namespace + "/getSteps"];
+            loading(state) {
+                return state[this.namespace].loading;
             },
         }),
+        // ...mapState({
+        //     mandate(state, getters) {
+        //         return getters[this.namespace + "/getItem"];
+        //     },
+        //     steps(state, getters) {
+        //         return getters[this.namespace + "/getSteps"];
+        //     },
+        // }),
     },
     watch: {},
     methods: {},
     beforeDestroy() {
-        console.log("look at me, mandate should be here", this.$store);
         this.$store.unregisterModule(this.namespace);
     },
-    mounted() {
-        this.registerStoreModule(this.namespace, mandateModule).then(
-            (response) => {
-                this.$store.dispatch(
-                    this.namespace + "/storeItem",
-                    this.mandate_id
-                );
-            }
-        );
+    beforeCreate() {
+        var id = this.$route.params.id;
+        var namespace = "mandate-" + id;
+        return new Promise((resolve, reject) => {
+            resolve(this.$store.registerModule(namespace, mandateModule));
+        }).then((response) => {
+            this.$store.dispatch(namespace + "/storeItem", id);
+        });
     },
+
+    mounted() {},
 };
 </script>

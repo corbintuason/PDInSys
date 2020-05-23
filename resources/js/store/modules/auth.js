@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
-export default({
+export default {
     namespaced: true,
     state: {
         user: JSON.parse(localStorage.getItem("user")) || null,
@@ -12,11 +12,11 @@ export default({
         loggedIn(state) {
             return state.token != null;
         },
-        unread_notifications(state){
+        unread_notifications(state) {
             console.log("whu");
-            return state.user.notifications.filter(notification => {
-                		return notification.read_at == null;
-                	});
+            return state.user.notifications.filter((notification) => {
+                return notification.read_at == null;
+            });
         },
         hasAbility(state) {
             return (name, entity_type) =>
@@ -56,11 +56,11 @@ export default({
         },
     },
     actions: {
-        markAsRead(context){
-            axios.get("/mark-all-read/").then(response => {
-                context.dispatch('storeUser');
-				// this.all_notifications = response.data.notifications;
-			});
+        markAsRead(context) {
+            axios.get("/mark-all-read/").then((response) => {
+                context.dispatch("storeUser");
+                // this.all_notifications = response.data.notifications;
+            });
         },
         storeUser(context) {
             return new Promise((resolve, reject) => {
@@ -88,7 +88,7 @@ export default({
             return new Promise((resolve, reject) => {
                 axios
                     .post("/api/login", {
-                        pdem_email: credentials.pdem_email,
+                        pd_email: credentials.pd_email,
                         password: credentials.password,
                     })
                     .then((response) => {
@@ -132,4 +132,4 @@ export default({
             context.commit("pushNotification", notification);
         },
     },
-});
+};

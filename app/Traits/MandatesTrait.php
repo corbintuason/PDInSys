@@ -30,6 +30,10 @@ trait MandatesTrait
             (object) [
                 "names" => ["Approved"],
                 "responsible" => null
+            ],
+            (object) [
+                "names" => ["", "Rejected"],
+                "responsible" => null
             ]
         ]);
         return $stages;

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <item-progress class="mt-3" :namespace="namespace"></item-progress>
         <b-card class="mt-3">
             <template v-slot:header>
                 <h1 class="component-title">Project Based Info Sheet</h1>
@@ -52,7 +53,7 @@
 
 <script>
 import form from "../../../../../mixins/form";
-import accountModule from "../../../../../store/modules/mandate";
+import { mandateModule } from "../../../../../store/modules/mandate";
 import generalInfo from "./components/GeneralInfo";
 import governmentDetails from "./components/GovernmentDetails";
 import otherInformation from "./components/OtherInformation";
@@ -60,15 +61,15 @@ import educationWork from "./components/EducationWork";
 import { mapGetters, mapState } from "vuex";
 
 export default {
-    props: {
-        steps: Array,
-        endpoints: Object,
-    },
     mixins: [form],
     data() {
         return {
             name: "Create Mandate",
-            user: this.$store.state.user,
+            namespace: "mandate-create",
+            endpoints: {
+                api: "/api/mandate",
+                show_route: "mandate_show",
+            },
             tabIndex: 0,
             mandate: {
                 date: "",
@@ -190,12 +191,13 @@ export default {
                     show_route: "mandate_show",
                 },
             };
+            console.log("meron naman laman?", this.mandate);
             this.fireCreateSwal(swal_object);
         },
     },
     beforeCreate() {
         this.$store.registerModule("mandate-create", mandateModule);
-        // this.registerStoreModule("account-create", accountModule);
+        this.$store.dispatch("mandate-create" + "/changeMode", "Create");
     },
     mounted() {},
 };
