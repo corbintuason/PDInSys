@@ -109,12 +109,12 @@ class VendorController extends Controller
         return new VendorResource(Vendor::findorFail($id));
     }
 
-    public function update($id, $skipped)
+    public function update(Request $request, $id)
     {
         $vendor = Vendor::findOrFail($id);
         $this->updateItem($vendor, Vendor::class, "Vendor");
 
-        if ($skipped) {
+        if ($request->get("skipped")) {
             $this->skipRemark($vendor, Vendor::class);
         }
 
@@ -131,7 +131,7 @@ class VendorController extends Controller
     public function saveChanges(Request $request, $id)
     {
         $vendor = Vendor::findOrFail($id);
-        $updated_vendor = $this->saveChangesToItem($request, Vendor::class, $vendor, "vendor");
+        $updated_vendor = $this->saveChangesToItem($request, Vendor::class, $vendor, "Vendor");
 
         Notification::send($this->notifyApprovers($updated_vendor), new ItemNotification($updated_vendor, $updated_vendor::$module, "vendor_show", $updated_vendor->id));
 

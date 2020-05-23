@@ -65,16 +65,16 @@ class MandateController extends Controller
     }
 
 
-    public function update($id, $skipped)
+    public function update(Request $request, $id)
     {
         $mandate = Mandate::findOrFail($id);
         $this->updateItem($mandate, Mandate::class, "Mandate");
 
-        if ($skipped) {
+        if ($request->get("skipped")) {
             $this->skipRemark($mandate, Mandate::class);
         }
 
-        Notification::send($mandate->contributors, new ItemNotification($mandate, $mandate::$module, "mandate_show", $mandate->id));
+        // Notification::send($mandate->contributors, new ItemNotification($mandate, $mandate::$module, "mandate_show", $mandate->id));
 
         return [
             'item_id' => $mandate->id,
