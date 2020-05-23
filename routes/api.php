@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     ]);
 
     // // Route::post('/budget-allocation/', 'API\BudgetAllocation@save');
-    
+
     // Account Routes
     Route::get('/account', 'API\AccountController@index');
     Route::post('/account/', 'API\AccountController@store');
@@ -67,12 +67,20 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/activities', "API\ActivityController@index");
 
     // Mandate Routes
+    // Route::get('/mandate', 'API\MandateController@index');
+    // Route::post('/mandate', 'API\MandateController@store');
+    // Route::get('/mandate/{id}', 'API\MandateController@show');
+    // Route::put('/mandate/{id}', 'API\MandateController@update');
+    // Route::put('/mandate/{id}/saveChanges', 'API\MandateController@saveChanges');
+    // Route::put("/mandate/{id}/returnToUser", 'API\MandateController@returnToUser');
+
     Route::get('/mandate', 'API\MandateController@index');
-    Route::post('/mandate', 'API\MandateController@store');
+    Route::post('/mandate/', 'API\MandateController@store');
     Route::get('/mandate/{id}', 'API\MandateController@show');
-    Route::put('/mandate/{id}', 'API\MandateController@update');
+    Route::put('/mandate/{id}', 'API\ProjecMandateController@update');
     Route::put('/mandate/{id}/saveChanges', 'API\MandateController@saveChanges');
-    Route::put("/mandate/{id}/returnToUser", 'API\MandateController@returnToUser');
+    Route::put('/mandate/{id}/returnToUser', 'API\MandateController@returnToUser');
+    Route::put('/mandate/{id}/reject', 'API\MandateController@reject');
 });
 
 

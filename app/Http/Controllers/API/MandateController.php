@@ -101,6 +101,10 @@ class MandateController extends Controller
         ];
     }
 
+    public function saveChanges(Request $request, $id)
+    {
+    }
+
     public function reject($id)
     {
         $mandate = Mandate::findOrFail($id);
