@@ -1,6 +1,6 @@
 <template>
   <div>
-      <item-progress class="mt-3" :steps="steps" :mode="'Create'"></item-progress>
+      <item-progress class="mt-3" :namespace="namespace"></item-progress>
     <b-card class="mt-3">
       <template v-slot:header>
         <h1 class="component-title">Create Account & Client </h1>
@@ -26,7 +26,7 @@
 
 import form from "../../../../mixins/form"
 import states from "../../../../mixins/states"
-import accountModule from "../../../../store/modules/account";
+import { accountModule } from "../../../../store/modules/account";
 import accountInformation from "./Create/AccountInformation";
 import clientsInformation from "./Create/ClientsInformation";
 import { mapGetters, mapState } from "vuex";
@@ -113,6 +113,7 @@ export default {
   },
   beforeCreate(){
     this.$store.registerModule("account-create", accountModule);
+    this.$store.dispatch("account-create" + "/changeMode", "Create");
         // this.registerStoreModule("account-create", accountModule);
 
   },
@@ -120,3 +121,4 @@ export default {
     },
 };
 </script>
+

@@ -135,18 +135,19 @@ export default {
         login() {
             this.$Progress.start();
             this.$store
-                .dispatch("retrieveToken", {
+                .dispatch("auth/retrieveToken", {
                     pdem_email: this.pdem_email,
                     password: this.password
                 })
                 .then(response => {
                     this.$store
-                        .dispatch("storeUser")
+                        .dispatch("auth/storeUser")
                         .then(response => {
                             this.$Progress.finish();
                             this.$router.push({ name: "Dashboard" });
                         })
                         .catch(e => {
+                            console.log("this should have failed");
                             this.$Progress.fail();
                             //(e);
                         });

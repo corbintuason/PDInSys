@@ -236,7 +236,8 @@ trait ControllersTrait
             'remarkable_type' => $class,
             'remarkable_id' => $item->id,
             'returned_to_id' => $request->user["id"],
-            'returned_by_id' => $auth_user->id,
+            'remarked_by_id' => $auth_user->id,
+            'type' => "Return",
             'remarks' => $request['remarks']
         ]);
         
@@ -258,8 +259,8 @@ trait ControllersTrait
         return $remark;
     }
 
-    public function rejectItem($item, $model_text){
-        
+    public function rejectItem($request, $class, $item, $model_text){
+        $auth_user = auth()->user();
         // Change Status of Item to Rejected
         activity()->withoutLogs(function () use ($item) {
             $item->update([
@@ -267,10 +268,55 @@ trait ControllersTrait
             ]);
         });
 
+        $remark = Remark::create([
+            'remarkable_type' => $class,
+            'remarkable_id' => $item->id,
+            'remarked_by_id' => $auth_user->id,
+            'type' => "Reject",
+            'remarks' => $request->all()
+        ]);
+
         // Create Activity
         activity($model_text . " " . $item->code. " has been set to Rejected")
             ->on($item)
             ->log($auth_user->full_name . " has Rejected " . $model_text . " " . $item->code);
         return $item;
     }
+
+    public function getContributors($item){
+        $contributors = collect([]);
+        foreach($item->contributors as $contributor){
+            $contributors->push($contributor->user);
+        }
+        return $contributors;
+    }
+
+    public function saveChangesToItem($request, $class, $item, $model_text){
+        $auth_user = auth()->user();
+
+        activity()->withoutLogs(function () use ($item, $request) {
+            $item->update($request->all());
+        });
+        
+        $this->updateItem($item, $class, $model_text);
+
+        activity($model_text . "Edited")
+        ->on($item)
+        ->log($auth_user->full_name . " has edited ". $item->code);
+
+        return $item;
+
+    }
+
+    public function skipRemark($item, $class){
+        $auth_user = auth()->user();
+        Remark::create([
+            'remarkable_type' => $class,
+            'remarkable_id' => $item->id,
+            'remarked_by_id' => $auth_user->id,
+            'type' => "Skip",
+            'remarks' => ["Please review this thoroughly because I did not review it properly."]
+        ]);
+    }
+
 }

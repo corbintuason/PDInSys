@@ -1,31 +1,54 @@
 <template>
-  <div>
-    <!-- Progress Bar -->
-    
-    <item-progress class="mt-3" :steps="steps" :mode="mode"></item-progress>
-    <!-- Main Project Form -->
+    <div>
+        <div v-if="!loading">
+            <!-- Progress Bar -->
 
-    <create-project :steps="steps" :endpoints="endpoints"></create-project>
+            <item-progress class="mt-3" :namespace="namespace"></item-progress>
+            <!-- Main Project Form -->
 
-  </div>
+            <create-project :namespace="namespace"></create-project>
+        </div>
+        <clip-loader v-else color="orange"></clip-loader>
+    </div>
 </template>
 
 <script>
-import createProject from "./Create/CreateProject"
-export default {
-  data() {
-    return {
-      mode: "Create",
-      steps: this.$store.state.project.steps,
-      endpoints:{
-        api: "/api/project",
-        show_route: "project_show"
-      },
-    };
-  },
+import createProject from "./Create/CreateProject";
+import {projectModule} from "../../../../store/modules/project";
+import { mapGetters, mapState, mapMutations } from "vuex";
 
-  components: {
-    "create-project": createProject
-  }
+export default {
+    data() {
+        return {
+            namespace: "project-create",
+        };
+    },
+    methods: {
+        ...mapMutations({
+            changeLoading(commit, payload) {
+                return commit(this.namespace + "/changeLoading", payload);
+            },
+            changeMode(commit, payload) {
+                return commit(this.namespace + "/changeMode", payload);
+            },
+        }),
+    },
+    computed: {
+        ...mapState({
+            loading(state) {
+                return state[this.namespace].loading;
+            },
+        }),
+    },
+    components: {
+        "create-project": createProject,
+    },
+    beforeCreate() {
+        this.$store.registerModule("project-create", projectModule);
+    },
+    mounted() {
+        this.changeLoading(false);
+        this.changeMode("Create");
+    },
 };
 </script>

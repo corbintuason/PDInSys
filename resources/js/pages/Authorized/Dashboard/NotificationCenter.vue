@@ -21,7 +21,7 @@
 						<tbody>
 							<tr
 								v-for="(notification,
-                                notification_index) in all_notifications"
+                                notification_index) in notifications"
 								:key="notification_index"
 							>
 								<td>
@@ -60,28 +60,27 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
 export default {
     data() {
         return {
-            user: this.$store.state.user,
-            all_notifications: [],
         };
     },
 
+	computed:{
+		...mapState("auth", {
+			user(state){
+				return state.user;
+			},
+			notifications(state){
+				return state.user.notifications
+			}
+		})
+	},
     methods: {
-           echoNotifications() {
-            // Call Echo to listen to notifications
-            Echo.private("users." + this.user.data.id).notification(
-                (notification) => {
-                    // Push New Notification
-                    this.all_notifications = this.user.notifications;
-                }
-            );
-        },
+   
     },
     mounted() {
-        this.all_notifications = this.user.notifications;
-        this.echoNotifications();
     },
 };
 </script>

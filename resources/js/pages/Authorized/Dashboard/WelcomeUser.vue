@@ -46,13 +46,18 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
 export default {
     data() {
-        return {
-            user: this.$store.state.user
-        };
+      return{}
     },
-    props: {}
+    computed:{
+          ...mapState("auth", {
+            user(state){
+                return state.user;
+            }
+        })
+    }
 };
 </script>
 

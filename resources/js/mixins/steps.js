@@ -27,10 +27,10 @@ export default {
             });
         },
         // Returns the Next Step 
-        getNextStep(current_step, steps) {
-            var next_step_index = steps.findIndex(object =>  object.name == current_step.name)+1;
-            var next_step = steps.find((val, index) => index == next_step_index);
-            return next_step;
-        },
+        // getNextStep(current_step, steps) {
+        //     var next_step_index = steps.findIndex(object =>  object.name == current_step.name)+1;
+        //     var next_step = steps.find((val, index) => index == next_step_index);
+        //     return next_step;
+        // },
     },
 };

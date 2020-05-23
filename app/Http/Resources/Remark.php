@@ -15,7 +15,8 @@ class Remark extends JsonResource
     public function toArray($request)
     {
         return [
-            "returned_by" => $this->returned_by->full_name,
+            "remarked_by" => $this->remarked_by->full_name,
+            "type" => $this->type,
             "remarks" => $this->remarks,
             "created_at" => $this->created_at
         ];    

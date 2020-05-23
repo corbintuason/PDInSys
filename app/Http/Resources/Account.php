@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Contributor as ContributorResource;
 use App\Http\Resources\Remark as RemarkResource;
+use App\Http\Resources\Client as ClientResource;
 class Account extends JsonResource
 {
 
@@ -25,7 +26,7 @@ class Account extends JsonResource
         // RELATIONSHIPS 
         $response['brands'] = $this->brands;
         $response['departments'] = $this->departments;
-        $response['clients'] = $this->clients;
+        $response['clients'] = ClientResource::collection($this->clients);
         
         // GENERIC RELATIONSHIPS
         $response['actions'] = $this->activities->sortBy('created_at');

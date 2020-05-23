@@ -16,8 +16,9 @@ class CreateRemarksTable extends Migration
         Schema::create('remarks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->morphs('remarkable');
-            $table->integer('returned_to_id');
-            $table->integer('returned_by_id');
+            $table->integer('returned_to_id')->nullable();
+            $table->integer('remarked_by_id');
+            $table->string('type');
             $table->json('remarks');
             $table->timestamps();
         });

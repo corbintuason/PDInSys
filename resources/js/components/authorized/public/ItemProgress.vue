@@ -8,7 +8,7 @@
 					</div>
 					<div class="col-md-6 text-right">
 						<b-button-group class="float-right" v-if="mode!='Create'">
-							<b-button @click="showRemarksList" variant="outline-secondary">Remarks List</b-button>
+							<b-button @click="changeShowRemarksModal(true)" variant="outline-secondary">Remarks List</b-button>
 							<b-button variant="outline-secondary" @click="showContributionList">Contribution List</b-button>
 						</b-button-group>
 					</div>
@@ -16,7 +16,7 @@
 			</template>
 			<b-card-body>
 				<div class="row">
-					<div v-if="steps.length > 0" class="col-md-12">
+					<div v-if="item.status!='Rejected'" class="col-md-12">
 						<step-progress
 							v-if="progress_steps.length > 0"
 							:steps="progress_steps"
@@ -26,6 +26,7 @@
 							passive-color="gray"
 						></step-progress>
 					</div>
+                    <b-alert v-else class="col-md-12" show variant="danger"> <strong> This item has been rejected.</strong> </b-alert>
 				</div>
 			</b-card-body>
 			<template v-slot:footer></template>
@@ -36,7 +37,7 @@
 				<template v-slot:modal-header>Contribution List</template>
 				<contribution-list :steps="steps" :contributors="item.contributors"></contribution-list>
 			</b-modal>
-			<remarks-list :remarks="item.remarks"></remarks-list>
+			<remarks-list :namespace="namespace"></remarks-list>
 		</div>
 	</div>
 </template>
@@ -45,6 +46,7 @@
 import contributionList from "./ContributionList";
 import remarksList from "./RemarksList";
 import steps from "../../../mixins/steps"
+import {mapMutations, mapState} from "vuex";
 export default {
     data() {
         return {
@@ -53,9 +55,7 @@ export default {
         };
     },
     props: {
-        steps: Array,
-        mode: String,
-        item: Object,
+        namespace: String,
     },
     mixins:[steps],
     components: {
@@ -63,11 +63,28 @@ export default {
         "remarks-list": remarksList
     },
     computed:{
+        ...mapState({
+            item(state){
+                return state[this.namespace].item
+            },
+            mode(state){
+                return state[this.namespace].mode
+            },
+            steps(state){
+                return state[this.namespace].steps
+            }
+        }),
         progress_bar_header(){
             return (this.item!=null) ? this.item.code : "Progress Bar";
         }
     },
     methods: {
+            ...mapMutations({
+            changeShowRemarksModal(commit, payload) {
+                console.log("not working?", this.$store.state[this.namespace].show_remarks_modal);
+                return commit(this.namespace + "/changeShowRemarksModal", payload);
+            },
+        }),
         loadSteps() {
             this.steps.forEach((step) => {
                 console.log("vibe check", step);
@@ -96,6 +113,7 @@ export default {
         },
     },
     mounted() {
+        console.log("did i receive the space", this.namespace);
         this.loadSteps();
     },
 };

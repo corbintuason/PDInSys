@@ -15,23 +15,25 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
 export default{
     data(){
         return{
-          sorted_logs: null
         }
-    },
+	},
+	computed:{
+		...mapState({
+			sorted_logs(state){
+				return state[this.namespace].item.actions.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1)
+			}
+		})
+	},
     props:{
-        logs: Array
+        namespace: String
 	},
 	methods:{
-		sortLogs(){
-			this.sorted_logs = this.logs.sort((a, b) => (a.created_at < b.created_at) ? 1 : -1)
-
-		}
 	},
 	mounted(){
-		this.sortLogs();
 	}
 }
 </script>

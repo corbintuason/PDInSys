@@ -79,7 +79,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (!store.getters.loggedIn) {
+        if (!store.getters['auth/loggedIn']) {
             next({
                 name: "Welcome",
             });
@@ -87,7 +87,7 @@ router.beforeEach((to, from, next) => {
             next();
         }
     } else if (to.matched.some((record) => record.meta.requiresVisitor)) {
-        if (store.getters.loggedIn) {
+        if (store.getters['auth/loggedIn']) {
             next({
                 name: "Dashboard",
             });

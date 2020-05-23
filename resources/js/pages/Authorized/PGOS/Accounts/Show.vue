@@ -1,14 +1,12 @@
 <template>
     <div>
-        <div v-if="account != null">
+        <div v-if="!loading">
             <item-progress
                 class="mt-3"
-                :steps="steps"
-                :item="account"
-                :mode="'Show'"
+                :namespace="namespace"
             ></item-progress>
-            <account></account>
-            <change-logs :logs="account.actions"></change-logs>
+            <account :namespace="namespace"></account>
+            <change-logs :namespace="namespace"></change-logs>
         </div>
         <clip-loader v-else color="orange"></clip-loader>
     </div>
@@ -16,7 +14,7 @@
 
 <script>
 import account from "./Show/Account";
-import accountModule from "../../../../store/modules/account";
+import { accountModule } from "../../../../store/modules/account";
 import states from "../../../../mixins/states";
 
 import { mapGetters, mapState } from "vuex";
@@ -24,7 +22,7 @@ export default {
     data() {
         return {
             account_id: this.$route.params.id,
-            namespace: "account-" + this.$route.params.id
+            namespace: "account-" + this.$route.params.id,
         };
     },
     components: {
@@ -33,30 +31,36 @@ export default {
     mixins: [states],
     computed: {
         ...mapState({
-            account(state, getters) {
-                return getters[this.namespace + "/getItem"];
-            },
-            steps(state, getters) {
-                return getters[this.namespace + "/getSteps"];
-            },
-
-        }),
+            loading(state){
+                return state[this.namespace].loading;
+            }
+        })
+        // ...mapState({
+        //     account(state, getters) {
+        //         return state[this.namespace].item;
+        //     },
+        //     steps(state, getters) {
+        //         return state[this.namespace].steps;
+        //     },
+        // }),
     },
     watch: {},
     methods: {},
-    beforeDestroy() {        
-        console.log("look at me, account should be here", this.$store);
-    this.$store.unregisterModule(this.namespace);
+    beforeDestroy() {
+        this.$store.unregisterModule(this.namespace);
     },
-    mounted() {
-        this.registerStoreModule(this.namespace, accountModule).then(
-            (response) => {
-                this.$store.dispatch(
-                    this.namespace + "/storeItem",
-                    this.account_id
-                );
-            }
-        );
+    beforeCreate() {
+        var id = this.$route.params.id;
+        var namespace = "account-" + id;
+        return new Promise((resolve, reject) => {
+            resolve(this.$store.registerModule(namespace, accountModule));
+        }).then((response) => {
+            this.$store.dispatch(namespace + "/storeItem", id);
+        });
     },
+
+    mounted(){
+        
+    }
 };
 </script>

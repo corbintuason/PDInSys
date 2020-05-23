@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/account', 'API\AccountController@index');
     Route::post('/account/', 'API\AccountController@store');
     Route::get('/account/{id}', 'API\AccountController@show');
-    Route::put('/account/{id}', 'API\ProjecAccountController@update');
+    Route::put('/account/{id}', 'API\AccountController@update');
     Route::put('/account/{id}/saveChanges', 'API\AccountController@saveChanges');
     Route::put('/account/{id}/returnToUser', 'API\AccountController@returnToUser');
     Route::put('/account/{id}/reject', 'API\AccountController@reject');
