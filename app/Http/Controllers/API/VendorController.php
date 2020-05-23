@@ -11,6 +11,7 @@ use App\VendorContributor;
 use App\User;
 use \stdclass;
 use Notification;
+use App\Notifications\ItemNotification;
 use App\Notifications\VendorCreated;
 use App\Notifications\VendorStatusChange;
 use App\Traits\ControllersTrait;
@@ -108,7 +109,7 @@ class VendorController extends Controller
         return new VendorResource(Vendor::findorFail($id));
     }
 
-    public function update(Request $request, $id)
+    public function update($id, $skipped)
     {
         $vendor = Vendor::findOrFail($id);
         $this->updateItem($vendor, Vendor::class, "Vendor");

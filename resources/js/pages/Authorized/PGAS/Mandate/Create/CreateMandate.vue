@@ -52,12 +52,12 @@
 </template>
 
 <script>
-import form from "../../../../../mixins/form";
-import { mandateModule } from "../../../../../store/modules/mandate";
 import generalInfo from "./components/GeneralInfo";
 import governmentDetails from "./components/GovernmentDetails";
 import otherInformation from "./components/OtherInformation";
 import educationWork from "./components/EducationWork";
+import form from "../../../../../mixins/form";
+import { mandateModule } from "../../../../../store/modules/mandate";
 import { mapGetters, mapState } from "vuex";
 
 export default {
