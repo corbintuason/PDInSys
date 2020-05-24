@@ -38,4 +38,9 @@ trait VendorsTrait
         ]);
         return $stages;
     }
+
+    public function getIsProcessFinishedAttribute()
+    {
+        return $this->status == 'Approved';
+    }
 }
