@@ -27,7 +27,7 @@
                                 id="inline-form-input-name"
                                 class="mb-2 mr-sm-2 mb-sm-0"
                                 placeholder="Email"
-                                v-model="pdem_email"
+                                v-model="pd_email"
                             ></b-input>
                             <b-input-group class="mb-2 mr-sm-2 mb-sm-0">
                                 <b-input
@@ -62,8 +62,8 @@ export default {
     name: "navbar",
     data() {
         return {
-            pdem_email: null,
-            password: null
+            pd_email: null,
+            password: null,
         };
     },
     methods: {
@@ -71,27 +71,27 @@ export default {
             this.$Progress.start();
             this.$store
                 .dispatch("retrieveToken", {
-                    pdem_email: this.pdem_email,
-                    password: this.password
+                    pd_email: this.pd_email,
+                    password: this.password,
                 })
-                .then(response => {
+                .then((response) => {
                     this.$store
                         .dispatch("storeUser")
-                        .then(response => {
+                        .then((response) => {
                             this.$Progress.finish();
                             this.$router.push({ name: "Dashboard" });
                         })
-                        .catch(e => {
+                        .catch((e) => {
                             this.$Progress.fail();
                             //(e);
                         });
                 })
-                .catch(e => {
+                .catch((e) => {
                     this.$Progress.fail();
                     //(e);
                 });
-        }
+        },
     },
-    mounted() {}
+    mounted() {},
 };
 </script>

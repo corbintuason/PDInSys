@@ -1,72 +1,62 @@
 <template>
-	<div v-if="vendor!=null">
-		<b-breadcrumb class="mt-4">
-			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
-			<b-breadcrumb-item href="/vendors">List of Vendor</b-breadcrumb-item>
-			<b-breadcrumb-item active>VID-{{ vendor.code }}</b-breadcrumb-item>
-		</b-breadcrumb>
-		<div>
-			<item-progress class="mt-3" v-if="vendor!=null" :steps="steps" :item="vendor" :mode="mode"></item-progress>
-		</div>
-
-		<!-- Mandate -->
-		<vendor-module
-			v-if="vendor != null"
-			:vendor_code="vendor.code"
-			:endpoints="endpoints"
-			:vendor="vendor"
-			:mode="mode"
-			:key="show_vendor_key"
-			:steps="steps"
-		></vendor-module>
-		{{vendor.relationships}}
-		<!-- Change Logs -->
-		<change-logs v-if="vendor!=null" :logs="vendor.relationships.actions"></change-logs>
-	</div>
+    <div>
+        <div v-if="!loading">
+            <item-progress class="mt-3" :namespace="namespace"></item-progress>
+            <vendor :namespace="namespace"></vendor>
+            <change-logs :namespace="namespace"></change-logs>
+        </div>
+        <clip-loader v-else color="orange"></clip-loader>
+    </div>
 </template>
 
 <script>
-import vendorModule from "./VendorAccreditation";
-import changeLogs from "../../../../components/public/ChangeLogs";
+import vendor from "./Show/Vendor";
+import { vendorModule } from "../../../../store/modules/vendor";
+import states from "../../../../mixins/states";
+
+import { mapGetters, mapState } from "vuex";
 export default {
     data() {
         return {
-            mode: "Show",
-      	    show_vendor_key: 0,
-            steps: this.$store.state.vendor.steps,
-            endpoints: {
-                api: "/api/vendor/",
-                show_route: "vendor_show",
-            },
-            vendor: null,
+            vendor_id: this.$route.params.id,
+            namespace: "vendor-" + this.$route.params.id,
         };
     },
     components: {
-        "vendor-module": vendorModule,
-        "change-logs": changeLogs,
+        vendor: vendor,
     },
-    watch:{
-        mode(){
-        this.show_vendor_key++;
-        }
+    mixins: [states],
+    computed: {
+        ...mapState({
+            loading(state) {
+                return state[this.namespace].loading;
+            },
+        }),
+        // ...mapState({
+        //     vendor(state, getters) {
+        //         return getters[this.namespace + "/getItem"];
+        //     },
+        //     steps(state, getters) {
+        //         return getters[this.namespace + "/getSteps"];
+        //     },
+        // }),
     },
-    methods:{
-        loadVendor(){
-            var vendor_id = this.$route.params.id
-            axios.get("/api/vendor/" + vendor_id).then(response => {
-                this.vendor = response.data.data;
-            })
-        }
+    watch: {},
+    methods: {},
+    beforeDestroy() {
+        this.$store.unregisterModule(this.namespace);
     },
-    mounted(){
-        this.loadVendor();
-        Fire.$on('switch-mode', mode => {
-            if(mode == 'Show'){
-            this.loadVendor();
-            }
-            this.mode = mode;
+    beforeCreate() {
+        var id = this.$route.params.id;
+        var namespace = "vendor-" + id;
+        return new Promise((resolve, reject) => {
+            resolve(this.$store.registerModule(namespace, vendorModule));
+        }).then((response) => {
+            this.$store.dispatch(namespace + "/storeItem", id);
         });
     },
+
+    mounted() {},
 };
 </script>
 

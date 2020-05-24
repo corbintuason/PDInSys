@@ -15,7 +15,8 @@ use App\User;
 use App\ClientBrand;
 use App\ClientDepartment;
 
-use Notification;   
+use Notification;
+
 class AccountController extends Controller
 {
     use ControllersTrait;
@@ -42,12 +43,12 @@ class AccountController extends Controller
             'registered_name' => 'required',
             'registered_address' => 'required',
         ]);
-        
+
         // Create Account 
         $account = $this->createItem($request, Account::class, "Account", "account_show");
-        
+
         // Create Brands
-        foreach($request->brands as $brand){
+        foreach ($request->brands as $brand) {
             AccountBrand::create([
                 "account_id" => $account->id,
                 "name" => $brand
@@ -55,20 +56,20 @@ class AccountController extends Controller
         }
 
         // Create Departments
-        foreach($request->departments as $department){
+        foreach ($request->departments as $department) {
             AccountDepartment::create([
                 "account_id" => $account->id,
                 "name" => $department
-            ]);        
+            ]);
         }
 
         // Create Clients
-        foreach($request->clients as $client){
+        foreach ($request->clients as $client) {
             $client['account_id'] = $account->id;
             $new_client = Client::create($client);
         }
-         // Notify Contributors
-         Notification::send($this->notifyApprovers($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
+        // Notify Contributors
+        Notification::send($this->notifyApprovers($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
 
         return [
             'item_id' => $account->id,
@@ -104,15 +105,14 @@ class AccountController extends Controller
         if($request->get('skipped')){
             $this->skipRemark($account, Account::class);
         }
-        
+
         // Notify Approvers
         Notification::send($this->notifyApprovers($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
-        
+
         return [
             'item_id' => $account->id,
             'success_text' => "Account " . $account->code . " has been successfully updated."
         ];
-
     }
 
     /**
@@ -128,24 +128,26 @@ class AccountController extends Controller
 
     // NON CRUD METHODS:
 
-    public function saveChanges(Request $request, $id){
+    public function saveChanges(Request $request, $id)
+    {
         // Update First the Cost Estimate Detail
         $account = Account::findOrFail($id);
         $updated_account = $this->saveChangesToItem($request, Account::class, $account, "Account");
-        
+
         Notification::send($this->notifyApprovers($updated_account), new ItemNotification($updated_account, $updated_account::$module, "account_show", $updated_account->id));
 
-        return [    
+        return [
             'refresh' => true,
             'success_text' => $account->code . " has been successfully edited.",
         ];
     }
 
-    public function returnToUser(Request $request){    
+    public function returnToUser(Request $request)
+    {
 
         // Return Account  
         $remark = $this->return($request, Account::class, "Account");
-        
+
         // Send Notification
         $returned_to = User::findOrFail($remark->returned_to_id);
 
@@ -157,14 +159,15 @@ class AccountController extends Controller
         ];
     }
 
-    public function reject(Request $request, $id){
+    public function reject(Request $request, $id)
+    {
         $account = Account::findOrFail($id);
 
         $this->rejectItem($request, Account::class, $account, "Account");
-        
+
         Notification::send($this->getContributors($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
 
-        return[
+        return [
             'success_text' => $account->code . " has been successfully Rejected",
         ];
     }

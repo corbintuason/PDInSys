@@ -70,7 +70,7 @@
                                     required
                                     placeholder="Enter email"
                                     type="email"
-                                    v-model="pdem_email"
+                                    v-model="pd_email"
                                 ></b-form-input>
                             </b-form-group>
 
@@ -127,8 +127,8 @@ export default {
     name: "navbar",
     data() {
         return {
-            pdem_email: null,
-            password: null
+            pd_email: null,
+            password: null,
         };
     },
     methods: {
@@ -136,29 +136,29 @@ export default {
             this.$Progress.start();
             this.$store
                 .dispatch("auth/retrieveToken", {
-                    pdem_email: this.pdem_email,
-                    password: this.password
+                    pd_email: this.pd_email,
+                    password: this.password,
                 })
-                .then(response => {
+                .then((response) => {
                     this.$store
                         .dispatch("auth/storeUser")
-                        .then(response => {
+                        .then((response) => {
                             this.$Progress.finish();
                             this.$router.push({ name: "Dashboard" });
                         })
-                        .catch(e => {
+                        .catch((e) => {
                             console.log("this should have failed");
                             this.$Progress.fail();
                             //(e);
                         });
                 })
-                .catch(e => {
+                .catch((e) => {
                     this.$Progress.fail();
                     //(e);
                 });
-        }
+        },
     },
-    mounted() {}
+    mounted() {},
 };
 </script>
 

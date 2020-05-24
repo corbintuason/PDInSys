@@ -25,9 +25,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::query();
-        if($request->get('positions')){
+        if ($request->get('positions')) {
             $positions = $request->get('positions');
-            foreach($positions as $position){
+            foreach ($positions as $position) {
                 $users->orWhereJsonContains('positions', ['name' => $position]);
             }
         }
@@ -48,8 +48,8 @@ class UserController extends Controller
             'middle_name' => 'required',
             'employment_date' => 'required',
             'birth_date' => 'required',
-            'pdem_email' => 'required',
-            'pdem_gmail' => 'required',
+            'pd_email' => 'required',
+            'pd_gmail' => 'required',
             'positions' => 'required',
             'module_access' => 'required',
             'contact_numbers' => 'required'
@@ -61,10 +61,10 @@ class UserController extends Controller
 
         $user_id = auth()->user()->id;
         $user = User::findOrFail($user_id);
-        
+
         // Create the User
-        $created_user =  activity()->withoutLogs(function() use($validatedData, $request){
-           return User::create($request->except('module_access'));
+        $created_user =  activity()->withoutLogs(function () use ($validatedData, $request) {
+            return User::create($request->except('module_access'));
         });
 
         // Add Permissions
@@ -72,20 +72,20 @@ class UserController extends Controller
 
         // Add Roles
         $created_user->assign($request['module_access.roles']);
-        
+
         // Notify Users
-        FacadesMail::to($created_user->pdem_email)->send(new NewUserCreated($created_user, $password));
-        
+        FacadesMail::to($created_user->pd_email)->send(new NewUserCreated($created_user, $password));
+
         $notify_user = User::first();
         $notify_users = collect([]);
         $notify_users->push($notify_user);
-        
+
         Notification::send($notify_users, new UserRegistered($created_user));
 
         activity('User Created')
-        ->on($created_user)
-        ->withProperties(["link_name" => "user_show", "link_id" => $created_user->id])
-        ->log("User " . $user->last_name .", " . $user->first_name  . " has created User " . $created_user->last_name .", " . $created_user->first_name .".");
+            ->on($created_user)
+            ->withProperties(["link_name" => "user_show", "link_id" => $created_user->id])
+            ->log("User " . $user->last_name . ", " . $user->first_name  . " has created User " . $created_user->last_name . ", " . $created_user->first_name . ".");
 
         return response($created_user);
     }
@@ -99,7 +99,6 @@ class UserController extends Controller
     public function show($id)
     {
         return new UserResource(User::findorFail($id));
-
     }
 
     /**
@@ -110,7 +109,6 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-       
     }
 
     /**
@@ -127,7 +125,6 @@ class UserController extends Controller
             'password' => bcrypt($request['password']),
         ]);
         return new UserResource($user);
-
     }
 
     /**

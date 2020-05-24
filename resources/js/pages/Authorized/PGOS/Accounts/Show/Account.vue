@@ -23,6 +23,7 @@
             </b-card-body>
             <template v-slot:footer>
                 <show-process-buttons
+                    v-if="mandate.status != 'Approved'"
                     :namespace="namespace"
                 ></show-process-buttons>
                 <!-- For Approval Status -->
@@ -40,9 +41,7 @@ import { mapGetters, mapState } from "vuex";
 
 export default {
     data() {
-        return {
-           
-        };
+        return {};
     },
     mixins: [form],
     components: {
@@ -51,7 +50,7 @@ export default {
         "item-header": itemHeader
     },
     props: {
-        namespace: String
+        namespace: String,
     },
     computed: {
         ...mapState({

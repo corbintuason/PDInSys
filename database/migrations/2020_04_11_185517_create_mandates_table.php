@@ -42,7 +42,7 @@ class CreateMandatesTable extends Migration
             $table->json('spouse_details');
             $table->json('emergency_details');
             $table->string('status');
-
+            $table->boolean('isActive')->default(1);
             $table->timestamps();
         });
     }

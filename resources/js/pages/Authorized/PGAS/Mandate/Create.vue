@@ -1,35 +1,42 @@
 <template>
-	<div>
-		<b-breadcrumb class="mt-4">
-			<b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
-			<b-breadcrumb-item href="/mandates">List of Manpower</b-breadcrumb-item>
-			<b-breadcrumb-item active>Create Manpower</b-breadcrumb-item>
-		</b-breadcrumb>
-		<!-- Progress Bar -->
+    <div>
+        <b-breadcrumb class="mt-4">
+            <b-breadcrumb-item href="/">Dashboard</b-breadcrumb-item>
+            <b-breadcrumb-item href="/mandates"
+                >List of Manpower</b-breadcrumb-item
+            >
+            <b-breadcrumb-item active>Create Manpower</b-breadcrumb-item>
+        </b-breadcrumb>
+        <!-- Progress Bar -->
 
-		<item-progress class="mt-3" :steps="steps" :mode="mode"></item-progress>
-		<!-- Main Mandate Form -->
+        <!-- <item-progress class="mt-3" :namespace="namespace"></item-progress> -->
+        <!-- Main Mandate Form -->
 
-		<create-mandate :steps="steps" :endpoints="endpoints"></create-mandate>
-	</div>
+        <create-mandate :namespace="namespace"></create-mandate>
+    </div>
 </template>
 
 <script>
-import createMandate from "./Create/CreateMandate"
-export default {
-  data() {
-    return {
-      mode: "Create",
-      steps: this.$store.state.mandate.steps,
-      endpoints:{
-        api: "/api/mandate",
-        show_route: "mandate_show"
-      },
-    };
-  },
+import form from "../../../../mixins/form";
+import states from "../../../../mixins/states";
+import createMandate from "./Create/CreateMandate";
+import { mandateModule } from "../../../../store/modules/mandate";
+import { mapGetters, mapState } from "vuex";
 
-  components: {
-    "create-mandate": createMandate
-  }
+export default {
+    data() {
+        return {
+            mode: "Create",
+            namespace: "mandate-create",
+            endpoints: {
+                api: "/api/mandate",
+                show_route: "mandate_show",
+            },
+        };
+    },
+    mixins: [form, states],
+    components: {
+        "create-mandate": createMandate,
+    },
 };
 </script>

@@ -33,21 +33,24 @@
 			<template v-slot:footer></template>
 		</b-card>
 
-		<div v-if="mode != 'Create'">
-			<b-modal id="contribution-list" size="xl" hide-footer>
-				<template v-slot:modal-header>Contribution List</template>
-				<contribution-list :steps="steps" :contributors="item.contributors"></contribution-list>
-			</b-modal>
-			<remarks-list :namespace="namespace"></remarks-list>
-		</div>
-	</div>
+        <div v-if="mode != 'Create'">
+            <b-modal id="contribution-list" size="xl" hide-footer>
+                <template v-slot:modal-header>Contribution List</template>
+                <contribution-list
+                    :steps="steps"
+                    :contributors="item.contributors"
+                ></contribution-list>
+            </b-modal>
+            <remarks-list :namespace="namespace"></remarks-list>
+        </div>
+    </div>
 </template>
 
 <script>
 import contributionList from "./ContributionList";
 import remarksList from "./RemarksList";
-import steps from "../../../mixins/steps"
-import {mapMutations, mapState} from "vuex";
+import steps from "../../../mixins/steps";
+import { mapMutations, mapState } from "vuex";
 export default {
     data() {
         return {
@@ -58,23 +61,24 @@ export default {
     props: {
         namespace: String,
     },
-    mixins:[steps],
+    mixins: [steps],
     components: {
         "contribution-list": contributionList,
-        "remarks-list": remarksList
+        "remarks-list": remarksList,
     },
-    computed:{
+    computed: {
         ...mapState({
-            item(state){
-                return state[this.namespace].item
+            item(state) {
+                return state[this.namespace].item;
             },
-            mode(state){
-                return state[this.namespace].mode
+            mode(state) {
+                return state[this.namespace].mode;
             },
-            steps(state){
-                return state[this.namespace].steps
-            }
+            steps(state) {
+                return state[this.namespace].steps;
+            },
         }),
+<<<<<<< HEAD
         progress_bar_header(){
             return (this.item!=null) ? this.item.code : "Progress Bar";
         },
@@ -87,12 +91,23 @@ export default {
                 }
             } return true;
         }
+=======
+        progress_bar_header() {
+            return this.item != null ? this.item.code : "Progress Bar";
+        },
+>>>>>>> b22f785b6ff88459e8344df2c530319822a1b82f
     },
     methods: {
-            ...mapMutations({
+        ...mapMutations({
             changeShowRemarksModal(commit, payload) {
-                console.log("not working?", this.$store.state[this.namespace].show_remarks_modal);
-                return commit(this.namespace + "/changeShowRemarksModal", payload);
+                console.log(
+                    "not working?",
+                    this.$store.state[this.namespace].show_remarks_modal
+                );
+                return commit(
+                    this.namespace + "/changeShowRemarksModal",
+                    payload
+                );
             },
         }),
         loadSteps() {
@@ -100,20 +115,19 @@ export default {
                 console.log("vibe check", step);
                 this.progress_steps.push(step.name);
             });
-            if(this.mode != 'Create'){
-            var current_step = this.getCurrentStep(this.item, this.steps);
-            if(current_step!= null){
-            var status_index = this.progress_steps.indexOf(current_step.name);
-            this.current_step = status_index;
-            }else{
-                this.current_step = this.progress_steps.length
-            }
-          
-            }else{
+            if (this.mode != "Create") {
+                var current_step = this.getCurrentStep(this.item, this.steps);
+                if (current_step != null) {
+                    var status_index = this.progress_steps.indexOf(
+                        current_step.name
+                    );
+                    this.current_step = status_index;
+                } else {
+                    this.current_step = this.progress_steps.length;
+                }
+            } else {
                 this.current_step = 0;
-
             }
-           
         },
         showContributionList() {
             this.$bvModal.show("contribution-list");
@@ -129,5 +143,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -8,9 +8,9 @@ use App\Http\Resources\Remark as RemarkResource;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
 use App\Traits\ModelsTrait;
+
 class Mandate extends JsonResource
 {
-    use LogsActivity, CausesActivity, ModelsTrait;
     /**
      * Transform the resource into an array.
      *
@@ -20,14 +20,16 @@ class Mandate extends JsonResource
     public function toArray($request)
     {
         $response = parent::toArray($request);
+
+        // ATTRIBUTES
         $response["code"] = $this->code;
         $response['current_handler'] = $this->currentHandler;
-        $response["relationships"] = [
-            'actions' => $this->activities,
-            'user' => $this->user,
-            'contributors' => ContributorResource::collection($this->contributors),
-            'remarks' => RemarkResource::collection($this->remarks),
-        ];
+
+        // GENERIC RELATIONSHIPS
+        $response['actions'] = $this->activities->sortBy('created_at');
+        $response['contributors'] = ContributorResource::collection($this->contributors);
+        $response['remarks'] = RemarkResource::collection($this->remarks);
+
         return $response;
     }
 }

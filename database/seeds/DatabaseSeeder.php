@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Account;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -13,5 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AccountsUsersRolesSeeder::class);
         $this->call(ProjectsUsersRolesSeeder::class);
+        $this->call(MandatesUsersRolesSeeder::class);
+        $this->call(VendorsUsersRolesSeeder::class);
     }
 }

@@ -5,18 +5,37 @@ namespace App\Traits;
 use App\Vendor;
 use Illuminate\Http\Request;
 use App\Traits\ControllersTrait;
+use App\Traits\ModelsTrait;
 
 trait VendorsTrait
 {
+    use ModelsTrait;
 
-    use ControllersTrait;
-    public function getCreateStatus(Request $request)
+    public function getCodeAttribute()
     {
-        $roles = auth()->user()->getRoles()->toArray();
-        $next_status;
-        if (in_array('vendor-creator', $roles)) {
-            $next_status = "For Approval";
-        }
-        return $next_status;
+        return "VID-" . sprintf('%04d', $this->attributes['id']);
+    }
+
+    protected function getStagesAttribute()
+    {
+        $stages = collect([
+            (object) [
+                "names" => ["", "Returned to Creator"],
+                "responsible" => "vendor-creator"
+            ],
+            (object) [
+                "names" => ["For Approval", "Returned to Approver"],
+                "responsible" => "vendor-approver"
+            ],
+            (object) [
+                "names" => ["Approved"],
+                "responsible" => null
+            ],
+            (object) [
+                "names" => ["", "Rejected"],
+                "responsible" => null
+            ]
+        ]);
+        return $stages;
     }
 }

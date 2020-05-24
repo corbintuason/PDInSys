@@ -5,15 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Mandate as MandateResource;
-use App\Http\Resources\User as UserResource;
 use App\Mandate;
-use App\MandateContributor;
 use App\User;
 use Notification;
+use App\Notifications\ItemNotification;
 use App\Notifications\MandateCreated;
 use App\Notifications\MandateStatusChange;
-use App\Remark;
-use App\Contributor;
 use App\Traits\ControllersTrait;
 
 class MandateController extends Controller
@@ -43,11 +40,12 @@ class MandateController extends Controller
     public function store(Request $request)
     {
 
-        // STATUS IS SET TO FOR APPROVAL
-        $auth_user = auth()->user();
+        // $auth_user = auth()->user();
+
         $mandate = $this->createItem($request, Mandate::class, "Mandate", "mandate_show");
-        // Notify Process Users
-        Notification::send($this->notifyApprovers($mandate), new MandateCreated($mandate));
+
+        // Notification::send($this->notifyApprovers($mandate), new MandateCreated($mandate));
+        Notification::send($this->notifyApprovers($mandate), new ItemNotification($mandate, $mandate::$module, "mandate_show", $mandate->id));
 
         return [
             'item_id' => $mandate->id,
@@ -66,33 +64,17 @@ class MandateController extends Controller
         return new MandateResource(Mandate::findorFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Mandate  $mandate
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Mandate $mandate)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Mandate  $mandate
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $mandate = Mandate::findOrFail($id);
-        $auth_user = auth()->user();
+        $this->updateItem($mandate, Mandate::class, "Mandate");
 
-        $this->updateItem($mandate, Mandate::class, "Mandate", "mandate_show");
+        if ($request->get("skipped")) {
+            $this->skipRemark($mandate, Mandate::class);
+        }
 
-        // Notify Process Users
-        Notification::send($this->notifyApprovers($mandate), new MandateStatusChange($mandate));
+        // Notification::send($mandate->contributors, new ItemNotification($mandate, $mandate::$module, "mandate_show", $mandate->id));
 
         return [
             'item_id' => $mandate->id,
@@ -100,33 +82,48 @@ class MandateController extends Controller
         ];
     }
 
-    public function returnToUser(Request $request, $id)
+    // NON CRUD METHODS:
+
+    public function saveChanges(Request $request, $id)
     {
-        $auth_user = auth()->user();
-        $remark = Remark::create([
-            'remarkable_type' => "App\\" . $request['remarkable_type'],
-            'remarkable_id' => $request['remarkable_id'],
-            'returned_to_id' => $request['user']['id'],
-            'returned_by_id' => $auth_user->id,
-            'remarks' => $request['remarks']
-        ]);
-        $mandate = $remark->remarkable;
-        activity()->withoutLogs(function () use ($mandate, $request) {
-            $mandate->update([
-                'status' => 'Returned to ' . $request['user']['responsibility']
-            ]);
-        });
+        $mandate = Mandate::findOrFail($id);
+        $updated_mandate = $this->saveChangesToItem($request, Mandate::class, $mandate, "Mandate");
 
-        $returned_to = User::findOrFail($remark->returned_to_id);
-        Notification::send($returned_to, new MandateReturned($mandate));
-
-        activity('Mandate Returned')
-            ->on($mandate)
-            ->log($auth_user->full_name . " has returned Mandate Code " . $mandate->code . " to " . $returned_to->full_name);
+        Notification::send($this->notifyApprovers($updated_mandate), new ItemNotification($updated_mandate, $updated_mandate::$module, "mandate_show", $updated_mandate->id));
 
         return [
-            'item_id' => $mandate->id,
-            'success_text' => "Mandate " . $mandate->code . " has been successfully Returned"
+            'refresh' => true,
+            'success_text' => $mandate->code . " has been successfully edited.",
+        ];
+    }
+
+    public function returnToUser(Request $request)
+    {
+
+        // Return Mandate  
+        $remark = $this->return($request, Mandate::class, "Mandate");
+
+        // Send Notification
+        $returned_to = User::findOrFail($remark->returned_to_id);
+
+        Notification::send($remark->returned_to, new ItemNotification($remark->remarkable, $remark->remarkable::$module, "mandate_show", $remark->remarkable->id));
+
+        return [
+            'item_id' => $remark->remarkable->id,
+            'success_text' => "Mandate " . $remark->remarkable->code . " has been successfully Returned"
+        ];
+    }
+
+    public function reject(Request $request, $id)
+    {
+        $mandate = Mandate::findOrFail($id);
+
+        $this->rejectItem($request, Mandate::class, $mandate, "Mandate");
+
+        Notification::send($this->getContributors($mandate), new ItemNotification($mandate, $mandate::$module, "mandate_show", $mandate->id));
+
+        return [
+            'success_text' => $mandate->code . " has been successfully Rejected",
         ];
     }
 }
