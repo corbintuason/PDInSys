@@ -1,11 +1,10 @@
 <template>
-<<<<<<< HEAD
 	<div>
 		<b-card>
 			<template v-slot:header>
 				<div class="row">
 					<div class="col-md-6 text-left">
-						<h1 class="component-title mt-2">{{progress_bar_header}} {{current_step}}</h1>
+						<h1 class="component-title mt-2">{{progress_bar_header}} </h1>
 					</div>
 					<div class="col-md-6 text-right">
 						<b-button-group class="float-right" v-if="mode!='Create'">
@@ -17,38 +16,6 @@
 			</template>
 			<b-card-body>
 				<div class="row">
-=======
-    <div>
-        <b-card>
-            <template v-slot:header>
-                <div class="row">
-                    <div class="col-md-6 text-left">
-                        <h1 class="component-title mt-2">
-                            {{ progress_bar_header }}
-                        </h1>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <b-button-group
-                            class="float-right"
-                            v-if="mode != 'Create'"
-                        >
-                            <b-button
-                                @click="changeShowRemarksModal(true)"
-                                variant="outline-secondary"
-                                >Remarks List</b-button
-                            >
-                            <b-button
-                                variant="outline-secondary"
-                                @click="showContributionList"
-                                >Contribution List</b-button
-                            >
-                        </b-button-group>
-                    </div>
-                </div>
-            </template>
-            <b-card-body>
-                <div class="row">
->>>>>>> 7430445ef78c82686c18b833a3a9982fdd14e1af
                     <!-- If Item is null, Render Step Progress -->
                     <div v-if="renderStepProgress" class="col-md-12">
                         <step-progress
@@ -113,13 +80,8 @@ export default {
                 return state[this.namespace].steps;
             },
         }),
-<<<<<<< HEAD
         progress_bar_header(){
             return (this.item!=null) ? this.item.code : "Progress Bar";
-=======
-        progress_bar_header() {
-            return this.item != null ? this.item.code : "Progress Bar";
->>>>>>> 7430445ef78c82686c18b833a3a9982fdd14e1af
         },
         renderStepProgress() {
             if (this.item != null) {
@@ -128,14 +90,8 @@ export default {
                 } else {
                     return false;
                 }
-<<<<<<< HEAD
             } return true;
         }
-=======
-            }
-            return true;
-        },
->>>>>>> 7430445ef78c82686c18b833a3a9982fdd14e1af
     },
     methods: {
         ...mapMutations({
