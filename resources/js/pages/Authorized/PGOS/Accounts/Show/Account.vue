@@ -3,9 +3,6 @@
         <b-card class="mt-3">
             <template v-slot:header>
                 <item-header :namespace="namespace"></item-header>
-                <!-- <b-button-group class="float-right">
-                    <b-button> holler </b-button>
-                </b-button-group> -->
             </template>
             <b-card-body>
                 <b-card-text>
@@ -23,7 +20,6 @@
             </b-card-body>
             <template v-slot:footer>
                 <show-process-buttons
-                    v-if="mandate.status != 'Approved'"
                     :namespace="namespace"
                 ></show-process-buttons>
                 <!-- For Approval Status -->

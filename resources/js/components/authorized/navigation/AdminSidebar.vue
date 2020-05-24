@@ -20,7 +20,7 @@
           <pgos-panel></pgos-panel>
 
           <!-- PGAS -->
-          <!-- <pgas-panel v-if="renderPGAS()"></pgas-panel> -->
+          <pgas-panel></pgas-panel>
 
           <!-- ModuleLess -->
           <module-less></module-less>
@@ -38,11 +38,6 @@ export default {
   data() {
     return{
       user: this.$store.state.user,
-      PGOSAbilities: [ "view-view-accounts",
-                        "view-account-and-client-accreditation",'view-all-projects', 'create-projects'],
-      PGASAbilities: [],
-      pgos: null,
-      pgas: null,
     }
   },
   components:{
@@ -51,22 +46,7 @@ export default {
     "module-less": moduleLess
   },
   methods: {
-    renderPGOS(){
-      var render = false;
-      this.user.abilities.forEach(ability => {
-        if(this.PGOSAbilities.indexOf(ability.name) > -1){
-          render = true;
-        }
-      }); return render;
-    },
-      renderPGAS(){
-        var render = false;
-      this.user.abilities.forEach(ability => {
-        if(this.PGASAbilities.indexOf(ability.name) > -1){
-          render = true;
-        }
-      }); return render;
-    }
+
   },
   mounted() {
   }

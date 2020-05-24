@@ -1,10 +1,7 @@
 <template>
     <div>
         <div v-if="!loading">
-            <item-progress
-                class="mt-3"
-                :namespace="namespace"
-            ></item-progress>
+            <item-progress class="mt-3" :namespace="namespace"></item-progress>
             <account :namespace="namespace"></account>
             <change-logs :namespace="namespace"></change-logs>
         </div>
@@ -31,10 +28,10 @@ export default {
     mixins: [states],
     computed: {
         ...mapState({
-            loading(state){
+            loading(state) {
                 return state[this.namespace].loading;
-            }
-        })
+            },
+        }),
     },
     watch: {},
     methods: {},
@@ -51,8 +48,6 @@ export default {
         });
     },
 
-    mounted(){
-        
-    }
+    mounted() {},
 };
 </script>

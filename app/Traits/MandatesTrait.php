@@ -38,4 +38,8 @@ trait MandatesTrait
         ]);
         return $stages;
     }
+
+    public function getIsProcessFinishedAttribute(){
+        return $this->status == 'Approved';
+    }
 }

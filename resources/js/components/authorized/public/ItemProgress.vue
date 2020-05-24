@@ -4,7 +4,7 @@
 			<template v-slot:header>
 				<div class="row">
 					<div class="col-md-6 text-left">
-						<h1 class="component-title mt-2">{{progress_bar_header}}</h1>
+						<h1 class="component-title mt-2">{{progress_bar_header}} {{current_step}}</h1>
 					</div>
 					<div class="col-md-6 text-right">
 						<b-button-group class="float-right" v-if="mode!='Create'">
@@ -78,7 +78,6 @@ export default {
                 return state[this.namespace].steps;
             },
         }),
-<<<<<<< HEAD
         progress_bar_header(){
             return (this.item!=null) ? this.item.code : "Progress Bar";
         },
@@ -91,11 +90,6 @@ export default {
                 }
             } return true;
         }
-=======
-        progress_bar_header() {
-            return this.item != null ? this.item.code : "Progress Bar";
-        },
->>>>>>> b22f785b6ff88459e8344df2c530319822a1b82f
     },
     methods: {
         ...mapMutations({

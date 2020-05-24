@@ -18,7 +18,7 @@ export const mandateModule = {
                     name: "Create",
                     responsible: "Creator",
                     visible: true,
-                    database_equivalent: ["Returned to Creator", "Approved"],
+                    database_equivalent: ["Returned to Creator"],
                 },
                 {
                     name: "Approve",
