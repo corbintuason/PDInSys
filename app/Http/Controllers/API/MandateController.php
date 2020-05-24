@@ -74,7 +74,8 @@ class MandateController extends Controller
             $this->skipRemark($mandate, Mandate::class);
         }
 
-        // Notification::send($mandate->contributors, new ItemNotification($mandate, $mandate::$module, "mandate_show", $mandate->id));
+        Notification::send($this->notifyApprovers($mandate), new ItemNotification($mandate, $mandate::$module, "mandate_show", $mandate->id));
+
 
         return [
             'item_id' => $mandate->id,
