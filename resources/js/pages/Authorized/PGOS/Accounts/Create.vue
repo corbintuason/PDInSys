@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-if="namespace!=null">
       <item-progress class="mt-3" :namespace="namespace"></item-progress>
     <b-card class="mt-3">
       <template v-slot:header>
@@ -19,6 +20,8 @@
                 <b-button variant="outline-success" class="float-right" @click="createAccount">Create Account and Clients</b-button>
       </template>
     </b-card>
+    </div>
+  <clip-loader v-else color="orange"></clip-loader>
   </div>
 </template>
 
@@ -34,12 +37,7 @@ import { mapGetters, mapState } from "vuex";
 export default {
   data() {
     return {
-      mode: "Create",
-      namespace: "account-create",
-      endpoints:{
-        api: "/api/account",
-        show_route: "account_show"
-      },
+      namespace: null,
       form: {
         registered_name: "",
         registered_address: {
@@ -66,20 +64,6 @@ export default {
     "clients-information": clientsInformation
   },
 
-  watch:{
-    brands(){
-      console.log("Something changed sa brands");
-          this.form.clients.forEach(client => {
-        client.brands = [];
-      });
-    },
-    departments(){
-      console.log("somethin changed sa departments");
-          this.form.clients.forEach(client => {
-        client.departments = [];
-      });
-    }
-  },
   computed:{
     brands(){
       return this.form.brands;
@@ -112,12 +96,16 @@ export default {
     }
   },
   beforeCreate(){
-    this.$store.registerModule("account-create", accountModule);
-    this.$store.dispatch("account-create" + "/changeMode", "Create");
-        // this.registerStoreModule("account-create", accountModule);
-
+          return new Promise((resolve, reject) => {
+            resolve(this.$store.registerModule("account-create", accountModule));
+        }).then((response) => {
+          this.$store.dispatch("account-create" + "/changeMode", "Create");
+          this.namespace = "account-create";
+        });
   },
     mounted() {
+          // console.log("stores", this.$store);
+
     },
 };
 </script>

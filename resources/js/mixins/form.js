@@ -354,6 +354,8 @@ export default {
                         var skipped = {
                             skipped: checkbox
                         };
+                        console.log("link?", api_link);
+                        console.log("skipped?", skipped);
                         axios
                             .put(api_link, skipped)
                             .then((response) => {

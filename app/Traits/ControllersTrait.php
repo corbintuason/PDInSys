@@ -288,7 +288,7 @@ trait ControllersTrait
         foreach($item->contributors as $contributor){
             $contributors->push($contributor->user);
         }
-        return $contributors;
+        return $contributors->unique('id');
     }
 
     public function saveChangesToItem($request, $class, $item, $model_text){

@@ -35,14 +35,6 @@ export default {
                 return state[this.namespace].loading;
             }
         })
-        // ...mapState({
-        //     account(state, getters) {
-        //         return state[this.namespace].item;
-        //     },
-        //     steps(state, getters) {
-        //         return state[this.namespace].steps;
-        //     },
-        // }),
     },
     watch: {},
     methods: {},

@@ -2,9 +2,10 @@
     <div>
         <b-card class="mt-3">
             <template v-slot:header>
-                <h1 class="component-title">
-                    {{ account.code }}
-                </h1>
+                <item-header :namespace="namespace"></item-header>
+                <!-- <b-button-group class="float-right">
+                    <b-button> holler </b-button>
+                </b-button-group> -->
             </template>
             <b-card-body>
                 <b-card-text>
@@ -34,6 +35,7 @@
 import form from "../../../../../mixins/form";
 import accountInformation from "./AccountInformation";
 import clientsInformation from "./ClientsInformation";
+import itemHeader from "../../../../../components/authorized/public/ItemHeader"
 import { mapGetters, mapState } from "vuex";
 
 export default {
@@ -46,6 +48,7 @@ export default {
     components: {
         "account-information": accountInformation,
         "clients-information": clientsInformation,
+        "item-header": itemHeader
     },
     props: {
         namespace: String

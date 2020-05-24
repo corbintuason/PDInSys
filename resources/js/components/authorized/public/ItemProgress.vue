@@ -16,7 +16,8 @@
 			</template>
 			<b-card-body>
 				<div class="row">
-					<div v-if="item.status!='Rejected'" class="col-md-12">
+                    <!-- If Item is null, Render Step Progress -->
+					<div v-if="renderStepProgress" class="col-md-12">
 						<step-progress
 							v-if="progress_steps.length > 0"
 							:steps="progress_steps"
@@ -76,6 +77,15 @@ export default {
         }),
         progress_bar_header(){
             return (this.item!=null) ? this.item.code : "Progress Bar";
+        },
+        renderStepProgress(){
+            if(this.item!=null){
+                if(this.item.status != 'Rejected'){
+                    return true;
+                }else{
+                    return false;
+                }
+            } return true;
         }
     },
     methods: {

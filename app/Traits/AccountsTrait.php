@@ -25,6 +25,7 @@ trait AccountsTrait
                 "names" => ["For Approval", "Returned to Approver"],
                 "responsible" => "account-approver"
             ],
+
             (object)[
                 "names" => ["Approved"],
                 "responsible" => null
@@ -35,6 +36,10 @@ trait AccountsTrait
             ]
         ]);
         return $stages;
+    }
+
+    public function getIsProcessFinishedAttribute(){
+        return $this->status == 'Approved';
     }
 
 }

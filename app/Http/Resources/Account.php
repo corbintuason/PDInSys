@@ -22,6 +22,7 @@ class Account extends JsonResource
         // ATTRIBUTES
         $response["code"] = $this->code;
         $response['current_handler'] = $this->currentHandler;
+        $response['is_process_finished'] = $this->isProcessFinished;
 
         // RELATIONSHIPS 
         $response['brands'] = $this->brands;

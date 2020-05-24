@@ -66,20 +66,6 @@ class AccountController extends Controller
         foreach($request->clients as $client){
             $client['account_id'] = $account->id;
             $new_client = Client::create($client);
-            // foreach($client['brands'] as $brand){
-            //     $target_brand = AccountBrand::where('name', $request->brands[$brand])->where('account_id', $account->id)->first();
-            //     ClientBrand::create([
-            //         'client_id' => $new_client->id,
-            //         'brand_id' => $target_brand->id
-            //     ]);
-            // }
-            // foreach($client['departments'] as $department){
-            //     $target_department = AccountDepartment::where('name', $request->departments[$department])->where('account_id', $account->id)->first();
-            //     ClientDepartment::create([
-            //         'client_id' => $new_client->id,
-            //         'department_id' => $target_department->id
-            //     ]);
-            // }
         }
          // Notify Contributors
          Notification::send($this->notifyApprovers($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
@@ -109,12 +95,13 @@ class AccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id, $skipped)
+    public function update(Request $request, $id)
     {
+
         $account = Account::findOrFail($id);
         $this->updateItem($account, Account::class, "Account");
 
-        if($skipped){
+        if($request->get('skipped')){
             $this->skipRemark($account, Account::class);
         }
         
@@ -172,7 +159,7 @@ class AccountController extends Controller
 
     public function reject(Request $request, $id){
         $account = Account::findOrFail($id);
-        
+
         $this->rejectItem($request, Account::class, $account, "Account");
         
         Notification::send($this->getContributors($account), new ItemNotification($account, $account::$module, "account_show", $account->id));
