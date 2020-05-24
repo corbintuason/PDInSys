@@ -38,64 +38,6 @@ class VendorController extends Controller
             'item_id' => $vendor->id,
             'success_text' => "Vendor " . $vendor->code . " has been successfully created"
         ];
-
-
-        // $user_id = auth()->user()->id;
-        // $auth_user = new UserResource(User::findOrFail($user_id));
-        // $status = "For Approval";
-
-        // $new_details = array();
-        // foreach ($validatedData["ewt_details"] as $detail) {
-        //     $detail_object = new stdClass();
-
-        //     $detail_object->ewt_detail = $detail["ewt_detail"];
-        //     $detail_object->ewt_description = $detail["ewt_description"];
-        //     $detail_object->ewt_percent = $detail["ewt_percent"];
-
-        //     var_dump($detail_object);
-        //     array_push($new_details, $detail_object);
-        // }
-
-        // $vendor = activity()->withoutLogs(function () use ($request, $status, $user_id, $new_details) {
-
-
-        //     return Vendor::create([
-        //         'vendor_name' => $request['vendor_name'],
-        //         'trade_name' => $request['trade_name'],
-        //         'registered_address' => $request['registered_address'],
-        //         'type_business' => $request['type_business'],
-        //         'line_business' => $request['line_business'],
-        //         'contact_person' => $request['contact_person'],
-        //         'contact_number' => $request['contact_number'],
-        //         'email_address' => $request['email_address'],
-        //         'bank_details' => $request['bank_details'],
-        //         'tin_number' => $request['tin_number'],
-        //         'type_vat' => $request['type_vat'],
-        //         'ewt_details' => $new_details,
-        //         'status' => $status,
-        //         'creator_id' => $user_id,
-        //     ]);
-        // });
-
-        // $vendor_contributor = VendorContributor::create([
-        //     'vendor_id' => $vendor->id,
-        //     'contributor_id' => $auth_user->id,
-        //     'responsibility' => "Creator"
-        // ]);
-
-        // // Notify User that can Approve this Vendor
-
-        // $approvers = User::whereIs('vendor-approver')->get();
-
-        // Notification::send($approvers, new VendorCreated($vendor));
-
-        // // Create Activity Log
-        // activity('Vendor Created')
-        //     ->on($vendor)
-        //     ->withProperties(["link_name" => "vendor_show", "link_id" => $vendor->id])
-        //     ->log("User " . $auth_user->last_name . ", " . $auth_user->first_name  . " has created Vendor " . $vendor->registered_name . ' ' . $vendor->code);
-
-        // return new VendorResource($vendor);
     }
 
     /**
@@ -118,7 +60,8 @@ class VendorController extends Controller
             $this->skipRemark($vendor, Vendor::class);
         }
 
-        Notification::send($vendor->contributors, new ItemNotification($vendor, $vendor::$module, "vendor_show", $vendor->id));
+        Notification::send($this->notifyApprovers($vendor), new ItemNotification($vendor, $vendor::$module, "vendor_show", $vendor->id));
+
 
         return [
             'item_id' => $vendor->id,

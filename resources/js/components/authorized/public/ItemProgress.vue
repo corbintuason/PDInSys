@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 	<div>
 		<b-card>
 			<template v-slot:header>
@@ -16,22 +17,56 @@
 			</template>
 			<b-card-body>
 				<div class="row">
+=======
+    <div>
+        <b-card>
+            <template v-slot:header>
+                <div class="row">
+                    <div class="col-md-6 text-left">
+                        <h1 class="component-title mt-2">
+                            {{ progress_bar_header }}
+                        </h1>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <b-button-group
+                            class="float-right"
+                            v-if="mode != 'Create'"
+                        >
+                            <b-button
+                                @click="changeShowRemarksModal(true)"
+                                variant="outline-secondary"
+                                >Remarks List</b-button
+                            >
+                            <b-button
+                                variant="outline-secondary"
+                                @click="showContributionList"
+                                >Contribution List</b-button
+                            >
+                        </b-button-group>
+                    </div>
+                </div>
+            </template>
+            <b-card-body>
+                <div class="row">
+>>>>>>> 7430445ef78c82686c18b833a3a9982fdd14e1af
                     <!-- If Item is null, Render Step Progress -->
-					<div v-if="renderStepProgress" class="col-md-12">
-						<step-progress
-							v-if="progress_steps.length > 0"
-							:steps="progress_steps"
-							:current-step="current_step"
-							icon-class="fa fa-check"
-							active-color="green"
-							passive-color="gray"
-						></step-progress>
-					</div>
-                    <b-alert v-else class="col-md-12" show variant="danger"> <strong> This item has been rejected.</strong> </b-alert>
-				</div>
-			</b-card-body>
-			<template v-slot:footer></template>
-		</b-card>
+                    <div v-if="renderStepProgress" class="col-md-12">
+                        <step-progress
+                            v-if="progress_steps.length > 0"
+                            :steps="progress_steps"
+                            :current-step="current_step"
+                            icon-class="fa fa-check"
+                            active-color="green"
+                            passive-color="gray"
+                        ></step-progress>
+                    </div>
+                    <b-alert v-else class="col-md-12" show variant="danger">
+                        <strong> This item has been rejected.</strong>
+                    </b-alert>
+                </div>
+            </b-card-body>
+            <template v-slot:footer></template>
+        </b-card>
 
         <div v-if="mode != 'Create'">
             <b-modal id="contribution-list" size="xl" hide-footer>
@@ -78,18 +113,29 @@ export default {
                 return state[this.namespace].steps;
             },
         }),
+<<<<<<< HEAD
         progress_bar_header(){
             return (this.item!=null) ? this.item.code : "Progress Bar";
+=======
+        progress_bar_header() {
+            return this.item != null ? this.item.code : "Progress Bar";
+>>>>>>> 7430445ef78c82686c18b833a3a9982fdd14e1af
         },
-        renderStepProgress(){
-            if(this.item!=null){
-                if(this.item.status != 'Rejected'){
+        renderStepProgress() {
+            if (this.item != null) {
+                if (this.item.status != "Rejected") {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
+<<<<<<< HEAD
             } return true;
         }
+=======
+            }
+            return true;
+        },
+>>>>>>> 7430445ef78c82686c18b833a3a9982fdd14e1af
     },
     methods: {
         ...mapMutations({
