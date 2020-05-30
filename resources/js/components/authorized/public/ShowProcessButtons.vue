@@ -39,6 +39,7 @@ export default {
                 return state["auth"].user;
             },
             mode(state){
+    
                 return state[this.namespace].mode;
             },
         }),

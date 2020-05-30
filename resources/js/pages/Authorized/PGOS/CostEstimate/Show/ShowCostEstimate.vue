@@ -4,20 +4,20 @@
         <item-progress
             class="mt-3"
             :steps="steps"
-            :item="project.relationships.cost_estimate"
+            :item="project.cost_estimate"
             :mode="mode"
         ></item-progress>
 
         <cost-estimate
             :project="project"
-            :cost_estimate="project.relationships.cost_estimate"
+            :cost_estimate="project.cost_estimate"
             :mode="mode"
             :steps="steps"
             :endpoints="endpoints"
         ></cost-estimate>
 
         <change-logs
-            :logs="project.relationships.cost_estimate.relationships.actions"
+            :logs="project.cost_estimate.actions"
         ></change-logs>
     </div>
 </template>

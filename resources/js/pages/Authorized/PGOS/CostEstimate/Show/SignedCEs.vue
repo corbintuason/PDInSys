@@ -191,12 +191,12 @@ export default {
     },
     computed: {
         actual_signed_ces(){
-            return this.signed_ces.filter(ce => ce.relationships.signed_ce_detail!=null);
+            return this.signed_ces.filter(ce => ce.signed_ce_detail!=null);
         },
         total_budget(){
             var sum = 0;
             this.actual_signed_ces.forEach(ce => {
-                sum+= Number(ce.relationships.signed_ce_detail.internal_budget);
+                sum+= Number(ce.signed_ce_detail.internal_budget);
             });
             return sum;
         },
@@ -211,17 +211,17 @@ export default {
                     sub_total+= field.sub_total;
                     console.log("current sub total", sum_sub_total);
                 });
-                var initial_savings = sub_total - ce.relationships.signed_ce_detail.internal_budget;
-                total_savings += initial_savings - ce.relationships.signed_ce_detail.incentive;
+                var initial_savings = sub_total - ce.signed_ce_detail.internal_budget;
+                total_savings += initial_savings - ce.signed_ce_detail.incentive;
             });
 
             return Math.round((total_savings/sum_sub_total)*100)+"%";
         },
         colorEquivalent() {
             return (detail) => {
-                if(detail.relationships.signed_ce_detail!=null){
+                if(detail.signed_ce_detail!=null){
    var legend = this.legends.find(
-                    (legend) => legend.status == detail.relationships.signed_ce_detail.status
+                    (legend) => legend.status == detail.signed_ce_detail.status
                 );
                 }
              
@@ -230,8 +230,8 @@ export default {
             };
         },
         hasCostEstimate() {
-            console.log("????", this.project.relationships.cost_estimate);
-            return this.project.relationships.cost_estimate;
+            console.log("????", this.project.cost_estimate);
+            return this.project.cost_estimate;
         },
         ce_code() {
             return "CEPD-" + this.project.code;

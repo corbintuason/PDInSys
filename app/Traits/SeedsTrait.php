@@ -42,12 +42,7 @@ trait SeedsTrait
                 'pd_email' => $user->mail . '@pd.com',
                 'pd_gmail' => $user->mail . '@gmail.com',
                 'contact_numbers' => json_encode(["09999999999", "01111111"]),
-                'positions' => array(
-                    array(
-                        "name" => "Position",
-                        'job_level' => '1A'
-                    )
-                ),
+                'positions' => $user->positions,
                 'password' => Hash::make("password")
             ]);
             $user->assign($role);

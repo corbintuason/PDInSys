@@ -1,9 +1,10 @@
 import { FormSelectPlugin } from "bootstrap-vue";
-
+import steps from "./steps";
 export default {
     data() {
         return {};
     },
+    mixins:[steps],
     methods: {
         // For Adding Dynamic Rows
         addRow(model) {
@@ -17,6 +18,8 @@ export default {
 
         getResponsibilities(item_steps, item) {
             var users = [];
+            console.log("did a bug occur first");
+
             item_steps.forEach((step) => {
                 if(step.responsible!=null){
                     var same_responsibility = item.contributors.find(
@@ -38,6 +41,8 @@ export default {
                 }
 
             });
+            console.log("did a bug occur");
+
             return users;
         },
 

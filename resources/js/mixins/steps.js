@@ -13,6 +13,7 @@ export default {
         getCurrentStep(item, steps) {
             console.log("pasok ba me");
             var status = item.status;
+            console.log("dito ba yung bug");
             var current_step = steps.find((step) => {
                 return step.database_equivalent.includes(status);
             });

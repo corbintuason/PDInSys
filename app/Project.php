@@ -75,6 +75,7 @@ class Project extends Model
         
         return $divisions_needed == $divisions_assigned;
     }
+    
 
  
 

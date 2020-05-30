@@ -27,12 +27,11 @@ class CostEstimateDetail extends JsonResource
         $response['current_handler'] = $this->currentHandler;
         $response['is_signed'] = $this->isSigned;
         $response['initial_incentive'] = $this->initial_incentive;
-        $response["relationships"] = [
-            'signed_ce_detail' => new SignedCostEstimateDetailResource($this->signed_cost_estimate_detail),
-            'actions' => $this->activities,
-            'contributors' => ContributorResource::collection($this->contributors),
-            'remarks' => RemarkResource::collection($this->remarks),
-        ];
+        $response['signed_ce_detail'] = new SignedCostEstimateDetailResource($this->signed_cost_estimate_detail);
+         $response['actions'] = $this->activities;
+        $response['contributors'] = ContributorResource::collection($this->contributors);
+        $response['remarks'] = RemarkResource::collection($this->remarks);
+       
         return $response;
     }
 }

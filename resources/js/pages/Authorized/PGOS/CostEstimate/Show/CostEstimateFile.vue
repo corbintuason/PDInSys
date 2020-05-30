@@ -4,7 +4,7 @@
         <with-cost-estimate
             v-if="hasCostEstimate"
             :cost_estimate_name="cost_estimate_name"
-            :cost_estimate="project.relationships.cost_estimate"
+            :cost_estimate="project.cost_estimate"
         ></with-cost-estimate>
 
         <!-- If Project has Cost Estimate -->
@@ -13,6 +13,7 @@
             :cost_estimate_name="cost_estimate_name"
             :endpoints="endpoints"
         ></without-cost-estimate>
+        
     </div>
 </template>
 
@@ -37,7 +38,7 @@ export default {
     },
     computed: {
         hasCostEstimate() {
-            return this.project.relationships.cost_estimate;
+            return this.project.cost_estimate;
         },
 
         cost_estimate_name() {

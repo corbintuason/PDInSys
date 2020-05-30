@@ -21,7 +21,7 @@
 		></budget-allocation>
 		<!-- {{budget}} -->
 		<!-- Change Logs -->
-		<change-logs v-if="budget!=null" :logs="budget.relationships.actions"></change-logs>
+		<change-logs v-if="budget!=null" :logs="budget.actions"></change-logs>
 	</div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="mode != null">
+        <div v-if="project!= null">
             <!-- Here you can upload the cost estimate  -->
             <cost-estimate-file :project="project"></cost-estimate-file>
             <!-- Here you can see the signed CEs -->
@@ -32,7 +32,6 @@ import createCEs from "./Show/CreateCEs";
 export default {
     data() {
         return {
-            mode: null,
             new_cost_estimate_details: [
                 {
                     version: null,
@@ -76,18 +75,18 @@ export default {
             };
         },
         getMode() {
-            this.mode = this.project.relationships.cost_estimate
+            this.mode = this.project.cost_estimate
                 ? "Show"
                 : "Create";
         },
 
         loadDetails() {
-            if (this.project.relationships.cost_estimate != null) {
+            if (this.project.cost_estimate != null) {
                 if (
-                    this.project.relationships.cost_estimate.relationships
+                    this.project.cost_estimate
                         .details != null
                 ) {
-                    this.project.relationships.cost_estimate.relationships.details.forEach(
+                    this.project.cost_estimate.details.forEach(
                         (detail) => {
                             detail.endpoints = {
                                 api: "/api/cost_estimate_detail/" + detail.id,

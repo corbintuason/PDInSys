@@ -17,7 +17,8 @@ class CostEstimatesUsersSeeder extends Seeder
                 "last_name" => "Olano",
                 "first_name" => "Elvin",
                 "middle_name" => "Aragon",
-                "mail" => "elvin.olano"
+                "mail" => "elvin.olano",
+                "positions" => ""
             ],
         ];
 
@@ -26,7 +27,9 @@ class CostEstimatesUsersSeeder extends Seeder
                 "last_name" => "Arcilla",
                 "first_name" => "Robbie Boy",
                 "middle_name" => "De Guzman",
-                "mail" => "biboy.arcilla"
+                "mail" => "biboy.arcilla",
+                "positions" => ""
+
             ]
         ];
 
@@ -35,7 +38,9 @@ class CostEstimatesUsersSeeder extends Seeder
                 "last_name" => "Mauleon",
                 "first_name" => "Von Aaron",
                 "middle_name" => "Torres",
-                "mail" => "von.mauleon"
+                "mail" => "von.mauleon",
+                "positions" => ""
+
             ]
         ];
 

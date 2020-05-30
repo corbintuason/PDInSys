@@ -294,6 +294,7 @@
 
 <script>
 import steps from "../../../../../../../mixins/steps"
+import {mapGetters} from "vuex"
 export default {
     data() {
         return {
@@ -304,7 +305,7 @@ export default {
     mixins:[steps],
     computed: {
         canProcess() {
-            return this.$store.getters.hasRole(
+            return this.$store.getters["auth/hasRole"](
                 this.signed_ce_detail.current_handler
             );
         },

@@ -76,6 +76,8 @@ export default {
                 return getters[this.namespace + "/getCurrentStep"];
             },
             hasRole(state, getters){
+                console.log("step", this.current_step);
+                console.log(this.item.current_handler, "The handler");
                 return getters["auth/hasRole"](this.item.current_handler);
             }
         }),

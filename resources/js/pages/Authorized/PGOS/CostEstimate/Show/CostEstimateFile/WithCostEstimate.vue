@@ -21,6 +21,9 @@
                 </div>
             </div>
         </b-card-body>
+        <template v-slot:footer>
+            <b-button class="float-right" variant="outline-primary" :to="{name: 'project_budget_request_index'}">View Budget Requests</b-button>
+        </template>
     </b-card>
 </template>
 <script>
@@ -53,6 +56,10 @@ export default {
                 link.click();
             });
         },
+        viewBudgetRequests(){
+            
+        }
     },
+
 };
 </script>

@@ -32,7 +32,9 @@ class ProjectCoreEmployeeController extends Controller
 
         Notification::send($employee, new ProjectCoreEmployeeAssigned($employee, $project));
             // Create Activity Log
-
+        if($project_core_employee->type == 'Main Account Manager'){
+            $employee->assign('cost-estimate-creator');
+        }
             activity('Employee Assigned to Project')
             ->on($project)
             ->withProperties(["link_name" => "project_show", "link_id" => $project_core_employee->project_id])

@@ -12,7 +12,7 @@
         <edit-mode
             v-else
             :detail="detail"
-            :signed_ce_detail="detail.relationships.signed_ce_detail"
+            :signed_ce_detail="detail.signed_ce_detail"
         ></edit-mode>
         <!-- <div class="row">
             <div class="col-md-12">
@@ -47,7 +47,7 @@ export default {
             return this.signed_ce_detail.status == 'For Creation'; 
         },
         signed_ce_detail(){
-            return this.detail.relationships.signed_ce_detail;
+            return this.detail.signed_ce_detail;
         }
     },
     components: {

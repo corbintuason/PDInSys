@@ -69,7 +69,6 @@ Vue.component("show-process-buttons", processButtons);
 
 import money from 'v-money'
  
-// register directive v-money and component <money>
 Vue.use(money, {precision: 2})
 
 const router = new VueRouter({

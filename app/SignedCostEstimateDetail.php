@@ -17,19 +17,19 @@ class SignedCostEstimateDetail extends Model
         $stages = collect([
             (object)[
                 "names" => ["For Creation", "Returned to Creator"],
-                'responsible' => "signed-cost-estimate-creator"
+                'responsible' => "cost-estimate-creator"
             ],
             (object)[
                 "names" => ["For Review", "Returned to Reviewer"],
-                "responsible" => "signed-cost-estimate-reviewer"
+                "responsible" => "cost-estimate-reviewer"
             ],
             (object)[
                 "names" => ["For Approval", "Returned to Approver "],
-                "responsible" => "signed-cost-estimate-approver"
+                "responsible" => "cost-estimate-approver"
             ],
             (object)[
                 "names" => ["For Clearance", "Returned to Clearer"],
-                "responsible" => "signed-cost-estimate-clearer"
+                "responsible" => "cost-estimate-clearer"
             ],
             (object)[
                 "names" => ["Cleared"],

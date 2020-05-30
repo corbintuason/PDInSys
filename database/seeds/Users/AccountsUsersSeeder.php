@@ -19,19 +19,28 @@ class AccountsUsersSeeder extends Seeder
                 "last_name" => "Olano",
                 "first_name" => "Elvin",
                 "middle_name" => "Aragon",
-                "mail" => "elvin.olano"
+                "mail" => "elvin.olano",
+                "positions" => ""
             ],
             (object)[
                 "last_name" => "Arcilla",
                 "first_name" => "Michelle",
                 "middle_name" => "Sabanal",
-                "mail" => "mitch.arcilla"
+                "mail" => "mitch.arcilla",
+                "positions" => [
+                    (object)[
+                        "name" => "Head of Accounts & Biz Development",
+                        "job_level" => "1A"
+                    ]
+                ]
             ],
             (object)[
                 "last_name" => "De Leon",
                 "first_name" => "Justine Joy",
                 "middle_name" => "Vinarao",
-                "mail" => "justine.deleon"
+                "mail" => "justine.deleon",
+                "positions" => ""
+
             ]
         ];
 
@@ -40,7 +49,8 @@ class AccountsUsersSeeder extends Seeder
                 "last_name" => "Mauleon",
                 "first_name" => "Von Aaron",
                 "middle_name" => "Torres",
-                "mail" => "von.mauleon"
+                "mail" => "von.mauleon",
+                "positions" => ""
             ]
         ];
 

@@ -184,7 +184,6 @@
             </div>
         </b-card-body>
 
-        {{ new_cost_estimate_details }}
         <template v-slot:footer>
             <b-button
                 class="float-right"
@@ -199,10 +198,10 @@
 
 <script>
 import form from "../../../../../mixins/form";
+import {mapState} from "vuex"
 export default {
     data() {
         return {
-            user: this.$store.state.user,
   
             peza_ar_options: [
                 {
@@ -228,6 +227,9 @@ export default {
         endpoints: Object,
     },
     computed: {
+        ...mapState("auth", {
+            user: state => state.user
+        }),
         getTotalProjectCost() {
             return (sub_total, asf_rate) => {
                 var asf_rate_percent = asf_rate / 100;
@@ -275,10 +277,8 @@ export default {
         },
 
         createCostEstimate() {
-            var swal_html = this.loadSwalContents(this.steps, this.user);
             const swal_object = {
                 title: "Create Cost Estimate",
-                html: swal_html,
                 text: "Please check the details provided.",
                 confirmButtonText: "Create Cost Estimate",
                 item: this.new_cost_estimate_details,
@@ -302,10 +302,10 @@ export default {
 
         generateCENumber(detail_index) {
             var num = detail_index + 1;
-            var cost_estimate = this.project.relationships.cost_estimate;
+            var cost_estimate = this.project.cost_estimate;
             if (cost_estimate != null) {
-                var details = this.project.relationships.cost_estimate
-                    .relationships.details;
+                var details = this.project.cost_estimate
+                    .details;
                 if (details != null) {
                     num += details.length;
                 }
