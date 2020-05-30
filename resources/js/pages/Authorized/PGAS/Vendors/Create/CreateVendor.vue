@@ -8,10 +8,10 @@
 
             <b-card-text>
                 <b-tabs v-model="tabIndex" content-class="mt-3" fill>
-                    <b-tab title="Vendor Details" active>
+                    <b-tab title="Vendor Details">
                         <vendor-details :vendor="vendor"></vendor-details>
                     </b-tab>
-                    <b-tab title="Tax Details">
+                    <b-tab title="Tax Details" active>
                         <tax-details :vendor="vendor"></tax-details>
                     </b-tab>
                     <b-tab title="Bank Details">

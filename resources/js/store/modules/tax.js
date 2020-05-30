@@ -20,376 +20,168 @@ export default new Vuex.Store({
                     "Professional fees (Lawyers, CPA's, Engineers, etc.) - if gross income is more than 3M or VAT registered regardlessof amount",
                 percent: "10%",
             },
-            // {
-            //     name: "WC010",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional fees (Lawyers, CPA's, Engineers, etc.) - if gross income for the current year did not exceed P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC011",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional fees (Lawyers, CPA's, Engineers, etc.) - if gross income exceeds P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "15%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
+            {
+                name: "WC010",
+                description:
+                    "Professional fees (Lawyers, CPA's, Engineers, etc.) - if gross income for the current year did not exceed P720,000",
+                percent: "10%",
+            },
+            {
+                name: "WC011",
+                description:
+                    "Professional fees (Lawyers, CPA's, Engineers, etc.) - if gross income exceeds P720,000",
+                percent: "15%",
+            },
             // // WI020 , WI021 / WC020 , WC021
-            // {
-            //     name: "WI020",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if the gross income for the current year did not exceed P3M	",
-            //             percents: [
-            //                 {
-            //                     name: "5%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WI021",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if gross income is more than 3M or VAT registered regardless of amount",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC020",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if gross income for the current year did not exceed P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC021",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if gross income exceeds P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "15%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
+            {
+                name: "WI020",
+                description:
+                    "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if the gross income for the current year did not exceed P3M	",
+                percent: "5%",
+            },
+            {
+                name: "WI021",
+                description:
+                    "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if gross income is more than 3M or VAT registered regardless of amount",
+                percent: "10%",
+            },
+            {
+                name: "WC020",
+                description:
+                    "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if gross income for the current year did not exceed P720,000",
+                percent: "10%",
+            },
+            {
+                name: "WC021",
+                description:
+                    "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if gross income exceeds P720,000",
+                percent: "15%",
+            },
             // //  WI030 , WI031 / WC030 , WC030
-            // {
-            //     name: "WI030",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional athletes including basketball players, pelotaris and jockeys - if the gross income for the current year did not exceed P3M",
-            //             percents: [
-            //                 {
-            //                     name: "5%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WI031",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional athletes including basketball players, pelotaris and jockeys - if gross income is more than 3M or VAT registered regardless of amount",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC030",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional athletes including basketball players, pelotaris and jockeys - if gross income for the current year did not exceed P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC031",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Professional athletes including basketball players, pelotaris and jockeys - if gross income exceeds P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "15%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
+            {
+                name: "WI030",
+                description:
+                    "Professional athletes including basketball players, pelotaris and jockeys - if the gross income for the current year did not exceed P3M",
+                percent: "5%",
+            },
+            {
+                name: "WI031",
+                description:
+                    "Professional athletes including basketball players, pelotaris and jockeys - if gross income is more than 3M or VAT registered regardless of amount",
+                percent: "10%",
+            },
+            {
+                name: "WC030",
+                description:
+                    "Professional athletes including basketball players, pelotaris and jockeys - if gross income for the current year did not exceed P720,000",
+                percent: "10%",
+            },
+            {
+                name: "WC031",
+                description:
+                    "Professional athletes including basketball players, pelotaris and jockeys - if gross income exceeds P720,000",
+                percent: "15%",
+            },
             // // WI040 , WI041 / WC040 , WC041
-            // {
-            //     name: "WI040",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "All directors and producers involved in movies, stage, television and musical productions - if the gross income for the current year did not exceed P3M",
-            //             percents: [
-            //                 {
-            //                     name: "5%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WI041",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "All directors and producers involved in movies, stage, television and musical productions - if gross income is more than 3M or VAT registered regardless of amount",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC040",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "All directors and producers involved in movies, stage, television and musical productions - if gross income for the current year did not exceed P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC041",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "All directors and producers involved in movies, stage, television and musical productions - if gross income exceeds P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "15%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
+            {
+                name: "WI040",
+                description:
+                    "All directors and producers involved in movies, stage, television and musical productions - if the gross income for the current year did not exceed P3M",
+                percent: "5%",
+            },
+            {
+                name: "WI041",
+                description:
+                    "All directors and producers involved in movies, stage, television and musical productions - if gross income is more than 3M or VAT registered regardless of amount",
+                percent: "10%",
+            },
+            {
+                name: "WC040",
+                description:
+                    "All directors and producers involved in movies, stage, television and musical productions - if gross income for the current year did not exceed P720,000",
+                percent: "10%",
+            },
+            {
+                name: "WC041",
+                description:
+                    "All directors and producers involved in movies, stage, television and musical productions - if gross income exceeds P720,000",
+                percent: "15%",
+            },
             // // WI050 , WI051 / WC050 , WC051
-            // {
-            //     name: "WI050",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Management and technical consultants - if the gross income for the current year did not exceed P3M",
-            //             percents: [
-            //                 {
-            //                     name: "5%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WI051",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Management and technical consultants - if gross income is more than 3M or VAT registered regardless of amount",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC050",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Management and technical consultants - if gross income for the current year did not exceed P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC051",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Management and technical consultants - if gross income exceeds P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "15%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
+            {
+                name: "WI050",
+                description:
+                    "Management and technical consultants - if the gross income for the current year did not exceed P3M",
+                percent: "5%",
+            },
+            {
+                name: "WI051",
+                description:
+                    "Management and technical consultants - if gross income is more than 3M or VAT registered regardless of amount",
+                percent: "10%",
+            },
+            {
+                name: "WC050",
+                description:
+                    "Management and technical consultants - if gross income for the current year did not exceed P720,000",
+                percent: "10%",
+            },
+            {
+                name: "WC051",
+                description:
+                    "Management and technical consultants - if gross income exceeds P720,000",
+                percent: "15%",
+            },
             // // WI060 , WI061 / WC060 , WC061
-            // {
-            //     name: "WI060",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Business and Bookkeeping agents and agencies - if the gross income for the current year did not exceed P3M",
-            //             percents: [
-            //                 {
-            //                     name: "5%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WI061",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Business and Bookkeeping agents and agencies - if gross income is more than 3M or VAT registered regardless of amount",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC060",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Business and Bookkeeping agents and agencies - if gross income for the current year did not exceed P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC061",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Business and Bookkeeping agents and agencies - if gross income exceeds P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "15%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
+            {
+                name: "WI060",
+                description:
+                    "Business and Bookkeeping agents and agencies - if the gross income for the current year did not exceed P3M",
+                percent: "5%",
+            },
+            {
+                name: "WI061",
+                description:
+                    "Business and Bookkeeping agents and agencies - if gross income is more than 3M or VAT registered regardless of amount",
+                percent: "10%",
+            },
+            {
+                name: "WC060",
+                description:
+                    "Business and Bookkeeping agents and agencies - if gross income for the current year did not exceed P720,000",
+                percent: "10%",
+            },
+            {
+                name: "WC061",
+                description:
+                    "Business and Bookkeeping agents and agencies - if gross income exceeds P720,000",
+                percent: "15%",
+            },
             // // WI070 , WI071 / WC070 , WC071
-            // {
-            //     name: "WI070",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Insurance agents and insurance adjusters - if the gross income for the current year did not exceed P3M",
-            //             percents: [
-            //                 {
-            //                     name: "5%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WI071",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Insurance agents and insurance adjusters - if gross income is more than 3M or VAT registered regardless of amount",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC070",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Insurance agents and insurance adjusters - if gross income for the current year did not exceed P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "10%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
-            // {
-            //     name: "WC071",
-            //     descriptions: [
-            //         {
-            //             name:
-            //                 "Insurance agents and insurance adjusters - if gross income exceeds P720,000",
-            //             percents: [
-            //                 {
-            //                     name: "15%",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
+            {
+                name: "WI070",
+                description:
+                    "Insurance agents and insurance adjusters - if the gross income for the current year did not exceed P3M",
+                percent: "5%",
+            },
+            {
+                name: "WI071",
+                description:
+                    "Insurance agents and insurance adjusters - if gross income is more than 3M or VAT registered regardless of amount",
+                percent: "10%",
+            },
+            {
+                name: "WC070",
+                description:
+                    "Insurance agents and insurance adjusters - if gross income for the current year did not exceed P720,000",
+                percent: "10%",
+            },
+            {
+                name: "WC071",
+                description:
+                    "Insurance agents and insurance adjusters - if gross income exceeds P720,000",
+                percent: "15%",
+            },
             // // WI080 , WI081 / WC080 , WC081
             // {
             //     name: "WI080",
