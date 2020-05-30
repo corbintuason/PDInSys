@@ -61,7 +61,7 @@
                     </b-form-group>
 
                     <!-- Account Name -->
-                    <account-selector :project="project"></account-selector>
+                    <account-selector></account-selector>
                 </div>
                 <div class="col-md-6">
                     <!-- Project Score -->
@@ -145,21 +145,9 @@ export default {
             name: "Create Project",
             user: this.$store.state.user,
             accounts: null,
-
-            project: {
-                name: null,
-                project_status: null,
-                account: null,
-                start_date: null,
-                end_date: null,
-                locations: [""],
-                score: 1,
-                for_project_bidding: false,
-            },
         };
     },
     props: {
-        namespace: String
     },
     mixins: [form],
     components: {
@@ -167,15 +155,18 @@ export default {
         locations: locations,
     },
     computed: {
-        ...mapState({
+        ...mapState("project-create",{
+            project(state){
+                return state.project
+            },
             statuses(state){
-                return state[this.namespace].statuses;
+                return state.statuses;
             },
             project_score_vals(state){
-                return state[this.namespace].project_score_vals
+                return state.project_score_vals
             },
             available_departments(state){
-                return state[this.namespace].available_departments
+                return state.available_departments
             }
 
 
@@ -199,7 +190,7 @@ export default {
     methods: {
         createProject() {
             var swal_object = {
-                title: "Create Projectzz    ",
+                title: "Create Project",
                 icon: "question",
                 confirmButtonText: "Create Project",
                 text: "Please check the details provided.",

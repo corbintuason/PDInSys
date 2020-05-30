@@ -30,11 +30,11 @@
 
 <script>
 import assignEmployee from "./CoreTeam/SelectEmployeeToAssign"
+import {mapState} from "vuex"
 // import selectMainAccountManager from "./AccountsBusinessDevelopmentTeam/SelectMainAccountManager"
 export default {
     data() {
         return {
-            user: this.$store.state.user
         };
     },
     props: {
@@ -45,6 +45,9 @@ export default {
         "assign-employee": assignEmployee
     },
     computed:{
+        ...mapState("auth", {
+            user: state => state.user
+        }),
         canSelectEmployee(){
             return this.user.data.positions.some(position => position.name == this.team.can_edit);
         }

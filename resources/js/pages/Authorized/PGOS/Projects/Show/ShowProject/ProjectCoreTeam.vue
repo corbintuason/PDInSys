@@ -19,6 +19,7 @@
 
 <script>
 import coreTeam from "./ProjectCoreTeam/CoreTeam";
+import {mapState} from "vuex"
 export default {
     data() {
         return {
@@ -71,12 +72,16 @@ export default {
     components: {
         "core-team": coreTeam,
     },
-    props: {
-        project: Object,
+    computed:{
+        ...mapState({
+            project(state){
+                return state[this.namespace].item;
+            }
+        })
     },
     methods: {
         getUser(name, division) {
-            var user = this.project.relationships.core_team.find(
+            var user = this.project.core_team.find(
                 (employee) => employee.team == name && employee.type == division
             );
 
@@ -105,8 +110,14 @@ export default {
             });
         },
     },
+    props:{
+        namespace: String
+    },
 
     mounted() {
+                console.log("namespace?????????");
+        console.log("namespace?", this.namespace);
+
         this.loadCoreTeam();
     },
 };

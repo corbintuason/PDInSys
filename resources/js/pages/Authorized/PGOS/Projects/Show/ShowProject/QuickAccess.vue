@@ -73,9 +73,12 @@ export default {
     },
     methods:{
         hasCoreEmployee(core_employee_type){
-            return this.project.relationships.core_team.find(core_employee => core_employee.type == core_employee_type);
+            return this.project.core_team.find(core_employee => core_employee.type == core_employee_type);
         
         }
+    },
+    mounted(){
+        console.log("nasa quick ccess ako", this.project.id);
     }
 };
 </script>

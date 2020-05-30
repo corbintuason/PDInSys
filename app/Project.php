@@ -16,7 +16,6 @@ class Project extends Model
 
     protected $fillable = [
     'name',
-    'account',
     'start_date',
     'end_date',
     'locations',
@@ -26,11 +25,13 @@ class Project extends Model
     'for_project_bidding',
     'departments_needed',
     'supporting_documents',
-    "involved_users"
+    "involved_users",
+    "client_id",
+    "department_id",
+    "brand_id"
 ];
 
     protected $casts = [
-        'account' => 'Object', 
         'locations' => 'Array',
         'departments_needed' => 'Array',
         'supporting_documents' => 'Array', 

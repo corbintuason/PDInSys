@@ -58,6 +58,7 @@ export default {
   created() {
     console.log('trying ~~~');
     console.log(window.location.hostname);
+    console.log(this.$store);
     // axios.get("/api/init").then(response => {
     //   console.log(response);
     // });

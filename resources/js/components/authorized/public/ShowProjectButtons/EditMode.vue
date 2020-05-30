@@ -54,7 +54,7 @@ export default {
     methods: {
         ...mapActions({
             changeMode(dispatch, payload) {
-                return dispatch(this.namespace + "/changeMode", "Show");
+                return dispatch(this.namespace + "/changeMode", payload);
             },
         }),
         saveChanges() {
@@ -80,10 +80,10 @@ export default {
                 confirmButtonText: "Discard",
             }).then((result) => {
                 if (result.value) {
-                    this.changeMode();
+                    this.changeMode("Show");
                     //(result);
                     swal.fire({
-                        title: "Successfully switched to Edit Mode",
+                        title: "Successfully switched to Show Mode",
                         icon: "success",
                     });
                 }

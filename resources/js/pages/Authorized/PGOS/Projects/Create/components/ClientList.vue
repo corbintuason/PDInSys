@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import {mapState, mapActions} from "vuex";
 export default {
     data() {
         return {
@@ -30,13 +31,20 @@ export default {
             ],
         };
     },
-    props:{
-        selected_account: Object
+    computed:{
+        ...mapState("project-create", {
+            selected_account(state){
+                return state.selected_account;
+            }
+        })
     },
-    methods: {
-        selectClient(client){
-            this.$emit('client-selected', client[0]);
-        }
+    methods:{
+          ...mapActions("project-create", {
+            selectClient(dispatch, payload) {
+                console.log("hi????", payload);
+                return dispatch("selectClient", payload[0]);
+            },
+        }),
     },
     mounted() {
     },

@@ -26,20 +26,6 @@
 					</b-input-group>
 				</b-form-group>
 			</b-col>
-			<b-col lg="6" class="my-1 text-right">
-				<!-- <b-form-group class="col-md-12">
-                    <router-link
-                        class="text-white"
-                        :to="{ name: 'vendor_create' }"
-                    >
-                        <b-button variant="success"
-                            ><i class="fas fa-plus">
-                                Create Vendor
-                            </i></b-button
-                        >
-                    </router-link>
-				</b-form-group>-->
-			</b-col>
 		</b-row>
 
 		<!-- Main table element -->
@@ -80,6 +66,7 @@
 				>{{ data.item.code }}</router-link>
 			</template>
 		</b-table>
+		
 		<div class="row">
 			<div class="col-md-9"></div>
 			<b-col class="my-1" sm="3" md="3">

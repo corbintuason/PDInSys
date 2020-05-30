@@ -34,8 +34,10 @@ class ProjectController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required',
+            'client_id' => 'required',
+            'department_id' => 'required',
+            'brand_id' => 'required',
             'project_status' => 'required',
-            'account' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
             'locations' => 'required',
@@ -43,7 +45,7 @@ class ProjectController extends Controller
             'for_project_bidding' => 'required',
             'departments_needed' => 'required',
         ]);
-
+        
         $project = $this->createItem($request, Project::class, "Project", "project_show");
 
         Notification::send($this->notifyApprovers($project), new ItemNotification($project, $project::$module, "project_show", $project->id));

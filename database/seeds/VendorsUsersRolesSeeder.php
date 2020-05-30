@@ -33,6 +33,6 @@ class VendorsUsersRolesSeeder extends Seeder
         $bouncer_roles = $this->createRoles($roles, $generic_abilities, "App\Vendor", $role_text);
 
         // Create Users
-        $this->createUsers($bouncer_roles, "Vendor");
+        // $this->createUsers($bouncer_roles, "Vendor");
     }
 }

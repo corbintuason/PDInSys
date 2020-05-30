@@ -39,12 +39,7 @@ trait MandatesTrait
         return $stages;
     }
 
-<<<<<<< HEAD
     public function getIsProcessFinishedAttribute(){
-=======
-    public function getIsProcessFinishedAttribute()
-    {
->>>>>>> 7430445ef78c82686c18b833a3a9982fdd14e1af
         return $this->status == 'Approved';
     }
 }

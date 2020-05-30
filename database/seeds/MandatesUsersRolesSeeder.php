@@ -33,6 +33,6 @@ class MandatesUsersRolesSeeder extends Seeder
         $bouncer_roles = $this->createRoles($roles, $generic_abilities, "App\Mandate", $role_text);
 
         // Create Users
-        $this->createUsers($bouncer_roles, "Mandate");
+        // $this->createUsers($bouncer_roles, "Mandate");
     }
 }

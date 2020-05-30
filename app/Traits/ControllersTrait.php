@@ -300,7 +300,7 @@ trait ControllersTrait
         
         $this->updateItem($item, $class, $model_text);
 
-        activity($model_text . "Edited")
+        activity($model_text . " Edited")
         ->on($item)
         ->log($auth_user->full_name . " has edited ". $item->code);
 

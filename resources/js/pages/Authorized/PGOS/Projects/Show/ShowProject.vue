@@ -17,7 +17,7 @@
                     <project-core-team
                         id="core-team"
                         v-if="!allowProjectCoreTeam"
-                        :project="project"
+                        :namespace="namespace"
                     ></project-core-team>
                 </b-tab>
                 <b-tab title="Quick Access">

@@ -89,7 +89,7 @@ export const accountModule = {
         changeMode(context, mode) {
             context.commit("changeMode", mode);
             if(mode == 'Show'){
-                context.dispatch('storeAccount', context.state.item.id);
+                context.dispatch('storeItem', context.state.item.id);
             }
         },
         storeItem(context, id) {

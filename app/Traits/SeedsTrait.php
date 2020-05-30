@@ -28,28 +28,29 @@ trait SeedsTrait
         return Bouncer::role()->where('entity', $class)->get();
     }
 
-    public function createUsers($bouncer_roles, $model_name)
+    public function createUsers($role, $users)
     {
-        foreach ($bouncer_roles as $role) {
-            $mail = strtolower($model_name) . strtolower($role->title);
-            $user = User::create([
-                'last_name' => $model_name,
-                'first_name' => $role->title,
-                'middle_name' => "Middle",
+        foreach ($users as $user) {
+            $user = User::firstOrCreate([
+                'pd_email' => $user->mail.'@pd.com'
+            ],[
+                'last_name' => $user->last_name,
+                'first_name' => $user->first_name,
+                'middle_name' => $user->middle_name,
                 'employment_date' => date("Y/m/d"),
                 'birth_date' => date("Y/m/d"),
-                'pd_email' => $mail . '@pd.com',
-                'pd_gmail' => $mail . '@gmail.com',
+                'pd_email' => $user->mail . '@pd.com',
+                'pd_gmail' => $user->mail . '@gmail.com',
                 'contact_numbers' => json_encode(["09999999999", "01111111"]),
                 'positions' => array(
                     array(
-                        "name" => $model_name . " " . $role->title,
+                        "name" => "Position",
                         'job_level' => '1A'
                     )
                 ),
                 'password' => Hash::make("password")
             ]);
-            $user->assign($role->name);
+            $user->assign($role);
         }
     }
 }

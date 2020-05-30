@@ -5,7 +5,7 @@
 
             <item-progress class="mt-3" :namespace="namespace"></item-progress>
             <!-- Main Project Form -->
-
+            {{project}}
             <create-project :namespace="namespace"></create-project>
         </div>
         <clip-loader v-else color="orange"></clip-loader>
@@ -14,29 +14,29 @@
 
 <script>
 import createProject from "./Create/CreateProject";
-import {projectModule} from "../../../../store/modules/project";
+import {projectCreateModule} from "../../../../store/modules/project-create";
 import { mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
     data() {
         return {
-            namespace: "project-create",
+            namespace: "project-create"
         };
     },
     methods: {
-        ...mapMutations({
+        ...mapMutations("project-create",{
             changeLoading(commit, payload) {
-                return commit(this.namespace + "/changeLoading", payload);
-            },
-            changeMode(commit, payload) {
-                return commit(this.namespace + "/changeMode", payload);
+                return commit("changeLoading", payload);
             },
         }),
     },
     computed: {
-        ...mapState({
+        ...mapState("project-create",{
+            project(state){
+                return state.project
+            },
             loading(state) {
-                return state[this.namespace].loading;
+                return state.loading;
             },
         }),
     },
@@ -44,11 +44,10 @@ export default {
         "create-project": createProject,
     },
     beforeCreate() {
-        this.$store.registerModule("project-create", projectModule);
+        this.$store.registerModule("project-create", projectCreateModule);
     },
     mounted() {
-        this.changeLoading(false);
-        this.changeMode("Create");
+        console.log(this.$store);
     },
 };
 </script>

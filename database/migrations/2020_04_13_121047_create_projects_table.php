@@ -16,7 +16,6 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->json('account');
             $table->date('start_date');
             $table->date('end_date');
             $table->json('locations');
@@ -25,9 +24,11 @@ class CreateProjectsTable extends Migration
             $table->integer('score');
             $table->boolean('for_project_bidding');
             $table->json('departments_needed');
-            $table->json('supporting_documents')->nullable();
             
-            $table->json("involved_users")->nullable();
+            $table->json('supporting_documents')->nullable();
+            $table->integer('client_id');
+            $table->integer('department_id');
+            $table->integer('brand_id');
             $table->timestamps();
         });
     }
