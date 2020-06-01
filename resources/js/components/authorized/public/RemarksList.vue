@@ -85,7 +85,8 @@ export default {
     computed: {
         ...mapState({
             remarks(state, getters) {
-                return getters[this.namespace+"/getRemarks"];
+                return state[this.namespace].item.remarks
+                // return getters[this.namespace+"/getRemarks"];
             },
         }),
         show_remarks_list: {

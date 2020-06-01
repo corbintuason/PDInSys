@@ -36,6 +36,14 @@ export default {
                         name: "cost_estimate_show",
                         id: this.project.id
                     }
+                },
+                   {
+                    requirement: "Budget Requests",
+                    status: "",
+                    link: {
+                        name: "project_budget_requests_index",
+                        id: this.project.id
+                    }
                 }
             ],
             fields: [

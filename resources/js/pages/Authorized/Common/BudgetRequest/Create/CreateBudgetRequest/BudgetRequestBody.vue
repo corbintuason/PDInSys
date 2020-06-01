@@ -22,7 +22,7 @@ export default{
     },
     computed:{
         ...mapState("create-budget-request", {
-            categories: state => state.categories
+            categories: state => state.budget_request.categories
         })
     }
 }

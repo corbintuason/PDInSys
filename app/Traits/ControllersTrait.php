@@ -41,6 +41,7 @@ trait ControllersTrait
     public function getRoleIn($class)
     {
         $roles = auth()->user()->roles;
+        // dd($roles);
         $role = $roles->where('entity', $class)->first();
         $responsibility = $role->title;
         return $responsibility;

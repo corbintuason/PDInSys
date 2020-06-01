@@ -74,7 +74,7 @@ class SignedCostEstimateDetailController extends Controller
             "internal_budget" => $request->internal_budget,
             "incentive" => $request->incentive,
         ]);
-        $this->updateItem($signed_cost_estimate_detail, SignedCostEstimateDetail::class, "Signed Cost Estimate Detail", "cost_estimate_show");
+        $this->updateItem($signed_cost_estimate_detail, CostEstimateDetail::class, "Signed Cost Estimate Detail", "cost_estimate_show");
         // $signed_cost_estimate_detail->update([
         //     "internal_budget" => $request->internal_budget,
         //     "incentive" => $request->incentive,

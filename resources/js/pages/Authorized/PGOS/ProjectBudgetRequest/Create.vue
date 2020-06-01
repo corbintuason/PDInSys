@@ -25,6 +25,7 @@ export default {
     beforeCreate() {
         var namespace = "create-budget-request";
         this.$store.registerModule(namespace, createBudgetRequestModule);
+        this.$store.commit(namespace+"/setType", "Project");
     },
     mounted() {
         console.log(this.namespace);

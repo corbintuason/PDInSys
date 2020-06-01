@@ -51,7 +51,9 @@ export default {
         this.$store.unregisterModule(this.namespace);
     },
     beforeCreate() {
+        console.log("??", this.$route.params);
         var id = this.$route.params.id;
+        console.log("id??", id);
         var namespace = "project-" + id;
         return new Promise((resolve, reject) => {
             resolve(this.$store.registerModule(namespace, projectModule));

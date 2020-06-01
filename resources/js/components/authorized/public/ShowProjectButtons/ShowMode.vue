@@ -22,7 +22,7 @@
         <b-button
             @click="updateStatus"
             variant="outline-success"
-            >{{ action_name }}</b-button
+            >{{current_step.name}} {{name}}</b-button
         >
 
         <return-item :namespace="namespace"></return-item>
@@ -69,9 +69,6 @@ export default {
             endpoints(state, getters) {
                 return getters[this.namespace + "/getEndpoints"];
             },
-            action_name(state, getters) {
-                return getters[this.namespace + "/getActionName"];
-            },
             current_step(state, getters) {
                 return getters[this.namespace + "/getCurrentStep"];
             },
@@ -115,9 +112,9 @@ export default {
                 this.item
             );
             const swal_object = {
-                title: this.action_name + " " + this.item.code,
+                title: this.current_step.name + " " + this.item.code,
                 html: swal_html,
-                confirmButtonText: this.action_name,
+                confirmButtonText: this.current_step.name,
                 endpoints: this.endpoints,
             };
             this.fireUpdateSwal(swal_object, this.item);
@@ -147,6 +144,7 @@ export default {
     },
     mounted() {
         console.log("what did i receive", this.namespace);
+        console.log(this.current_step);
     },
 };
 </script>

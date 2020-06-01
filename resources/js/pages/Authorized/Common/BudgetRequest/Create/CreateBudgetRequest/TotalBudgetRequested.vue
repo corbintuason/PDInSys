@@ -1,9 +1,16 @@
 <template>
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <b-card bg-variant="success" text-variant="white" class="col-md-4">
-           <strong>Total Budget Requested: </strong> <money disabled :value="getTotalBudgetRequest"></money>
+        <b-card bg-variant="success" text-variant="white" class="col-md-4 offset-md-8">
+           <strong>Total Budget Requested: </strong>      <b-input-group>
+                <template v-slot:prepend>
+                    <b-input-group-text
+                        ><strong class="text-success"
+                            >&#8369;</strong
+                        ></b-input-group-text
+                    >
+                </template>
+                <money disabled class="form-control" :value="getTotalBudgetRequest"></money>
+            </b-input-group>
         </b-card>
     </div>
 </template>

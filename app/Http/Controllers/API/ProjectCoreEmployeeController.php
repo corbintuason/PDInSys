@@ -35,6 +35,9 @@ class ProjectCoreEmployeeController extends Controller
         if($project_core_employee->type == 'Main Account Manager'){
             $employee->assign('cost-estimate-creator');
         }
+        if($project_core_employee->type == 'Main Project Manager'){
+            $employee->assign('budget-request-creator');
+        }
             activity('Employee Assigned to Project')
             ->on($project)
             ->withProperties(["link_name" => "project_show", "link_id" => $project_core_employee->project_id])

@@ -15,7 +15,12 @@ class CreateBudgetRequestsTable extends Migration
     {
         Schema::create('budget_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('');
+            $table->morphs("brable");
+            $table->string('status');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->json('categories');
+            $table->tinyInteger('isActive')->default(1);
             $table->timestamps();
         });
     }

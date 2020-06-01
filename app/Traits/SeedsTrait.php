@@ -22,30 +22,8 @@ trait SeedsTrait
             if ($role->ability != null) {
                 array_push($user_abilities, $role->ability);
             }
-            Bouncer::allow($user_role)->to($user_abilities, $class);
+            $bouncer_role = Bouncer::allow($user_role)->to($user_abilities, $class);  
         }
-
         return Bouncer::role()->where('entity', $class)->get();
-    }
-
-    public function createUsers($role, $users)
-    {
-        foreach ($users as $user) {
-            $user = User::firstOrCreate([
-                'pd_email' => $user->mail.'@pd.com'
-            ],[
-                'last_name' => $user->last_name,
-                'first_name' => $user->first_name,
-                'middle_name' => $user->middle_name,
-                'employment_date' => date("Y/m/d"),
-                'birth_date' => date("Y/m/d"),
-                'pd_email' => $user->mail . '@pd.com',
-                'pd_gmail' => $user->mail . '@gmail.com',
-                'contact_numbers' => json_encode(["09999999999", "01111111"]),
-                'positions' => $user->positions,
-                'password' => Hash::make("password")
-            ]);
-            $user->assign($role);
-        }
     }
 }

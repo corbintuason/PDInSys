@@ -1,14 +1,21 @@
 <template>
     <div>
-        <!-- <b-card class="mt-2 col-md-4 offset-md-8 text-right">
-            <div class="row">
-                <div class="col-md-12">
-            {{ category.name }} Total: <money class="form-control" disabled :value="category_total"></money>
-                </div>
-            </div>
-        </b-card> -->
-           <b-card bg-variant="dark" text-variant="white" class="col-md-4 offset-md-8 mt-2 text-right">
-           <strong>{{category.name}} Total: </strong> <money disabled :value="category_total"></money>
+        <b-card
+            bg-variant="dark"
+            text-variant="white"
+            class="col-md-4 offset-md-8 mt-2"
+        >
+            <strong>{{ category.name }} Total: </strong>
+            <b-input-group>
+                <template v-slot:prepend>
+                    <b-input-group-text
+                        ><strong class="text-success"
+                            >&#8369;</strong
+                        ></b-input-group-text
+                    >
+                </template>
+                <money disabled class="form-control" :value="category_total"></money>
+            </b-input-group>
         </b-card>
         <table class="table-sm col-md-12">
             <thead>
@@ -29,7 +36,7 @@
                     :key="entry_index"
                 >
                     <td>
-                        <b-form-select v-model="entry.item" size="sm">
+                        <b-form-select v-model="entry.type" size="sm">
                             <b-form-select-option
                                 v-for="(type, type_index) in category.types"
                                 :key="type_index"
@@ -90,7 +97,7 @@
                     <!-- <td>
                         <money style="height: 30px;" :value="0.00" disabled></money>
                     </td> -->
-                    <td v-if="entry_index > 0">
+                    <td>
                         <b-button
                             variant="outline-danger"
                             @click="deleteEntry(category, entry_index)"
@@ -138,7 +145,7 @@ export default {
                 console.log(category);
                 console.log("entry index??", entry_index);
 
-                return commit("deleteEntry", {category, entry_index});
+                return commit("deleteEntry", { category, entry_index });
             },
         }),
         getSubAmount(entry) {
