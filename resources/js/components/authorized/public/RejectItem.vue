@@ -83,7 +83,6 @@ export default {
     methods: {
             ...mapMutations({
         changeShowRejectModal(commit, payload){
-            console.log("what da payload doe", payload);
             return commit(this.namespace + "/changeShowRejectModal", payload);
         }
         }),

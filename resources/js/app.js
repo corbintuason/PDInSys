@@ -68,7 +68,6 @@ import processButtons from "./components/authorized/public/ShowProcessButtons.vu
 Vue.component("show-process-buttons", processButtons);
 
 import money from 'v-money'
- 
 Vue.use(money, {precision: 2})
 
 const router = new VueRouter({
@@ -103,3 +102,5 @@ const app = new Vue({
     store: store,
     router,
 });
+
+export {app}

@@ -15,16 +15,15 @@ import steps from "../../../../mixins/steps";
 import { mapMutations, mapActions, mapState } from "vuex";
 export default {
     data() {
-        return {
-        };
+        return {};
     },
     props: {
         uploadable: Boolean,
         namespace: String,
     },
     mixins: [form, steps],
-    computed:{
-...mapState({
+    computed: {
+        ...mapState({
             name(state) {
                 return state[this.namespace].name;
             },
@@ -40,16 +39,17 @@ export default {
             endpoints(state, getters) {
                 return getters[this.namespace + "/getEndpoints"];
             },
-            action_name(state, getters) {
-                return getters[this.namespace + "/getActionName"];
-            },
+
             current_step(state, getters) {
                 return getters[this.namespace + "/getCurrentStep"];
             },
-            next_step(state, getters){
+            next_step(state, getters) {
                 return getters[this.namespace + "/getNextStep"];
-            }
+            },
         }),
+        action_name() {
+            return this.current_step.name + " " + this.name;
+        },
     },
     methods: {
         ...mapActions({
@@ -90,8 +90,8 @@ export default {
             });
         },
     },
-    mounted(){
+    mounted() {
         console.log("ano ba yung next step", this.next_step);
-    }
+    },
 };
 </script>

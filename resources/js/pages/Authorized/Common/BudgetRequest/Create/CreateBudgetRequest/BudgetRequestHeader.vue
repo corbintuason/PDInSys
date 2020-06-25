@@ -4,20 +4,16 @@
         <!-- Document Number -->
         <b-form-group disabled label="Document No." label-class="font-weight-bold" class="col-md-3">
             <b-input-group size="sm">
-                <b-form-input></b-form-input>
+                <b-form-input value="BRPD20-XXXX"></b-form-input>
             </b-input-group>
         </b-form-group>
         <!-- CE Number -->
-          <b-form-group disabled label="CE No." label-class="font-weight-bold" class="col-md-3">
-            <b-input-group size="sm">
-                <b-form-input></b-form-input>
-            </b-input-group>
-        </b-form-group>
-        <!-- Version -->
-          <b-form-group disabled label="Version" label-class="font-weight-bold" class="col-md-3">
-            <b-input-group size="sm">
-                <b-form-input></b-form-input>
-            </b-input-group>
+         <b-form-group label="CE No." label-class="font-weight-bold" class="col-md-3">
+            <b-form-select  v-model="budget_request.ce_number_id" size="sm">
+                <b-form-select-option v-for="(cleared_ce, cleared_ce_index) in cleared_ces" :value="cleared_ce.id" :key="cleared_ce_index">
+                    {{cleared_ce.signed_ce_detail.code}}
+                </b-form-select-option>
+            </b-form-select>
         </b-form-group>
         <!-- Date of Submission -->
       <b-form-group disabled label="Date of Submission" label-class="font-weight-bold" class="col-md-3">
@@ -36,7 +32,7 @@
         <!-- Account Manager -->
            <b-form-group label="Account Manager" disabled label-class="font-weight-bold" class="col-md-4">
             <b-input-group size="sm">
-                <b-form-input></b-form-input>
+                <b-form-input :value="account_manager"></b-form-input>
             </b-input-group>
         </b-form-group>
         <!-- BR Coverage Date (Editable) -->
@@ -51,7 +47,7 @@
         <!-- BR Requestor -->
            <b-form-group disabled label="BR Requestor" label-class="font-weight-bold" class="col-md-4">
             <b-input-group size="sm">
-                <b-form-input></b-form-input>
+                <b-form-input :value="user.data.full_name"></b-form-input>
             </b-input-group>
         </b-form-group>
         <!-- AFG Counterpart -->
@@ -63,7 +59,7 @@
         <!-- BR Liquidator and Fund Recepient -->
             <b-form-group disabled label="BR Liquidator and Fund Recepient" label-class="font-weight-bold" class="col-md-4">
             <b-input-group size="sm">
-                <b-form-input></b-form-input>
+                <b-form-input :value="user.data.full_name"></b-form-input>
             </b-input-group>
         </b-form-group>
     </div>
@@ -80,15 +76,17 @@ export default{
     },
     computed:{
         ...mapState("create-budget-request", {
-            budget_request: state => state.budget_request
+            budget_request: state => state.item
         }),
-        ...mapGetters("create-budget-request", ["getParentName"])
+        ...mapGetters("create-budget-request", ["getParentName", "cleared_ces", "account_manager"]),
+           ...mapState("auth", {
+            user: state => state.user
+        }),
     },
     mixins:[common],
     methods:{
         ...mapMutations("create-budget-request", {
                  setStartDate(commit, start_date){
-                     console.log("eh?");
                 return commit("setStartDate", start_date);
             },
              setEndDate(commit, end_date){

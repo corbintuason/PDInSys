@@ -1,5 +1,5 @@
 <template>
-    <b-button-group v-if="current_step != null && hasRole" class="float-right">
+    <b-button-group v-if="current_step != null && hasAbility" class="float-right">
         <b-button
             @click="changeShowRejectModal"
             class="float-right"
@@ -35,7 +35,7 @@ import form from "../../../../mixins/form";
 import steps from "../../../../mixins/steps";
 import returnItem from "../ReturnItem";
 import rejectItem from "../RejectItem";
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapActions } from "vuex";
 export default {
     data() {
         return {
@@ -61,7 +61,7 @@ export default {
                 return state[this.namespace].item;
             },
             steps(state, getters) {
-                return state[this.namespace].steps;
+                return getters[this.namespace + "/steps"];
             },
             mode(state, getters) {
                 return state[this.namespace].mode;
@@ -72,26 +72,14 @@ export default {
             current_step(state, getters) {
                 return getters[this.namespace + "/getCurrentStep"];
             },
-            hasRole(state, getters){
-                console.log("step", this.current_step);
-                console.log(this.item.current_handler, "The handler");
-                return getters["auth/hasRole"](this.item.current_handler);
+            // hasRole(state, getters){
+            //     return getters["auth/hasRole"](this.item.current_handler);
+            // }
+            hasAbility(state, getters){
+                console.log(this.item.current_handler, "???");
+                return getters["auth/hasAbility"](this.item.current_handler, this.item.id);    
             }
         }),
-        // showUpdateButton() {
-        //     return this.$store.getters.hasRole(this.item.current_handler);
-        // },
-        // showEditButton() {
-        //     // Check first if user can edit in the first place, check if now is the time to edit
-        //     return this.$store.getters.hasRole(this.item.current_handler);
-        // },
-        // showRejectButton() {
-        //     // Check first if user can edit in the first place, check if now is the time to reject
-        //     return this.$store.getters.hasRole(this.item.current_handler);
-        // },
-        // showReturnButton() {
-        //     return this.$store.getters.hasRole(this.item.current_handler);
-        // },
     },
     methods: {
         ...mapMutations({
@@ -105,20 +93,25 @@ export default {
                 return commit(this.namespace + "/changeShowRejectModal", true);
             },
         }),
-        updateStatus() {
-            var swal_html = this.loadSwalContents(
-                this.steps,
-                this.user,
-                this.item
-            );
-            const swal_object = {
-                title: this.current_step.name + " " + this.item.code,
-                html: swal_html,
-                confirmButtonText: this.current_step.name,
-                endpoints: this.endpoints,
-            };
-            this.fireUpdateSwal(swal_object, this.item);
-        },
+        ...mapActions({
+                updateStatus(dispatch, payload) {
+                return dispatch(this.namespace+"/updateItem", payload);
+            },
+        }),
+        // updateStatus() {
+        //     var swal_html = this.loadSwalContents(
+        //         this.steps,
+        //         this.user,
+        //         this.item
+        //     );
+        //     const swal_object = {
+        //         title: this.current_step.name + " " + this.item.code,
+        //         html: swal_html,
+        //         confirmButtonText: this.current_step.name,
+        //         endpoints: this.endpoints,
+        //     };
+        //     this.fireUpdateSwal(swal_object, this.item);
+        // },
 
         editButton() {
             swal.fire({
@@ -145,6 +138,7 @@ export default {
     mounted() {
         console.log("what did i receive", this.namespace);
         console.log(this.current_step);
+        console.log("has ability?");
     },
 };
 </script>

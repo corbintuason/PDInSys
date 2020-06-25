@@ -4,7 +4,7 @@
             <!-- Here you can upload the cost estimate  -->
             <cost-estimate-file :project="project"></cost-estimate-file>
             <!-- Here you can see the signed CEs -->
-            <signed-ces :signed_ces="signed_ces" :steps="steps"></signed-ces>
+            <signed-ces :signed_ces="signed_ces" :project="project" :steps="steps"></signed-ces>
             <!-- Here you can see unsigned CEs -->
             <unsigned-ces
                 :unsigned_ces="unsigned_ces"

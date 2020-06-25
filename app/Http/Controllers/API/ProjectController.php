@@ -17,12 +17,12 @@ use \stdclass;
 use Bouncer;
 use App\Remark;
 use App\Notifications\ItemNotification;
-use App\Traits\ProjectsTrait;
+use App\Traits\ControllersTrait;
 
 class ProjectController extends Controller
 {
 
-    use ProjectsTrait;
+    use ControllersTrait;
 
     public function index()
     {
@@ -46,7 +46,7 @@ class ProjectController extends Controller
             'departments_needed' => 'required',
         ]);
         
-        $project = $this->createItem($request, Project::class, "Project", "project_show");
+        $project = $this->createItem($request, Project::class, "Project", "project_show", true);
 
         Notification::send($this->notifyApprovers($project), new ItemNotification($project, $project::$module, "project_show", $project->id));
 

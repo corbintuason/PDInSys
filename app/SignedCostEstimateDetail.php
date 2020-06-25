@@ -40,7 +40,7 @@ class SignedCostEstimateDetail extends Model
     }
 
     public function getCodeAttribute(){
-        return $this->cost_estimate_detail->code;
+        return $this->cost_estimate_detail->code . "v". $this->cost_estimate_detail->version;
     }
     public function getInternalSavingsAttribute(){
         return $this->cost_estimate_detail->sub_total - $this->internal_budget;

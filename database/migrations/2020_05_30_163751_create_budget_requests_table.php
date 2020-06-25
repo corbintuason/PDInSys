@@ -17,10 +17,15 @@ class CreateBudgetRequestsTable extends Migration
             $table->bigIncrements('id');
             $table->morphs("brable");
             $table->string('status');
+            $table->integer("ce_number_id");
             $table->date('start_date');
             $table->date('end_date');
-            $table->json('categories');
+            $table->json('entries');
             $table->tinyInteger('isActive')->default(1);
+            $table->string('reference_number')->nullable();
+            $table->integer('br_requestor_id')->nullable();
+            $table->integer('afg_counterpart_id')->nullable();
+            $table->string('rate')->nullable();
             $table->timestamps();
         });
     }

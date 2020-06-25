@@ -24,6 +24,10 @@ class BudgetRequestRolesSeeder extends Seeder
                     "ability" => "review"
                 ),
                 (object) array(
+                    "name" => "Approver",
+                    "ability" => "approve"
+                ),
+                (object) array(
                     "name" => "Releaser",
                     "ability" => "release"
                 ),

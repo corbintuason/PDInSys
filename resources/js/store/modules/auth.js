@@ -19,12 +19,32 @@ export default {
             });
         },
         hasAbility(state) {
-            return (name, entity_type) =>
-                state.user.abilities.some((item) => {
+            return (current_handler, item_id) => 
+                    state.user.abilities.some((item) => {
+                        if(current_handler.entity_id){
+                            return (
+                                item.name === current_handler.name &&
+                                item.entity_type == current_handler.entity_type &&
+                                item.entity_id == item_id
+                            );
+                        }else{
+                            return (
+                                item.name === current_handler.name &&
+                                item.entity_type == current_handler.entity_type
+                            ); 
+                        }
+                        
+                    });
+           
+        },
+        hasRouteAbility(state){
+            return (name, entity_type) => 
+            state.user.abilities.some((item) => {
                     return (
-                        item.name === name && item.entity_type == entity_type
-                    );
-                });
+                        item.name === name &&
+                        item.entity_type == entity_type
+                    ); 
+            });
         },
         hasRole(state) {
             return (role) =>

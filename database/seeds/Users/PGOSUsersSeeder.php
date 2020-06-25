@@ -111,16 +111,14 @@ class PGOSUsersSeeder extends Seeder
             'password' => Hash::make("password")
         ]);
 
-        $borcena_brenda->assign("budget-request-creator");
-
         $bualong_john = User::create([
-            'last_name' => "Bualong",
+            'last_name' => "Bulaong",
             'first_name' => "John Paul",
             'middle_name' => "G",
             'employment_date' => date("Y/m/d"),
             'birth_date' => date("Y/m/d"),
-            'pd_email' => 'bualong.johnpaul@pd.com',
-            'pd_gmail' => 'bualong.johnpaul@gmail.com',
+            'pd_email' => 'bulaong.johnpaul@pd.com',
+            'pd_gmail' => 'bulaong.johnpaul@gmail.com',
             'contact_numbers' => json_encode(["09999999999", "01111111"]),
             'positions' => [
                 (object)[
@@ -131,7 +129,6 @@ class PGOSUsersSeeder extends Seeder
             'password' => Hash::make("password")
         ]);
 
-        $bualong_john->assign('budget-request-reviewer');
 
         $gigi_corpuz = User::create([
             'last_name' => "Corpuz",
@@ -152,7 +149,8 @@ class PGOSUsersSeeder extends Seeder
         ]);
         
         $gigi_corpuz->assign('project-assigner');
-
+        $gigi_corpuz->assign('budget-request-reviewer');
+        
         $corral_mary = User::create([
             'last_name' => "Corral",
             'first_name' => "Mary-Ann",
@@ -302,6 +300,7 @@ class PGOSUsersSeeder extends Seeder
         $elvin_olano->assign('account-creator');
         $elvin_olano->assign('cost-estimate-reviewer');
         $elvin_olano->assign('project-creator');
+        $elvin_olano->assign('budget-request-reviewer');
 
         User::create([
             'last_name' => "Padojinog",

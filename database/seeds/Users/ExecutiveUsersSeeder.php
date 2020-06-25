@@ -37,8 +37,7 @@ class ExecutiveUsersSeeder extends Seeder
         $von_mauleon->assign("account-approver");
         $von_mauleon->assign("cost-estimate-clearer");
         $von_mauleon->assign("project-approver");
-        $von_mauleon->assign("budget-request-disburser");
-
+        $von_mauleon->assign('budget-request-releaser');
 
         // biboy.arcilla.pdem@gmail.com
 
@@ -63,7 +62,7 @@ class ExecutiveUsersSeeder extends Seeder
 
         $biboy_arcilla->assign("cost-estimate-approver");
         $biboy_arcilla->assign('project-reviewer');
-        $biboy_arcilla->assign('budget-request-releaser');
+        $biboy_arcilla->assign('budget-request-approver');
 
 
     }

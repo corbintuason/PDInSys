@@ -12,14 +12,24 @@ use App\Remark;
 trait ControllersTrait
 {
 
-    public function getCreateStatus($request, $class)
+    public function getCreateStatus($request, $class, $overflow)
     {
+        if($overflow){
         // Get Roles of User
         $roles = auth()->user()->roles;
         // Find Role of User in Stages
         $model_role = $roles->where('entity', $class)->first();
         $next_stage = $this->getNextStageByResponsibility($model_role, $class);
         return $next_stage->names[0];
+        }else{
+        $next_stage = $this->getNextStageByProcess($class);
+        return $next_stage->names[0];
+        }
+    }
+
+    public function getNextStageByProcess($class){
+        $stages = (new $class)->stages;
+        return $stages[1];
     }
 
     public function getNextStageByResponsibility($model_role, $class)
@@ -49,13 +59,28 @@ trait ControllersTrait
 
     public function notifyApprovers($item)
     {
-        return User::whereIs($this->getCurrentStage($item)->responsible)->get();
+        $users = User::all();
+        if(!$item->is_process_finished){
+            $approvers = $users->filter(function ($user) use ($item) {
+                return $user->can($this->getCurrentStage($item)->responsible->name, get_class($item));
+            });
+            return $approvers;
+        }
+        return [];
+
+        // return User::whereIs($this->getCurrentStage($item)->responsible)->get();
     }
 
-    public function addContributor($item, $class)
+    public function addContributor($item, $class, $overflow)
     {
         $auth_user = auth()->user();
-        $responsibility = $this->getRoleIn($class);
+        if($overflow){
+            // $responsibility = $this->getRoleIn($class);
+            $responsibility = "Test";
+
+        }else{
+            $responsibility = "Creator";
+        }
         Contributor::create([
             'contributable_type' => $class,
             'contributable_id' => $item->id,
@@ -65,21 +90,7 @@ trait ControllersTrait
     }
     public function getCurrentStage($item)
     {
-        // $stages = $item->stages;
-        // $current_stage;
-        // foreach($stages as $stage){
-        //     $names = $stage->names;
-        //     if(in_array($item, $names)){
-        //         $current_stage = $stage;
-        //     break;
-        //     }else{
-        //         continue;
-        //     }
-        // }
-        // dd($current_stage);
-        // Get Stages Attribute
         $stages = $item->stages;
-        // Find a stage where it the status is in one of the names
         foreach ($stages as $stage) {
             foreach ($stage->names as $name) {
                 if ($name == $item->status) {
@@ -88,8 +99,6 @@ trait ControllersTrait
                 }
             }
         }
-        // Return stage
-
         return $current_stage;
     }
 
@@ -102,19 +111,24 @@ trait ControllersTrait
      * OTHERWISE: 
      *  - You may copy each action, and put it in your Controller@store instead.
      */
-    public function createItem($request, $class, $model_text, $show_route)
+    public function createItem($request, $class, $model_text, $overflow)
     {
         $auth_user = auth()->user();
-        // Generate Status based on Creator
-        $request['status'] = $this->getCreateStatus($request, $class);
 
+        /**
+         * OVERFLOW:
+         *  - Boolean Value where it will determine if we should get the status based on the role of the creator
+         *  or based on the standard flow of the process!
+         */
+
+        $request['status'] = $this->getCreateStatus($request, $class, $overflow);
         // Create Item
         $item = activity()->withoutLogs(function () use ($request, $class) {
             return $class::create($request->all());
         });
 
         // Create Contributor Object
-        $this->addContributor($item, $class);
+        $this->addContributor($item, $class, $overflow);
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
@@ -127,7 +141,7 @@ trait ControllersTrait
         return $item;
     }
 
-    public function updateItem($item, $class, $model_text)
+    public function updateItem($item, $class, $model_text, $request, $overflow)
     {
         $auth_user = auth()->user();
         // Generate Status based on Creator
@@ -141,11 +155,16 @@ trait ControllersTrait
         });
 
         // Create Contributor Object
-        $this->addContributor($item, $class);
+        $this->addContributor($item, $class, $overflow);
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
         
+        //  Add Skip remark if checked
+        if($request->get("skipped")){
+            $this->skipRemark($item, $class);
+        }
+
         // Create Activity Log
         activity($model_text . ' Status Change')
             ->on($item)

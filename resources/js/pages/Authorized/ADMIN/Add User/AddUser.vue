@@ -75,7 +75,6 @@ export default {
     },
     methods: {
         createUser() {
-            this.createItem();
             swal.fire({
                 title: "Create User",
                 icon: "question",

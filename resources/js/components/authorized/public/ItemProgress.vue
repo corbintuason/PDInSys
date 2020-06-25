@@ -52,7 +52,7 @@
 import contributionList from "./ContributionList";
 import remarksList from "./RemarksList";
 import steps from "../../../mixins/steps";
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapGetters } from "vuex";
 export default {
     data() {
         return {
@@ -76,9 +76,9 @@ export default {
             mode(state) {
                 return state[this.namespace].mode;
             },
-            steps(state) {
-                return state[this.namespace].steps;
-            },
+            steps(state, getters){
+                return getters[this.namespace + "/steps"]
+            }
         }),
         progress_bar_header(){
             return (this.item!=null) ? this.item.code : "Progress Bar";
@@ -96,10 +96,6 @@ export default {
     methods: {
         ...mapMutations({
             changeShowRemarksModal(commit, payload) {
-                console.log(
-                    "not working?",
-                    this.$store.state[this.namespace].show_remarks_modal
-                );
                 return commit(
                     this.namespace + "/changeShowRemarksModal",
                     payload

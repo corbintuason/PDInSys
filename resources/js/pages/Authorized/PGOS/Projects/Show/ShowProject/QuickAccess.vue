@@ -41,7 +41,7 @@ export default {
                     requirement: "Budget Requests",
                     status: "",
                     link: {
-                        name: "project_budget_requests_index",
+                        name: "project_budget_request_index",
                         id: this.project.id
                     }
                 }

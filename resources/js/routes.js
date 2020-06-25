@@ -107,7 +107,7 @@ export default [
                 component: CreateAccount,
                 name: "account_create",
                 beforeEnter(to, from, next){
-                    if(!store.getters["auth/hasAbility"]("create", "App\\Account")){
+                    if(!store.getters["auth/hasRouteAbility"]("create", "App\\Account")){
                         next({
                             name: "Welcome",
                         });
@@ -153,6 +153,15 @@ export default [
                 path: "/projects/:id/budget-requests/create",
                 component: CreateProjectBudgetRequest,
                 name: "project_budget_request_create",
+                // beforeEnter(to, from, next){
+                //     if(!store.getters["auth/hasAbility"]("create", "App\\BudgetRequest")){
+                //         next({
+                //             name: "Welcome",
+                //         });
+                //     } else {
+                //         next();
+                //     }
+                // }
             },
             // BUDGET REQUEST PATHS
             {

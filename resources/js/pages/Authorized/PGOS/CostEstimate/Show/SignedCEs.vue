@@ -66,7 +66,7 @@
                             >
                                 <b-form-group
                                     label-cols-sm="4"
-                                    label="Disbursed Budget"
+                                    label="Requested Budget"
                                     label-class="font-weight-bold"
                                 >
                                       <b-input-group>
@@ -80,7 +80,7 @@
                                     <money
                                         class="form-control"
                                         style="text-align: right;"
-                                        :value="0"
+                                        :value="requested_budget"
                                         disabled
                                     ></money>
                                 </b-input-group>
@@ -108,7 +108,7 @@
                                     <money
                                         class="form-control"
                                         style="text-align: right;"
-                                        :value="0"
+                                        :value="remaining_budget"
                                         disabled
                                     ></money>
                                 </b-input-group>
@@ -190,6 +190,12 @@ export default {
         "signed-ce": signedCE
     },
     computed: {
+        requested_budget(){
+            return this.project.requested_budget
+        },
+        remaining_budget(){
+            return this.project.total_remaining_budget
+        },
         actual_signed_ces(){
             return this.signed_ces.filter(ce => ce.signed_ce_detail!=null);
         },

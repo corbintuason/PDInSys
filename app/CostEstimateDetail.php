@@ -167,6 +167,9 @@ class CostEstimateDetail extends Model
                 return $this->sub_total_cost + $cost_tax;
             }
     }
+
+    
+ 
     public function cost_estimate(){
         return $this->belongsTo('App\CostEstimate');
     }
@@ -177,9 +180,5 @@ class CostEstimateDetail extends Model
     
     public function contributors(){
         return $this->morphMany("App\Contributor", 'contributable')->with('user');
-    }
-
-    public function remarks(){
-        return $this->morphMany("App\Remark", 'remarkable')->with('returned_by');
     }
 }

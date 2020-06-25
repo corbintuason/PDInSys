@@ -25,11 +25,15 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::query();
-        if ($request->get('positions')) {
-            $positions = $request->get('positions');
+        $positions = $request->get('positions');
+        $roles = $request->get('roles');
+        if ($positions) {
             foreach ($positions as $position) {
                 $users->orWhereJsonContains('positions', ['name' => $position]);
             }
+        }
+        if($roles){
+            $users->whereIs('budget-request-reviewer');
         }
         return UserResource::collection($users->get());
     }
@@ -56,9 +60,9 @@ class UserController extends Controller
         ]);
 
         // Generate a random string for default password
-        $password = Str::random(5);
-        $request["password"] = bcrypt($password);
-
+        // $password = Str::random(5);
+        // $request["password"] = bcrypt($password);
+        $request["password"] = bcrypt("password");
         $user_id = auth()->user()->id;
         $user = User::findOrFail($user_id);
 
@@ -74,7 +78,7 @@ class UserController extends Controller
         $created_user->assign($request['module_access.roles']);
 
         // Notify Users
-        FacadesMail::to($created_user->pd_email)->send(new NewUserCreated($created_user, $password));
+        // FacadesMail::to($created_user->pd_email)->send(new NewUserCreated($created_user, $password));
 
         $notify_user = User::first();
         $notify_users = collect([]);

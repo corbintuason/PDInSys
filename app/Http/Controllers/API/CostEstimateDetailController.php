@@ -78,10 +78,10 @@ class CostEstimateDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
         $cost_estimate_detail = CostEstimateDetail::findOrFail($id);
-            $this->updateItem($cost_estimate_detail, CostEstimateDetail::class, "Cost Estimate Detail", "cost_estimate_show");
+            $this->updateItem($cost_estimate_detail, CostEstimateDetail::class, "Cost Estimate Detail", $request, true);
 
             if($cost_estimate_detail->status =='Signed'){
                 SignedCostEstimateDetail::create([

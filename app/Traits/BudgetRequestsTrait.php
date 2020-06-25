@@ -12,7 +12,15 @@ trait BudgetRequestsTrait
     
     public function getCodeAttribute()
     {
-        return "BRPD-".sprintf('%04d', $this->attributes['id']);
+        return "BRPD20-".sprintf('%04d', $this->attributes['id']);
+    }
+
+    public function getTotalBudgetRequestedAttribute(){
+        $total = 0;
+        foreach($this->entries as $entry){
+            $total+= ($entry["quantity"] * $entry["unit_price"] * $entry["no_of_days"] * $entry["no_of_venues"]);
+        }
+        return $total;
     }
 
     protected function getStagesAttribute(){
@@ -23,19 +31,36 @@ trait BudgetRequestsTrait
             ],
             (object) [
                 "names" => ["For Review", "Returned to Reviewer"],
-                "responsible" => "budget-request-reviewer"
+                // "responsible" => "budget-request-reviewer"
+                "responsible" => (object)[
+                    "name" => "review",
+                    "entity_type" => "App\BudgetRequest",
+                    "entity_id" => true
+                ],
             ],
             (object) [
                 "names" => ["For Approval", "Returned to Approver"],
-                "responsible" => "budget-request-approver"
+                "responsible" => (object)[
+                    "name" => "approve",
+                    "entity_type" => "App\BudgetRequest",
+                    "entity_id" => false
+                ]
             ],
             (object) [
                 "names" => ["For Release", "Returned to Releaser"],
-                "responsible" => "budget-request-releaser"
+                "responsible" => (object)[
+                    "name" => "release",
+                    "entity_type" => "App\BudgetRequest",
+                    "entity_id" => false
+                ]
             ],
             (object) [
                 "names" => ["For Disbursement", "Returned to Disburser"],
-                "responsible" => "budget-request-disburser"
+                "responsible" => (object)[
+                    "name" => "disburse",
+                    "entity_type" => "App\BudgetRequest",
+                    "entity_id" => true
+                ]
             ],
             (object) [
                 "names" => ["Disbursed"],

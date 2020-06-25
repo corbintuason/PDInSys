@@ -23,7 +23,11 @@ trait AccountsTrait
             ],
             (object) [
                 "names" => ["For Approval", "Returned to Approver"],
-                "responsible" => "account-approver"
+                "responsible" => (object)[
+                    "name" => "approve",
+                    "entity_type" => "App\Account",
+                    "entity_id" => false
+                ]
             ],
 
             (object)[

@@ -17,10 +17,13 @@ class CostEstimate extends JsonResource
     {
         $response = parent::toArray($request);
         $response['code'] = $this->code;
-            $response['actions'] = $this->activities;
-            $response['contributors'] = ContributorResource::collection($this->contributors);
-            $response['remarks'] = RemarkResource::collection($this->remarks);
-            $response['details'] = CostEstimateDetail::collection($this->cost_estimate_details);
+        $response['actions'] = $this->activities;
+        $response['cleared_ce_details'] = $this->cleared_ce_details;
+        $response['total_internal_budget'] = $this->total_internal_budget;
+
+        $response['contributors'] = ContributorResource::collection($this->contributors);
+        $response['remarks'] = RemarkResource::collection($this->remarks);
+        $response['details'] = CostEstimateDetail::collection($this->cost_estimate_details);
             // 'unsigned_details' => $this->unsigned_details
         
         

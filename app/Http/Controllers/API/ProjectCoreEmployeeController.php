@@ -11,6 +11,7 @@ use App\Notifications\ProjectCoreEmployeeAssigned;
 use App\Notifications\ProjectStatusChange;
 use App\User;
 Use App\Project;
+use Bouncer;
 class ProjectCoreEmployeeController extends Controller
 {
 
@@ -37,6 +38,7 @@ class ProjectCoreEmployeeController extends Controller
         }
         if($project_core_employee->type == 'Main Project Manager'){
             $employee->assign('budget-request-creator');
+            // Bouncer::allow($employee)->to('create', $project);
         }
             activity('Employee Assigned to Project')
             ->on($project)

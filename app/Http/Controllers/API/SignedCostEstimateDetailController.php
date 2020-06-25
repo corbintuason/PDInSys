@@ -8,6 +8,8 @@ use App\SignedCostEstimateDetail;
 use App\Traits\ControllersTrait;
 use App\CostEstimateDetail;
 use Storage;
+use Notification;
+use App\Notifications\ItemNotification;
 class SignedCostEstimateDetailController extends Controller
 {
     use ControllersTrait;
@@ -74,13 +76,10 @@ class SignedCostEstimateDetailController extends Controller
             "internal_budget" => $request->internal_budget,
             "incentive" => $request->incentive,
         ]);
-        $this->updateItem($signed_cost_estimate_detail, CostEstimateDetail::class, "Signed Cost Estimate Detail", "cost_estimate_show");
-        // $signed_cost_estimate_detail->update([
-        //     "internal_budget" => $request->internal_budget,
-        //     "incentive" => $request->incentive,
-        //     "status" => $this->getCreateStatus($request, SignedCostEstimateDetail::class)
-        // ]);
-       
+
+        $this->updateItem($signed_cost_estimate_detail, CostEstimateDetail::class, "Signed Cost Estimate Detail", $request, true);
+        Notification::send($this->notifyApprovers($signed_cost_estimate_detail), new ItemNotification($signed_cost_estimate_detail, $signed_cost_estimate_detail::$module, "cost_estimate_show", $signed_cost_estimate_detail->cost_estimate_detail->cost_estimate->id));
+
         // Change Values
     return [
         'item_id' => $signed_cost_estimate_detail->id,

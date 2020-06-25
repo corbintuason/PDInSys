@@ -16,6 +16,8 @@ class CreateLiquidationJournalsTable extends Migration
         Schema::create('liquidation_journals', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer("budget_request_id");
+            $table->string('status');
+            $table->json('entries')->nullable();
             $table->timestamps();
         });
     }
