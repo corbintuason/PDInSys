@@ -11,7 +11,10 @@ use App\User;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// MAIL ROUTES
+// MAIL ROUTES'
+Route::get("/awit", function(){
+    return "holla";
+});
 Route::get('/mail/newUserCreated', 'Mail\UserController@newUserCreated')->name("New User Created");
 
 Route::group(['middleware' => 'auth:api'], function(){
