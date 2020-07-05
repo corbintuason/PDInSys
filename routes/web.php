@@ -25,4 +25,4 @@ Route::get('/api/budget_request/{id}/download','API\BudgetRequestController@down
 // Route::get('/{any}', function () {
 //     return view('welcome');
 // })->where('any', '(.*)');
-Route::get("/{any}", "HomeController@home")->where('any', '(.*)');
+Route::get("/{any}", "AppController@welcome")->where('any', '(.*)');
