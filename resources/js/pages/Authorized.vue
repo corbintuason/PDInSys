@@ -1,5 +1,6 @@
 <template>
-    <div>
+<div>
+    <div v-if="user!=null">
         <admin-nav :user="user"></admin-nav>
         <div class="content-wrapper">
             <div class="content">
@@ -9,6 +10,8 @@
             </div>
         </div>
     </div>
+</div>
+
 </template>
 
 <script>
