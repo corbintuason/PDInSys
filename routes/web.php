@@ -12,9 +12,7 @@ use App\User;
 |
 */
 // MAIL ROUTES'
-Route::get("/awit", function(){
-    return "holla";
-});
+
 Route::get('/mail/newUserCreated', 'Mail\UserController@newUserCreated')->name("New User Created");
 
 Route::group(['middleware' => 'auth:api'], function(){
