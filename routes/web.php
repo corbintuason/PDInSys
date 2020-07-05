@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 Route::get('/api/budget_request/{id}/download','API\BudgetRequestController@download');
 
 // Route to redirect all pages to a single view page.
-Route::get('/{any}', function () {
-    return view('welcome');
-})->where('any', '(.*)');
+// Route::get('/{any}', function () {
+//     return view('welcome');
+// })->where('any', '(.*)');
+Route::get("/{any}", "HomeController@home")->where('any', '(.*)');
