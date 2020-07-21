@@ -61,10 +61,20 @@ export default {
         "contribution-list": contributionList,
     },
     computed: {
-        ...mapState({
-            show_reject_modal(state){
-                return state[this.namespace].show_reject_modal;
+                  
+                  show_reject_modal: {
+            get() {
+                return this.$store.state[this.namespace].show_reject_modal;
             },
+            set(value) {
+                this.$store.commit(
+                    this.namespace + "/changeShowRejectModal",
+                    value
+                );
+            },
+        },
+        ...mapState({
+
             item(state) {
                 return state[this.namespace].item;
             },

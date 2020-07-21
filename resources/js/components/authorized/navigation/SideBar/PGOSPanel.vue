@@ -62,8 +62,9 @@
             </div>
         </div>
     </div>
-</template>
 
+</template>
+    
 <script>
 import {mapState} from "vuex"
 export default {
@@ -206,3 +207,4 @@ export default {
     border-radius: 5px;
 }
 </style>
+

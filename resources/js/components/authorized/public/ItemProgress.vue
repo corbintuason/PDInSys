@@ -81,7 +81,7 @@ export default {
             }
         }),
         progress_bar_header(){
-            return (this.item!=null) ? this.item.code : "Progress Bar";
+            return this.mode!='Create' ? this.item.code: "Progress Bar";
         },
         renderStepProgress() {
             if (this.item != null) {

@@ -11,15 +11,14 @@
 
 <script>
 import account from "./Show/Account";
-import { accountModule } from "../../../../store/modules/account";
+import { showAccountModule } from "../../../../store/modules/account/show";
 import states from "../../../../mixins/states";
 
 import { mapGetters, mapState } from "vuex";
 export default {
     data() {
         return {
-            account_id: this.$route.params.id,
-            namespace: "account-" + this.$route.params.id,
+            namespace: "show-account"
         };
     },
     components: {
@@ -39,17 +38,15 @@ export default {
         this.$store.unregisterModule(this.namespace);
     },
     beforeCreate() {
+        var namespace = "show-account";
         var id = this.$route.params.id;
-        var namespace = "account-" + id;
         return new Promise((resolve, reject) => {
-            resolve(this.$store.registerModule(namespace, accountModule));
+            resolve(this.$store.registerModule(namespace, showAccountModule));
         }).then((response) => {
             this.$store.dispatch(namespace + "/storeItem", id);
         });
     },
 
-    mounted() {
-        
-    },
+    mounted() {},
 };
 </script>

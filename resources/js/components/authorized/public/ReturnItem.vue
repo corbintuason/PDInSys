@@ -67,10 +67,18 @@ export default {
         "contribution-list": contributionList,
     },
     computed: {
-        ...mapState({
-            show_return_modal(state){
-                return state[this.namespace].show_return_modal;
+                show_return_modal: {
+            get() {
+                return this.$store.state[this.namespace].show_return_modal;
             },
+            set(value) {
+                this.$store.commit(
+                    this.namespace + "/changeShowReturnModal",
+                    value
+                );
+            },
+        },
+        ...mapState({
             item(state) {
                 return state[this.namespace].item;
             },
@@ -80,8 +88,8 @@ export default {
             model(state){
                 return state[this.namespace].model;
             },
-            steps(state) {
-                 return state[this.namespace].steps;
+            steps(state, getters) {
+                 return getters[this.namespace + "/steps"];
             },
             endpoints(state, getters){
                 return getters[this.namespace + "/getEndpoints"]
@@ -94,9 +102,6 @@ export default {
             changeMode(commit, payload) {
                 return commit(this.namespace + '/changeMode', "Edit")
             },
-            changeShowReturnModal(commit, payload){
-                return commit(this.namespace + "/changeShowReturnModal", false)
-            }
         }),
         returnItem(item) {
             this.return_to_user.user = item;
@@ -130,7 +135,7 @@ export default {
                             .catch((e) => {
                                 //(e);
                                 swal.showValidationMessage(
-                                    `Unable to return project`
+                                    `Unable to return item`
                                 );
                                 swal.hideLoading();
                                 reject(e);
@@ -156,7 +161,6 @@ export default {
                 remarkable_id: this.item.id,
                 remarks: [""],
             };
-            this.changeShowReturnModal();
         },
     },
     mounted() {

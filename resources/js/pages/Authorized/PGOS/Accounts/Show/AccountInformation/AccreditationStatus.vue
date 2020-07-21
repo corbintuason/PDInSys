@@ -26,7 +26,7 @@ import {mapState} from "vuex";
 export default {
   data() {
     return {
-                  namespace: "account-" + this.$route.params.id,
+                  namespace: "show-account",
 
     };
   },

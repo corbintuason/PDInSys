@@ -45,7 +45,7 @@ class AccountController extends Controller
         ]);
 
         // Create Account 
-        $account = $this->createItem($request, Account::class, "Account", "account_show");
+        $account = $this->createItem($request, Account::class, "Account", true);
 
         // Create Brands
         foreach ($request->brands as $brand) {
@@ -98,9 +98,8 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $account = Account::findOrFail($id);
-        $this->updateItem($account, Account::class, "Account");
+        $this->updateItem($account, Account::class, "Account", $request, true);
 
         if($request->get('skipped')){
             $this->skipRemark($account, Account::class);
@@ -132,7 +131,7 @@ class AccountController extends Controller
     {
         // Update First the Cost Estimate Detail
         $account = Account::findOrFail($id);
-        $updated_account = $this->saveChangesToItem($request, Account::class, $account, "Account");
+        $updated_account = $this->saveChangesToItem($request, Account::class, $account, "Account", true);
 
         Notification::send($this->notifyApprovers($updated_account), new ItemNotification($updated_account, $updated_account::$module, "account_show", $updated_account->id));
 

@@ -93,7 +93,7 @@ export default [
                 name: "account_index",
                 beforeEnter(to, from, next){
                     // if (!store.getters["auth"].hasAbility("view-all", "App\\Account")) {
-                        if(!store.getters["auth/hasAbility"]("view-all", "App\\Account")){
+                        if(!store.getters["auth/hasRouteAbility"]("view-all", "App\\Account")){
                         next({
                             name: "Welcome",
                         });

@@ -19,11 +19,17 @@ trait AccountsTrait
         $stages = collect([
             (object) [
                 "names" => ["", "Returned to Creator"],
-                "responsible" => "account-creator"
+                "responsible" => (object)[
+                    "role" => "account-creator",
+                    "name" => "create",
+                    "entity_type" => "App\Account",
+                    "entity_id" => false
+                ]
             ],
             (object) [
                 "names" => ["For Approval", "Returned to Approver"],
                 "responsible" => (object)[
+                    "role" => "account-approver",
                     "name" => "approve",
                     "entity_type" => "App\Account",
                     "entity_id" => false

@@ -2,7 +2,9 @@
     <div id="contact_details">
         <h1 class="component-sub-header">Contact Details</h1>
         <div class="component-sub-content">
-            <label for="pd_email">
+            <div class="row">
+                <div class="col-md-6">
+     <label for="pd_email">
                 PD Email
                 <i
                     class="fas fa-question-circle"
@@ -13,7 +15,12 @@
             <b-input-group id="pd_email">
                 <b-form-input v-model="new_user.pd_email"></b-form-input>
             </b-input-group>
-            <label for="pd_gmail">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+         <label for="pd_gmail">
                 PD Gmail
                 <i class="fas fa-question-circle"></i>
             </label>
@@ -21,8 +28,12 @@
                 id="pd_gmail"
                 v-model="new_user.pd_gmail"
             ></b-form-input>
+                </div>
+            </div>
 
-            <label for="contact_numbers">Contact Numbers</label>
+        <div class="row">
+            <div class="col-md-6">
+  <label for="contact_numbers">Contact Numbers</label>
             <b-input-group
                 v-for="(contact_number, index) in new_user.contact_numbers"
                 :key="index"
@@ -34,7 +45,7 @@
                     <b-button
                         variant="outline-danger"
                         :disabled="index < 1"
-                        @click="removeContact(index)"
+                        @click="removeRow(new_user.contact_numbers, index)"
                     >
                         <i class="fas fa-window-close"></i>
                     </b-button>
@@ -43,17 +54,21 @@
             <b-button variant="outline-primary" block @click="addContact"
                 >Add Contact Number</b-button
             >
+            </div>
+        </div>
+          
         </div>
     </div>
 </template>
 
 <script>
 import validators from "../../../../../../mixins/validators";
+import form from "../../../../../../mixins/form"
 export default {
     data() {
         return {};
     },
-    mixins: [validators],
+    mixins: [validators, form],
     props: {
         new_user: Object,
     },

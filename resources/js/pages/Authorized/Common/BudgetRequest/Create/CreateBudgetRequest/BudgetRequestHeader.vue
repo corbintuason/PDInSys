@@ -18,7 +18,7 @@
         <!-- Date of Submission -->
       <b-form-group disabled label="Date of Submission" label-class="font-weight-bold" class="col-md-3">
             <b-input-group size="sm">
-             <b-form-datepicker disabled id="example-datepicker" :value="getDateToday" class="mb-2"></b-form-datepicker>
+             <b-form-datepicker disabled :value="getDateToday" class="mb-2"></b-form-datepicker>
             </b-input-group>
         </b-form-group>
 

@@ -43,9 +43,9 @@ export default {
             current_step(state, getters) {
                 return getters[this.namespace + "/getCurrentStep"];
             },
-            next_step(state, getters) {
-                return getters[this.namespace + "/getNextStep"];
-            },
+            // next_step(state, getters) {
+            //     return getters[this.namespace + "/getNextStep"];
+            // },
         }),
         action_name() {
             return this.current_step.name + " " + this.name;

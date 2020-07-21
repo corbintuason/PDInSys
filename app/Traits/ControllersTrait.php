@@ -36,7 +36,7 @@ trait ControllersTrait
     {
         // Instantate Class to See Statuses
         $stages = (new $class)->stages;
-        $current_stage = $stages->where('responsible', $model_role->name)->first();
+        $current_stage = $stages->where('responsible.role', $model_role->name)->first();
         return $stages->slice($stages->search($current_stage) + 1, 1)->first();
     }
 
@@ -74,13 +74,14 @@ trait ControllersTrait
     public function addContributor($item, $class, $overflow)
     {
         $auth_user = auth()->user();
-        if($overflow){
-            // $responsibility = $this->getRoleIn($class);
-            $responsibility = "Test";
+        $responsibility = $this->getRoleIn($class);
+        // if($overflow){
+        //     // $responsibility = $this->getRoleIn($class);
+        //     $responsibility = "Test";
 
-        }else{
-            $responsibility = "Creator";
-        }
+        // }else{
+        //     $responsibility = "Creator";
+        // }
         Contributor::create([
             'contributable_type' => $class,
             'contributable_id' => $item->id,
@@ -122,6 +123,7 @@ trait ControllersTrait
          */
 
         $request['status'] = $this->getCreateStatus($request, $class, $overflow);
+        // $request['status'] = $this->getNextStatus($request, $class, $overflow);
         // Create Item
         $item = activity()->withoutLogs(function () use ($request, $class) {
             return $class::create($request->all());
@@ -243,7 +245,7 @@ trait ControllersTrait
         $stages = $remark->remarkable->stages;
         $returned_to = User::findOrFail($remark->returned_to_id);
         $role = $returned_to->roles->where('entity', $class)->first();
-        $stage = $stages->where('responsible', $role->name)->first();
+        $stage = $stages->where('responsible.role', $role->name)->first();
         return $stage->names[1];
     }
 
@@ -311,14 +313,15 @@ trait ControllersTrait
         return $contributors->unique('id');
     }
 
-    public function saveChangesToItem($request, $class, $item, $model_text){
+    public function saveChangesToItem($request, $class, $item, $model_text, $overflow){
         $auth_user = auth()->user();
 
         activity()->withoutLogs(function () use ($item, $request) {
             $item->update($request->all());
         });
         
-        $this->updateItem($item, $class, $model_text);
+        // $item, $class, $model_text, $request, $overflow
+        $this->updateItem($item, $class, $model_text, $request, $overflow);
 
         activity($model_text . " Edited")
         ->on($item)
