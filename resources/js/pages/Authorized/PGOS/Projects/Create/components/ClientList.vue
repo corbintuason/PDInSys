@@ -32,14 +32,14 @@ export default {
         };
     },
     computed:{
-        ...mapState("project-create", {
+        ...mapState("create-project", {
             selected_account(state){
                 return state.selected_account;
             }
         })
     },
     methods:{
-          ...mapActions("project-create", {
+          ...mapActions("create-project", {
             selectClient(dispatch, payload) {
                 console.log("hi????", payload);
                 return dispatch("selectClient", payload[0]);

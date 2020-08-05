@@ -155,18 +155,18 @@ export default {
         locations: locations,
     },
     computed: {
-        ...mapState("project-create",{
+        ...mapState("create-project",{
             project(state){
-                return state.project
+                return state.item
             },
-            statuses(state){
-                return state.statuses;
+            statuses(state, getters){
+                return getters.statuses;
             },
-            project_score_vals(state){
-                return state.project_score_vals
+            project_score_vals(state, getters){
+                return getters.project_score_vals
             },
-            available_departments(state){
-                return state.available_departments
+            available_departments(state, getters){
+                return getters.available_departments
             }
 
 

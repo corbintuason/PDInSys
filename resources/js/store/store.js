@@ -13,13 +13,17 @@ import costEstimate from "./modules/cost-estmate";
 import signedCostEstimateDetails from "./modules/signed-cost-estimate-details";
 
 import account from "./modules/account/common";
+import project from "./modules/project/common";
 import budgetRequest from "./modules/budget-request/common";
-import liquidationJournal from "./modules/liquidation-journal/common"
+import liquidationJournal from "./modules/liquidation-journal/common";
+
+
 export const store = new Vuex.Store({
     modules: {
         auth: auth,
         globals: globals,
         account: account,
+        project: project,
         tax: tax,
         budget: budget,
         costEstimate: costEstimate,

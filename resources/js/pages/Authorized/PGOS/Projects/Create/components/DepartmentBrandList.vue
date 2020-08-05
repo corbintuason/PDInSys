@@ -50,7 +50,7 @@ export default {
         };
     },
     computed:{
-        ...mapState("project-create", {
+        ...mapState("create-project", {
             selected_account: state => state.selected_account,
             selected_client: state => state.selected_client,
             selected_brand: state => state.selected_brand,
@@ -64,13 +64,13 @@ export default {
         //         },
         //         set(val){
         //             console.log("am i even setting")
-        //             this.$store.commit("project-create/selectDepartment", val);
+        //             this.$store.commit("create-project/selectDepartment", val);
         //         }
         //     },
         // })
     },
     methods: {
-        ...mapActions("project-create", {
+        ...mapActions("create-project", {
             selectDepartment(dispatch, payload){
                 return dispatch("selectDepartment", payload);
             },
