@@ -36,15 +36,15 @@ export default {
         "department-brand-list": departmentBrandList
     },
     computed:{
-        ...mapState("project-create", {
-            project: state => state.project,
+        ...mapState("create-project", {
+            project: state => state.item,
             selected_client: state => state.selected_client,
             selected_department: state => state.selected_department,
             selected_brand: state => state.selected_brand
         })
     },
     methods:{
-        ...mapActions("project-create", {
+        ...mapActions("create-project", {
             resetModal(dispatch){
                 return dispatch("resetModal");
             }

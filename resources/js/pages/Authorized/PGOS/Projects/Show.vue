@@ -24,14 +24,14 @@
 </template>
 
 <script>
-import { projectModule } from "../../../../store/modules/project";
+import { showProjectModule } from "../../../../store/modules/project/show";
 import showProject from "./Show/ShowProject";
 import states from "../../../../mixins/states";
 import { mapState } from "vuex";
 export default {
     data() {
         return {
-            namespace: "project-" + this.$route.params.id,
+            namespace: "show-project"
         };
     },
     mixins: [states],
@@ -51,19 +51,17 @@ export default {
         this.$store.unregisterModule(this.namespace);
     },
     beforeCreate() {
-        console.log("??", this.$route.params);
+        var namespace = "show-project";
         var id = this.$route.params.id;
-        console.log("id??", id);
-        var namespace = "project-" + id;
         return new Promise((resolve, reject) => {
-            resolve(this.$store.registerModule(namespace, projectModule));
+            resolve(this.$store.registerModule(namespace, showProjectModule));
         }).then((response) => {
             this.$store.dispatch(namespace + "/storeItem", id);
         });
     },
 
     mounted() {
-      console.log("check the stores", this.$store);
-    },
+
+},
 };
 </script>

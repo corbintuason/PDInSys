@@ -27,21 +27,25 @@ export default {
         };
     },
     computed: {
-        ...mapState("project-create", {
+        ...mapState("create-project", {
             project(state) {
                 return state.project;
             },
         }),
     },
     methods: {
-        ...mapActions("project-create", {
+        ...mapActions("create-project", {
             selectAccount(dispatch, payload) {
                 console.log("hi????", payload);
                 return dispatch("selectAccount", payload);
             },
         }),
         loadItems() {
-            axios.get("/api/account").then((response) => {
+            axios.get("/api/account", {
+                params:{
+                    status: "Approved"
+                }
+            }).then((response) => {
                 const accounts = response.data.data;
                 console.log("lemme check accounts", accounts);
                 accounts.forEach((account) => {
@@ -49,6 +53,7 @@ export default {
                     this.accounts.push({
                         id: account.id,
                         code: account.code,
+                        registered_name: account.registered_name,
                         departments: account.departments, 
                         brands: account.brands,
                         status: account.status,
@@ -63,8 +68,8 @@ export default {
         loadFields() {
             this.fields = [
                 {
-                    key: "code",
-                    label: "Account Code",
+                    key: "registered_name",
+                    label: "Registered Name",
                     class: "text-center",
                     sortable: true,
                     sortDirection: "desc",

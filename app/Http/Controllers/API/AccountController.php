@@ -25,9 +25,14 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return AccountResource::collection(Account::all());
+        $accounts = Account::query();
+        $status = $request->get('status');
+        if ($status) {
+            $accounts->where('status', $status);
+        }
+        return AccountResource::collection($accounts->get());
     }
 
     /**

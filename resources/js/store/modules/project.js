@@ -5,7 +5,7 @@ export const projectModule = {
         return{
             name: "Project",
             model: "App\\Project",
-            mode: null,
+            mode: "Show",
             item: null,
             
             loading: true,
@@ -13,16 +13,7 @@ export const projectModule = {
             show_reject_modal: false,
             show_remarks_modal: true,
             
-            statuses: [
-                "Pitch / Bid Preparation",
-                "Awaiting for Bid Results",
-                "Loss Bid",
-                "Pre-Awarded",
-                "Awarded",
-                "Ongoing",
-                "Fully-Delivered / Completed",
-                "Closed",
-            ],
+
             project_score_vals: {
                 min: 1,
                 max: 10,
