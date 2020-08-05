@@ -30,3 +30,28 @@ trait ModelsTrait {
         return $this->morphMany("App\Remark", 'remarkable')->with('remarked_by');
     }
 }
+
+
+
+
+/* 
+
+Requestion - PMs plus Gigi, Officers and Assistants
+Review - JDC/EAO, VMG/CCA/VTM (base on BR) 
+       - Cannot Edit, 
+       - Can Approve (Can add Remarks), Return, Reject
+Approve - VTM, RGA
+        - Cannot Edit, 
+        - Can Approve (Can add Remarks), Return, Reject
+Validation - Accounts Payable Officer
+        - Can Edit
+       - Can Approve (Can add Remarks), Return, Reject
+       - When Approving, prompt pls upload bir \
+Payment Approval - VTM (OIC)
+        -  Cannot Edit
+       - Can Approve (Can add Remarks), Return, Reject
+Disbursement - BBG RSB LAP (Accounts Payable Officers)
+Acknowledgement - *simply notify requestor
+Closing - *close after notified\
+
+*/
