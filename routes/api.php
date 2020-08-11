@@ -102,6 +102,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::get('/rfp', 'API\RFPController@index');
     Route::post('/rfp', 'API\RFPController@store');
+    Route::get('/rfp/{id}', 'API\RFPController@show');
+
     
 });
 

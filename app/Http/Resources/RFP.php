@@ -4,6 +4,9 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Project as ProjectResource;
+use App\Http\Resources\Contributor as ContributorResource;
+use App\Http\Resources\Remark as RemarkResource;
+use App\Http\Resources\Vendor as VendorResource;
 
 class RFP extends JsonResource
 {
@@ -15,15 +18,13 @@ class RFP extends JsonResource
      */
     public function toArray($request)
     {
-        $parent_class = get_class($this->rfpable);
-        if($parent_class){
-            $parent_resource = new ProjectResource($this->rfpable);
-        }
+     
         $response = parent::toArray($request);
         $response["code"] = $this->code;
-        $response["parent"] = $parent_resource;
+        // $response["parent"] = $parent_resource;
         $response['current_handler'] = $this->currentHandler;
         $response['is_process_finished'] = $this->isProcessFinished;
+        $response['vendor'] = new VendorResource($this->vendor);
       
 
         $response['actions'] = $this->activities;

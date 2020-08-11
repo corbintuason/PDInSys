@@ -26,8 +26,8 @@ import IndexProjectBudgetRequest from "./pages/Authorized/PGOS/ProjectBudgetRequ
 import CreateProjectBudgetRequest from "./pages/Authorized/PGOS/ProjectBudgetRequest/Create.vue";
 
 import IndexProjectRequestForPayment from "./pages/Authorized/PGOS/ProjectRequestForPayment/Index.vue";
-import CreateProjectRequestForPayment from "./pages/Authorized/PGOS/ProjectRequestForPayment/Create.vue";
-import RequestForPayment from "./pages/Authorized/Common/RFP/RFP";
+import CreateRFP from "./pages/Authorized/Common/RFP/Create";
+import ShowRFP from "./pages/Authorized/Common/RFP/Show";
 
 
 
@@ -179,7 +179,7 @@ export default [
 
             {
                 path: "/projects/:id/rfps/create",
-                component: CreateProjectRequestForPayment,
+                component: CreateRFP,
                 name: "project_rfp_create",
             },
 
@@ -193,7 +193,7 @@ export default [
             // RFP PATHS
             {
                 path: "/rfps/:id",
-                component: RequestForPayment,
+                component: ShowRFP,
                 name: "rfp_show"
             },
             // MANDATE PATHS

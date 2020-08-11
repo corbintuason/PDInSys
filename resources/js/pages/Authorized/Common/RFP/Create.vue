@@ -1,52 +1,34 @@
 <template>
     <div>
-        <div v-if="!loading">
-            <!-- ITEM PROGRESS -->
-            <item-progress namespace="create-rfp"></item-progress>
-            <!-- ACTUAL FORM -->
-            <create-rfp></create-rfp>
-        </div>
-        <clip-loader color="orange" v-else></clip-loader>
+        <rfp :namespace="namespace"></rfp>
     </div>
 </template>
- 
+
 <script>
-import createRFP from "./Create/CreateRFP.vue";
-import { mapState, mapActions } from "vuex";
+import createRFP from "./RFP";
+import { createRFPModule } from "../../../../store/modules/rfp/create";
 export default {
     data() {
-        return {};
-    },
-    computed: {
-        ...mapState("create-rfp", {
-            type: (state) => state.type,
-            loading: state => state.loading
-        }),
+        return {
+            namespace: "create-rfp",
+        };
     },
     components: {
-        "create-rfp": createRFP
+        "rfp": createRFP
     },
-    methods: {
-        ...mapActions("create-rfp", {
-            loadParentRequirement(dispatch) {
-                var parent_id;
-                if(this.type == 'Project'){
-                    parent_id = this.$route.params.id;
-                }else{
-                    parent_id = 0;
-                }
-                return dispatch("loadParentRequirement", parent_id);
-            },
-        }),
+    methods:{
+    
+    },
+    beforeDestroy() {
+        this.$store.unregisterModule(this.namespace);
+    },
+    beforeCreate() {
+        var namespace = "create-rfp";
+        this.$store.registerModule(namespace, createRFPModule);
+        this.$store.commit(namespace+"/setType", "Project");
     },
     mounted() {
-        console.log(
-            "check the type asap",
-            this.$store.state["create-rfp"].type
-        );
-        console.log("ggwp");0
-        console.log(this.$route.params.id +" ?");
-        this.loadParentRequirement();
+        console.log(this.namespace);
     },
 };
 </script>

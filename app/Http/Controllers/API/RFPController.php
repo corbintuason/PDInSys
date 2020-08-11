@@ -8,6 +8,7 @@ use App\RFP;
 use Notification;
 use App\Traits\ControllersTrait;
 use App\Notifications\ItemNotification;
+use App\Http\Resources\RFP as RFPResource;
 
 class RFPController extends Controller
 {
@@ -65,7 +66,8 @@ class RFPController extends Controller
      */
     public function show($id)
     {
-        //
+        return new RFPResource(RFP::findorFail($id));
+
     }
 
     /**

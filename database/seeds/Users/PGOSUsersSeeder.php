@@ -55,7 +55,7 @@ class PGOSUsersSeeder extends Seeder
 
         $mitch_arcilla->assign("account-creator");
         $mitch_arcilla->assign("project-assigner");
-        $tin_aquino->assign("rfp-creator");
+        $mitch_arcilla->assign("rfp-reviewer");
 
         // bautista_mikaella@projectduoevents.com
 

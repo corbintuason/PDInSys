@@ -35,4 +35,7 @@ class RFP extends Model
     public function rfpable(){
         return $this->morphTo();
     }
+    public function vendor(){
+        return $this->belongsTo('App\Vendor');
+    }
 }

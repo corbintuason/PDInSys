@@ -35,9 +35,10 @@ export const createRFPModule = {
                     date_of_release: null
                 },
               
-                billing_amount: 0
+                billing_amount: 0,
+
+                vendor: null
             },
-            selected_vendor: null
   
         };
     },
@@ -93,9 +94,7 @@ export const createRFPModule = {
             }
         },
         setVendor(state, vendor){
-            state.selected_vendor = vendor;
-            console.log(state.selected_vendor, state.item.vendor_id);
-
+            state.item.vendor = vendor;
         }
 
     },
