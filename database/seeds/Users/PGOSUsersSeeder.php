@@ -32,6 +32,7 @@ class PGOSUsersSeeder extends Seeder
         ]);
 
         // Roles
+        $tin_aquino->assign("rfp-creator");
 
 
         $mitch_arcilla = User::create([
@@ -54,6 +55,7 @@ class PGOSUsersSeeder extends Seeder
 
         $mitch_arcilla->assign("account-creator");
         $mitch_arcilla->assign("project-assigner");
+        $tin_aquino->assign("rfp-creator");
 
         // bautista_mikaella@projectduoevents.com
 
@@ -75,6 +77,8 @@ class PGOSUsersSeeder extends Seeder
             'password' => Hash::make("password")
         ]);
         
+        $bautista_mikaella->assign('rfp-reviewer');
+
         $bicol_maria = User::create([
             'last_name' => "Bicol",
             'first_name' => "Maria Ayra Del",
@@ -92,6 +96,8 @@ class PGOSUsersSeeder extends Seeder
             ],
             'password' => Hash::make("password")
         ]);
+
+        $bicol_maria->assign('rfp-approver');
 
         $borcena_brenda = User::create([
             'last_name' => "Borcena",
@@ -111,6 +117,8 @@ class PGOSUsersSeeder extends Seeder
             'password' => Hash::make("password")
         ]);
 
+        $borcena_brenda->assign('rfp-validator');
+
         $bualong_john = User::create([
             'last_name' => "Bulaong",
             'first_name' => "John Paul",
@@ -129,6 +137,7 @@ class PGOSUsersSeeder extends Seeder
             'password' => Hash::make("password")
         ]);
 
+        $bualong_john->assign('rfp-payment-approver');
 
         $gigi_corpuz = User::create([
             'last_name' => "Corpuz",
@@ -150,6 +159,8 @@ class PGOSUsersSeeder extends Seeder
         
         $gigi_corpuz->assign('project-assigner');
         $gigi_corpuz->assign('budget-request-reviewer');
+        $gigi_corpuz->assign('rfp-payment-approver');
+
         
         $corral_mary = User::create([
             'last_name' => "Corral",
@@ -170,6 +181,7 @@ class PGOSUsersSeeder extends Seeder
         ]);
         
         $corral_mary->assign('budget-request-approver');
+        $corral_mary->assign('rfp-disburser');
 
         User::create([
             'last_name' => "Dano",

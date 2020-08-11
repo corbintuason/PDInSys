@@ -23,11 +23,17 @@ trait ProjectsTrait
         $stages = collect([
             (object) [
                 "names" => ["", "Returned to Creator"],
-                "responsible" => "project-creator"
+                "responsible" => (object)[
+                    "role" => "project-creator",
+                    "name" => "create",
+                    "entity_type" => "App\Project",
+                    "entity_id" => false
+                ]
             ],
             (object) [
                 "names" => ["For Review", "Returned to Reviewer"],
                 "responsible" => (object)[
+                    "role" => "project-reviewer",
                     "name" => "review",
                     "entity_type" => "App\Project",
                     "entity_id" => false
@@ -36,6 +42,7 @@ trait ProjectsTrait
             (object) [
                 "names" => ["For Approval", "Returned to Approver"],
                 "responsible" => (object)[
+                    "role" => "project-approver",
                     "name" => "approve",
                     "entity_type" => "App\Project",
                     "entity_id" => false

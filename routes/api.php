@@ -69,6 +69,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/budget_request/{id}', 'API\BudgetRequestController@show');
     Route::put('/budget_request/{id}', 'API\BudgetRequestController@update');
     Route::put('/budget_request/{id}/saveChanges', 'API\BudgetRequestController@saveChanges');
+    
+    // RFPs
+    Route::get('/rfp', 'API\RFPController@index');
+
 
     Route::put("/liquidation_journal/{id}", "API\LiquidationJournalController@update");
     Route::put("/liquidation_journal/{id}/saveState", "API\LiquidationJournalController@saveState");
@@ -95,6 +99,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/vendor/{id}/saveChanges', 'API\VendorController@saveChanges');
     Route::put('/vendor/{id}/returnToUser', 'API\VendorController@returnToUser');
     Route::put('/vendor/{id}/reject', 'API\VendorController@reject');
+
+    Route::get('/rfp', 'API\RFPController@index');
+    Route::post('/rfp', 'API\RFPController@store');
+    
 });
 
 

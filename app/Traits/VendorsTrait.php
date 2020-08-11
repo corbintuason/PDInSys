@@ -21,18 +21,28 @@ trait VendorsTrait
         $stages = collect([
             (object) [
                 "names" => ["", "Returned to Creator"],
-                "responsible" => "vendor-creator"
+                "responsible" => (object)[
+                    'role' => 'vendor-creator',
+                    "name" => "create",
+                    "entity_type" => "App\Vendor",
+                    "entity_id" => true
+                ],
             ],
             (object) [
                 "names" => ["For Approval", "Returned to Approver"],
-                "responsible" => "vendor-approver"
+                "responsible" => (object)[
+                    'role' => 'vendor-approver',
+                    "name" => "approve",
+                    "entity_type" => "App\Vendor",
+                    "entity_id" => false
+                ],
             ],
             (object) [
                 "names" => ["Approved"],
                 "responsible" => null
             ],
             (object) [
-                "names" => ["", "Rejected"],
+                "names" => ["Rejected"],
                 "responsible" => null
             ]
         ]);

@@ -25,7 +25,14 @@ import ShowCostEstimate from "./pages/Authorized/PGOS/CostEstimate/Show.vue";
 import IndexProjectBudgetRequest from "./pages/Authorized/PGOS/ProjectBudgetRequest/Index.vue";
 import CreateProjectBudgetRequest from "./pages/Authorized/PGOS/ProjectBudgetRequest/Create.vue";
 
+import IndexProjectRequestForPayment from "./pages/Authorized/PGOS/ProjectRequestForPayment/Index.vue";
+import CreateProjectRequestForPayment from "./pages/Authorized/PGOS/ProjectRequestForPayment/Create.vue";
+import RequestForPayment from "./pages/Authorized/Common/RFP/RFP";
+
+
+
 // PGAS
+
 
 // Mandate Creation Module
 import IndexMandate from "./pages/Authorized/PGAS/Mandate/Index.vue";
@@ -163,11 +170,31 @@ export default [
                 //     }
                 // }
             },
+
+            {
+                path: "/projects/:id/rfps",
+                component: IndexProjectRequestForPayment,
+                name: "project_rfp_index",
+            },
+
+            {
+                path: "/projects/:id/rfps/create",
+                component: CreateProjectRequestForPayment,
+                name: "project_rfp_create",
+            },
+
             // BUDGET REQUEST PATHS
             {
                 path: "/budget-requests/:id/",
                 component: ShowBudgetRequest,
                 name: "budget_request_show",
+            },
+            
+            // RFP PATHS
+            {
+                path: "/rfps/:id",
+                component: RequestForPayment,
+                name: "rfp_show"
             },
             // MANDATE PATHS
             {

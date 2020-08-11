@@ -16,7 +16,7 @@ import account from "./modules/account/common";
 import project from "./modules/project/common";
 import budgetRequest from "./modules/budget-request/common";
 import liquidationJournal from "./modules/liquidation-journal/common";
-
+import rfp from "./modules/rfp/common";
 
 export const store = new Vuex.Store({
     modules: {
@@ -29,6 +29,7 @@ export const store = new Vuex.Store({
         costEstimate: costEstimate,
         signedCostEstimateDetails: signedCostEstimateDetails,
         budgetRequest: budgetRequest,
-        liquidationJournal: liquidationJournal
+        liquidationJournal: liquidationJournal,
+        rfp: rfp
     },
 });

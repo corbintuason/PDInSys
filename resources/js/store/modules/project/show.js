@@ -95,7 +95,7 @@ export const showProjectModule = {
                 console.log("aitttttttttttttt");
                 console.log(id);
                 axios
-                    .get("/api/account/" + id)
+                    .get("/api/project/" + id)
                     .then((response) => {
                         var account = response.data.data;
                         context.commit("storeItem", account);

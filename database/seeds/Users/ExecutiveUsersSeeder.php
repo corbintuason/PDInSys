@@ -35,9 +35,11 @@ class ExecutiveUsersSeeder extends Seeder
 
         // Roles
         $von_mauleon->assign("account-approver");
+        $von_mauleon->assign("vendor-approver");
         $von_mauleon->assign("cost-estimate-clearer");
         $von_mauleon->assign("project-approver");
         $von_mauleon->assign('budget-request-releaser');
+        $von_mauleon->assign('rfp-closer');
 
         // biboy.arcilla.pdem@gmail.com
 
@@ -61,8 +63,11 @@ class ExecutiveUsersSeeder extends Seeder
         ]);
 
         $biboy_arcilla->assign("cost-estimate-approver");
+        $biboy_arcilla->assign("vendor-creator");
         $biboy_arcilla->assign('project-reviewer');
         $biboy_arcilla->assign('budget-request-approver');
+        $biboy_arcilla->assign('rfp-acknowledger');
+
 
 
     }

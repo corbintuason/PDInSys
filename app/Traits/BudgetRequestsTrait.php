@@ -67,7 +67,7 @@ trait BudgetRequestsTrait
                 "responsible" => null
             ],
             (object)[
-                "names" => ["", "Rejected"],
+                "names" => ["Rejected"],
                  "responsible" => null
             ]
         ]);

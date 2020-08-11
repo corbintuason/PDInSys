@@ -21,17 +21,33 @@ class VendorController extends Controller
 
     use ControllersTrait;
 
-    public function index()
+    public function index(Request $request)
     {
-        return VendorResource::collection(Vendor::all());
-    }
+        $vendors = Vendor::query();
+        $vendor_name = $request->get('vendor_name');
+        $status = $request->get('status');
+
+        if($vendor_name){
+            $vendors->where('vendor_name', 'LIKE', $vendor_name);
+        }
+
+        if($status){
+            $vendors->where('status', $status);
+        }
+
+        return VendorResource::collection($vendors->get());
+        }
 
     public function store(Request $request)
     {
         // $auth_user = auth()->user();
 
-        $vendor = $this->createItem($request, Vendor::class, "Vendor", "vendor_show");
+        // $vendor = $this->createItem($request, Vendor::class, "Vendor", "vendor_show");
 
+        // Notification::send($this->notifyApprovers($vendor), new ItemNotification($vendor, $vendor::$module, "vendor_show", $vendor->id));
+
+        $vendor = $this->createItem($request, Vendor::class, "Vendor", true);
+        
         Notification::send($this->notifyApprovers($vendor), new ItemNotification($vendor, $vendor::$module, "vendor_show", $vendor->id));
 
         return [
