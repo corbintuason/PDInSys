@@ -77,7 +77,18 @@ export const createRFPModule = {
                 if (getters.vat_amount(type) == 0) {
                     return 0;
                 } else {
-                    return getters.vatable_sales(type) + getters.vat_amount(type);
+                    //  ₱4,173.21 + ₱500.79			
+                    console.log("CHECKING FOR TOTAL SALES")
+                    console.log(getters.vatable_sales(type));
+                    console.log(getters.vat_amount(type));
+                    var exemption;
+                    if(type == "FP"){
+                        exemption = state.item.term_of_payment.full_payment
+                    }
+                    else if (type == "DP"){
+                        exemption = state.item.term_of_payment.down_payment;
+                    }			
+                    return getters.vatable_sales(type) + exemption.vat_exempt_sales + exemption. vat_zero_rated_sales + getters.vat_amount(type);
                 }
                 // if(type == "FP"){
                 //     if(getters.vat_amount(type) == 0){
@@ -103,9 +114,7 @@ export const createRFPModule = {
                 return vat_amount;
             }
 
-        },
-
-        // ₱4,473.21							
+        },				
 
         vatable_sales(state, getters) {
             return type => {
