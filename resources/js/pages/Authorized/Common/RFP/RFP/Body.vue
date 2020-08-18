@@ -10,13 +10,13 @@
 						<!-- RFP Profile -->
 						<rfp-profile :namespace="namespace"></rfp-profile>
 					</b-tab>
-					<b-tab title="Bill Summary">
+					<b-tab title="Bill Summary" :disabled="rfp.vendor==null">
 						<!-- Engeagement and Bill Summary -->
-						<bill-summary :namespace="namespace"></bill-summary>
+						<bill-summary :namespace="namespace" v-if="rfp.vendor!=null"></bill-summary>
 					</b-tab>
-					<b-tab title="Bill Verification">
+					<b-tab title="Bill Verification" :disabled="rfp.vendor==null">
 						<!-- Bill Verification and Tax Validation -->
-						<bill-verification :namespace="namespace"></bill-verification>
+						<bill-verification :namespace="namespace" v-if="rfp.vendor!=null"></bill-verification>
 					</b-tab>
 					<b-tab title="Preparation of Payment" disabled>
 						<!-- Preparation of Payment -->
@@ -80,6 +80,9 @@ export default {
 		...mapState({
 			mode(state){
 				return state[this.namespace].mode;
+			},
+			rfp(state){
+				return state[this.namespace].item;
 			}
 		})
     },

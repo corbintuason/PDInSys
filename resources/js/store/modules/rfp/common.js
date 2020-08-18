@@ -49,6 +49,13 @@ export default new Vuex.Store({
             },
                   
         ],
+        
+        mode_of_payments:[
+            { value: null, text: 'N/A' },
+            { value: "Cash For Deposit", text: 'Cash For Deposit' },
+            { value: "Cash for Pick-Up", text: "Cash for Pick-Up" },
+            { value: "Check", text: "Check"}
+        ]
     },
     getters: {
     },

@@ -12,5 +12,6 @@ class AccountSeeder extends Seeder
     public function run()
     {
         $this->call(AccountRolesSeeder::class);
+        $this->call(AccountModelsSeeder::class);
     }
 }

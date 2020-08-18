@@ -15,6 +15,7 @@ class CreateRfpsTable extends Migration
     {
         Schema::create('rfps', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->morphs("rfpable");
             $table->date('rfp_date')->nullable();
             $table->date('start_date');
             $table->date('end_date');
@@ -23,6 +24,11 @@ class CreateRfpsTable extends Migration
             $table->integer('quotation_no');
             $table->json('term_of_payment');
             $table->double('billing_amount');
+
+            $table->double('override')->default(0);
+            $table->double('vat_exempt_sales')->default(0);
+            $table->double('vat_zero_rated_sales')->default(0);
+            
             $table->string('status');
             $table->integer('vendor_id');
             $table->integer('requestor_id');

@@ -12,5 +12,6 @@ class ProjectSeeder extends Seeder
     public function run()
     {
         $this->call(ProjectRolesSeeder::class);
+        $this->call(ProjectModelsSeeder::class);
     }
 }

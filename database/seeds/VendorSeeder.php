@@ -12,6 +12,6 @@ class VendorSeeder extends Seeder
     public function run()
     {
         $this->call(VendorRolesSeeder::class);
-
+        $this->call(VendorModelsSeeder::class);
     }
 }

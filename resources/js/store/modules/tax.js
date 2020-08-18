@@ -12,63 +12,63 @@ export default new Vuex.Store({
                 name: "WI010",
                 description:
                     "Professional fees (Lawyers, CPA's, Engineers, etc.) -  if the gross income for the current year did not exceed P3M",
-                percent: "5%",
+                percent: 0.5,
             },
             {
                 name: "WI011",
                 description:
                     "Professional fees (Lawyers, CPA's, Engineers, etc.) - if gross income is more than 3M or VAT registered regardlessof amount",
-                percent: "10%",
+                percent: 0.1,
             },
             {
                 name: "WC010",
                 description:
                     "Professional fees (Lawyers, CPA's, Engineers, etc.) - if gross income for the current year did not exceed P720,000",
-                percent: "10%",
+                percent: 0.1,
             },
             {
                 name: "WC011",
                 description:
                     "Professional fees (Lawyers, CPA's, Engineers, etc.) - if gross income exceeds P720,000",
-                percent: "15%",
+                percent: 0.15,
             },
             // // WI020 , WI021 / WC020 , WC021
             {
                 name: "WI020",
                 description:
                     "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if the gross income for the current year did not exceed P3M	",
-                percent: "5%",
+                percent: 0.05,
             },
             {
                 name: "WI021",
                 description:
                     "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if gross income is more than 3M or VAT registered regardless of amount",
-                percent: "10%",
+                percent: 0.1,
             },
             {
                 name: "WC020",
                 description:
                     "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if gross income for the current year did not exceed P720,000",
-                percent: "10%",
+                percent: 0.1,
             },
             {
                 name: "WC021",
                 description:
                     "Professional entertainer such as, but not limited to actors and actresses, singers, lyricist, composers, emcees - if gross income exceeds P720,000",
-                percent: "15%",
+                percent: 0.15,
             },
             // //  WI030 , WI031 / WC030 , WC030
             {
                 name: "WI030",
                 description:
                     "Professional athletes including basketball players, pelotaris and jockeys - if the gross income for the current year did not exceed P3M",
-                percent: "5%",
+                percent: 0.05,
             },
             {
                 name: "WI031",
                 description:
                     "Professional athletes including basketball players, pelotaris and jockeys - if gross income is more than 3M or VAT registered regardless of amount",
-                percent: "10%",
+                percent: 0.1,
             },
             {
                 name: "WC030",
@@ -529,19 +529,11 @@ export default new Vuex.Store({
             //     ],
             // },
             // // WC158
-            // {
-            //     name: "WC158",
-            //     descriptions: [
-            //         {
-            //             name: "Income payments made by credit card companies",
-            //             percents: [
-            //                 {
-            //                     name: "1% OF 1/2 of gross amount",
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
+            {
+                name: "WC158",
+                description: "Insurance agents and insurance adjusters - if gross income exceeds P720,000",
+                percent: 0.01,
+            },
             // // WI159
             // {
             //     name: "WI159",

@@ -21,9 +21,14 @@ class RFP extends Model
         "term_of_payment",
         "billing_amount",
         
+        'override',
+        'vat_exempt_sales',
+        'vat_zero_rated_sales',
+        
         'status',
         "vendor_id",
         'requestor_id',
+        
 
     ];
 

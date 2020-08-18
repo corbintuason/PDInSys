@@ -21,7 +21,7 @@ export const showRFPModule = {
             type: null,
             parent: null,
             item: null,
-            selected_vendor: null
+
   
         };
     },
@@ -32,6 +32,9 @@ export const showRFPModule = {
        getParentName(state){
            return state.parent.name;
        },
+       mode_of_payments(state, getters, rootState){
+        return rootState.rfp.mode_of_payments;
+    }
     },
     mutations: {
         addEntry(state, entry) {

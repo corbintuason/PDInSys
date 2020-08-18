@@ -16,12 +16,10 @@
 						class="col-md-6"
 						description="From"
 					>
-						<b-datepicker v-model="rfp.start_date" 						:disabled='mode=="Show"'
-></b-datepicker>
+						<b-datepicker v-model="rfp.start_date" :disabled="mode=='Show'"></b-datepicker>
 					</b-form-group>
 					<b-form-group class="col-md-6" description="To">
-						<b-datepicker v-model="rfp.end_date" 						:disabled='mode=="Show"'
-></b-datepicker>
+						<b-datepicker v-model="rfp.end_date" :disabled="mode=='Show'"></b-datepicker>
 					</b-form-group>
 				</div>
 
@@ -36,8 +34,7 @@
 							placeholder="Kindly itemize if possible..."
 							rows="3"
 							max-rows="6"
-													:disabled='mode=="Show"'
-
+							:disabled="mode=='Show'"
 							v-model="rfp.description"
 						></b-form-textarea>
 					</b-form-group>
@@ -50,31 +47,22 @@
 
 						<!-- [{"bank_name":"BDO (Banco de Oro Universal Bank)","bank_address":[{"bank_branch":null,"bank_city":null}],"account_name":"qwe","account_number":"1"}] -->
 						<b-input-group size="sm" prepend="Bank">
-							<b-form-input
-								disabled
-								:value="vendor ? vendor.bank_details[0].bank_name : ''"
-							></b-form-input>
+							<b-form-input disabled :value="vendor ? vendor.bank_details.bank_name : ''"></b-form-input>
 						</b-input-group>
 						<!-- Bank Branch -->
 						<b-input-group size="sm" prepend="Bank Branch">
 							<b-form-input
 								disabled
-								:value="vendor ? vendor.bank_details[0].bank_address[0].bank_branch : ''"
+								:value="vendor ? vendor.bank_details.bank_address.bank_branch : ''"
 							></b-form-input>
 						</b-input-group>
 						<!-- Account Name -->
 						<b-input-group size="sm" prepend="Account Name">
-							<b-form-input
-								disabled
-								:value="vendor ? vendor.bank_details[0].account_name : ''"
-							></b-form-input>
+							<b-form-input disabled :value="vendor ? vendor.bank_details.account_name : ''"></b-form-input>
 						</b-input-group>
 						<!-- Account No. -->
 						<b-input-group size="sm" prepend="Account No.">
-							<b-form-input
-								disabled
-								:value="vendor ? vendor.bank_details[0].account_number : ''"
-							></b-form-input>
+							<b-form-input disabled :value="vendor ? vendor.bank_details.account_number : ''"></b-form-input>
 						</b-input-group>
 					</b-form-group>
 				</div>
@@ -92,16 +80,14 @@
 					<!-- Venue of Engagement -->
 					<b-form-group label="Venue of Engagement:" label-class="font-weight-bold" class="col-md-6">
 						<b-input-group size="sm">
-							<b-form-input v-model="rfp.venue" 						:disabled='mode=="Show"'
-></b-form-input>
+							<b-form-input v-model="rfp.venue" :disabled="mode=='Show'"></b-form-input>
 						</b-input-group>
 					</b-form-group>
 
 					<!-- Bill / Quotation No.  -->
 					<b-form-group label="Bill / Quotation No:" label-class="font-weight-bold" class="col-md-6">
 						<b-input-group size="sm">
-							<b-form-input v-model="rfp.quotation_no" 						:disabled='mode=="Show"'
-></b-form-input>
+							<b-form-input v-model="rfp.quotation_no" :disabled="mode=='Show'"></b-form-input>
 						</b-input-group>
 					</b-form-group>
 				</div>
@@ -109,25 +95,64 @@
 				<!-- Down Payment: Term of Payment - Mode of Payment - Req Date of Release -->
 				<div class="row">
 					<!-- Term of Payment (Down Payment)-->
-					<b-form-group
- label="Term of Payment:" label-class="font-weight-bold" class="col-md-4">
-						<b-input-group size="sm" :prepend="string_equivalent" append="%">
-							<b-form-input type="number" v-model="rfp.term_of_payment.percent" :disabled="mode=='Show'"></b-form-input>
+					<b-form-group label="Term of Payment:" label-class="font-weight-bold" class="col-md-4">
+						<b-input-group size="sm" prepend="Down Payment" append="%">
+							<b-form-input type="number" v-model="rfp.term_of_payment.down_payment.percent" :disabled="mode=='Show'"></b-form-input>
 						</b-input-group>
 					</b-form-group>
 
 					<!-- Bill / Quotation No.  -->
-					<b-form-group 						:disabled='mode=="Show"'
- label="Bill / Quotation No:" label-class="font-weight-bold" class="col-md-4">
-						<b-input-group size="sm">
-							<b-form-input v-model="rfp.term_of_payment.quotation_no"></b-form-input>
-						</b-input-group>
+					<b-form-group
+						:disabled="mode=='Show'"
+						label="Mode of Payment:"
+						label-class="font-weight-bold"
+						class="col-md-4"
+					>
+						<b-form-select
+							size="sm"
+							v-model="rfp.term_of_payment.down_payment.mode_of_payment"
+							:options="mode_of_payments"
+						></b-form-select>
 					</b-form-group>
 
 					<!-- Req. Date of Release  -->
-					<b-form-group 						:disabled='mode=="Show"'
- label="Req. Date of Release" label-class="font-weight-bold" class="col-md-4">
-						<b-datepicker size="sm" v-model="rfp.term_of_payment.date_of_release" :disabled='mode=="Show"'></b-datepicker>
+					<b-form-group
+						:disabled="mode=='Show'"
+						label="Req. Date of Release"
+						label-class="font-weight-bold"
+						class="col-md-4"
+					>
+						<b-datepicker size="sm" v-model="rfp.term_of_payment.down_payment.date_of_release" :disabled="mode=='Show'"></b-datepicker>
+					</b-form-group>
+				</div>
+
+				<!-- Full Payment: Term of Payment - Mode of Payment - Req Date of Release -->
+				<div class="row">
+					<!-- Term of Payment (Down Payment)-->
+					<b-form-group label-class="font-weight-bold" disabled class="col-md-4">
+						<b-input-group size="sm"  prepend="Full Payment" append="%">
+							<b-form-input type="number" v-model="full_payment_percent" :disabled="mode=='Show'"></b-form-input>
+						</b-input-group>
+					</b-form-group>
+
+					<!-- Bill / Quotation No.  -->
+					<b-form-group
+						:disabled="mode=='Show'"
+						class="col-md-4"
+					>
+						<b-form-select
+							size="sm"
+							v-model="rfp.term_of_payment.full_payment.mode_of_payment"
+							:options="mode_of_payments"
+						></b-form-select>
+					</b-form-group>
+
+					<!-- Req. Date of Release  -->
+					<b-form-group
+						:disabled="mode=='Show'"
+						class="col-md-4"
+					>
+						<b-datepicker size="sm" v-model="rfp.term_of_payment.full_payment.date_of_release" :disabled="mode=='Show'"></b-datepicker>
 					</b-form-group>
 				</div>
 				<!-- VAT Registration - Proof of Liquidation -->
@@ -150,23 +175,54 @@
 				<!-- Billing Amount -->
 				<div class="row">
 					<div class="col-md-12 float-right">
-						<b-input-group 						
->
+						<b-input-group>
 							<template v-slot:prepend>
-								<b-input-group-text
-                                    >
-									<strong class="mr-4">
-										Billing Amount:
-									</strong>
-									<strong class="text-success"
-                                        >  &#8369;</strong
-                                    ></b-input-group-text>
+								<b-input-group-text>
+									<strong class="mr-4">Billing Amount:</strong>
+									<strong class="text-success">&#8369;</strong>
+								</b-input-group-text>
 							</template>
-							<money class="form-control" :disabled='mode=="Show"' v-model="rfp.billing_amount"></money>
+							<money class="form-control" :disabled="mode=='Show'" v-model="rfp.billing_amount"></money>
+						</b-input-group>
+					</div>
+				</div>
+
+					<!-- Billing Amount -->
+				<div class="row">
+					<div class="col-md-12 float-right">
+						<b-input-group>
+							<template v-slot:prepend>
+								<b-input-group-text>
+									<strong class="mr-4">Billing Amount:</strong>
+									<strong class="text-success">&#8369;</strong>
+								</b-input-group-text>
+							</template>
+					<money class="form-control" :value="total_net" disabled></money>
 						</b-input-group>
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<!-- Upload Quotations -->
+		<label>Upload Quotations</label>
+		<div class="row">
+			<div class="col-md-12">
+				<b-form-file
+					multiple
+					accept=".pdf"
+					v-model="rfp.quotations"
+					:state="rfp.quotations.length > 0"
+					placeholder="Choose a file or Quotation it here..."
+					drop-placeholder="Drop file here..."
+				></b-form-file>
+			</div>
+			<!-- No files uploaded -->
+			<!-- <b-list-group class="col-md-12" v-if="files.length >0">
+				<b-list-group-item v-for="(file, file_index) in files" :key="file_index">{{file.name}}</b-list-group-item>
+			</b-list-group>
+			<b-alert v-else class="col-md-12" show variant="danger"> No Quotations have been uploaded</b-alert> -->
+			{{rfp.quotations}}
 		</div>
 	</div>
 </template>
@@ -176,13 +232,15 @@ import {mapState, mapActions, mapMutations, mapGetters} from "vuex"
 export default{
 	data(){
 		return{
-			
 		}
 	},
 	props:{
 		namespace: String
 	},
 	computed:{
+		full_payment_percent(){
+			return 100 - this.rfp.term_of_payment.down_payment.percent;
+		},
 		//    ...mapState("create-rfp", {
         //     selected_vendor: (state) => state.selected_vendor,
         //     rfp: state => state.item
@@ -199,16 +257,14 @@ export default{
 			},
             loading(state){
                 return state[this.namespace].loading
-            }
-		}),
-		
-		string_equivalent(){
-			if(this.rfp.term_of_payment.percent >= 100){
-				return "Full Payment"		
-			}else{
-				return "Down Payment"
+			},
+			mode_of_payments(state, getters){
+				return getters[this.namespace+"/mode_of_payments"]
+			},
+			total_net(state, getters){
+			return getters[this.namespace+"/total_net"];
 			}
-		}
+		}),
 	}
 }
 </script>

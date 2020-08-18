@@ -36,7 +36,6 @@ class Vendor extends Model
         'type_vat',
         'ewt_details',
         'status',
-        'change_logs'
     ];
 
     //

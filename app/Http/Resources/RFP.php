@@ -24,9 +24,20 @@ class RFP extends JsonResource
         // $response["parent"] = $parent_resource;
         $response['current_handler'] = $this->currentHandler;
         $response['is_process_finished'] = $this->isProcessFinished;
-        $response['vendor'] = new VendorResource($this->vendor);
-      
+        
+        // Formulas
+        $response['total_sales'] = $this->totalSales;
+        $response['vat_amount'] = $this->vat_amount;
+        $response['vatable_sales'] = $this->vatable_sales;
+        $response['total_due'] = $this->total_due;
+        $response['witholding_tax'] = $this->witholding_tax;
+        $response['gross_amount'] = $this->gross_amount;
+        $response['amount_due'] = $this->amount_due;
+        $response['total_amount_due'] = $this->total_amount_due;    
+        $response['gross_amount'] = $this->gross_amount;
+        $response['net_amount'] = $this->net_amount;
 
+        $response['vendor'] = new VendorResource($this->vendor);
         $response['actions'] = $this->activities;
         $response['contributors'] = ContributorResource::collection($this->contributors);
         $response['remarks'] = RemarkResource::collection($this->remarks);

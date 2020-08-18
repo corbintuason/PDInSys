@@ -28,13 +28,12 @@ class VendorController extends Controller
         $status = $request->get('status');
 
         if($vendor_name){
-            $vendors->where('vendor_name', 'LIKE', $vendor_name);
+            $vendors->where('vendor_name', 'LIKE', "%{$vendor_name}%");
         }
 
         if($status){
             $vendors->where('status', $status);
         }
-
         return VendorResource::collection($vendors->get());
         }
 

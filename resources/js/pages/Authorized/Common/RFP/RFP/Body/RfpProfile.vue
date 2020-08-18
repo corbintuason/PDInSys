@@ -10,6 +10,7 @@
 				label-cols="3"
 				class="col-md-8"
 			>
+			<!-- Search Trade Name -->
 				<b-input-group size="sm">
 					<b-form-input
 						v-model="search_vendor"
@@ -20,12 +21,13 @@
 						@input="isSearchingVendor = true;"
 					></b-form-input>
 
-					<template v-if="isSearchingVendor" v-slot:append>
+					<!-- <template v-if="isSearchingVendor" v-slot:append>
 						<b-input-group-text>
 							<clip-loader></clip-loader>
 						</b-input-group-text>
-					</template>
+					</template> -->
 				</b-input-group>
+				<b-alert class="overlap" v-if="isSearchingVendor" show variant="primary"> <i> Searching </i>...</b-alert>
 
 				<!-- Search Results -->
 				<div class="overlap" v-if="displayVendors">
