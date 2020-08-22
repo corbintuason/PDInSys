@@ -6,20 +6,20 @@
 
 <script>
 import RFP from "./RFP";
-import { showRFPModule } from "../../../../store/modules/rfp/show";
+import { createRFPModule } from "../../../../store/modules/rfp/create";
 import { mapState, mapActions } from "vuex";
 
 export default {
     data() {
         return {
-            namespace: "show-rfp",
+            namespace: "create-rfp",
         };
     },
     components: {
         "rfp": RFP
     },
     computed:{
-        ...mapState("show-rfp",{
+        ...mapState("create-rfp",{
             loading: (state) => {
                 return state.loading
             }
@@ -32,10 +32,11 @@ export default {
         this.$store.unregisterModule(this.namespace);
     },
     beforeCreate() {
-        var namespace = "show-rfp";
+        var namespace = "create-rfp";
         var rfp_id = this.$route.params.id;
-        this.$store.registerModule(namespace, showRFPModule);
-        this.$store.dispatch(namespace+"/storeItem", rfp_id);
+        this.$store.registerModule(namespace, createRFPModule);
+        this.$store.dispatch(namespace+"/setMode", "Show");
+        this.$store.dispatch(namespace+"/storeItem", rfp_id, "Show");
     },
     mounted() {
         console.log(this.namespace, "namespace???");

@@ -10,7 +10,7 @@ export const createRFPModule = {
             // MUST BE PRESENT FOR EVERY MODULE
             name: "RFP",
             model: "App\\RFP",
-            mode: "Create",
+            mode: null,
 
             loading: true,
             show_return_modal: false,
@@ -23,7 +23,7 @@ export const createRFPModule = {
             parent: null,
             item: {
                 vendor_id: null,
-                
+
                 start_date: null,
                 end_date: null,
                 description: null,
@@ -44,14 +44,14 @@ export const createRFPModule = {
                         percent: null,
                         mode_of_payment: null,
                         date_of_release: null,
-                        
+
                         override: 0,
                         vat_exempt_sales: 0,
                         vat_zero_rated_sales: 0
                     },
 
                 },
-       
+
 
                 billing_amount: 0,
                 quotations: [],
@@ -71,6 +71,13 @@ export const createRFPModule = {
             return rootState.rfp.mode_of_payments;
         },
 
+        getCurrentStep(state, getters) {
+            var status = state.item.status;
+            var current_step = getters.steps.find((step) => {
+                return step.database_equivalent.includes(status);
+            });
+            return current_step;
+        },
 
         total_sales(state, getters) {
             return type => {
@@ -82,13 +89,12 @@ export const createRFPModule = {
                     console.log(getters.vatable_sales(type));
                     console.log(getters.vat_amount(type));
                     var exemption;
-                    if(type == "FP"){
+                    if (type == "FP") {
                         exemption = state.item.term_of_payment.full_payment
-                    }
-                    else if (type == "DP"){
+                    } else if (type == "DP") {
                         exemption = state.item.term_of_payment.down_payment;
-                    }			
-                    return getters.vatable_sales(type) + exemption.vat_exempt_sales + exemption. vat_zero_rated_sales + getters.vat_amount(type);
+                    }
+                    return getters.vatable_sales(type) + exemption.vat_exempt_sales + exemption.vat_zero_rated_sales + getters.vat_amount(type);
                 }
                 // if(type == "FP"){
                 //     if(getters.vat_amount(type) == 0){
@@ -114,7 +120,7 @@ export const createRFPModule = {
                 return vat_amount;
             }
 
-        },				
+        },
 
         vatable_sales(state, getters) {
             return type => {
@@ -124,12 +130,13 @@ export const createRFPModule = {
 
                         vatable_sales = (getters.gross_amount(type) - state.item.term_of_payment.full_payment.vat_exempt_sales - state.item.term_of_payment.full_payment.vat_zero_rated_sales) / 1.12;
                     }
-                   
-                } else if (type == "DP"){
-                    if(state.item.vendor.type_vat == "VAT"){
-                        vatable_sales = ((getters.gross_amount(type)/1.12) - state.item.term_of_payment.down_payment.vat_exempt_sales - state.item.term_of_payment.down_payment.vat_zero_rated_sales);
+
+                } else if (type == "DP") {
+                    if (state.item.vendor.type_vat == "VAT") {
+                        vatable_sales = ((getters.gross_amount(type) / 1.12) - state.item.term_of_payment.down_payment.vat_exempt_sales - state.item.term_of_payment.down_payment.vat_zero_rated_sales);
                     }
-                } return vatable_sales;
+                }
+                return vatable_sales;
             }
 
         },
@@ -163,29 +170,29 @@ export const createRFPModule = {
 
         witholding_tax(state, getters) {
             return type => {
-                    var used_percentage = state.item.vendor.ewt_details[0].percent;
-                    var used_amount = getters.total_due(type);
-                    if(type == 'FP'){
-                        console.log("Full Payment");
-                        console.log(state.item.term_of_payment.full_payment.override);
-                        if(state.item.term_of_payment.full_payment.override > 0)
-                        used_percentage = state.item.term_of_payment.full_payment.override/100;
-                    } else if (type == "DP"){
-                        console.log("Down Payment");
-                        console.log(state.item.term_of_payment.down_payment.override);
-                        if(state.item.term_of_payment.down_payment.override > 0)
-                        used_percentage = state.item.term_of_payment.down_payment.override/100;
-                    }
+                var used_percentage = state.item.vendor.ewt_details[0].percent;
+                var used_amount = getters.total_due(type);
+                if (type == 'FP') {
+                    console.log("Full Payment");
+                    console.log(state.item.term_of_payment.full_payment.override);
+                    if (state.item.term_of_payment.full_payment.override > 0)
+                        used_percentage = state.item.term_of_payment.full_payment.override / 100;
+                } else if (type == "DP") {
+                    console.log("Down Payment");
+                    console.log(state.item.term_of_payment.down_payment.override);
+                    if (state.item.term_of_payment.down_payment.override > 0)
+                        used_percentage = state.item.term_of_payment.down_payment.override / 100;
+                }
 
-                    if (state.item.vendor.type_vat != 'VAT') {
-                        used_amount = getters.gross_amount(type);
-                    }
-                    
-                    console.log("Witholding tax");
-                    console.log(used_amount);
-                    console.log(used_percentage);
-                    return used_amount * used_percentage;
-                
+                if (state.item.vendor.type_vat != 'VAT') {
+                    used_amount = getters.gross_amount(type);
+                }
+
+                console.log("Witholding tax");
+                console.log(used_amount);
+                console.log(used_percentage);
+                return used_amount * used_percentage;
+
 
             }
 
@@ -194,11 +201,11 @@ export const createRFPModule = {
         gross_amount(state, getters) {
             return type => {
                 var gross_amount = 0;
-                if(type == "FP"){
+                if (type == "FP") {
                     // billing amount - gross amount of down payment
                     gross_amount = state.item.billing_amount - getters.gross_amount("DP")
-                } else if (type == "DP"){
-                   gross_amount = state.item.billing_amount*((state.item.term_of_payment.down_payment.percent)/100);
+                } else if (type == "DP") {
+                    gross_amount = state.item.billing_amount * ((state.item.term_of_payment.down_payment.percent) / 100);
                 }
 
                 return gross_amount;
@@ -208,19 +215,19 @@ export const createRFPModule = {
 
         amount_due(state, getters) {
             return type => {
-                    var amount_due = 0;
-                    if (state.item.vendor.type_vat == 'VAT') {
-                        amount_due = getters.total_due(type) - getters.witholding_tax(type);
-                    }
-                    return amount_due;
-                
+                var amount_due = 0;
+                if (state.item.vendor.type_vat == 'VAT') {
+                    amount_due = getters.total_due(type) - getters.witholding_tax(type);
+                }
+                return amount_due;
+
             }
 
         },
 
         total_amount_due(state, getters) {
             return type => {
-               return getters.amount_due(type) + getters.vat_amount(type);
+                return getters.amount_due(type) + getters.vat_amount(type);
 
             }
         },
@@ -231,7 +238,7 @@ export const createRFPModule = {
             }
         },
 
-        total_net(state, getters){
+        total_net(state, getters) {
             console.log("Ito ba", getters.net_amount("DP"));
             console.log("or ito", getters.net_amount("FP"));
             return getters.net_amount("DP") + getters.net_amount("FP")
@@ -268,10 +275,10 @@ export const createRFPModule = {
             state.item.end_date = end_date;
         },
         setRfpableType(state, type) {
-            state.item.brable_type = type;
+            state.item.rfpable_type = type;
         },
         setRfpableId(state, id) {
-            state.item.brable_id = id;
+            state.item.rfpable_id = id;
         },
         selectVendor(state, vendor) {
             if (vendor != null) {
@@ -282,7 +289,17 @@ export const createRFPModule = {
         },
         setVendor(state, vendor) {
             state.item.vendor = vendor;
+        },
+        storeItem(state, rfp) {
+            state.item = rfp;
+        },
+        setLoading(state, loading) {
+            state.loading = loading;
+        },
+        setMode(state, mode) {
+            state.mode = mode;
         }
+
 
     },
     actions: {
@@ -315,11 +332,26 @@ export const createRFPModule = {
             console.log(state.selected_vendor, state.item.vendor_id);
 
         },
+
+        storeItem({
+            commit,
+            state
+        }, rfp_id, mode) {
+            console.log("checking.asdfasdf,dasf,a")
+            console.log("hgow about here", mode);
+            axios.get("/api/rfp/" + rfp_id).then((response) => {
+
+                var rfp = response.data.data;
+                console.log("?ASD<A?SD<A?SD", rfp);
+                commit("storeItem", rfp);
+                commit("setLoading", false);
+            });
+        },
         createRFP({
             commit,
             state
         }) {
-            console.log("rfp", state.item);
+            
             swal.fire({
                 title: "Create RFP",
                 icon: "question",
@@ -363,8 +395,56 @@ export const createRFPModule = {
                 }
             });
         },
-        updateStatus() {
-
+        setMode({
+            commit,
+            state
+        }, mode) {
+            console.log("umm frrfrr")
+            console.log("did you receive the mode", mode);
+            commit("setMode", mode);
+        },
+        updateItem({state, getters}) {
+            swal.fire({
+                title: getters.getCurrentStep.name + " " + state.item.code + "?",
+                icon: "question",
+                confirmButtonText: getters.getCurrentStep.name,
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                allowOutsideClick: false,
+                input: "checkbox",
+                inputPlaceholder: "Please tick if you skipped this process",
+                preConfirm: (checkbox) => {
+                    return new Promise((resolve, reject) => {
+                        var skipped = {
+                            skipped: checkbox,
+                        };
+                        axios
+                            .put("/api/rfp/"+state.item.id, skipped)
+                            .then((response) => {
+                                resolve(response.data);
+                            })
+                            .catch((e) => {
+                                //(e);
+                                swal.showValidationMessage(
+                                    `Unable to process item`
+                                );
+                                swal.hideLoading();
+                                reject(e);
+                            });
+                    });
+                },
+            }).then((result) => {
+                if (result.value) {
+                    swal.fire({
+                        title: result.value.success_text,
+                        icon: "success",
+                        onClose: () => {
+                            app.$router.go();
+                        },
+                    });
+                }
+            });
         }
     },
 };

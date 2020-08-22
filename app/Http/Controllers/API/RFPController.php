@@ -43,7 +43,6 @@ class RFPController extends Controller
     public function store(Request $request)
     {
          // Validate
-
          // Create RFP
          $user = auth()->user();
          $request['requestor_id'] = $user->id;
@@ -71,17 +70,6 @@ class RFPController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -90,7 +78,20 @@ class RFPController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rfp = RFP::findOrFail($id);
+        $this->updateItem($rfp, RFP::class, "RFP", $request, true);
+
+        if($request->get('skipped')){
+            $this->skipRemark($rfp, RFP::class);
+        }
+
+        // Notify Approvers
+        Notification::send($this->notifyApprovers($rfp), new ItemNotification($rfp, $rfp::$module, "rfp_show", $rfp->id));
+
+        return [
+            'item_id' => $rfp->id,
+            'success_text' => "RFP " . $rfp->code . " has been successfully updated."
+        ];
     }
 
     /**

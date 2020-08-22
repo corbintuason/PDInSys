@@ -44,6 +44,7 @@
 			</b-form-group>
 
 			<!-- Date Today -->
+
 			<b-form-group
 				label="Date of RFP:"
 				label-class="font-weight-bold"
@@ -51,7 +52,7 @@
 				class="col-md-4"
 			>
 				<b-input-group size="sm">
-					<b-datepicker disabled initial-date></b-datepicker>
+					<b-datepicker disabled :value="getDateToday" initial-date></b-datepicker>
 				</b-input-group>
 			</b-form-group>
 		</div>
@@ -180,6 +181,7 @@
 
 <script>
 import {mapState, mapActions, mapMutations, mapGetters} from "vuex"
+import common from "../../../../../../mixins/common"
 export default{
     data(){
         return{
@@ -192,6 +194,7 @@ export default{
 	props:{
 		namespace: String
 	},
+	mixins:[common],
     computed:{
         ...mapState("auth", {
                 user: state => state.user
@@ -237,9 +240,9 @@ export default{
        
     },
     methods:{
-           ...mapActions("create-rfp", {
+           ...mapActions({
                  selectVendor(dispatch, vendor){
-                return dispatch("selectVendor", vendor);
+                return dispatch(this.namespace+"/selectVendor", vendor);
             }
         }),
         searchVendor(){

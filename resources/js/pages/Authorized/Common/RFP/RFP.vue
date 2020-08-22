@@ -5,6 +5,9 @@
 			<item-progress :namespace="namespace"></item-progress>
 			<!-- ACTUAL FORM -->
 			<rfp-body :namespace="namespace"></rfp-body>
+
+            <change-logs v-if="mode=='Show'" :namespace="namespace"></change-logs>
+            {{mode}}
 		</div>
 		<clip-loader color="orange" v-else></clip-loader>
 	</div>
@@ -24,6 +27,9 @@ export default {
             },
             loading(state){
                 return state[this.namespace].loading
+            },
+            mode(state){
+                return state[this.namespace].mode
             }
         })
     },
@@ -50,6 +56,7 @@ export default {
         console.log("ggwp", this.namespace);
         console.log(this.$route.params.id +" ?");
         this.loadParentRequirement();
+        console.log("so ano yung mode..", this.mode);
     },
 };
 </script>

@@ -9,6 +9,7 @@
 
         <!-- Edit Project -->
         <b-button
+            v-if="editable"
             @click="editButton"
             class="float-right"
             variant="outline-dark"
@@ -43,6 +44,7 @@ export default {
     },
     props: {
         namespace: String,
+        editable: Boolean
     },
     mixins: [form, steps],
     components: {
@@ -138,7 +140,9 @@ export default {
     mounted() {
         console.log("what did i receive", this.namespace);
         console.log(this.current_step);
-        console.log("has ability?");
+        console.log("has ability?", this.hasAbility);
+        console.log("step?", this.current_step);
+        console.log("edi dapat pasok ako no")
     },
 };
 </script>

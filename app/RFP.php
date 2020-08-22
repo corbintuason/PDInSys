@@ -21,19 +21,19 @@ class RFP extends Model
         "term_of_payment",
         "billing_amount",
         
-        'override',
-        'vat_exempt_sales',
-        'vat_zero_rated_sales',
+        'quotations',
         
         'status',
+        'rfpable_type',
+        'rfpable_id',
         "vendor_id",
         'requestor_id',
-        
 
     ];
 
     protected $casts = [
-        "term_of_payment" => "Array"
+        "term_of_payment" => "Array",
+        "quotations" => "Array"
     ];
 
     // Relationships

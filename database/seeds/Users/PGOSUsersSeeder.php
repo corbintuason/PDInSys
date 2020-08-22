@@ -77,7 +77,7 @@ class PGOSUsersSeeder extends Seeder
             'password' => Hash::make("password")
         ]);
         
-        $bautista_mikaella->assign('rfp-reviewer');
+        $bautista_mikaella->assign('rfp-rfp-approver');
 
         $bicol_maria = User::create([
             'last_name' => "Bicol",
@@ -96,8 +96,6 @@ class PGOSUsersSeeder extends Seeder
             ],
             'password' => Hash::make("password")
         ]);
-
-        $bicol_maria->assign('rfp-approver');
 
         $borcena_brenda = User::create([
             'last_name' => "Borcena",

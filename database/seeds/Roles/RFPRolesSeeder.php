@@ -25,8 +25,8 @@ class RFPRolesSeeder extends Seeder
                 "ability" => "review"
             ),
             (object) array(
-                "name" => "Approver",
-                "ability" => "approve"
+                "name" => "RFP-Approver",
+                "ability" => "rfp-approve"
             ),
             (object) array(
                 "name" => "Validator",

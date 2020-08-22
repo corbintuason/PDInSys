@@ -44,10 +44,10 @@ trait RFPsTrait
                 ],
             ],
             (object) [
-                "names" => ["For Approval", "Returned to Approver"],
+                "names" => ["For RFP Approval", "Returned to Approver"],
                 "responsible" => (object)[
-                    "role" => "rfp-approver",
-                    "name" => "approve",
+                    "role" => "rfp-rfp-approver",
+                    "name" => "rfp-approve",
                     "entity_type" => "App\RFP",
                     "entity_id" => false
                 ]

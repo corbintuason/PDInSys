@@ -18,9 +18,9 @@ export default new Vuex.Store({
         
             },
             {
-                name: "Approve",
-                responsible: "Approver",
-                database_equivalent: ["For Approval", "Returned to Approver"],
+                name: "RFP Approve",
+                responsible: "RFP Approver",
+                database_equivalent: ["For RFP Approval", "Returned to Approver"],
             },
             {
                 name: "Validate",

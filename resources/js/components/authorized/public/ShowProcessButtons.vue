@@ -2,7 +2,7 @@
     <div>
         <template v-if="mode == 'Show'">
             <show-mode
-                :namespace="namespace"
+                :namespace="namespace" :editable="editable"
             ></show-mode>
         </template>
         <template v-else-if="mode == 'Edit'">
@@ -27,7 +27,8 @@ export default {
     },
     mixins: [form, steps],
     props: {
-        namespace: String
+        namespace: String,
+        editable: Boolean
     },
     components: {
         "show-mode": showMode,

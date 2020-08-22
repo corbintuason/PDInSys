@@ -18,7 +18,7 @@
 						<!-- Bill Verification and Tax Validation -->
 						<bill-verification :namespace="namespace" v-if="rfp.vendor!=null"></bill-verification>
 					</b-tab>
-					<b-tab title="Preparation of Payment" disabled>
+					<b-tab title="Preparation of Payment">
 						<!-- Preparation of Payment -->
 						<preparation-of-payment></preparation-of-payment>
 					</b-tab>
@@ -31,6 +31,7 @@
 						<liquidation></liquidation>
 					</b-tab>
 				</b-tabs>
+				<!-- {{rfp}} -->
 			</b-card-body>
 			<template v-slot:footer>
 				<b-button v-if="mode=='Create'" class="float-right" variant="outline-success" @click="createRFP">Create RFP</b-button>
@@ -38,7 +39,6 @@
 					v-else-if="mode=='Show'"
                     :namespace="namespace"
                 ></show-process-buttons>
-				
 			</template>
 		</b-card>
 	</div>

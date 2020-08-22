@@ -25,9 +25,7 @@ class CreateRfpsTable extends Migration
             $table->json('term_of_payment');
             $table->double('billing_amount');
 
-            $table->double('override')->default(0);
-            $table->double('vat_exempt_sales')->default(0);
-            $table->double('vat_zero_rated_sales')->default(0);
+            $table->json('quotations');
             
             $table->string('status');
             $table->integer('vendor_id');
