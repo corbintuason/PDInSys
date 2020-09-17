@@ -4,7 +4,7 @@
 		<div class="row">
 			<!-- Vendor Name -->
 			<b-form-group
-				:disabled="mode=='Show'"
+				:disabled="disableForm"
 				label="Registered Vendor Name:"
 				label-class="font-weight-bold"
 				label-cols="3"
@@ -160,7 +160,7 @@
 				class="col-md-4"
 			>
 				<b-input-group size="sm">
-					<b-form-input disabled></b-form-input>
+					<b-form-input disabled :value="parent"></b-form-input>
 				</b-input-group>
 			</b-form-group>
 			<!-- CEPD -->
@@ -182,6 +182,7 @@
 <script>
 import {mapState, mapActions, mapMutations, mapGetters} from "vuex"
 import common from "../../../../../../mixins/common"
+import erfp from "../../../../../../mixins/erfp"
 export default{
     data(){
         return{
@@ -194,7 +195,7 @@ export default{
 	props:{
 		namespace: String
 	},
-	mixins:[common],
+	mixins:[common, erfp],
     computed:{
         ...mapState("auth", {
                 user: state => state.user
@@ -202,6 +203,9 @@ export default{
 		...mapState({
             mode(state){
                 return state[this.namespace].mode
+			},
+			parent(state){
+				return state[this.namespace].parent
 			},
 			rfp(state){
 				return state[this.namespace].item

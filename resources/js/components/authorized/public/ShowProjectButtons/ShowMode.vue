@@ -4,7 +4,7 @@
             @click="changeShowRejectModal"
             class="float-right"
             variant="outline-danger"
-            >Reject {{ name }}</b-button
+            >Reject</b-button
         >
 
         <!-- Edit Project -->
@@ -13,17 +13,17 @@
             @click="editButton"
             class="float-right"
             variant="outline-dark"
-            >Edit {{ name }}</b-button
+            >Edit</b-button
         >
         <b-button
             @click="changeShowReturnModal"
             variant="outline-dark"
-            >Return {{ name }}</b-button
+            >Return</b-button
         >
         <b-button
             @click="updateStatus"
             variant="outline-success"
-            >{{current_step.name}} {{name}}</b-button
+            >{{current_step.name}}</b-button
         >
 
         <return-item :namespace="namespace"></return-item>

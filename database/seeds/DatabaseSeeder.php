@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CostEstimateSeeder::class);
         $this->call(BudgetRequestSeeder::class);
         $this->call(VendorSeeder::class);
-        $this->call(RFPSeeder::class);
+        $this->call(ERFPSeeder::class);
 
         
         $this->call(UsersSeeder::class);

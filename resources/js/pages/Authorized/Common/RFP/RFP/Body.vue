@@ -2,11 +2,11 @@
 	<div>
 		<b-card class="mt-3">
 			<template v-slot:header>
-				<h1 class="component-title">Create RFP</h1>
+				<h1 class="component-title">Create ERFP</h1>
 			</template>
 			<b-card-body>
 				<b-tabs fill content-class="mt-3">
-					<b-tab title="RFP Profile" active>
+					<b-tab title="ERFP Profile" active>
 						<!-- RFP Profile -->
 						<rfp-profile :namespace="namespace"></rfp-profile>
 					</b-tab>
@@ -18,9 +18,9 @@
 						<!-- Bill Verification and Tax Validation -->
 						<bill-verification :namespace="namespace" v-if="rfp.vendor!=null"></bill-verification>
 					</b-tab>
-					<b-tab title="Preparation of Payment">
+					<b-tab title="Preparation of Payment" :disabled="rfp.status=='For ERFP Approval'">
 						<!-- Preparation of Payment -->
-						<preparation-of-payment></preparation-of-payment>
+						<preparation-of-payment :namespace="namespace"></preparation-of-payment>
 					</b-tab>
 					<b-tab title="Release of Payment" disabled>
 						<!-- Release of Payment -->

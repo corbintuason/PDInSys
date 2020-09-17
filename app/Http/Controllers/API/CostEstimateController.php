@@ -94,7 +94,6 @@ class CostEstimateController extends Controller
 
         $cost_estimate = CostEstimate::findOrFail($id);
         return Storage::download("cost-estimates/".$cost_estimate->name, "trial.xlsx", $headers);
-
     }
 
     /**

@@ -27,8 +27,8 @@
                     <b-input-group>
                         <b-form-select v-model="vendor.type_vat" required>
                             <option disabled>Please select an option</option>
-                            <option>VAT</option>
-                            <option>Non-VAT</option>
+                            <option>VAT Registered</option>
+                            <option>Non-VAT Registered</option>
                             <option>Not Registered</option>
                         </b-form-select>
                     </b-input-group>

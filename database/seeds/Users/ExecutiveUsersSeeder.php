@@ -39,7 +39,7 @@ class ExecutiveUsersSeeder extends Seeder
         $von_mauleon->assign("cost-estimate-clearer");
         $von_mauleon->assign("project-approver");
         $von_mauleon->assign('budget-request-releaser');
-        $von_mauleon->assign('rfp-closer');
+        $von_mauleon->assign('erfp-payment-approver');
 
         // biboy.arcilla.pdem@gmail.com
 
@@ -57,7 +57,6 @@ class ExecutiveUsersSeeder extends Seeder
                     "name" => "COO/VP for Gen.Operations",
                     "job_level" => "8"
                 ],
-
             ],
             'password' => Hash::make("password")
         ]);
@@ -66,7 +65,7 @@ class ExecutiveUsersSeeder extends Seeder
         $biboy_arcilla->assign("vendor-creator");
         $biboy_arcilla->assign('project-reviewer');
         $biboy_arcilla->assign('budget-request-approver');
-        $biboy_arcilla->assign('rfp-acknowledger');
+        $biboy_arcilla->assign('erfp-erfp-approver');
 
 
 

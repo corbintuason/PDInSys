@@ -24,6 +24,7 @@ class Vendor extends JsonResource
         // ATTRIBUTES
         $response["code"] = $this->code;
         $response['current_handler'] = $this->currentHandler;
+        $response['proof_of_liquidation'] = $this->proofOfLiquidation;
         $response['is_process_finished'] = $this->isProcessFinished;
 
         // GENERIC RELATIONSHIPS

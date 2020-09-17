@@ -3,7 +3,7 @@
         <div class="sidebar-header"></div>
         <a href="#" class="nav-link text-center">
             <p>
-                <strong>MODULE-LESS</strong>
+                <strong>Quick Access</strong>
             </p>
         </a>
         <ul
@@ -19,6 +19,15 @@
                     <p>Add User</p>
                 </router-link>
             </li>
+
+            <!-- Create ERFP -->
+            <li class="nav-item">
+                <router-link :to="{ name: 'erfp_create' }" class="nav-link">
+                    <i class="fas fa-user" style="margin-right:10px"></i>
+                    <p>Create ERFP</p>
+                </router-link>
+            </li>
+
         </ul>
     </li>
 </template>

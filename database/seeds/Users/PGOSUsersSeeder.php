@@ -32,7 +32,6 @@ class PGOSUsersSeeder extends Seeder
         ]);
 
         // Roles
-        $tin_aquino->assign("rfp-creator");
 
 
         $mitch_arcilla = User::create([
@@ -55,7 +54,7 @@ class PGOSUsersSeeder extends Seeder
 
         $mitch_arcilla->assign("account-creator");
         $mitch_arcilla->assign("project-assigner");
-        $mitch_arcilla->assign("rfp-reviewer");
+        $mitch_arcilla->assign("erfp-reviewer");
 
         // bautista_mikaella@projectduoevents.com
 
@@ -157,7 +156,7 @@ class PGOSUsersSeeder extends Seeder
         
         $gigi_corpuz->assign('project-assigner');
         $gigi_corpuz->assign('budget-request-reviewer');
-        $gigi_corpuz->assign('rfp-payment-approver');
+        $gigi_corpuz->assign('rfp-reviewer');
 
         
         $corral_mary = User::create([
@@ -300,7 +299,7 @@ class PGOSUsersSeeder extends Seeder
             'contact_numbers' => json_encode(["09999999999", "01111111"]),
             'positions' => [
                 (object)[
-                    "name" => "A position",
+                    "name" => "Sales and Operations Director",
                     "job_level" => "3C7"
                 ],
             ],
@@ -311,8 +310,9 @@ class PGOSUsersSeeder extends Seeder
         $elvin_olano->assign('cost-estimate-reviewer');
         $elvin_olano->assign('project-creator');
         $elvin_olano->assign('budget-request-reviewer');
+        $elvin_olano->assign('erfp-reviewer');
 
-        User::create([
+        $victor_padojinog = User::create([
             'last_name' => "Padojinog",
             'first_name' => "Victor Jr.",
             'middle_name' => "Alcaraz",
@@ -323,12 +323,14 @@ class PGOSUsersSeeder extends Seeder
             'contact_numbers' => json_encode(["09999999999", "01111111"]),
             'positions' => [
                 (object)[
-                    "name" => "A position",
+                    "name" => "Project Manager",
                     "job_level" => "3C7"
                 ],
             ],
             'password' => Hash::make("password")
         ]);
+
+        $victor_padojinog->assign('erfp-creator');
 
         $paredes_mabel = User::create([
             'last_name' => "Paredes",

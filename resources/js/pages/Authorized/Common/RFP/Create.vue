@@ -25,11 +25,8 @@ export default {
     beforeCreate() {
         var namespace = "create-rfp";
         this.$store.registerModule(namespace, createRFPModule);
-        this.$store.commit(namespace+"/setType", "Project");
-        this.$store.commit(namespace+"/setMode", "Create");
     },
     mounted() {
-        console.log(this.namespace);
     },
 };
 </script>

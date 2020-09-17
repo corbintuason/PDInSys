@@ -21,6 +21,8 @@
 				</div>
 			</div>
 
+			
+
 			<div class="row mt-2" v-for="(value, value_index) in vendor.bank_details" :key="value_index">
 				<div class="col-md-3">
 					<b-form-select v-model="vendor.bank_details[value_index].bank_name">

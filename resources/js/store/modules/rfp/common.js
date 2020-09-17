@@ -18,9 +18,9 @@ export default new Vuex.Store({
         
             },
             {
-                name: "RFP Approve",
-                responsible: "RFP Approver",
-                database_equivalent: ["For RFP Approval", "Returned to Approver"],
+                name: "ERFP Approve",
+                responsible: "ERFP Approver",
+                database_equivalent: ["For ERFP Approval", "Returned to Approver"],
             },
             {
                 name: "Validate",
@@ -51,7 +51,7 @@ export default new Vuex.Store({
         ],
         
         mode_of_payments:[
-            { value: null, text: 'N/A' },
+            { value: null, text: 'N/A', disabled: true},
             { value: "Cash For Deposit", text: 'Cash For Deposit' },
             { value: "Cash for Pick-Up", text: "Cash for Pick-Up" },
             { value: "Check", text: "Check"}

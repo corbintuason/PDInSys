@@ -12,7 +12,7 @@ export const createRFPModule = {
             model: "App\\RFP",
             mode: null,
 
-            loading: true,
+            loading: false,
             show_return_modal: false,
             show_reject_modal: false,
             show_remarks_modal: true,
@@ -31,17 +31,8 @@ export const createRFPModule = {
                 venue: null,
                 quotation_no: null,
                 term_of_payment: {
-                    full_payment: {
-                        percent: null,
-                        mode_of_payment: null,
-                        date_of_release: null,
-
-                        override: 0,
-                        vat_exempt_sales: 0,
-                        vat_zero_rated_sales: 0
-                    },
                     down_payment: {
-                        percent: null,
+                        percent: 0,
                         mode_of_payment: null,
                         date_of_release: null,
 
@@ -49,14 +40,23 @@ export const createRFPModule = {
                         vat_exempt_sales: 0,
                         vat_zero_rated_sales: 0
                     },
+                    full_payment: {
+                        percent: 0,
+                        mode_of_payment: "Cash For Deposit",
+                        date_of_release: null,
+
+                        override: 0,
+                        vat_exempt_sales: 0,
+                        vat_zero_rated_sales: 0
+                    },
+
 
                 },
-
-
                 billing_amount: 0,
-                quotations: [],
+                quotation: null,
 
-                vendor: null
+                vendor: null,
+                bank_index: null
             },
         };
     },
@@ -71,7 +71,7 @@ export const createRFPModule = {
             return rootState.rfp.mode_of_payments;
         },
 
-        getCurrentStep(state, getters) {
+        getCurrentStep(state, getters) { 
             var status = state.item.status;
             var current_step = getters.steps.find((step) => {
                 return step.database_equivalent.includes(status);
@@ -84,10 +84,7 @@ export const createRFPModule = {
                 if (getters.vat_amount(type) == 0) {
                     return 0;
                 } else {
-                    //  ₱4,173.21 + ₱500.79			
-                    console.log("CHECKING FOR TOTAL SALES")
-                    console.log(getters.vatable_sales(type));
-                    console.log(getters.vat_amount(type));
+
                     var exemption;
                     if (type == "FP") {
                         exemption = state.item.term_of_payment.full_payment
@@ -96,25 +93,13 @@ export const createRFPModule = {
                     }
                     return getters.vatable_sales(type) + exemption.vat_exempt_sales + exemption.vat_zero_rated_sales + getters.vat_amount(type);
                 }
-                // if(type == "FP"){
-                //     if(getters.vat_amount(type) == 0){
-                //         return 0;
-                //     } else{
-                //         console.log("nice")
-                //         console.log(getters.vat_amount(type));
-                //         return getters.vatable_sales(type) + getters.vat_amount(type);
-                //     }
-                // } else if (type == "DP"){
-
-                // }
-
             }
 
         },
         vat_amount(state, getters) {
             return type => {
                 var vat_amount = 0;
-                if (state.item.vendor.type_vat == 'VAT') {
+                if (state.item.vendor.type_vat == 'VAT Registered') {
                     vat_amount = getters.vatable_sales(type) * 0.12;
                 }
                 return vat_amount;
@@ -126,13 +111,13 @@ export const createRFPModule = {
             return type => {
                 var vatable_sales = 0;
                 if (type == "FP") {
-                    if (state.item.vendor.type_vat == 'VAT') {
+                    if (state.item.vendor.type_vat == 'VAT Registered') {
 
                         vatable_sales = (getters.gross_amount(type) - state.item.term_of_payment.full_payment.vat_exempt_sales - state.item.term_of_payment.full_payment.vat_zero_rated_sales) / 1.12;
                     }
 
                 } else if (type == "DP") {
-                    if (state.item.vendor.type_vat == "VAT") {
+                    if (state.item.vendor.type_vat == "VAT Registered") {
                         vatable_sales = ((getters.gross_amount(type) / 1.12) - state.item.term_of_payment.down_payment.vat_exempt_sales - state.item.term_of_payment.down_payment.vat_zero_rated_sales);
                     }
                 }
@@ -146,54 +131,27 @@ export const createRFPModule = {
                 return getters.total_sales(type) - getters.vat_amount(type);
             }
         },
-        /**
-         * 
-         *  Witholding TAX 
-            =IF(vat_type="VAT Registered",
-            value if vat registered:
-            (IF(AD72="",(IFERROR((Z68*AB72),0)),(Z68*AD72))),
-            value if not vat registered
-            IF(AD72="",(IFERROR((Z88*AB72),0)),(Z88*AD72)))
-
-            var used_percentage = total;
-            var used_amount = total;
-
-            if(may laman override){
-                used_percentage = override;
-            }
-            if(vat_type != "Vat registered"){
-                used_amount = gross_amount;
-            }
-
-            return used_amount*used_percentage
-            */
 
         witholding_tax(state, getters) {
             return type => {
                 var used_percentage = state.item.vendor.ewt_details[0].percent;
                 var used_amount = getters.total_due(type);
                 if (type == 'FP') {
-                    console.log("Full Payment");
-                    console.log(state.item.term_of_payment.full_payment.override);
                     if (state.item.term_of_payment.full_payment.override > 0)
                         used_percentage = state.item.term_of_payment.full_payment.override / 100;
                 } else if (type == "DP") {
-                    console.log("Down Payment");
-                    console.log(state.item.term_of_payment.down_payment.override);
                     if (state.item.term_of_payment.down_payment.override > 0)
                         used_percentage = state.item.term_of_payment.down_payment.override / 100;
                 }
 
-                if (state.item.vendor.type_vat != 'VAT') {
+                if (state.item.vendor.type_vat != 'VAT Registered') {
                     used_amount = getters.gross_amount(type);
                 }
 
-                console.log("Witholding tax");
-                console.log(used_amount);
-                console.log(used_percentage);
+                console.log("checkign witholding tax");
+                console.log("used amount", used_amount);
+                console.log("used_percentage", used_percentage);
                 return used_amount * used_percentage;
-
-
             }
 
         },
@@ -205,6 +163,7 @@ export const createRFPModule = {
                     // billing amount - gross amount of down payment
                     gross_amount = state.item.billing_amount - getters.gross_amount("DP")
                 } else if (type == "DP") {
+                    // Billing Amount * (Down_payment_percent/1000);
                     gross_amount = state.item.billing_amount * ((state.item.term_of_payment.down_payment.percent) / 100);
                 }
 
@@ -216,7 +175,7 @@ export const createRFPModule = {
         amount_due(state, getters) {
             return type => {
                 var amount_due = 0;
-                if (state.item.vendor.type_vat == 'VAT') {
+                if (state.item.vendor.type_vat == 'VAT Registered') {
                     amount_due = getters.total_due(type) - getters.witholding_tax(type);
                 }
                 return amount_due;
@@ -239,15 +198,13 @@ export const createRFPModule = {
         },
 
         total_net(state, getters) {
-            console.log("Ito ba", getters.net_amount("DP"));
-            console.log("or ito", getters.net_amount("FP"));
+
             return getters.net_amount("DP") + getters.net_amount("FP")
         }
     },
     mutations: {
         addEntry(state, entry) {
-            console.log("check if pushed");
-            console.log(entry);
+
             state.item.entries.push(entry);
         },
         deleteEntry(state, category) {
@@ -257,7 +214,6 @@ export const createRFPModule = {
             state.item.entries.splice(entry, 1);
         },
         setEditEntry(state, entry_object) {
-            console.log("awit", entry_object);
             state.edit_entry = entry_object.entry;
             state.edit_category = entry_object.category
         },
@@ -274,11 +230,11 @@ export const createRFPModule = {
         setEndDate(state, end_date) {
             state.item.end_date = end_date;
         },
-        setRfpableType(state, type) {
-            state.item.rfpable_type = type;
+        setERfpableType(state, type) {
+            state.item.erfpable_type = type;
         },
-        setRfpableId(state, id) {
-            state.item.rfpable_id = id;
+        setERfpableId(state, id) {
+            state.item.erfpable_id = id;
         },
         selectVendor(state, vendor) {
             if (vendor != null) {
@@ -308,12 +264,12 @@ export const createRFPModule = {
             state
         }, parent_id) {
             if (state.type == 'Project') {
-                console.log("hmm");
                 axios.get("/api/project/" + parent_id).then(response => {
                     var project = response.data.data;
                     commit("setParent", project);
-                    commit("setRfpableType", "App\\Project");
-                    commit("setRfpableId", project.id);
+
+                    commit("setERfpableType", "App\\Project");
+                    commit("setERfpableId", project.id);
                 });
             } else if (state.type == 'Account') {
                 // axios.get("/api/account/"+parent_id).then(response => {
@@ -329,7 +285,6 @@ export const createRFPModule = {
         }, vendor) {
             commit("selectVendor", vendor);
             commit("setVendor", vendor);
-            console.log(state.selected_vendor, state.item.vendor_id);
 
         },
 
@@ -337,34 +292,70 @@ export const createRFPModule = {
             commit,
             state
         }, rfp_id, mode) {
-            console.log("checking.asdfasdf,dasf,a")
-            console.log("hgow about here", mode);
-            axios.get("/api/rfp/" + rfp_id).then((response) => {
+            axios.get("/api/erfp/" + rfp_id).then((response) => {
 
                 var rfp = response.data.data;
-                console.log("?ASD<A?SD<A?SD", rfp);
                 commit("storeItem", rfp);
                 commit("setLoading", false);
             });
         },
-        createRFP({
+
+        async createRFP({
             commit,
             state
         }) {
-            
-            swal.fire({
-                title: "Create RFP",
+            let response = await axios.get("/api/user", {
+                params: {
+                    positions: [
+                        "Sales and Operations Director", "Project Execution Head"
+                    ],
+                },
+
+            })
+            let reviewers = {};
+            await response.data.data.forEach(reviewer => {
+                reviewers[reviewer.id] = reviewer.full_name
+            });
+
+            const formData = new FormData();
+
+             Object.keys(state.item).forEach((key) => {
+                if(key == 'quotation'){
+                    console.log("i got in")
+                     //1.PROJECTNAME/BUDGETCODE / VENDORNAME / BILL#
+                    var file_name = state.parent.name+"_"+state.item.vendor.vendor_name+"_"+state.item.quotation_no;
+                      formData.append('quotation', state.item.quotation, file_name);
+                    console.log("FILE NAME", file_name);
+  
+                }else if(key == "term_of_payment"){
+                    formData.append(key, JSON.stringify(state.item[key]))
+                }
+                else{
+                    formData.append(key, state.item[key])
+                }
+            });
+            console.log("file?from preconfirm hek", formData);
+
+            const {
+                value: reviewer
+            } = await swal.fire({
+                title: "Create ERFP",
                 icon: "question",
-                text: "Are you sure you want to create this RFP?",
-                confirmButtonText: "Create RFP",
+                text: "Are you sure you want to create this ERFP?",
+                confirmButtonText: "Create ERFP",
                 showLoaderOnConfirm: true,
                 showCancelButton: true,
                 cancelButtonColor: "#d33",
                 allowOutsideClick: false,
-                preConfirm: () => {
+                input: 'select',
+                inputOptions: reviewers,
+                inputPlaceholder: 'Select a Reviewer',
+                preConfirm: (reviewer) => {
+                    formData.append('reviewer_id', reviewer);
+                    formData['reviewer_id'] = reviewer;
                     return new Promise((resolve, reject) => {
                         axios
-                            .post("/api/rfp", state.item)
+                            .post("/api/erfp", formData)
                             .then((response) => {
                                 resolve(response.data);
                             })
@@ -394,18 +385,87 @@ export const createRFPModule = {
                     });
                 }
             });
+
         },
         setMode({
             commit,
-            state
+            state,
+            getters
         }, mode) {
-            console.log("umm frrfrr")
-            console.log("did you receive the mode", mode);
             commit("setMode", mode);
         },
-        updateItem({state, getters}) {
-            swal.fire({
-                title: getters.getCurrentStep.name + " " + state.item.code + "?",
+        // updateItem({
+        //     state,
+        //     getters
+        // }) {
+        //     swal.fire({
+        //         title: getters.getCurrentStep.name + " " + state.item.code + "?",
+        //         icon: "question",
+        //         confirmButtonText: getters.getCurrentStep.name,
+        //         showLoaderOnConfirm: true,
+        //         showCancelButton: true,
+        //         cancelButtonColor: "#d33",
+        //         allowOutsideClick: false,
+        //         input: "checkbox",
+        //         inputPlaceholder: "Please tick if you skipped this process",
+        //         preConfirm: (checkbox) => {
+        //             return new Promise((resolve, reject) => {
+        //                 var skipped = {
+        //                     skipped: checkbox,
+        //                 };
+        //                 state.item.skipped = checkbox;
+        //                 axios
+        //                     .put("/api/erfp/" + state.item.id+"/saveChanges", state.item)
+        //                     .then((response) => {
+        //                         resolve(response.data);
+        //                     })
+        //                     .catch((e) => {
+        //                         //(e);
+        //                         swal.showValidationMessage(
+        //                             `Unable to process item`
+        //                         );
+        //                         swal.hideLoading();
+        //                         reject(e);
+        //                     });
+        //             });
+        //         },
+        //     }).then((result) => {
+        //         if (result.value) {
+        //             swal.fire({
+        //                 title: result.value.success_text,
+        //                 icon: "success",
+        //                 onClose: () => {
+        //                     app.$router.go();
+        //                 },
+        //             });
+        //         }
+        //     });
+        // }
+        async updateItem({
+            commit,
+            state,
+            getters
+        }) {
+            const formData = new FormData();
+
+             Object.keys(state.item).forEach((key) => {
+                if(key == 'quotation'){
+                    console.log("i got in")
+                     //1.PROJECTNAME/BUDGETCODE / VENDORNAME / BILL#
+                    // var file_name = state.item.name+"_"+state.item.vendor.vendor_name+"_"+state.item.quotation_no;
+                    var file_name = "a file name";
+                      formData.append('quotation', state.item.quotation, file_name);
+                    console.log("FILE NAME", file_name);
+  
+                }else if(key == "term_of_payment"){
+                    formData.append(key, JSON.stringify(state.item[key]))
+                }
+                else{
+                    formData.append(key, state.item[key])
+                }
+            });
+            await swal.fire({
+                    title: getters.getCurrentStep.name + " " + state.item.code + "?",
                 icon: "question",
                 confirmButtonText: getters.getCurrentStep.name,
                 showLoaderOnConfirm: true,
@@ -414,14 +474,11 @@ export const createRFPModule = {
                 allowOutsideClick: false,
                 input: "checkbox",
                 inputPlaceholder: "Please tick if you skipped this process",
-                preConfirm: (checkbox) => {
+                preConfirm: (reviewer) => {
                     return new Promise((resolve, reject) => {
-                        var skipped = {
-                            skipped: checkbox,
-                        };
                         axios
-                            .put("/api/rfp/"+state.item.id, skipped)
-                            .then((response) => {
+                            .post("/api/erfp/" + state.item.id+"/saveChanges", formData)
+        .then((response) => {
                                 resolve(response.data);
                             })
                             .catch((e) => {
@@ -440,11 +497,17 @@ export const createRFPModule = {
                         title: result.value.success_text,
                         icon: "success",
                         onClose: () => {
-                            app.$router.go();
+                            app.$router.push({
+                                name: "rfp_show",
+                                params: {
+                                    id: result.value.item_id
+                                },
+                            });
                         },
                     });
                 }
             });
-        }
+
+        },
     },
 };
