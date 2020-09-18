@@ -10,7 +10,7 @@
 				label-cols="3"
 				class="col-md-8"
 			>
-			<!-- Search Trade Name -->
+				<!-- Search Trade Name -->
 				<b-input-group size="sm">
 					<b-form-input
 						v-model="search_vendor"
@@ -18,16 +18,12 @@
 						@focus="is_vendor_search_focused = true"
 						@blur="is_vendor_search_focused = false"
 						@update="searchVendor"
-						@input="isSearchingVendor = true;"
+						@input="isSearchingVendor = true"
 					></b-form-input>
-
-					<!-- <template v-if="isSearchingVendor" v-slot:append>
-						<b-input-group-text>
-							<clip-loader></clip-loader>
-						</b-input-group-text>
-					</template> -->
 				</b-input-group>
-				<b-alert class="overlap" v-if="isSearchingVendor" show variant="primary"> <i> Searching </i>...</b-alert>
+				<b-alert class="overlap" v-if="isSearchingVendor" show variant="primary">
+					<i>Searching</i>...
+				</b-alert>
 
 				<!-- Search Results -->
 				<div class="overlap" v-if="displayVendors">
@@ -35,6 +31,7 @@
 						<b-list-group-item
 							v-for="(vendor, vendor_index) in searched_vendors"
 							:key="vendor_index"
+							:value="vendor"
 							href="#"
 							@click="selectVendor(vendor)"
 						>{{vendor.vendor_name}}</b-list-group-item>
@@ -141,130 +138,119 @@
 			<!-- Group -->
 			<b-form-group class="col-md-4" description="Group">
 				<b-input-group size="sm">
-					<b-form-input disabled></b-form-input>
+					<b-form-input value="1" disabled></b-form-input>
 				</b-input-group>
 			</b-form-group>
 			<!-- Group -->
 			<b-form-group class="col-md-4" description="Department">
 				<b-input-group size="sm">
-					<b-form-input disabled></b-form-input>
+					<b-form-input value="2" disabled></b-form-input>
 				</b-input-group>
 			</b-form-group>
 		</div>
 		<!-- Row 6: Budget Code/ Project Name, CEPD (if applicable), verseion (if applicable)  -->
-		<div class="row">
-			<b-form-group
-				label="Budget Code / Project Name"
-				label-class="font-weight-bold"
-				label-cols="3"
-				class="col-md-4"
-			>
-				<b-input-group size="sm">
-					<b-form-input disabled :value="parent"></b-form-input>
-				</b-input-group>
-			</b-form-group>
-			<!-- CEPD -->
-			<b-form-group label="CEPD" label-class="font-weight-bold" label-cols="3" class="col-md-4">
-				<b-input-group size="sm">
-					<b-form-input disabled></b-form-input>
-				</b-input-group>
-			</b-form-group>
-			<!-- Version -->
-			<b-form-group label="Version" label-class="font-weight-bold" label-cols="3" class="col-md-4">
-				<b-input-group size="sm">
-					<b-form-input disabled></b-form-input>
-				</b-input-group>
-			</b-form-group>
-		</div>
+		<budget-project-codes :namespace="namespace"></budget-project-codes>
 	</div>
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations, mapGetters} from "vuex"
-import common from "../../../../../../mixins/common"
-import erfp from "../../../../../../mixins/erfp"
-export default{
-    data(){
-        return{
-            isSearchingVendor: false,
-            search_vendor: "",
-            is_vendor_search_focused: false,
-            searched_vendors: [],
-        }
+import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
+import common from "../../../../../../mixins/common";
+import erfp from "../../../../../../mixins/erfp";
+
+import budgetProjectCodes from "./RFPProfile/BudgetProjectCodes";
+export default {
+	data() {
+		return {
+			isSearchingVendor: false,
+			// search_vendor: "",
+			is_vendor_search_focused: false,
+			searched_vendors: [],
+		};
 	},
-	props:{
-		namespace: String
+	props: {
+		namespace: String,
 	},
-	mixins:[common, erfp],
-    computed:{
-        ...mapState("auth", {
-                user: state => state.user
+	mixins: [common, erfp],
+	components: {
+		"budget-project-codes": budgetProjectCodes,
+	},
+	computed: {
+		search_vendor: {
+			get() {
+				return this.$store.state[this.namespace].search_vendor;
+			},
+			set(val) {
+				this.$store.commit(this.namespace + "/setSearchVendor", val);
+			},
+		},
+		...mapState("auth", {
+			user: (state) => state.user,
 		}),
 		...mapState({
-            mode(state){
-                return state[this.namespace].mode
+			mode(state) {
+				return state[this.namespace].mode;
 			},
-			parent(state){
-				return state[this.namespace].parent
+			parent(state) {
+				return state[this.namespace].parent;
 			},
-			rfp(state){
-				return state[this.namespace].item
+			rfp(state) {
+				return state[this.namespace].item;
 			},
-			vendor(state){
-				return state[this.namespace].item.vendor
+			vendor(state) {
+				return state[this.namespace].item.vendor;
 			},
-            loading(state){
-                return state[this.namespace].loading
-            }
+			loading(state) {
+				return state[this.namespace].loading;
+			},
 		}),
-		
-        displayVendors(){
-            // this.is_vendor_searched_focused has a bug that does not respect the overflowing elements
-            if(this.vendor == null){
-                if(!this.isSearchingVendor && this.search_vendor.length > 0){
-                    return true;
-                }else{
-                    return false;
-                }
-            } else {
-                return false;
-            }
-       
-        },
-        first_address(){
-                        // "Unit No., Floor, Bldg, No. Street, Village/Subdivision"
-                        // {"no_st_bldg":"qwe","barangay":null,"city":"qwe","zip_code":"qwe","brgy":"qwe"}
-            if(this.vendor!=null){
-                var registered_address = this.vendor.registered_address;
-                return registered_address.no_st_bldg;
-            }else{
-                return "";
-            }
-        },
-       
-    },
-    methods:{
-           ...mapActions({
-                 selectVendor(dispatch, vendor){
-                return dispatch(this.namespace+"/selectVendor", vendor);
-            }
-        }),
-        searchVendor(){
-            this.selectVendor(null);
-            axios.get('/api/vendor', {
-                params:{
-                    vendor_name: this.search_vendor,
-                    status: "Approved"
-                }
-            }).then(response => {
-                this.searched_vendors = response.data.data;
-                this.isSearchingVendor = false;
-                console.log(this.searched_vendors);
-            });
-        },
-     
-    }
-}
+
+		displayVendors() {
+			// this.is_vendor_searched_focused has a bug that does not respect the overflowing elements
+			if (this.vendor == null) {
+				if (!this.isSearchingVendor && this.search_vendor.length > 0) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		},
+		first_address() {
+			// "Unit No., Floor, Bldg, No. Street, Village/Subdivision"
+			// {"no_st_bldg":"qwe","barangay":null,"city":"qwe","zip_code":"qwe","brgy":"qwe"}
+			if (this.vendor != null) {
+				var registered_address = this.vendor.registered_address;
+				return registered_address.no_st_bldg;
+			} else {
+				return "";
+			}
+		},
+	},
+	methods: {
+		...mapActions({
+			selectVendor(dispatch, vendor) {
+				return dispatch(this.namespace + "/selectVendor", vendor);
+			},
+		}),
+		searchVendor() {
+			this.selectVendor(null);
+			axios
+				.get("/api/vendor", {
+					params: {
+						vendor_name: this.search_vendor,
+						status: "Approved",
+					},
+				})
+				.then((response) => {
+					this.searched_vendors = response.data.data;
+					this.isSearchingVendor = false;
+					console.log(this.searched_vendors);
+				});
+		},
+	},
+};
 </script>
 
 

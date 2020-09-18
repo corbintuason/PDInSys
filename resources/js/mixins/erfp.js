@@ -13,8 +13,15 @@ export default {
               return false;
           }
         },
+        total_billing_amount(){
+            var total_billing_amount = 0;
+            this.rfp.erfpables.forEach(erfpable => {
+                total_billing_amount+=erfpable.billing_amount;
+            });
+            return total_billing_amount;
+        }
+
     },
     methods: {
-
     },
 };

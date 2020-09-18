@@ -21,8 +21,19 @@ export const createRFPModule = {
             // BELOW ARE FIELDS UNIQUE TO THE MODULE
             type: null,
             parent: null,
+
+            search_vendor: '',
             item: {
                 vendor_id: null,
+                erfpables:[
+                    {
+                        item: null,
+                        type: null,
+                        reviewer_id: null,
+                        billing_amount: 0,
+                        reviewers:[]
+                    }
+                ],
 
                 start_date: null,
                 end_date: null,
@@ -78,7 +89,6 @@ export const createRFPModule = {
             });
             return current_step;
         },
-
         total_sales(state, getters) {
             return type => {
                 if (getters.vat_amount(type) == 0) {
@@ -203,6 +213,19 @@ export const createRFPModule = {
         }
     },
     mutations: {
+        addItem(state){
+            state.item.erfpables.push(
+                {
+                    item: null,
+                    reviewer_id: null,
+                    billing_amount: 0,
+                    reviewers:[]
+                }
+            );
+        },
+        setSearchVendor(state, search){
+            state.search_vendor = search;
+        },
         addEntry(state, entry) {
 
             state.item.entries.push(entry);
@@ -245,6 +268,10 @@ export const createRFPModule = {
         },
         setVendor(state, vendor) {
             state.item.vendor = vendor;
+            if(vendor){
+                state.search_vendor = vendor.vendor_name;
+
+            }
         },
         storeItem(state, rfp) {
             state.item = rfp;

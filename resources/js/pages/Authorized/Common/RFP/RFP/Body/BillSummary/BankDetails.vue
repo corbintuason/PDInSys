@@ -49,7 +49,7 @@ export default{
 			options:[],
         }
 	},
-	components:[erfp],
+	mixins:[erfp],
     props:{
         namespace: String
     },

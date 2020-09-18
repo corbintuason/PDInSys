@@ -19,14 +19,12 @@ class ERFP extends Model
         "venue",
         "quotation_no",
         "term_of_payment",
-        "billing_amount",
         
         'quotation_file',
         
         'bank_index',
         'status',
-        'erfpable_type',
-        'erfpable_id',
+        
         "vendor_id",
         'requestor_id',
 

@@ -152,21 +152,10 @@
 				</div>
 
 				<!-- Billing Amount -->
-				<div class="row">
-					<div class="col-md-12 float-right">
-						<b-input-group>
-							<template v-slot:prepend>
-								<b-input-group-text>
-									<strong class="mr-4">Billing Amount:</strong>
-									<strong class="text-success">&#8369;</strong>
-								</b-input-group-text>
-							</template>
-							<money class="form-control" :disabled="disableForm" v-model="rfp.billing_amount"></money>
-						</b-input-group>
-					</div>
-				</div>
+				<billing-amount :namespace="namespace"></billing-amount>
+	
 
-					<!-- Billing Amount -->
+					<!-- Total NET -->
 				<div class="row">
 					<div class="col-md-12 float-right">
 						<b-input-group>
@@ -194,6 +183,7 @@ import erfp from "../../../../../../mixins/erfp"
 
 import bankDetails from "./BillSummary/BankDetails"
 import quotations from "./BillSummary/Quotations"
+import billingAmount from "./BillSummary/BillingAmount"
 export default{
 	data(){
 		return{
@@ -205,7 +195,8 @@ export default{
 	},
 	components:{
 		"bank-details": bankDetails,
-		"quotations": quotations
+		"quotations": quotations,
+		"billing-amount": billingAmount
 	},
 
 	watch:{
@@ -225,10 +216,6 @@ export default{
 		full_payment_percent(){
 			return 100 - this.rfp.term_of_payment.down_payment.percent;
 		},
-		//    ...mapState("create-rfp", {
-        //     selected_vendor: (state) => state.selected_vendor,
-        //     rfp: state => state.item
-		// }),
 				...mapState({
             mode(state){
                 return state[this.namespace].mode

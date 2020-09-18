@@ -15,7 +15,6 @@ class CreateErfpsTable extends Migration
     {
         Schema::create('erfps', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->morphs("erfpable");
             $table->date('rfp_date')->nullable();
             $table->date('start_date');
             $table->date('end_date');
@@ -23,7 +22,6 @@ class CreateErfpsTable extends Migration
             $table->string('venue');
             $table->string('quotation_no');
             $table->json('term_of_payment');
-            $table->double('billing_amount');
 
             $table->string('quotation_file');
             

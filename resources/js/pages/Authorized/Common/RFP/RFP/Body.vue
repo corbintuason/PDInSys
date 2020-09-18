@@ -18,7 +18,7 @@
 						<!-- Bill Verification and Tax Validation -->
 						<bill-verification :namespace="namespace" v-if="rfp.vendor!=null"></bill-verification>
 					</b-tab>
-					<b-tab title="Preparation of Payment" :disabled="rfp.status=='For ERFP Approval'">
+					<b-tab title="Preparation of Payment" disabled>
 						<!-- Preparation of Payment -->
 						<preparation-of-payment :namespace="namespace"></preparation-of-payment>
 					</b-tab>
