@@ -8,15 +8,18 @@ use App\ERFP;
 use App\User;
 use Notification;
 use App\Traits\ControllersTrait;
+use App\Traits\ERFPsTrait;
 use App\Notifications\ItemNotification;
 use App\Http\Resources\ERFP as ERFPResource;
 use Bouncer;
 use Storage;
 Use App\Project;
 use App\Vendor;
+use App\ERFPable;
+use DB;
 class ERFPController extends Controller
 {
-    use ControllersTrait;
+    use ControllersTrait, ERFPsTrait;
     /**
      * Display a listing of the resource.
      *
@@ -46,33 +49,37 @@ class ERFPController extends Controller
      */
     public function store(Request $request)
     {
-  
-         // Validate
-         // Create RFP
-         $user = auth()->user();
-         $request['requestor_id'] = $user->id;
-         $reviewer = User::findOrFail($request['reviewer_id']);
-         $parent = $request->erfpable_type::findOrFail($request->erfpable_id);
-         $vendor = Vendor::findOrFail($request->vendor_id);
-         // Upload Files
-         $quotation = $request->quotation;
-             $extension = $quotation->extension();
-             //1.PROJECTNAME/BUDGETCODE / VENDORNAME / BILL#
-             $name = $quotation->getClientOriginalName();
-             $file_name = $name.".".$extension;
-            //  $file_name = $key.".".$parent->code."_".$vendor->vendor_name."_".$request->quotation_no.".".$extension;
-             $path = Storage::putFileAs(
-                 'erfps', $quotation, $file_name
-             );
-         $request['quotation_file'] = $file_name;
-         $request['term_of_payment'] = json_decode($request->term_of_payment);
-         $rfp = $this->createItem($request, ERFP::class, "ERFP", "rfp_show", true);
-            
-        //Set Reviewer
-         Bouncer::allow($reviewer)->to('review', $rfp);
+        // Validate
+        
+   
+        $user = auth()->user();
+        // Store ERFP Quotation
+        $file_name = $this->storeQuotation($request);
 
-        // Send Notification
-         Notification::send($reviewer, new ItemNotification($rfp, $rfp::$module, "rfp_show", $rfp->id));
+        // Create ERFP Model
+        $request['requestor_id'] = $user->id;
+        $request['quotation_file'] = $file_name;
+        $request['term_of_payment'] = json_decode($request->term_of_payment);
+
+        $rfp = $this->createItem($request, ERFP::class, "ERFP", "rfp_show", true);
+
+        // Create ERFPable Models
+        $erfpables = json_decode($request->erfpables);
+        foreach($erfpables as $erfpable){
+            // Temporary
+            $erfpable->status = "For Review";
+            $erfpable->erfp_id = $rfp->id;
+            // $this->createItem((array) $erfpable, ERFPable::class, "ERFPable", 'rfp_show', true);
+            $erfpable_model = ERFPable::create((array)$erfpable);
+             //Set Reviewer
+             $reviewer = User::findOrFail($erfpable->reviewer_id);
+            Bouncer::allow($reviewer)->to('review', $erfpable_model);
+            
+            // Send Notification
+            // Notification::send($erfpable->reviewer_id, new ItemNotification($rfp, $rfp::$module, "rfp_show", $rfp->id));
+            }
+      
+
         
             return [
             'item_id' => $rfp->id,

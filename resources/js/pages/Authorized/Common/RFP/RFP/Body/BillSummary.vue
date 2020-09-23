@@ -179,7 +179,8 @@
 
 <script>
 import {mapState, mapActions, mapMutations, mapGetters} from "vuex"
-import erfp from "../../../../../../mixins/erfp"
+import erfp from "../../../../../../mixins/erfp";
+import formulas from "../../../../../../mixins/erfps/formulas";
 
 import bankDetails from "./BillSummary/BankDetails"
 import quotations from "./BillSummary/Quotations"
@@ -189,7 +190,7 @@ export default{
 		return{
 		}
 	},
-	mixins:[erfp],
+	mixins:[erfp, formulas],
 	props:{
 		namespace: String
 	},
@@ -232,9 +233,9 @@ export default{
 			mode_of_payments(state, getters){
 				return getters[this.namespace+"/mode_of_payments"]
 			},
-			total_net(state, getters){
-			return getters[this.namespace+"/total_net"];
-			}
+			// total_net(state, getters){
+			// return getters[this.namespace+"/total_net"];
+			// }
 		}),
 	},
 

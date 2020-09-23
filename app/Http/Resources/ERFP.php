@@ -7,6 +7,7 @@ use App\Http\Resources\Project as ProjectResource;
 use App\Http\Resources\Contributor as ContributorResource;
 use App\Http\Resources\Remark as RemarkResource;
 use App\Http\Resources\Vendor as VendorResource;
+use App\Http\Resources\ERFPable as ERFPableResource;
 
 class ERFP extends JsonResource
 {
@@ -36,6 +37,7 @@ class ERFP extends JsonResource
         // $response['total_amount_due'] = $this->total_amount_due;    
         // $response['gross_amount'] = $this->gross_amount;
         // $response['net_amount'] = $this->net_amount;
+        $response['erfpables'] = ERFPableResource::collection($this->erfpables);
 
         $response['vendor'] = new VendorResource($this->vendor);
         $response['actions'] = $this->activities;

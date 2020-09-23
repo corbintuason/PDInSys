@@ -13,14 +13,8 @@ export const createRFPModule = {
             mode: null,
 
             loading: false,
-            show_return_modal: false,
-            show_reject_modal: false,
-            show_remarks_modal: true,
-            show_budget_request_modal: false,
 
             // BELOW ARE FIELDS UNIQUE TO THE MODULE
-            type: null,
-            parent: null,
 
             search_vendor: '',
             item: {
@@ -28,7 +22,6 @@ export const createRFPModule = {
                 erfpables:[
                     {
                         item: null,
-                        type: null,
                         reviewer_id: null,
                         billing_amount: 0,
                         reviewers:[]
@@ -49,7 +42,7 @@ export const createRFPModule = {
 
                         override: 0,
                         vat_exempt_sales: 0,
-                        vat_zero_rated_sales: 0
+                        other_taxes: 0
                     },
                     full_payment: {
                         percent: 0,
@@ -58,7 +51,7 @@ export const createRFPModule = {
 
                         override: 0,
                         vat_exempt_sales: 0,
-                        vat_zero_rated_sales: 0
+                        other_taxes: 0
                     },
 
 
@@ -81,7 +74,6 @@ export const createRFPModule = {
         mode_of_payments(state, getters, rootState) {
             return rootState.rfp.mode_of_payments;
         },
-
         getCurrentStep(state, getters) { 
             var status = state.item.status;
             var current_step = getters.steps.find((step) => {
@@ -89,128 +81,6 @@ export const createRFPModule = {
             });
             return current_step;
         },
-        total_sales(state, getters) {
-            return type => {
-                if (getters.vat_amount(type) == 0) {
-                    return 0;
-                } else {
-
-                    var exemption;
-                    if (type == "FP") {
-                        exemption = state.item.term_of_payment.full_payment
-                    } else if (type == "DP") {
-                        exemption = state.item.term_of_payment.down_payment;
-                    }
-                    return getters.vatable_sales(type) + exemption.vat_exempt_sales + exemption.vat_zero_rated_sales + getters.vat_amount(type);
-                }
-            }
-
-        },
-        vat_amount(state, getters) {
-            return type => {
-                var vat_amount = 0;
-                if (state.item.vendor.type_vat == 'VAT Registered') {
-                    vat_amount = getters.vatable_sales(type) * 0.12;
-                }
-                return vat_amount;
-            }
-
-        },
-
-        vatable_sales(state, getters) {
-            return type => {
-                var vatable_sales = 0;
-                if (type == "FP") {
-                    if (state.item.vendor.type_vat == 'VAT Registered') {
-
-                        vatable_sales = (getters.gross_amount(type) - state.item.term_of_payment.full_payment.vat_exempt_sales - state.item.term_of_payment.full_payment.vat_zero_rated_sales) / 1.12;
-                    }
-
-                } else if (type == "DP") {
-                    if (state.item.vendor.type_vat == "VAT Registered") {
-                        vatable_sales = ((getters.gross_amount(type) / 1.12) - state.item.term_of_payment.down_payment.vat_exempt_sales - state.item.term_of_payment.down_payment.vat_zero_rated_sales);
-                    }
-                }
-                return vatable_sales;
-            }
-
-        },
-
-        total_due(state, getters) {
-            return type => {
-                return getters.total_sales(type) - getters.vat_amount(type);
-            }
-        },
-
-        witholding_tax(state, getters) {
-            return type => {
-                var used_percentage = state.item.vendor.ewt_details[0].percent;
-                var used_amount = getters.total_due(type);
-                if (type == 'FP') {
-                    if (state.item.term_of_payment.full_payment.override > 0)
-                        used_percentage = state.item.term_of_payment.full_payment.override / 100;
-                } else if (type == "DP") {
-                    if (state.item.term_of_payment.down_payment.override > 0)
-                        used_percentage = state.item.term_of_payment.down_payment.override / 100;
-                }
-
-                if (state.item.vendor.type_vat != 'VAT Registered') {
-                    used_amount = getters.gross_amount(type);
-                }
-
-                console.log("checkign witholding tax");
-                console.log("used amount", used_amount);
-                console.log("used_percentage", used_percentage);
-                return used_amount * used_percentage;
-            }
-
-        },
-
-        gross_amount(state, getters) {
-            return type => {
-                var gross_amount = 0;
-                if (type == "FP") {
-                    // billing amount - gross amount of down payment
-                    gross_amount = state.item.billing_amount - getters.gross_amount("DP")
-                } else if (type == "DP") {
-                    // Billing Amount * (Down_payment_percent/1000);
-                    gross_amount = state.item.billing_amount * ((state.item.term_of_payment.down_payment.percent) / 100);
-                }
-
-                return gross_amount;
-            }
-
-        },
-
-        amount_due(state, getters) {
-            return type => {
-                var amount_due = 0;
-                if (state.item.vendor.type_vat == 'VAT Registered') {
-                    amount_due = getters.total_due(type) - getters.witholding_tax(type);
-                }
-                return amount_due;
-
-            }
-
-        },
-
-        total_amount_due(state, getters) {
-            return type => {
-                return getters.amount_due(type) + getters.vat_amount(type);
-
-            }
-        },
-
-        net_amount(state, getters) {
-            return type => {
-                return getters.gross_amount(type) - getters.witholding_tax(type);
-            }
-        },
-
-        total_net(state, getters) {
-
-            return getters.net_amount("DP") + getters.net_amount("FP")
-        }
     },
     mutations: {
         addItem(state){
@@ -331,41 +201,20 @@ export const createRFPModule = {
             commit,
             state
         }) {
-            let response = await axios.get("/api/user", {
-                params: {
-                    positions: [
-                        "Sales and Operations Director", "Project Execution Head"
-                    ],
-                },
-
-            })
-            let reviewers = {};
-            await response.data.data.forEach(reviewer => {
-                reviewers[reviewer.id] = reviewer.full_name
-            });
-
             const formData = new FormData();
-
              Object.keys(state.item).forEach((key) => {
                 if(key == 'quotation'){
-                    console.log("i got in")
-                     //1.PROJECTNAME/BUDGETCODE / VENDORNAME / BILL#
-                    var file_name = state.parent.name+"_"+state.item.vendor.vendor_name+"_"+state.item.quotation_no;
-                      formData.append('quotation', state.item.quotation, file_name);
-                    console.log("FILE NAME", file_name);
-  
-                }else if(key == "term_of_payment"){
+                    var file_name = state.item.vendor.vendor_name+"_"+state.item.quotation_no;
+                      formData.append('quotation', state.item.quotation, file_name);  
+                }else if(key == "term_of_payment" || key == 'erfpables'){
                     formData.append(key, JSON.stringify(state.item[key]))
                 }
                 else{
                     formData.append(key, state.item[key])
                 }
             });
-            console.log("file?from preconfirm hek", formData);
 
-            const {
-                value: reviewer
-            } = await swal.fire({
+            await swal.fire({
                 title: "Create ERFP",
                 icon: "question",
                 text: "Are you sure you want to create this ERFP?",
@@ -374,12 +223,7 @@ export const createRFPModule = {
                 showCancelButton: true,
                 cancelButtonColor: "#d33",
                 allowOutsideClick: false,
-                input: 'select',
-                inputOptions: reviewers,
-                inputPlaceholder: 'Select a Reviewer',
-                preConfirm: (reviewer) => {
-                    formData.append('reviewer_id', reviewer);
-                    formData['reviewer_id'] = reviewer;
+                preConfirm: () => {
                     return new Promise((resolve, reject) => {
                         axios
                             .post("/api/erfp", formData)

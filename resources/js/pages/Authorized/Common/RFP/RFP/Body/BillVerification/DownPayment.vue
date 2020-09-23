@@ -12,7 +12,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="total_sales" disabled></money>
+				<money class="form-control" :value="total_sales('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -32,7 +32,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="vat_amount" disabled></money>
+				<money class="form-control" :value="vat_amount('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -48,7 +48,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="total_due" disabled></money>
+				<money class="form-control" :value="total_due('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -65,7 +65,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="total_due" disabled></money>
+				<money class="form-control" :value="total_due('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -122,7 +122,7 @@
 								<strong class="text-success">&#8369;</strong>
 							</b-input-group-text>
 						</template>
-						<money class="form-control" :value="witholding_tax" disabled></money>
+						<money class="form-control" :value="witholding_tax('DP')" disabled></money>
 					</b-input-group>
 				</b-form-group>
 			</b-form>
@@ -143,7 +143,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="amount_due" disabled></money>
+				<money class="form-control" :value="amount_due('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -162,7 +162,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="vat_amount" disabled></money>
+				<money class="form-control" :value="vat_amount('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -182,7 +182,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="total_amount_due" disabled></money>
+				<money class="form-control" :value="total_amount_due('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -206,7 +206,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="vatable_sales" disabled></money>
+				<money class="form-control" :value="vatable_sales('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -257,7 +257,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="vat_amount" disabled></money>
+				<money class="form-control" :value="vat_amount('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -272,7 +272,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="gross_amount" disabled></money>
+				<money class="form-control" :value="gross_amount('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -287,7 +287,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="witholding_tax" disabled></money>
+				<money class="form-control" :value="witholding_tax('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -302,7 +302,7 @@
 						<strong class="text-success">&#8369;</strong>
 					</b-input-group-text>
 				</template>
-				<money class="form-control" :value="net_amount" disabled></money>
+				<money class="form-control" :value="net_amount('DP')" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -311,13 +311,14 @@
 
 <script>
 import {mapState} from "vuex"
-
+import formulas from "../../../../../../../mixins/erfps/formulas";
 export default{
     data(){
         return{
 
         }
-    },
+	},
+	mixins:[formulas],
     props:{
     namespace: String
     },
@@ -329,33 +330,33 @@ export default{
 			vendor(state){
 				return state[this.namespace].item.vendor
 			},
-			total_sales(state, getters){
-				return getters[this.namespace+"/total_sales"]("DP");   
-			},
-			vat_amount(state, getters){
-				return getters[this.namespace+"/vat_amount"]("DP");
-			},
-			vatable_sales(state, getters){
-				return getters[this.namespace+"/vatable_sales"]("DP");
-			},
-			total_due(state, getters){
-				return getters[this.namespace+"/total_due"]("DP");
-			},
-			witholding_tax(state, getters){
-				return getters[this.namespace+"/witholding_tax"]("DP");
-			},
-			gross_amount(state, getters){
-				return getters[this.namespace+"/gross_amount"]("DP");
-			},
-			amount_due(state, getters){
-				return getters[this.namespace+"/amount_due"]("DP");
-			},
-			total_amount_due(state, getters){
-				return getters[this.namespace+"/total_amount_due"]("DP");
-			},
-			net_amount(state, getters){
-				return getters[this.namespace+"/net_amount"]("DP");
-			}
+			// total_sales(state, getters){
+			// 	return getters[this.namespace+"/total_sales"]("DP");   
+			// },
+			// vat_amount(state, getters){
+			// 	return getters[this.namespace+"/vat_amount"]("DP");
+			// },
+			// vatable_sales(state, getters){
+			// 	return getters[this.namespace+"/vatable_sales"]("DP");
+			// },
+			// total_due(state, getters){
+			// 	return getters[this.namespace+"/total_due"]("DP");
+			// },
+			// witholding_tax(state, getters){
+			// 	return getters[this.namespace+"/witholding_tax"]("DP");
+			// },
+			// gross_amount(state, getters){
+			// 	return getters[this.namespace+"/gross_amount"]("DP");
+			// },
+			// amount_due(state, getters){
+			// 	return getters[this.namespace+"/amount_due"]("DP");
+			// },
+			// total_amount_due(state, getters){
+			// 	return getters[this.namespace+"/total_amount_due"]("DP");
+			// },
+			// net_amount(state, getters){
+			// 	return getters[this.namespace+"/net_amount"]("DP");
+			// }
 		}),
     }
 }

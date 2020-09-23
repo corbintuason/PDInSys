@@ -13,12 +13,17 @@
 				<!-- Search Trade Name -->
 				<b-input-group size="sm">
 					<b-form-input
+						v-if="mode=='Create'"
 						v-model="search_vendor"
 						debounce="300"
 						@focus="is_vendor_search_focused = true"
 						@blur="is_vendor_search_focused = false"
 						@update="searchVendor"
 						@input="isSearchingVendor = true"
+					></b-form-input>
+					<b-form-input
+						v-else
+						:value="vendor ? vendor.vendor_name : ''"
 					></b-form-input>
 				</b-input-group>
 				<b-alert class="overlap" v-if="isSearchingVendor" show variant="primary">

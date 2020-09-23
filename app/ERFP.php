@@ -35,8 +35,8 @@ class ERFP extends Model
     ];
 
     // Relationships
-    public function erfpable(){
-        return $this->morphTo();
+    public function erfpables(){
+        return $this->hasMany("App\ERFPable", 'erfp_id');
     }
     public function vendor(){
         return $this->belongsTo('App\Vendor');

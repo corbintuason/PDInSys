@@ -18,11 +18,7 @@ export const showRFPModule = {
             show_budget_request_modal: false,
 
             // BELOW ARE FIELDS UNIQUE TO THE MODULE
-            type: null,
-            parent: null,
             item: null,
-
-  
         };
     },
     getters: {
@@ -53,8 +49,8 @@ export const showRFPModule = {
             state.edit_entry = entry_object.entry;
             state.edit_category = entry_object.category
         },
-        setType(state, type){
-            state.type = type;
+        setMode(state, mode) {
+            state.mode = mode;
         },
         setParent(state, parent){
             state.parent = parent;
@@ -117,8 +113,7 @@ export const showRFPModule = {
         },
         
         storeItem({ commit, state }, rfp_id) {
-            axios.get("/api/rfp/" + rfp_id).then((response) => {
-                
+            axios.get("/api/erfp/" + rfp_id).then((response) => {
                 var rfp = response.data.data;
                 console.log("?ASD<A?SD<A?SD", rfp);
                 commit("storeItem", rfp);

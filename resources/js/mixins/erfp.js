@@ -20,8 +20,5 @@ export default {
             });
             return total_billing_amount;
         }
-
-    },
-    methods: {
     },
 };

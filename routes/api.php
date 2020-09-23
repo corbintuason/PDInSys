@@ -103,6 +103,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('/erfp/{id}', 'API\ERFPController@update');
     Route::post('/erfp/{id}/saveChanges', 'API\ERFPController@saveChanges');
     Route::post('/erfp/downloadQuotation', 'API\ERFPController@downloadQuotation');
+
+    Route::put('/erfpable/{id}', 'API\ERFPableController@update');
+
 });
 
 

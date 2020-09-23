@@ -34,11 +34,7 @@
 				<!-- {{rfp}} -->
 			</b-card-body>
 			<template v-slot:footer>
-				<b-button v-if="mode=='Create'" class="float-right" variant="outline-success" @click="createRFP">Create RFP</b-button>
-				    <show-process-buttons
-					v-else-if="mode=='Show'"
-                    :namespace="namespace"
-                ></show-process-buttons>
+				<erfp-buttons :namespace="namespace"></erfp-buttons>
 			</template>
 		</b-card>
 	</div>
@@ -52,6 +48,8 @@ import billVerification from "./Body/BillVerification";
 import prearationOfPayment from "./Body/PreparationOfPayment";
 import releaseOfPayment from "./Body/ReleaseOfPayment";
 import liquidation from "./Body/Liquidation";
+
+import erfpButtons from "./Body/ERFPButtons";
 
 // Mixins
 import form from "../../../../../mixins/form";
@@ -70,7 +68,10 @@ export default {
         "bill-verification": billVerification,
         "liquidation": liquidation,
         "release-of-payment": releaseOfPayment,
-        "preparation-of-payment": prearationOfPayment
+		"preparation-of-payment": prearationOfPayment,
+		
+		'erfp-buttons': erfpButtons
+
     },
 	mixins: [form],
 	props:{
@@ -90,7 +91,7 @@ export default {
         ...mapActions({
 			createRFP(dispatch){
 				return dispatch(this.namespace+ "/createRFP");
-			}
+			}	
 		})
     },
 };

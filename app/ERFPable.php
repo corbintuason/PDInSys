@@ -3,9 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Traits\ERFPablesTrait;
 class ERFPable extends Model
 {
+    use ERFPablesTrait;
     protected $table = 'erfpables';
     
     protected $fillable = [
@@ -13,19 +14,17 @@ class ERFPable extends Model
         'erfpable_id',
 
         'status',
-        ''
+        'billing_amount',
+        'erfp_id'
 
-    ];
-
-    protected $casts = [
-        "term_of_payment" => "Array",
     ];
 
     // Relationships
     public function erfpable(){
         return $this->morphTo();
     }
-    public function vendor(){
-        return $this->belongsTo('App\Vendor');
+    public function erfp(){
+        return $this->belongsTo('App\ERFP');
     }
+
 }

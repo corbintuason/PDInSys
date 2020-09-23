@@ -200,7 +200,7 @@ export default [
             
             // RFP PATHS
             {
-                path: "/rfps/:id",
+                path: "/erfps/:id",
                 component: ShowRFP,
                 name: "rfp_show"
             },

@@ -57,4 +57,8 @@ class Project extends Model
     public function budget_requests(){
         return $this->morphMany("App\BudgetRequest", 'brable');
     }
+
+    public function erfpables(){
+        return $this->morphMany('App\ERFPable','erfpable');
+    }
 }

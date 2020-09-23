@@ -1,8 +1,9 @@
 <template>
 	<div>
 		<div class="row">
-			<down-payment class="col-md-6" :namespace="namespace"></down-payment>
-			<full-payment class="col-md-6" :namespace="namespace"></full-payment>
+			<payment v-for="(payment, payment_index) in payments" :key="payment_index" :namespace="namespace" :payment="payment" class="col-md-6"></payment>
+			<!-- <down-payment class="col-md-6" :namespace="namespace"></down-payment>
+			<full-payment class="col-md-6" :namespace="namespace"></full-payment> -->
 	<hr>
 			<!-- Total NET -->
 			  <b-card bg-variant="success" text-variant="white" class="col-md-4 offset-md-8">
@@ -35,23 +36,27 @@
 import {mapState} from "vuex"
 import downPayment from "./BillVerification/DownPayment"
 import fullPayment from "./BillVerification/FullPayment"
+import payment from "./BillVerification/Payment"
+import formulas from "../../../../../../mixins/erfps/formulas";
 export default{
     data(){
         return{
-
+			payments:["Down Payment", "Full Payment"]
         }
 	},
+	mixins:[formulas],
 	props:{
 		namespace: String
 	},
 	components:{
 		"down-payment": downPayment,
-		"full-payment": fullPayment
+		"full-payment": fullPayment,
+		"payment": payment
 	},
 	computed:{
 		...mapState({
-			total_net(state, getters){
-			return getters[this.namespace+"/total_net"];
+			rfp(state){
+				return state[this.namespace].item
 			}
 		})
 	},
