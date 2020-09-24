@@ -8,16 +8,28 @@ use App\Traits\ControllersTrait;
 use App\Traits\ModelsTrait;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
+use App\User;
+use Bouncer;
 use Storage;
 
 trait ERFPablesTrait
 {
-    use LogsActivity, CausesActivity, ModelsTrait, BudgetRequestsTrait;
+    use LogsActivity, CausesActivity, ModelsTrait;
     
     protected static $logFillable = true; 
     public static $module = 'ERFP Module';
-    protected static $logName = 'RFP';
+    protected static $logName = 'ERFP';
 
+    public function getCodeAttribute()
+    {
+        $erfp_siblings = $this->erfp->erfpables;
+        $erfpable_index = $erfp_siblings->search(function ($item, $key) {
+            return $item->id == $this->id;
+        }) +1;
+        return $this->erfp->code.".".$erfpable_index;
+        
+        return "ERFP".$year."-".sprintf('%04d', $this->attributes['id']);
+    }
     
     protected function getStagesAttribute(){
         $stages = collect([
@@ -37,11 +49,20 @@ trait ERFPablesTrait
                     "role" => "erfpable-reviewer",
                     "name" => "review",
                     "entity_type" => "App\ERFPable",
-                    "entity_id" => false
+                    "entity_id" => true
                 ],
             ],
             (object) [
-                "names" => ["", "Reviewed"],
+                "names" => ["For ERFP Approval", "Returned to ERFP Approver"],
+                "responsible" => (object)[
+                    "role" => "erfpable-erfp-approver",
+                    "name" => "erfp-approve",
+                    "entity_type" => "App\ERFPable",
+                    "entity_id" => true
+                ],
+            ],
+            (object) [
+                "names" => ["ERFP Approved", ""],
                 "responsible" => null
             ],
         ]);
@@ -65,5 +86,12 @@ trait ERFPablesTrait
             'erfps', $quotation, $file_name
         );
         return $file_name;
+    }
+
+    public function assignERFPableApprover($erfpable){
+        if($erfpable->erfpable_type == 'App\Project'){
+            $biboy = User::findOrFail(2);
+            Bouncer::allow($biboy)->to('erfp-approve', $erfpable);
+        }
     }
 }

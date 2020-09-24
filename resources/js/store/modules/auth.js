@@ -22,12 +22,14 @@ export default {
             return (current_handler, item_id) => 
                     state.user.abilities.some((item) => {
                         if(current_handler.entity_id){
+                            console.log("May entity id");
                             return (
                                 item.name === current_handler.name &&
                                 item.entity_type == current_handler.entity_type &&
                                 item.entity_id == item_id
                             );
                         }else{
+                            console.log("alaws hahaha");
                             return (
                                 item.name === current_handler.name &&
                                 item.entity_type == current_handler.entity_type

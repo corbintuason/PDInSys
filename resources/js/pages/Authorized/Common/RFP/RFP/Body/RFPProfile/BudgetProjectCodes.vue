@@ -8,7 +8,7 @@
 						<th>Budget Code / Project Name</th>
 						<th>CEPD</th>
 						<th>Version</th>
-						<th>Reviewer</th>
+						<th v-if="mode=='Create'">Reviewer</th>
 						<th></th>
 						<th></th>
 					</tr>
@@ -48,7 +48,7 @@
 								</b-input-group>
 							</b-form-group>
 						</td>
-						<td>
+						<td v-if="mode=='Create'">
 							<b-form-group>
 								<b-input-group size="sm">
 									<b-form-select
@@ -64,13 +64,12 @@
 										<!-- <b-form-select-option>First Code</b-form-select-option>
 										<b-form-select-option>Second Code</b-form-select-option>-->
 									</b-form-select>
-									<template v-else>{{erfp_erfpable.id}}</template>
 								</b-input-group>
 							</b-form-group>
 						</td>
 						<td>{{erfp_erfpable.status}}</td>
 						<td>
-							<b-button @click="reviewERFPable(erfp_erfpable)" v-if="erfp_erfpable.status == 'For Review'" variant="outline-success">Review</b-button>
+							<process-erfpable-buttons :erfpable="erfp_erfpable" :namespace="namespace"></process-erfpable-buttons>
 						</td>
 						<td>
 							<b-button
@@ -97,6 +96,7 @@
 
 <script>
 import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
+import processERFPableButtons from "./BudgetProjectCodes/ProcessERFPableButtons";
 export default {
 	data() {
 		return {
@@ -107,6 +107,9 @@ export default {
 	},
 	props: {
 		namespace: String,
+	},
+	components:{
+		"process-erfpable-buttons": processERFPableButtons
 	},
 	computed: {
 		...mapState({
@@ -120,49 +123,7 @@ export default {
 		available_erfpables() {},
 	},
 	methods: {
-        reviewERFPable(erfpable) {
-             swal.fire({
-                title: "Review ERFPable " + erfpable.name + "?",
-                icon: "question",
-                confirmButtonText: "Review",
-                showLoaderOnConfirm: true,
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                allowOutsideClick: false,
-                preConfirm: () => {
-                    return new Promise((resolve, reject) => {
-                        axios
-                            .put("/api/erfpable/" + erfpable.id, erfpable).then((response) => {
-                                resolve(response.data);
-                            })
-                            .catch((e) => {
-                                //(e);
-                                swal.showValidationMessage(
-                                    `Unable to process item`
-                                );
-                                swal.hideLoading();
-                                reject(e);
-                            });
-                    });
-                },
-            }).then((result) => {
-                if (result.value) {
-                    swal.fire({
-                        title: result.value.success_text,
-                        icon: "success",
-                        onClose: () => {
-                            app.$router.push({
-                                name: "rfp_show",
-                                params: {
-                                    id: result.value.item_id
-                                },
-                            });
-                        },
-                    });
-                }
-            });
-
-        },
+ 
 		...mapMutations({
 			addItem(dispatch) {
 				return dispatch(this.namespace + "/addItem");
@@ -208,7 +169,7 @@ export default {
 					this.erfpables.push({
 						erfpable_type: "App\\Project",
 						erfpable_id: project.id,
-						item: project.code,
+						item: project.name,
 					});
 				});
 			});

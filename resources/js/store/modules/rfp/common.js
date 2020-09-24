@@ -10,6 +10,7 @@ export default new Vuex.Store({
                 name: "Create",
                 responsible: "Creator",
                 database_equivalent: ["Returned to Creator"],
+                visible: true
             },
             {
                 name: "Review",
@@ -21,26 +22,34 @@ export default new Vuex.Store({
                 name: "ERFP Approve",
                 responsible: "ERFP Approver",
                 database_equivalent: ["For ERFP Approval", "Returned to Approver"],
+                visible: false,
             },
             {
                 name: "Validate",
                 responsible: "Validator",
-                database_equivalent: ["For Validation", "Returned to Validator"],    
+                database_equivalent: ["For Validation", "Returned to Validator"],
+                visible: true,
             },
             {
                 name: "Payment Approve",
                 responsible: "Payment Approver",
                 database_equivalent: ["For Payment Approval", "Returned to Payment Approver"],    
+                visible: true,
+
             },
             {
                 name: "Disburse",
                 responsible: "Disburser",
                 database_equivalent: ["For Disbursement", "Returned to Disburser"], 
+                visible: true,
+
             },
             {
                 name: "Acknowledge",
                 responsible: "Acknowledger",
                 database_equivalent: ["For Acknowledgement", "Returned to Acknowledger"], 
+                visible: true,
+
             },
             {
                 name: "Close",

@@ -52,6 +52,7 @@ import ShowBudgetAllocation from "./pages/Authorized/PGAS/BudgetAllocation/Show.
 // User Profile Settings
 import EditUserProfile from "./pages/Authorized/PD/UserProfile/Edit.vue";
 
+
 export default [
     {
         path: "/welcome",
@@ -258,6 +259,8 @@ export default [
                 component: EditUserProfile,
                 name: "user_profile_edit",
             },
+
+
         ],
     },
 ];

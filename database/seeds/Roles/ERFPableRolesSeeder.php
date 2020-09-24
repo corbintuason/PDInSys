@@ -24,10 +24,16 @@ class ERFPableRolesSeeder extends Seeder
                 "name" => "Reviewer",
                 "ability" => "review"
             ),    
+            (object) array(
+                "name" => "ERFP Approver",
+                "ability" => "erfp-approve"
+            ),  
         ];
 
         // Define Generic Abilities
-        $generic_abilities = ["view-all", "view", "create"];
+        $generic_abilities = [
+            "view-all", "view", "create"];
+        
 
         $role_text = "erfpable";
 

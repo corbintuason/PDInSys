@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="getCurrentStep.visible">
         <template v-if="mode == 'Show'">
             <show-mode
                 :namespace="namespace" :editable="editable"
@@ -40,9 +40,11 @@ export default {
                 return state["auth"].user;
             },
             mode(state){
-    
                 return state[this.namespace].mode;
             },
+            getCurrentStep(state, getters){
+                return getters[this.namespace+"/getCurrentStep"];
+            }
         }),
         ...mapGetters({
                 current_step(state, getters){

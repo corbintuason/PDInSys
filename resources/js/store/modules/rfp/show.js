@@ -30,9 +30,17 @@ export const showRFPModule = {
        },
        mode_of_payments(state, getters, rootState){
         return rootState.rfp.mode_of_payments;
-    }
+    },
+    getCurrentStep(state, getters) {
+        var status = state.item.status;
+        var current_step = getters.steps.find((step) => {
+            return step.database_equivalent.includes(status);
+        });
+        return current_step;
+    },
     },
     mutations: {
+        
         addEntry(state, entry) {
             console.log("check if pushed");
             console.log(entry);

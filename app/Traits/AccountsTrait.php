@@ -27,7 +27,7 @@ trait AccountsTrait
                 ]
             ],
             (object) [
-                "names" => ["For Approval", "Returned to Approver"],
+                "names" => ["For Approval",  "Returned to Approver"],
                 "responsible" => (object)[
                     "role" => "account-approver",
                     "name" => "approve",

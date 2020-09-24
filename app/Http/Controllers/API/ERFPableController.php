@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\ERFPable;
 use App\Traits\ControllersTrait;
+use App\Traits\ERFPablesTrait;
 
 class ERFPableController extends Controller
 {
-    use ControllersTrait;
+    use ControllersTrait, ERFPablesTrait;
+
 
     /**
      * Display a listing of the resource.
@@ -74,25 +76,50 @@ class ERFPableController extends Controller
     public function update(Request $request, $id)
     {
         $erfpable = ERFPable::findOrFail($id);
-        $erfpable->update([
-            'status' => "Reviewed"
-        ]);
+        $this->updateItem($erfpable, ERFPable::class, "ERFPable", $request, true);
+
+        //Set Reviewer
+        $this->assignERFPableApprover($erfpable);
+   
+
         $child_erfpables = ERFPable::where('erfp_id', $erfpable->erfp_id)->pluck('status');
         
-        if(!$child_erfpables->contains('For Review')){
-            $erfpable->erfp->update([
+        // if($child_erfpables->every('status','For ERFP Approval')){
+        //     $erfpable->erfp->update([
+        //         'status' => "For ERFP Approval"
+        //     ]);
+        // }
+        if($child_erfpables->every(function ($value, $key) {
+            return $value == 'For ERFP Approval';
+        })){
+                   $erfpable->erfp->update([
                 'status' => "For ERFP Approval"
-            ]);
-        }
+            ]);   
+        };
+
+        // if($child_erfpables->contains('status','ERFP Approved')){
+        //     $erfpable->erfp->update([
+        //         'status' => "For Validation"
+        //     ]);
+        // }
+
+        if($child_erfpables->every(function ($value, $key) {
+            return $value == 'ERFP Approved';
+        })){
+                   $erfpable->erfp->update([
+                'status' => "For Validation"
+            ]);   
+        };
+
+        
       
-        // $this->updateItem($erfpable, ERFPable::class, "ERFPable", $request, true);
 
         // Notify Approvers
         // Notification::send($this->notifyApprovers($rfp), new ItemNotification($rfp, $rfp::$module, "rfp_show", $rfp->id));
 
         return [
             'item_id' => $erfpable->id,
-            'success_text' => "ERFPable " . $erfpable->id . " has been successfully updated."
+            'success_text' => $erfpable->code . " has been successfully updated."
         ];
     }
 

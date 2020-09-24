@@ -20,6 +20,8 @@ class ERFPable extends JsonResource
     {
         $response = parent::toArray($request);
         // $response["parent"] = $parent_resource;
+        $response['code'] = $this->code;
+        
         $response['current_handler'] = $this->currentHandler;
         $response['is_process_finished'] = $this->isProcessFinished;
         

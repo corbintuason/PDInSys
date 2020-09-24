@@ -23,6 +23,16 @@ trait SeedsTrait
                 array_push($user_abilities, $role->ability);
             }
             $bouncer_role = Bouncer::allow($user_role)->to($user_abilities, $class);  
+
+            // $user_abilities = $generic_abilities;
+            // foreach($generic_abilities as $generic_ability){
+            //    $gen_ability = Bouncer::ability()->firstOrCreate([
+            //         'name' => $generic_ability->name,
+            //         'title' => $generic_ability->title,
+            //     ]);
+            //     array_push($gen);
+            // }
+          
         }
         return Bouncer::role()->where('entity', $class)->get();
     }

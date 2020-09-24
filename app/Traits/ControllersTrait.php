@@ -52,7 +52,8 @@ trait ControllersTrait
     public function getRoleIn($class)
     {
         $roles = auth()->user()->roles;
-        // dd($roles);
+        $abilities = auth()->user()->getAbilities();
+        // dd($abilities);
         $role = $roles->where('entity', $class)->first();
         $responsibility = $role->title;
         return $responsibility;
@@ -158,7 +159,7 @@ trait ControllersTrait
         });
 
         // Create Contributor Object
-        $this->addContributor($item, $class, $overflow);
+        // $this->addContributor($item, $class, $overflow);
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
