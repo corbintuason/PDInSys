@@ -1,5 +1,5 @@
 <template>
-    <div v-if="getCurrentStep.visible">
+    <div v-if="current_step.visible">
         <template v-if="mode == 'Show'">
             <show-mode
                 :namespace="namespace" :editable="editable"
@@ -42,9 +42,6 @@ export default {
             mode(state){
                 return state[this.namespace].mode;
             },
-            getCurrentStep(state, getters){
-                return getters[this.namespace+"/getCurrentStep"];
-            }
         }),
         ...mapGetters({
                 current_step(state, getters){
@@ -60,7 +57,6 @@ export default {
     },
     methods: {},
     mounted(){
-        console.log("the namespace is", this.namespace);
     }
 };
 </script>
