@@ -12,11 +12,13 @@ use Spatie\Activitylog\Traits\CausesActivity;
 use App\Builders\UserBuilder;
 use App\Collections\UserCollection;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+
 use \stdclass;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, LogsActivity, CausesActivity, HasRolesAndAbilities;
+    use Authorizable, HasApiTokens, Notifiable, LogsActivity, CausesActivity, HasRolesAndAbilities;
 
     public function receivesBroadcastNotificationsOn()
     {

@@ -26,6 +26,10 @@ trait ControllersTrait
         $next_stage = $this->getNextStageByProcess($class);
         return $next_stage->names[0];
         }
+
+      
+        
+        
     }
 
     public function getNextStageByProcess($class){
@@ -59,24 +63,10 @@ trait ControllersTrait
         return $responsibility;
     }
 
-    public function notifyApprovers($item)
-    {
-        $users = User::all();
-        if(!$item->is_process_finished){
-            $approvers = $users->filter(function ($user) use ($item) {
-                return $user->can($this->getCurrentStage($item)->responsible->name, get_class($item));
-            });
-            return $approvers;
-        }
-        return [];
-
-        // return User::whereIs($this->getCurrentStage($item)->responsible)->get();
-    }
-
     public function addContributor($item, $class, $overflow)
     {
         $auth_user = auth()->user();
-        $responsibility = $this->getRoleIn($class);
+        $current_stage = $this->getCurrentStage($item);
         // if($overflow){
         //     // $responsibility = $this->getRoleIn($class);
         //     $responsibility = "Test";
@@ -88,7 +78,7 @@ trait ControllersTrait
             'contributable_type' => $class,
             'contributable_id' => $item->id,
             'contributor_id' => $auth_user->id,
-            'responsibility' => $responsibility
+            'responsibility' => $current_stage->responsible->title
         ]);
     }
     public function getCurrentStage($item)
@@ -131,8 +121,10 @@ trait ControllersTrait
             return $class::create($request->all());
         });
 
-        // Create Contributor Object
-        $this->addContributor($item, $class, $overflow);
+            // Create Contributor Object
+            // $this->addContributor($item, $class, $overflow);
+
+    
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);
@@ -148,6 +140,9 @@ trait ControllersTrait
     public function updateItem($item, $class, $model_text, $request, $overflow)
     {
         $auth_user = auth()->user();
+                // Create Contributor Object
+        $this->addContributor($item, $class, $overflow);
+                
         // Generate Status based on Creator
         $updated_status =  $this->getNextStage($item)->names[0];
 
@@ -158,8 +153,7 @@ trait ControllersTrait
             ]);
         });
 
-        // Create Contributor Object
-        // $this->addContributor($item, $class, $overflow);
+
 
         // Authorize user to edit this item
         $auth_user->allow('edit', $item);

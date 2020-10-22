@@ -49,8 +49,7 @@ class PGASUsersSeeder extends Seeder
             'password' => Hash::make("password")
         ]); 
         
-        $deguzman_bengie->assign('erfp-validation');
+        $deguzman_bengie->assign('erfp-validator');
         // $deguzman_bengie->assign('erfp-disburser');
-        $deguzman_bengie->assign('erfp-closer');
     }
 }

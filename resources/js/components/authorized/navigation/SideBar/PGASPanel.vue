@@ -136,7 +136,38 @@ export default {
                                 model: "App\\Vendor",
                             }),
                         },
-                    ],
+                    ]
+                },
+                       {
+                    section: "ERFP",
+                    render: this.renderSection([
+                        {
+                            ability: "view-all",
+                            model: "App\\ERFP",
+                        },
+                        {
+                            ability: "create",
+                            model: "App\\ERFP",
+                        },
+                    ]),
+                    features: [
+                        {
+                            name: "View ERFPs",
+                            link: "erfp_index",
+                            render: this.renderFeature({
+                                ability: "view-all",
+                                model: "App\\ERFP",
+                            }),
+                        },
+                        {
+                            name: "Create ERFP",
+                            link: "erfp_create",
+                            render: this.renderFeature({
+                                ability: "create",
+                                model: "App\\ERFP",
+                            }),
+                        },
+                    ]
                 }
             );
         },

@@ -8,7 +8,7 @@ export const showRFPModule = {
         return {
             // MUST BE PRESENT FOR EVERY MODULE
             name: "RFP",
-            model: "App\\RFP",
+            model: "App\\ERFP",
             mode: "Show",
 
             loading: true,
@@ -30,6 +30,13 @@ export const showRFPModule = {
        },
        mode_of_payments(state, getters, rootState){
         return rootState.rfp.mode_of_payments;
+    },
+    total_billing_amount(state, getters) {
+        var sum = 0;
+        state.item.erfpables.forEach(erfpable => {
+            sum += erfpable.billing_amount;
+        });
+        return sum;
     },
     getCurrentStep(state, getters) {
         var status = state.item.status;
@@ -96,6 +103,80 @@ export const showRFPModule = {
         }
     },
     actions: {
+        async updateItem({
+            commit,
+            state,
+            getters
+        }) {
+            await swal.fire({
+                    title: getters.getCurrentStep.name + " " + state.item.code + "?",
+                icon: "question",
+                confirmButtonText: getters.getCurrentStep.name,
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                allowOutsideClick: false,
+                input: 'file',
+                inputLabel: 'Please upload Quotation',
+                inputAttributes: {
+                    accept: '.pdf',
+                },
+                preConfirm: (file) => {
+                    return new Promise((resolve, reject) => {
+                        state.item.quotation = file;
+                        const formData = new FormData();
+
+                        Object.keys(state.item).forEach((key) => {
+                            if (key == "quotation") {
+                                console.log("hi it's file");
+                                if (state.item.quotation != null) {
+                                    console.log("So may laman???", state.item.quotation);
+                                    var file_name = state.item.vendor.vendor_name + "_" + state.item.quotation_no;
+                                    formData.append(
+                                        "quotation",
+                                        state.item.quotation,
+                                        file_name
+                                    )
+                                }
+
+                            } else if (key == "term_of_payment" || key == 'erfpables'){
+                                formData.append(key, JSON.stringify(state.item[key]))   
+                            } else {
+                                formData.append(
+                                    key,
+                                    state.item[key]
+                                );
+                            }
+                        });
+                        
+                        axios
+                            .post("/api/erfp/" + state.item.id+"/saveChanges", formData)
+        .then((response) => {
+                                resolve(response.data);
+                            })
+                            .catch((e) => {
+                                //(e);
+                                swal.showValidationMessage(
+                                    `Unable to process item`
+                                );
+                                swal.hideLoading();
+                                reject(e);
+                            });
+                    });
+                },
+            }).then((result) => {
+                if (result.value) {
+                    swal.fire({
+                        title: result.value.success_text,
+                        icon: "success",
+                        onClose: () => {
+                            app.$router.go();
+                        },
+                    });
+                }
+            });
+
+        },
         loadParentRequirement({commit, state}, parent_id){
             if(state.type == 'Project'){
                 console.log("hmm");
@@ -128,6 +209,8 @@ export const showRFPModule = {
                 commit("setLoading", false);
             });
         },
+
+        
        
     },
 };

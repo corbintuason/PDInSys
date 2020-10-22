@@ -42,7 +42,7 @@ export default {
              * Bank Index
              * Quotation
              */
-            if(this.rfp.vendor == null  || this.rfp.quotation == null){
+            if(this.rfp.vendor == null){
                 return true;
             }else return false;
         }

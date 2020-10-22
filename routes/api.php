@@ -100,14 +100,19 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/erfp', 'API\ERFPController@index');
     Route::post('/erfp', 'API\ERFPController@store');
     Route::get('/erfp/{id}', 'API\ERFPController@show');
-    Route::put('/erfp/{id}', 'API\ERFPController@update');
+    Route::put('/erfp/{id}', 'API\ERFPController@process');
     Route::post('/erfp/{id}/saveChanges', 'API\ERFPController@saveChanges');
+    Route::put('/erfp/{id}/releaseCash', 'API\ERFPController@releaseCash');
     Route::post('/erfp/downloadQuotation', 'API\ERFPController@downloadQuotation');
 
     Route::put('/erfpable/{id}', 'API\ERFPableController@update');
-    
 
-    Route::get('/screen1', 'API\ExamController@screen1');
+    Route::post('/term_of_payment/{id}/cashRelease', 'API\TermOfPaymentController@cashRelease');
+    Route::post('/term_of_payment/downloadPayment', 'API\TermOfPaymentController@downloadPayment');
+    
+    Route::put('/closing_erfp/{id}/saveChanges', 'API\ClosingERFPController@saveChanges');
+    Route::put('/bouncer/hasAbility', 'API\BouncerController@hasAbility');
+
 });
 
 

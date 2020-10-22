@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\ERFP;
+use Bouncer as Bouncer;
 class ExecutiveUsersSeeder extends Seeder
 {
     /**
@@ -40,6 +42,9 @@ class ExecutiveUsersSeeder extends Seeder
         $von_mauleon->assign("project-approver");
         $von_mauleon->assign('budget-request-releaser');
         $von_mauleon->assign('erfp-payment-approver');
+        Bouncer::allow($von_mauleon)->to('erfp-release-down-payment', ERFP::class);
+
+        // $von_mauleon->can('erfp-release-down-payment', ERFP::class);
 
         // biboy.arcilla.pdem@gmail.com
 

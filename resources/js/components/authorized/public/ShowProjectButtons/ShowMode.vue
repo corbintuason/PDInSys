@@ -1,5 +1,5 @@
 <template>
-    <b-button-group v-if="current_step != null && hasAbility" class="float-right">
+    <b-button-group v-if="current_step != null && has_ability" class="float-right">
         <b-button
             @click="changeShowRejectModal"
             class="float-right"
@@ -40,6 +40,7 @@ import { mapMutations, mapState, mapActions } from "vuex";
 export default {
     data() {
         return {
+            has_ability: null
         };
     },
     props: {
@@ -62,6 +63,9 @@ export default {
             item(state) {
                 return state[this.namespace].item;
             },
+            model(state){
+                return state[this.namespace].model;
+            },
             steps(state, getters) {
                 return getters[this.namespace + "/steps"];
             },
@@ -77,13 +81,27 @@ export default {
             // hasRole(state, getters){
             //     return getters["auth/hasRole"](this.item.current_handler);
             // }
-            hasAbility(state, getters){
-                console.log(this.item.current_handler, "???");
-                return getters["auth/hasAbility"](this.item.current_handler, this.item.id);    
-            }
+            // hasAbility(state, getters){
+            //     console.log(this.item.current_handler, "???");
+            //     return getters["auth/hasAbility"](this.item.current_handler, this.item.id);    
+            // }
         }),
     },
     methods: {
+       	loadHasAbility(){
+               console.log("Hi im checking ability");
+               console.log(this.item.current_handler);
+			axios.put('/api/bouncer/hasAbility', {
+                ability: this.item.current_handler.ability,
+                model: this.model,
+                model_id: this.item.id
+            }).then(response => {
+                console.log("response?");
+                console.log(response.data.value);
+				this.has_ability = response.data.value;
+				console.log(this.has_ability)
+            })
+		},
         ...mapMutations({
             changeMode(commit, payload) {
                 return commit(this.namespace + "/changeMode", "Edit");
@@ -138,11 +156,7 @@ export default {
         returnItem() {},
     },
     mounted() {
-        console.log("what did i receive", this.namespace);
-        console.log(this.current_step);
-        console.log("has ability?", this.hasAbility);
-        console.log("step?", this.current_step);
-        console.log("edi dapat pasok ako no")
+        this.loadHasAbility();
     },
 };
 </script>

@@ -26,9 +26,10 @@ import IndexProjectBudgetRequest from "./pages/Authorized/PGOS/ProjectBudgetRequ
 import CreateProjectBudgetRequest from "./pages/Authorized/PGOS/ProjectBudgetRequest/Create.vue";
 
 import IndexProjectRequestForPayment from "./pages/Authorized/PGOS/ProjectRequestForPayment/Index.vue";
+
 import CreateERFP from "./pages/Authorized/Common/RFP/Create";
 import ShowRFP from "./pages/Authorized/Common/RFP/Show";
-
+import IndexERFP from "./pages/Authorized/Common/RFP/Index";
 
 
 // PGAS
@@ -204,6 +205,11 @@ export default [
                 path: "/erfps/:id",
                 component: ShowRFP,
                 name: "rfp_show"
+            },
+            {
+                path: "/erfps/",
+                component: IndexERFP,
+                name: "erfp_index"
             },
             // MANDATE PATHS
             {

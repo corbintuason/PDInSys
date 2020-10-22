@@ -19,14 +19,7 @@ export const createRFPModule = {
             search_vendor: '',
             item: {
                 vendor_id: null,
-                erfpables:[
-                    {
-                        item: null,
-                        reviewer_id: null,
-                        billing_amount: 0,
-                        reviewers:[]
-                    }
-                ],
+                erfpables: [],
 
                 start_date: null,
                 end_date: null,
@@ -42,7 +35,8 @@ export const createRFPModule = {
 
                         override: 0,
                         vat_exempt_sales: 0,
-                        other_taxes: 0
+                        other_taxes: 0,
+
                     },
                     full_payment: {
                         percent: 0,
@@ -51,7 +45,17 @@ export const createRFPModule = {
 
                         override: 0,
                         vat_exempt_sales: 0,
-                        other_taxes: 0
+                        other_taxes: 0,
+
+                        sub_process: {
+                            check_write: {
+
+                            },
+                            authorized: false,
+                            check_print: false,
+                            releasing: false
+                        }
+
                     },
 
 
@@ -74,26 +78,31 @@ export const createRFPModule = {
         mode_of_payments(state, getters, rootState) {
             return rootState.rfp.mode_of_payments;
         },
-        getCurrentStep(state, getters) { 
+        getCurrentStep(state, getters) {
             var status = state.item.status;
             var current_step = getters.steps.find((step) => {
                 return step.database_equivalent.includes(status);
             });
             return current_step;
         },
+        total_billing_amount(state, getters) {
+            var sum = 0;
+            state.item.erfpables.forEach(erfpable => {
+                sum += erfpable.billing_amount;
+            });
+            return sum;
+        }
     },
     mutations: {
-        addItem(state){
-            state.item.erfpables.push(
-                {
-                    item: null,
-                    reviewer_id: null,
-                    billing_amount: 0,
-                    reviewers:[]
-                }
-            );
+        addItem(state) {
+            state.item.erfpables.push({
+                item: null,
+                reviewer_id: null,
+                billing_amount: 0,
+                reviewers: []
+            });
         },
-        setSearchVendor(state, search){
+        setSearchVendor(state, search) {
             state.search_vendor = search;
         },
         addEntry(state, entry) {
@@ -138,7 +147,7 @@ export const createRFPModule = {
         },
         setVendor(state, vendor) {
             state.item.vendor = vendor;
-            if(vendor){
+            if (vendor) {
                 state.search_vendor = vendor.vendor_name;
 
             }
@@ -197,96 +206,113 @@ export const createRFPModule = {
             });
         },
 
-        async createRFP({
-            commit,
-            state
-        }) {
-            const formData = new FormData();
-             Object.keys(state.item).forEach((key) => {
-                if(key == 'quotation'){
-                    var file_name = state.item.vendor.vendor_name+"_"+state.item.quotation_no;
-                      formData.append('quotation', state.item.quotation, file_name);  
-                }else if(key == "term_of_payment" || key == 'erfpables'){
-                    formData.append(key, JSON.stringify(state.item[key]))
-                }
-                else{
-                    formData.append(key, state.item[key])
-                }
-            });
+        async createRFP({commit, state}) {
+            await swal
+                .fire({
+                    title: "Create ERFP",
+                    icon: "question",
+                    text: "Please attach quotation here",
+                    confirmButtonText: "Create ERFP",
+                    showLoaderOnConfirm: true,
+                    showCancelButton: true,
+                    cancelButtonColor: "#d33",
+                    input: 'file',
+                    inputLabel: 'Please upload Quotation',
+                    inputAttributes: {
+                        accept: '.pdf',
+                    },
+                    allowOutsideClick: false,
+                    preConfirm: (file) => {
+                        return new Promise((resolve, reject) => {
+                            state.item.quotation = file;
+                            const formData = new FormData();
 
-            await swal.fire({
-                title: "Create ERFP",
-                icon: "question",
-                text: "Are you sure you want to create this ERFP?",
-                confirmButtonText: "Create ERFP",
-                showLoaderOnConfirm: true,
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                allowOutsideClick: false,
-                preConfirm: () => {
-                    return new Promise((resolve, reject) => {
-                        axios
-                            .post("/api/erfp", formData)
-                            .then((response) => {
-                                resolve(response.data);
-                            })
-                            .catch((e) => {
-                                //(e);
-                                swal.showValidationMessage(
-                                    `Unable to process item`
-                                );
-                                swal.hideLoading();
-                                reject(e);
-                            });
-                    });
-                },
-            }).then((result) => {
-                if (result.value) {
-                    swal.fire({
-                        title: result.value.success_text,
-                        icon: "success",
-                        onClose: () => {
-                            app.$router.push({
-                                name: "rfp_show",
-                                params: {
-                                    id: result.value.item_id
-                                },
-                            });
-                        },
-                    });
-                }
-            });
+                            Object.keys(state.item).forEach((key) => {
+                                if (key == "quotation") {
+                                    console.log("hi it's file");
+                                    if (state.item.quotation != null) {
+                                        console.log("So may laman???", state.item.quotation);
+                                        var file_name = state.item.vendor.vendor_name + "_" + state.item.quotation_no;
+                                        formData.append(
+                                            "quotation",
+                                            state.item.quotation,
+                                            file_name
+                                        )
+                                    }
 
+                                } else if (key == "term_of_payment" || key == 'erfpables'){
+                                    formData.append(key, JSON.stringify(state.item[key]))   
+                                } else {
+                                    formData.append(
+                                        key,
+                                        state.item[key]
+                                    );
+                                }
+                            });
+                            axios
+                                .post("/api/erfp", formData)
+                                .then((response) => {
+                                    resolve(response.data);
+                                })
+                                .catch((e) => {
+                                    //(e);
+                                    swal.showValidationMessage(
+                                        `Unable to process item`
+                                    );
+                                    swal.hideLoading();
+                                    reject(e);
+                                });
+                        });
+                    },
+                })
+                .then((result) => {
+                    if (result.value) {
+                        swal.fire({
+                            title: result.value.success_text,
+                            icon: "success",
+                            onClose: () => {
+                                app.$router.push({
+                                    name: "rfp_show",
+                                    params: {
+                                        id: result.value.item_id
+                                    },
+                                });
+                            },
+                        });
+                    }
+                });
         },
-        setMode({
-            commit,
-            state,
-            getters
-        }, mode) {
-            commit("setMode", mode);
-        },
-        // updateItem({
-        //     state,
-        //     getters
+
+        // async createRFP({
+        //     commit,
+        //     state
         // }) {
-        //     swal.fire({
-        //         title: getters.getCurrentStep.name + " " + state.item.code + "?",
+        //     const formData = new FormData();
+        //      Object.keys(state.item).forEach((key) => {
+        //         if(key == 'quotation'){
+        //             var file_name = state.item.vendor.vendor_name+"_"+state.item.quotation_no;
+        //               formData.append('quotation', state.item.quotation, file_name);  
+        //         }else if(key == "term_of_payment" || key == 'erfpables'){
+        //             formData.append(key, JSON.stringify(state.item[key]))
+        //         }
+        //         else{
+        //             formData.append(key, state.item[key])
+        //         }
+        //     });
+
+        //     await swal.fire({
+        //         title: "Create ERFP",
         //         icon: "question",
-        //         confirmButtonText: getters.getCurrentStep.name,
+        //         text: "Are you sure you want to create this ERFP?",
+        //         confirmButtonText: "Create ERFP",
         //         showLoaderOnConfirm: true,
         //         showCancelButton: true,
         //         cancelButtonColor: "#d33",
         //         allowOutsideClick: false,
-        //         input: "checkbox",
-        //         inputPlaceholder: "Please tick if you skipped this process",
-        //         preConfirm: (checkbox) => {
+        //         preConfirm: () => {
         //             return new Promise((resolve, reject) => {
-        //                 var skipped = {
-        //                     skipped: checkbox,
-        //                 };
-        //                 state.item.skipped = checkbox;
         //                 axios
-        //                     .put("/api/erfp/" + state.item.id+"/saveChanges", state.item)
+        //                     .post("/api/erfp", formData)
         //                     .then((response) => {
         //                         resolve(response.data);
         //                     })
@@ -306,79 +332,24 @@ export const createRFPModule = {
         //                 title: result.value.success_text,
         //                 icon: "success",
         //                 onClose: () => {
-        //                     app.$router.go();
+        //                     app.$router.push({
+        //                         name: "rfp_show",
+        //                         params: {
+        //                             id: result.value.item_id
+        //                         },
+        //                     });
         //                 },
         //             });
         //         }
         //     });
-        // }
-        async updateItem({
+
+        // },
+        setMode({
             commit,
             state,
             getters
-        }) {
-            const formData = new FormData();
-
-             Object.keys(state.item).forEach((key) => {
-                if(key == 'quotation'){
-                    console.log("i got in")
-                     //1.PROJECTNAME/BUDGETCODE / VENDORNAME / BILL#
-                    // var file_name = state.item.name+"_"+state.item.vendor.vendor_name+"_"+state.item.quotation_no;
-                    var file_name = "a file name";
-                      formData.append('quotation', state.item.quotation, file_name);
-                    console.log("FILE NAME", file_name);
-  
-                }else if(key == "term_of_payment"){
-                    formData.append(key, JSON.stringify(state.item[key]))
-                }
-                else{
-                    formData.append(key, state.item[key])
-                }
-            });
-            await swal.fire({
-                    title: getters.getCurrentStep.name + " " + state.item.code + "?",
-                icon: "question",
-                confirmButtonText: getters.getCurrentStep.name,
-                showLoaderOnConfirm: true,
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                allowOutsideClick: false,
-                input: "checkbox",
-                inputPlaceholder: "Please tick if you skipped this process",
-                preConfirm: (reviewer) => {
-                    return new Promise((resolve, reject) => {
-                        axios
-                            .post("/api/erfp/" + state.item.id+"/saveChanges", formData)
-        .then((response) => {
-                                resolve(response.data);
-                            })
-                            .catch((e) => {
-                                //(e);
-                                swal.showValidationMessage(
-                                    `Unable to process item`
-                                );
-                                swal.hideLoading();
-                                reject(e);
-                            });
-                    });
-                },
-            }).then((result) => {
-                if (result.value) {
-                    swal.fire({
-                        title: result.value.success_text,
-                        icon: "success",
-                        onClose: () => {
-                            app.$router.push({
-                                name: "rfp_show",
-                                params: {
-                                    id: result.value.item_id
-                                },
-                            });
-                        },
-                    });
-                }
-            });
-
+        }, mode) {
+            commit("setMode", mode);
         },
     },
 };

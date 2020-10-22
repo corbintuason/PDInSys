@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<label>{{payment}} Summary</label>
-
+		<label>{{payment}} Summary </label>
+	{{rfp.term_of_payment.down_payment}}
 		<b-form-group
 			label="Total Sales (VAT Inclusive)"
 			label-class="font-weight-bold"
@@ -33,6 +33,26 @@
 					</b-input-group-text>
 				</template>
 				<money class="form-control" :value="vat_amount(payment)" disabled></money>
+			</b-input-group>
+		</b-form-group>
+
+	<!-- Less: Vat Amount
+                 FORMULA:
+                Always equal to Vat Amount
+		-->
+
+		<b-form-group
+			label="LESS: Other Taxes"
+			label-class="font-weight-bold"
+			label-cols="3"
+		>
+			<b-input-group size="sm">
+				<template v-slot:prepend>
+					<b-input-group-text>
+						<strong class="text-success">&#8369;</strong>
+					</b-input-group-text>
+				</template>
+				<money class="form-control" :value="other_taxes" disabled></money>
 			</b-input-group>
 		</b-form-group>
 
@@ -244,6 +264,8 @@
 			</b-input-group>
 		</b-form-group>
 
+		
+
 		<!-- VAT Amount 
 				Formula:
 				if(vat registered){
@@ -362,7 +384,12 @@ export default{
 			vendor(state){
 				return state[this.namespace].item.vendor
 			},
+				total_billing_amount(state, getters) {
+				return getters[this.namespace + "/total_billing_amount"];
+			},
 		}),
-    }
+	},
+	mounted(){
+	}
 }
 </script>

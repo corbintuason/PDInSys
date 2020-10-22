@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\ERFPable;
 use App\Traits\ControllersTrait;
 use App\Traits\ERFPablesTrait;
+use Notification;
+use App\Notifications\ItemNotification;
 
 class ERFPableController extends Controller
 {
@@ -92,7 +94,7 @@ class ERFPableController extends Controller
         if($child_erfpables->every(function ($value, $key) {
             return $value == 'For ERFP Approval';
         })){
-                   $erfpable->erfp->update([
+                $erfpable->erfp->update([
                 'status' => "For ERFP Approval"
             ]);   
         };
@@ -109,6 +111,9 @@ class ERFPableController extends Controller
                    $erfpable->erfp->update([
                 'status' => "For Validation"
             ]);   
+
+            Notification::send($this->notifyApprovers($erfpable->erfp), new ItemNotification($erfpable->erfp, $erfpable->erfp::$module, "rfp_show", $erfpable->erfp->id));
+
         };
 
         

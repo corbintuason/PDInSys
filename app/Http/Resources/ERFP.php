@@ -8,6 +8,9 @@ use App\Http\Resources\Contributor as ContributorResource;
 use App\Http\Resources\Remark as RemarkResource;
 use App\Http\Resources\Vendor as VendorResource;
 use App\Http\Resources\ERFPable as ERFPableResource;
+use App\Http\Resources\TermOfPayment as TermOfPaymentResource;
+use App\Http\Resources\CheckWrite as CheckWriteResource;
+use App\Http\Resources\ClosingERFP as ClosingERFPResource;
 
 class ERFP extends JsonResource
 {
@@ -26,20 +29,11 @@ class ERFP extends JsonResource
         $response['current_handler'] = $this->currentHandler;
         $response['is_process_finished'] = $this->isProcessFinished;
         
-        // Formulas
-        // $response['total_sales'] = $this->totalSales;
-        // $response['vat_amount'] = $this->vat_amount;
-        // $response['vatable_sales'] = $this->vatable_sales;
-        // $response['total_due'] = $this->total_due;
-        // $response['witholding_tax'] = $this->witholding_tax;
-        // $response['gross_amount'] = $this->gross_amount;
-        // $response['amount_due'] = $this->amount_due;
-        // $response['total_amount_due'] = $this->total_amount_due;    
-        // $response['gross_amount'] = $this->gross_amount;
-        // $response['net_amount'] = $this->net_amount;
+        $response['term_of_payments'] = TermOfPaymentResource::collection($this->term_of_payments);
+        $response['check_writes'] = CheckWriteResource::collection($this->check_writes);
         $response['erfpables'] = ERFPableResource::collection($this->erfpables);
-
         $response['vendor'] = new VendorResource($this->vendor);
+        $response['closing_erfp'] = new ClosingERFPResource($this->closing_erfp);
         $response['actions'] = $this->activities;
         $response['contributors'] = ContributorResource::collection($this->contributors);
         $response['remarks'] = RemarkResource::collection($this->remarks);

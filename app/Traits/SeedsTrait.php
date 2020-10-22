@@ -14,6 +14,7 @@ trait SeedsTrait
         foreach ($roles as $role) {
             $user_role = Bouncer::role()->firstOrCreate([
                 'name' => $model_name . "-" . strtolower($role->name),
+                'name' => $model_name . "-" . strtolower($role->name),
                 'title' => $role->name,
                 'entity' => $class
             ]);

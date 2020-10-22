@@ -11,6 +11,10 @@ use Spatie\Activitylog\Traits\CausesActivity;
 use App\User;
 use Bouncer;
 use Storage;
+use Notification;
+use App\Notifications\ItemNotification;
+use App\ERFPable;
+
 
 trait ERFPablesTrait
 {
@@ -35,30 +39,27 @@ trait ERFPablesTrait
         $stages = collect([
             (object) [
                 "names" => ["", "Returned to Creator"],
-                "responsible" => (object)[
-                    "role" => "erfpable-creator",
-                    "name" => "create",
-                    "entity_type" => "App\ERFPable",
-                    "entity_id" => true
-                ]
+                "responsible"=> (object)[
+                    "title" => "Creator",
+                    "ability" => "create",
+                    "model" => ERFPable::class
+                ],
             ],
             (object) [
                 "names" => ["For Review", "Returned to Reviewer"],
                 // "responsible" => "budget-request-reviewer"
-                "responsible" => (object)[
-                    "role" => "erfpable-reviewer",
-                    "name" => "review",
-                    "entity_type" => "App\ERFPable",
-                    "entity_id" => true
+                "responsible"=> (object)[
+                    "title" => "Reviewer",
+                    "ability" => "review",
+                    "model" => ERFPable::class
                 ],
             ],
             (object) [
                 "names" => ["For ERFP Approval", "Returned to ERFP Approver"],
-                "responsible" => (object)[
-                    "role" => "erfpable-erfp-approver",
-                    "name" => "erfp-approve",
-                    "entity_type" => "App\ERFPable",
-                    "entity_id" => true
+                "responsible"=> (object)[
+                    "title" => "ERFP Approver",
+                    "ability" => "erfp-approve",
+                    "model" => ERFPable::class
                 ],
             ],
             (object) [
@@ -92,6 +93,7 @@ trait ERFPablesTrait
         if($erfpable->erfpable_type == 'App\Project'){
             $biboy = User::findOrFail(2);
             Bouncer::allow($biboy)->to('erfp-approve', $erfpable);
+            Notification::send($biboy, new ItemNotification($erfpable, $erfpable->erfp::$module, "rfp_show", $erfpable->erfp->id));
         }
     }
 }

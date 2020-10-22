@@ -6,20 +6,10 @@ export default{
     },
     computed:{
         
-        total_net() {
-            return this.net_amount("Down Payment") + this.net_amount("Full Payment")
-        },
-
-        total_billing_amount(){
-            var total_billing_amount = 0;
-            this.rfp.erfpables.forEach(erfpable => {
-                total_billing_amount+=erfpable.billing_amount;
-            });
-            return total_billing_amount;
-        }
     },
     methods: {
         total_sales(type) {
+            console.log("hey", type);
                 if (this.vat_amount(type) == 0) {
                     return 0;
                 } else {
@@ -30,6 +20,7 @@ export default{
                         exemption = this.rfp.term_of_payment.down_payment;
                     }
                     var total_sales = this.vatable_sales(type) + exemption.vat_exempt_sales + exemption.other_taxes + this.vat_amount(type);
+                    console.log("Checking total sales", total_sales)
                     return total_sales;
                 }
             
@@ -59,7 +50,15 @@ export default{
         },
 
         total_due(type) {
-          return this.total_sales(type) - this.vat_amount(type);
+        var total_sales = this.total_sales(type);
+        var vat_amount = this.vat_amount(type);
+        var term_of_payment;
+        if(type == 'Full Payment'){
+            term_of_payment = this.rfp.term_of_payment.full_payment;
+        }else if (type == 'Down Payment'){
+            term_of_payment = this.rfp.term_of_payment.down_payment;
+        }
+          return total_sales - vat_amount - term_of_payment.other_taxes;
         },
 
         witholding_tax(type) {
@@ -109,7 +108,9 @@ export default{
         },
 
         net_amount(type) {
-            return this.gross_amount(type) - this.witholding_tax(type);
+            var gross_amount = this.gross_amount(type);
+            var witholding_tax = this.witholding_tax(type);
+            return gross_amount - witholding_tax;
         },
 
 

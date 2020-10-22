@@ -38,7 +38,16 @@ class ERFP extends Model
     public function erfpables(){
         return $this->hasMany("App\ERFPable", 'erfp_id');
     }
+    public function term_of_payments(){
+        return $this->hasMany("App\TermOfPayment", 'erfp_id');
+    }
+    public function check_writes(){
+        return $this->hasMany("App\CheckWrite", 'erfp_id');
+    }
     public function vendor(){
         return $this->belongsTo('App\Vendor');
+    }
+    public function closing_erfp(){
+        return $this->hasOne('App\ClosingERFP', 'erfp_id');
     }
 }

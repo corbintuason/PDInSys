@@ -37,8 +37,8 @@ class ERFPRolesSeeder extends Seeder
                 "ability" => "payment-approve"
             ),
             (object) array(
-                "name" => "Disburser",
-                "ability" => "disburse"
+                "name" => "Payment-Processor",
+                "ability" => "payment-process"
             ),
             (object) array(
                 "name" => "Acknowledger",

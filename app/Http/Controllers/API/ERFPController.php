@@ -16,6 +16,7 @@ use Storage;
 Use App\Project;
 use App\Vendor;
 use App\ERFPable;
+use App\ClosingERFP;
 use DB;
 class ERFPController extends Controller
 {
@@ -25,9 +26,9 @@ class ERFPController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rfps = RFP::query();
+        $rfps = ERFP::query();
         $rfpable_type = $request->get('rfpable_type');
         $rfpable_id = $request->get('rfpable_id');
 
@@ -50,8 +51,6 @@ class ERFPController extends Controller
     public function store(Request $request)
     {
         // Validate
-        
-   
         $user = auth()->user();
         // Store ERFP Quotation
         $file_name = $this->storeQuotation($request);
@@ -65,6 +64,7 @@ class ERFPController extends Controller
 
         // Create ERFPable Models
         $erfpables = json_decode($request->erfpables);
+
         foreach($erfpables as $erfpable){
             // Temporary
             $erfpable->status = "For Review";
@@ -76,15 +76,19 @@ class ERFPController extends Controller
             Bouncer::allow($reviewer)->to('review', $erfpable_model);
             
             // Send Notification
-            // Notification::send($erfpable->reviewer_id, new ItemNotification($rfp, $rfp::$module, "rfp_show", $rfp->id));
-            }
-      
+            Notification::send($reviewer, new ItemNotification($rfp, $rfp::$module, "rfp_show", $rfp->id));
 
+            }
         
-            return [
-            'item_id' => $rfp->id,
-            'success_text' => $rfp->code . " has been successfully created"
-        ];
+        // ALlow creator to acknowledge
+        Bouncer::allow($user)->to('close', $rfp);
+
+    
+        return [
+        'item_id' => $rfp->id,
+        'success_text' => $rfp->code . " has been successfully created"
+    ];
+
     }
 
     /**
@@ -106,7 +110,7 @@ class ERFPController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function process(Request $request, $id)
     {
         $rfp = ERFP::findOrFail($id);
        
@@ -129,25 +133,20 @@ class ERFPController extends Controller
   
     public function saveChanges(Request $request, $id){
         $erfp = ERFP::findOrFail($id);
+        $user = auth()->user();
          // TEMPORARY FIX
         $request['rfp_date'] = date("Y/m/d");
-        $request['term_of_payment'] = json_decode($request['term_of_payment']);
-        $quotation = $request->quotation;
-        $extension = $quotation->extension();
-        //1.PROJECTNAME/BUDGETCODE / VENDORNAME / BILL#
-        $name = $quotation->getClientOriginalName();
-        $file_name = $name.".".$extension;
-       //  $file_name = $key.".".$parent->code."_".$vendor->vendor_name."_".$request->quotation_no.".".$extension;
-        $path = Storage::putFileAs(
-            'erfps', $quotation, $file_name
-        );
 
-        $request['quotation_file'] = $file_name;
+        $request['term_of_payment'] = json_decode($request['term_of_payment']);
+        $request['quotation_file'] = $this->storeQuotation($request);
 
         $erfp->update($request->all());
-
+        
         $this->updateItem($erfp, ERFP::class, "ERFP", $request, true);
 
+        // Check for Special Processes
+        $this->specialProcessing($erfp);
+        
         return [
             'item_id' => $erfp->id,
             'success_text' => $erfp->code . " has been successfully updated."
@@ -163,6 +162,101 @@ class ERFPController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function releaseCash(Request $request){
+        $erfp = ERFP::findOrFail($request->id);
+        
+        $pairings = [
+            (object)[
+                "payment_status" => 'For Releasing',
+                'erfp_status' => "For Payment Processing"
+            ],
+            (object)[
+                "payment_status" => "For Disbursement",
+                "erfp_status" => "For Acknowledgement"
+            ],
+            (object)[
+                "payment_status" => "For Acknowledgement",
+                "erfp_status" => "For Closing"
+            ],        
+        ];
+
+        $erfp_top = (object)$erfp->term_of_payment;
+        if($request->type == 'Down Payment'){
+            $term_of_payment = (object)$erfp_top->down_payment;
+            $ability = 'erfp-disburse-down-payment';
+            $fill = 'term_of_payment->down_payment->status';
+            $ref_no_fill = 'term_of_payment->down_payment->ref_no';
+        }
+        else{
+            $term_of_payment = (object)$erfp_top->full_payment;
+            $ability = 'erfp-disburse-full-payment';
+            $fill = 'term_of_payment->full_payment->status';
+            $ref_no_fill = 'term_of_payment->full_payment->ref_no';
+        }
+        
+        if($term_of_payment->status == 'For Releasing'){
+            $erfp->forceFill([
+                $ref_no_fill => $request->ref_no
+            ])->save();
+            
+
+
+            $user = User::findOrFail($request->thru);
+            Bouncer::allow($user)->to($ability, $erfp);
+            Notification::send($user, new ItemNotification($erfp, $erfp::$module, "rfp_show", $erfp->id));
+        }
+       
+    
+
+        foreach($pairings as $key=>$pair){
+            if($term_of_payment->status == $pair->payment_status){
+                $erfp->forceFill([
+                    $fill => $pairings[$key+1]->payment_status
+                ])->save();
+                break;
+            }
+        }
+
+    
+
+        
+
+
+
+            // if($request->type=='Down Payment'){
+            //     $ability = 'erfp-disburse-down-payment';
+            //     $erfp->forceFill([
+            //         'term_of_payment->down_payment->ref_no' => $request->ref_no
+            //     ])->save();
+            //     $erfp->forceFill([
+            //         'term_of_payment->down_payment->status' => "For Disbursement"
+            //     ])->save();
+
+            // }else if ($request->type == 'Full Payment'){
+            //     $ability = 'erfp-disburse-full-payment';
+            //     $erfp->forceFill([
+            //         'term_of_payment->full_payment->ref_no' => $request->ref_no
+            //     ])->save();
+            //     $erfp->forceFill([
+            //         'term_of_payment->full_payment->status' => "For Disbursement"
+            //     ])->save();
+            // }
+          
+        
+        // Update Term of Payment Statuses
+        $this->updateTermOfPaymentStatuses($erfp);
+      
+
+
+        return [
+            'item_id' => $erfp->id,
+            'success_text' => $erfp->code . "'s " . $request->type ." has been successfully updated."
+        ];
+  
+        
     }
 
     public function downloadQuotation(Request $request){

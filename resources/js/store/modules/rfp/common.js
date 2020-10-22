@@ -16,6 +16,7 @@ export default new Vuex.Store({
                 name: "Review",
                 responsible: "Reviewer",
                 database_equivalent: ["For Review", "Returned to Reviewer"],
+                visible: false,
         
             },
             {
@@ -38,31 +39,24 @@ export default new Vuex.Store({
 
             },
             {
-                name: "Disburse",
-                responsible: "Disburser",
-                database_equivalent: ["For Disbursement", "Returned to Disburser"], 
-                visible: true,
-
-            },
-            {
-                name: "Acknowledge",
-                responsible: "Acknowledger",
-                database_equivalent: ["For Acknowledgement", "Returned to Acknowledger"], 
-                visible: true,
+                name: "Payment Processing",
+                responsible: "Payment Processor",
+                database_equivalent: ["For Payment Processing", "Returned to Payment Processor"], 
+                visible: false,
 
             },
             {
                 name: "Close",
                 responsible: "Closer",
                 database_equivalent: ["For Closing"], 
+                visible: false
             },
                   
         ],
         
         mode_of_payments:[
-            { value: null, text: 'N/A', disabled: true},
-            { value: "Cash For Deposit", text: 'Cash For Deposit' },
-            { value: "Cash for Pick-Up", text: "Cash for Pick-Up" },
+            { value: "Cash For Deposit", text: 'Cash For Deposit'},
+            { value: "Cash for Pick-Up", text: "Cash for Pick-Up"},
             { value: "Check", text: "Check"}
         ]
     },
